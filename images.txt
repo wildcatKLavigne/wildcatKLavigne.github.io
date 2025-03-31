@@ -1,6 +1,6 @@
-https://codehs.com/uploads/6acf46778ba24921e85b8c63f3875866,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
-https://codehs.com/uploads/6acf46778ba24921e85b8c63f3875866,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
-https://codehs.com/uploads/6acf46778ba24921e85b8c63f3875866,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
-https://codehs.com/uploads/6acf46778ba24921e85b8c63f3875866,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
-https://codehs.com/uploads/6acf46778ba24921e85b8c63f3875866,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
+images/draw.png,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
+images/draw.png,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
+images/draw.png,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
+images/draw.png,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
+images/draw.png,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
 
