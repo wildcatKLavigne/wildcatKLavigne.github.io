@@ -1,6 +1,6 @@
 images/draw.png,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
 images/wordle.png,Drawing App,https://codehs.com/sandbox/id/wordlepy-5zyISl/run
-images/draw.png,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
+images/sphoto1.png,Drawing App,https://codehs.com/sandbox/id/student-photography-actv-C1wcF9/run
 images/draw.png,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
 images/draw.png,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
 
