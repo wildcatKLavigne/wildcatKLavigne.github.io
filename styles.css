@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    background-color: navy;
+    padding: 10px;
+    z-index:1000;
+}
+
+.navbar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.banner {
+    background-image: url("https://codehs.com/uploads/5087aff7d0531a5cb90e8f32ca60c7a6");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-color:navy;
+    width:100%;
+    height:150px;
+    color: white;
+    text-align: right;
+    padding: 5px 0;
+    display: flex;
+}
+
+.overlay {
+    position: relative; /* Position the overlay absolutely */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent black background */
+    display: flex; /* Use flexbox to center content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    color: navy; /* Text color */
+    text-align: center; /* Center text */
+}
+
+.introduction {
+    padding: 20px;
+    text-align: center;
+}
+
+.carousel {
+    position: relative;
+    width:600px;
+    max-width: 800px; /* Set a maximum width for the carousel */
+    margin: auto;
+    overflow: hidden; /* Hide overflow to show limited images */
+}
+
+.carousel-container {
+    display: flex; /* Use flexbox for horizontal layout */
+    transition: transform 0.5s ease-in-out; /* Smooth transition for scrolling */
+}
+
+.carousel img {
+    width: 200px;
+    height: auto;/* Set each image to take 1/3 of the carousel width */
+    flex-shrink: 0; /* Prevent images from shrinking */
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 24px;
+    z-index: 10; /* Ensure buttons are above the carousel */
+}
+
+#prev-button {
+    left: 10px; /* Position left button */
+}
+
+#next-button {
+    right: 10px; /* Position right button */
+}
+
+.two-columns {
+    display: flex;
+    padding: 20px;
+}
+
+.left-column, .right-column {
+    flex: 1; /* Equal width columns */
+    margin: 10px; /* Space between columns */
+    padding: 20px;
+    background-color: #f0f0f0;
+}
