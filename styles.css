@@ -71,8 +71,7 @@ body {
 }
 
 .carousel img {
-    max-height: 300px;
-    max-width: 200px;
+    object-fit: contain;
     /* Set each image to take 1/3 of the carousel width */
     /* flex-shrink: 0; Prevent images from shrinking */
     padding: 5px 5px 5px 5px
