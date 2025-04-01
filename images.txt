@@ -3,5 +3,5 @@ images/wordle.png,Wordle,https://codehs.com/sandbox/id/wordlepy-5zyISl/run
 images/sphoto1.png,Student Website,https://codehs.com/sandbox/id/student-photography-actv-C1wcF9/run
 images/IMG_1129.png,Student Website,https://codehs.com/sandbox/id/beautiful-cupcakes-OyUnsB/run
 images/IMG_1130.png,Student Website,https://cupcake-13977329.codehs.me/
-images/IMG_1131.png, Tetris, https://cloakerpd2.github.io/
+images/IMG_1131.PNG, Tetris, https://cloakerpd2.github.io/
 
