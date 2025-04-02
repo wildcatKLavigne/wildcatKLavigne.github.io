@@ -1,4 +1,4 @@
-images/draw.png,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
+images/IMG_1134.PNG,Drawing App,https://academy.cs.cmu.edu/sharing/whiteSmokePuppy7463
 images/52913.jpg,Wordle,http://codehs.com/sandbox/kyletibbetts/wordle/run
 images/IMG_1132.PNG,Student Website,https://codehs.com/sandbox/id/student-photography-actv-C1wcF9/run
 images/IMG_1129.png,Student Website,https://codehs.com/sandbox/id/beautiful-cupcakes-OyUnsB/run
