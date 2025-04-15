@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM Content Loaded');
+            
+            // Fetch the data file
+            fetch('data.json')
+                .then(response => {
+                    console.log('Response received:', response);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Data loaded:', data);
+                    
+                    // Display the data on the page
+                    const container = document.getElementById('container');
+                    
+                    // Display navbar data
+                    const navbarDiv = document.createElement('div');
+                    navbarDiv.innerHTML = '<h2>Navbar Data:</h2>';
+                    if (data.navbar && data.navbar.length > 0) {
+                        const ul = document.createElement('ul');
+                        data.navbar.forEach(item => {
+                            const li = document.createElement('li');
+                            li.textContent = `${item.text} (${item.link})`;
+                            ul.appendChild(li);
+                        });
+                        navbarDiv.appendChild(ul);
+                    } else {
+                        navbarDiv.innerHTML += '<p>No navbar data found</p>';
+                    }
+                    container.appendChild(navbarDiv);
+                    
+                    // Display portrait data
+                    const portraitDiv = document.createElement('div');
+                    portraitDiv.innerHTML = '<h2>Portrait Data:</h2>';
+                    if (data.portrait) {
+                        portraitDiv.innerHTML += `<p>Source: ${data.portrait.src}</p>`;
+                        portraitDiv.innerHTML += `<p>Alt: ${data.portrait.alt}</p>`;
+                    } else {
+                        portraitDiv.innerHTML += '<p>No portrait data found</p>';
+                    }
+                    container.appendChild(portraitDiv);
+                    
+                    // Display portfolio data
+                    const portfolioDiv = document.createElement('div');
+                    portfolioDiv.innerHTML = '<h2>Portfolio Data:</h2>';
+                    if (data.portfolio && data.portfolio.length > 0) {
+                        const ul = document.createElement('ul');
+                        data.portfolio.forEach(item => {
+                            const li = document.createElement('li');
+                            li.textContent = `${item.src} (${item.alt})`;
+                            ul.appendChild(li);
+                        });
+                        portfolioDiv.appendChild(ul);
+                    } else {
+                        portfolioDiv.innerHTML += '<p>No portfolio data found</p>';
+                    }
+                    container.appendChild(portfolioDiv);
+                    
+                    // Display about data
+                    const aboutDiv = document.createElement('div');
+                    aboutDiv.innerHTML = '<h2>About Data:</h2>';
+                    if (data.about && data.about.text) {
+                        aboutDiv.innerHTML += `<p>${data.about.text}</p>`;
+                    } else {
+                        aboutDiv.innerHTML += '<p>No about data found</p>';
+                    }
+                    container.appendChild(aboutDiv);
+                })
+                .catch(error => {
+                    console.error('Error loading data:', error);
+                    document.getElementById('container').innerHTML = `<p>Error loading data: ${error.message}</p>`;
+                });
+        });
+    </script>
+</head>
+<body>
+    <h1>Test Page</h1>
+    <div id="container">
+        <p>Loading data...</p>
+    </div>
+</body>
+</html> 
