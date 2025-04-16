@@ -1,45 +1,127 @@
 {
   "navbar": [
     {
-      "text": "Main button",
-      "link": "#"
+      "text": "Portfolio 1",
+      "link": "#portfolio1"
     },
     {
-      "text": "Main button",
-      "link": "#"
+      "text": "Portfolio 2",
+      "link": "#portfolio2"
+    },
+    {
+      "text": "Portfolio 3",
+      "link": "#portfolio3"
+    },
+    {
+      "text": "Creator",
+      "link": "#creator"
     }
   ],
   "portrait": {
     "src": "images/portrait.jpg",
     "alt": "portrait"
   },
-  "portfolio": [
-    {
-      "src": "images/portfolio1.jpg",
-      "alt": "portfolio1"
+  "pages": {
+    "portfolio1": {
+      "portfolio": [
+        {
+          "src": "images/portfolio1.jpg",
+          "alt": "portfolio1",
+          "link": "https://example.com/portfolio1"
+        },
+        {
+          "src": "images/portfolio2.jpg",
+          "alt": "portfolio2",
+          "link": "https://example.com/portfolio2"
+        },
+        {
+          "src": "images/portfolio3.jpg",
+          "alt": "portfolio3",
+          "link": "https://example.com/portfolio3"
+        },
+        {
+          "src": "images/portfolio4.jpg",
+          "alt": "portfolio4",
+          "link": "https://example.com/portfolio4"
+        },
+        {
+          "src": "images/portfolio5.jpg",
+          "alt": "portfolio5",
+          "link": "https://example.com/portfolio5"
+        }
+      ],
+      "about": {
+        "text": "This is Portfolio 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      }
     },
-    {
-      "src": "images/portfolio2.jpg",
-      "alt": "portfolio2"
+    "portfolio2": {
+      "portfolio": [
+        {
+          "src": "images/portfolio2.jpg",
+          "alt": "portfolio2",
+          "link": "https://example.com/portfolio2"
+        },
+        {
+          "src": "images/portfolio3.jpg",
+          "alt": "portfolio3",
+          "link": "https://example.com/portfolio3"
+        },
+        {
+          "src": "images/portfolio4.jpg",
+          "alt": "portfolio4",
+          "link": "https://example.com/portfolio4"
+        },
+        {
+          "src": "images/portfolio5.jpg",
+          "alt": "portfolio5",
+          "link": "https://example.com/portfolio5"
+        },
+        {
+          "src": "images/portfolio1.jpg",
+          "alt": "portfolio1",
+          "link": "https://example.com/portfolio1"
+        }
+      ],
+      "about": {
+        "text": "This is Portfolio 2. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      }
     },
-    {
-      "src": "images/portfolio3.jpg",
-      "alt": "portfolio3"
+    "portfolio3": {
+      "portfolio": [
+        {
+          "src": "images/portfolio3.jpg",
+          "alt": "portfolio3",
+          "link": "https://example.com/portfolio3"
+        },
+        {
+          "src": "images/portfolio4.jpg",
+          "alt": "portfolio4",
+          "link": "https://example.com/portfolio4"
+        },
+        {
+          "src": "images/portfolio5.jpg",
+          "alt": "portfolio5",
+          "link": "https://example.com/portfolio5"
+        },
+        {
+          "src": "images/portfolio1.jpg",
+          "alt": "portfolio1",
+          "link": "https://example.com/portfolio1"
+        },
+        {
+          "src": "images/portfolio2.jpg",
+          "alt": "portfolio2",
+          "link": "https://example.com/portfolio2"
+        }
+      ],
+      "about": {
+        "text": "This is Portfolio 3. Ut enim ad minim veniam, quis nostrud exercitation ullamco."
+      }
     },
-    {
-      "src": "images/portfolio4.jpg",
-      "alt": "portfolio4"
-    },
-    {
-      "src": "images/portfolio5.jpg",
-      "alt": "portfolio5"
-    },
-    {
-      "src": "images/portfolio5.jpg",
-      "alt": "portfolio5"
+    "creator": {
+      "about": {
+        "text": "About the Creator: This website was created by a passionate developer who loves photography and web design. The goal was to create a dynamic portfolio gallery that showcases different collections of images in an interactive way."
+      }
     }
-  ],
-  "about": {
-    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   }
 } 
