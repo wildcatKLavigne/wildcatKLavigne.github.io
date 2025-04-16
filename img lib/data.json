@@ -18,109 +18,74 @@
     }
   ],
   "portrait": {
-    "src": "images/portrait.jpg",
-    "alt": "portrait"
+    "src": "images/Portrait.jpg",
+    "alt": "Portrait"
   },
   "pages": {
     "portfolio1": {
       "portfolio": [
         {
-          "src": "images/portfolio1.jpg",
-          "alt": "portfolio1",
+          "src": "images/Portfolio1.jpg",
+          "alt": "Portfolio 1",
           "link": "https://example.com/portfolio1"
         },
         {
-          "src": "images/portfolio2.jpg",
-          "alt": "portfolio2",
+          "src": "images/Portfolio2.jpg",
+          "alt": "Portfolio 2",
           "link": "https://example.com/portfolio2"
         },
         {
-          "src": "images/portfolio3.jpg",
-          "alt": "portfolio3",
+          "src": "images/Portfolio3.jpg",
+          "alt": "Portfolio 3",
           "link": "https://example.com/portfolio3"
-        },
-        {
-          "src": "images/portfolio4.jpg",
-          "alt": "portfolio4",
-          "link": "https://example.com/portfolio4"
-        },
-        {
-          "src": "images/portfolio5.jpg",
-          "alt": "portfolio5",
-          "link": "https://example.com/portfolio5"
         }
       ],
       "about": {
-        "text": "This is Portfolio 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
       }
     },
     "portfolio2": {
       "portfolio": [
         {
-          "src": "images/portfolio2.jpg",
-          "alt": "portfolio2",
-          "link": "https://example.com/portfolio2"
-        },
-        {
-          "src": "images/portfolio3.jpg",
-          "alt": "portfolio3",
-          "link": "https://example.com/portfolio3"
-        },
-        {
-          "src": "images/portfolio4.jpg",
-          "alt": "portfolio4",
+          "src": "images/Portfolio4.jpg",
+          "alt": "Portfolio 4",
           "link": "https://example.com/portfolio4"
         },
         {
-          "src": "images/portfolio5.jpg",
-          "alt": "portfolio5",
+          "src": "images/Portfolio5.jpg",
+          "alt": "Portfolio 5",
           "link": "https://example.com/portfolio5"
-        },
-        {
-          "src": "images/portfolio1.jpg",
-          "alt": "portfolio1",
-          "link": "https://example.com/portfolio1"
         }
       ],
       "about": {
-        "text": "This is Portfolio 2. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        "text": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
       }
     },
     "portfolio3": {
       "portfolio": [
         {
-          "src": "images/portfolio3.jpg",
-          "alt": "portfolio3",
-          "link": "https://example.com/portfolio3"
-        },
-        {
-          "src": "images/portfolio4.jpg",
-          "alt": "portfolio4",
-          "link": "https://example.com/portfolio4"
-        },
-        {
-          "src": "images/portfolio5.jpg",
-          "alt": "portfolio5",
-          "link": "https://example.com/portfolio5"
-        },
-        {
-          "src": "images/portfolio1.jpg",
-          "alt": "portfolio1",
+          "src": "images/Portfolio1.jpg",
+          "alt": "Portfolio 1",
           "link": "https://example.com/portfolio1"
         },
         {
-          "src": "images/portfolio2.jpg",
-          "alt": "portfolio2",
+          "src": "images/Portfolio2.jpg",
+          "alt": "Portfolio 2",
           "link": "https://example.com/portfolio2"
+        },
+        {
+          "src": "images/Portfolio3.jpg",
+          "alt": "Portfolio 3",
+          "link": "https://example.com/portfolio3"
         }
       ],
       "about": {
-        "text": "This is Portfolio 3. Ut enim ad minim veniam, quis nostrud exercitation ullamco."
+        "text": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
       }
     },
     "creator": {
       "about": {
-        "text": "About the Creator: This website was created by a passionate developer who loves photography and web design. The goal was to create a dynamic portfolio gallery that showcases different collections of images in an interactive way."
+        "text": "Hi, the student protfolio page was created by me: Irakli Dzaganishvili. I guess this is my portfolio page. This is a single page application which autofills all of the information based on a json file (including what I am writing here). This makes it convineient to change and extend without the need of a database."
       }
     }
   }

@@ -1,5 +1,0 @@
-images/Portfolio1.jpg,Portfolio 1,#portfolio1
-images/Portfolio2.jpg,Portfolio 2,#portfolio2
-images/Portfolio3.jpg,Portfolio 3,#portfolio3
-images/Portfolio4.jpg,Portfolio 4,#portfolio4
-images/Portfolio5.jpg,Portfolio 5,#portfolio5 

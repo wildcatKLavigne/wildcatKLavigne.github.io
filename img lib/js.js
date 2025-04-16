@@ -57,9 +57,48 @@ window.addEventListener('DOMContentLoaded', async () => {
         console.log('Portrait set to:', data.portrait.src);
     }
 
+    // Function to reset layout to original state
+    function resetLayout() {
+        console.log('Resetting layout to original state');
+        
+        // Reset all images to their original state
+        let allImages = [...document.querySelectorAll('.img')].filter(img => img.id !== 'portrait');
+        allImages.forEach((img) => {
+            img.style.position = 'absolute';
+            img.style.rotate = '';
+            img.style.marginLeft = '';
+            img.style.marginBottom = '';
+        });
+        
+        // Reset flexbox
+        let flexbox = document.querySelector('.flexbox');
+        if (flexbox) {
+            flexbox.style.height = '';
+            flexbox.style.marginTop = '';
+        }
+        
+        // Reset container
+        let container = document.querySelector('.my-container');
+        if (container) {
+            container.style.width = '';
+        }
+        
+        // Reset text
+        let text = document.getElementById('text');
+        if (text) {
+            text.style.marginTop = '';
+            text.style.maxWidth = '';
+            text.style.marginLeft = '';
+            text.style.marginRight = '';
+        }
+    }
+
     // Function to load page content
     function loadPage(pageId) {
         console.log('Loading page:', pageId);
+        
+        // Reset layout before loading a new page
+        resetLayout();
         
         // Get the page data
         const pageData = data.pages[pageId];
@@ -129,25 +168,56 @@ window.addEventListener('DOMContentLoaded', async () => {
         portfolioContainer.innerHTML = '';
         
         if (pageData.portfolio && pageData.portfolio.length > 0) {
+            // Track loaded images to apply layout after all are loaded
+            let loadedImages = 0;
+            const totalImages = pageData.portfolio.length;
+            
             pageData.portfolio.forEach(item => {
-                // Create a link element
-                const link = document.createElement('a');
-                link.href = item.link || '#';
-                link.target = '_blank'; // Open in a new tab
-                
                 // Create the image element
                 const img = document.createElement('img');
                 img.className = 'img';
                 img.src = item.src;
                 img.alt = item.alt;
                 
-                // Add the image to the link
-                link.appendChild(img);
+                // Add click event listener for link functionality
+                if (item.link) {
+                    img.style.cursor = 'pointer'; // Show pointer cursor on hoverable images
+                    img.addEventListener('click', () => {
+                        window.open(item.link, '_blank');
+                    });
+                }
                 
-                // Add the link to the portfolio container
-                portfolioContainer.appendChild(link);
-                console.log('Added portfolio image with link:', item.src, item.link);
+                // Add load event listener to track when all images are loaded
+                img.addEventListener('load', () => {
+                    loadedImages++;
+                    console.log(`Image loaded: ${item.src} (${loadedImages}/${totalImages})`);
+                    
+                    // Apply layout after all images are loaded
+                    if (loadedImages === totalImages) {
+                        console.log('All images loaded, applying layout');
+                        applyLayoutLogic();
+                    }
+                });
+                
+                // Add error handler for images that fail to load
+                img.addEventListener('error', () => {
+                    console.error(`Failed to load image: ${item.src}`);
+                    loadedImages++;
+                    if (loadedImages === totalImages) {
+                        console.log('All images processed, applying layout');
+                        applyLayoutLogic();
+                    }
+                });
+                
+                // Add the image to the portfolio container
+                portfolioContainer.appendChild(img);
+                console.log('Added portfolio image:', item.src, item.link ? 'with link: ' + item.link : '');
             });
+            
+            // If no images were loaded (or all failed), still apply layout
+            if (totalImages === 0) {
+                applyLayoutLogic();
+            }
         }
 
         // Set about text
@@ -166,9 +236,6 @@ window.addEventListener('DOMContentLoaded', async () => {
             textContainer.appendChild(paragraph);
             console.log('About text set');
         }
-
-        // Apply the layout logic
-        applyLayoutLogic();
     }
     
     // Function to apply layout logic
@@ -202,20 +269,9 @@ window.addEventListener('DOMContentLoaded', async () => {
                 let rotation = stAngle + (index * (endAngl - stAngle) / (allImages.length - 1));
                 let position = stPos + (index * (endPos - stPos) / (allImages.length - 1));
 
-                // Apply styles to the parent link element
-                const link = img.parentElement;
-                if (link && link.tagName === 'A') {
-                    link.style.position = 'absolute';
-                    link.style.top = position + 'px';
-                    link.style.left = '11rem';
-                    link.style.transform = `rotate(${rotation}deg)`;
-                    link.style.display = 'block';
-                    link.style.textDecoration = 'none';
-                } else {
-                    img.style.top = position + 'px';
-                    img.style.left = '11rem';
-                    img.style.rotate = rotation + 'deg';
-                }
+                img.style.top = position + 'px';
+                img.style.left = '11rem';
+                img.style.rotate = rotation + 'deg';
             });
 
             let portraitTop = portrait.getBoundingClientRect().top + window.scrollY;
@@ -225,18 +281,10 @@ window.addEventListener('DOMContentLoaded', async () => {
             portrait.addEventListener('click', () => {
                 allImages.forEach((img) => {
                     console.log('Portrait clicked');
-                    const link = img.parentElement;
-                    if (link && link.tagName === 'A') {
-                        link.style.position = 'static';
-                        link.style.transform = 'rotate(0deg)';
-                        link.style.marginLeft = '2rem';
-                        link.style.marginBottom = '2rem';
-                    } else {
-                        img.style.position = 'static';
-                        img.style.rotate = '0deg';
-                        img.style.marginLeft = '2rem';
-                        img.style.marginBottom = '2rem';
-                    }
+                    img.style.position = 'static';
+                    img.style.rotate = '0deg';
+                    img.style.marginLeft = '2rem';
+                    img.style.marginBottom = '2rem';
                 });
 
                 let flexbox = document.querySelector('.flexbox');
