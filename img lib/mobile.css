@@ -1,0 +1,49 @@
+#navbar-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    /* Optional: space between buttons */
+    width: 100%;
+}
+
+img {
+    max-width: 90%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+#portrait {
+    margin-top: 50px;
+}
+
+body {
+    text-align: center;
+}
+
+img:active {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(0.98);
+    /* Slight inward tap effect */
+    transition: box-shadow 0.1s, transform 0.1s;
+}
+#portfolio-container img {
+    cursor: pointer;
+    transition: box-shadow 0.2s, border 0.2s;
+    border: 2.5px solid #6486ac;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.10);
+    background: #f8f9fa;
+    padding: 6px;
+}
+
+#portfolio-container img:hover,
+#portfolio-container img:active {
+    box-shadow: 0 4px 16px rgba(8, 53, 100, 0.18);
+    border-color: #718397;
+    background: #e9f5ff;
+}

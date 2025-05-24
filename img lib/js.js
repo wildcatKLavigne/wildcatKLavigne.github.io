@@ -238,78 +238,84 @@ window.addEventListener('DOMContentLoaded', async () => {
         }
     }
     
-    // Function to apply layout logic
-    function applyLayoutLogic() {
-        let allImages = [...document.querySelectorAll('.img')].filter(img => img.id !== 'portrait');
-        console.log('All images found:', allImages.length);
-        
-        if (allImages.length > 0) {
-            let mainBody = document.getElementById('main-body');
-            if (!mainBody) {
-                console.error('Main body element not found');
-                return;
+// Function to apply layout logic (runs only on desktop)
+function applyLayoutLogic() {
+    if (window.innerWidth <= 768) {
+        console.log('Mobile detected — skipping layout logic');
+        // --- Place mobile-only layout logic here ---
+        return;
+    }
+
+    let allImages = [...document.querySelectorAll('.img')].filter(img => img.id !== 'portrait');
+    console.log('All images found:', allImages.length);
+
+    if (allImages.length > 0) {
+        let mainBody = document.getElementById('main-body');
+        if (!mainBody) {
+            console.error('Main body element not found');
+            return;
+        }
+
+        let mainBodyRect = mainBody.getBoundingClientRect();
+        let mainBodyHeight = mainBodyRect.height;
+        let topOffset = mainBodyRect.top + window.scrollY;
+
+        let imageHeight = allImages[0].offsetHeight;
+        let portraitHeight = portrait.offsetHeight;
+
+        portrait.style.top = topOffset + (mainBodyHeight - portraitHeight) / 2 + 'px';
+
+        let stAngle = -allImages.length * 8;
+        let endAngl = allImages.length * 8;
+
+        let stPos = topOffset + mainBodyHeight / 2 - imageHeight - 100;
+        let endPos = topOffset + mainBodyHeight / 2 + imageHeight - 100;
+
+        allImages.forEach((img, index) => {
+            let rotation = stAngle + (index * (endAngl - stAngle) / (allImages.length - 1));
+            let position = stPos + (index * (endPos - stPos) / (allImages.length - 1));
+
+            img.style.top = position + 'px';
+            img.style.left = '11rem';
+            img.style.rotate = rotation + 'deg';
+        });
+
+        let portraitTop = portrait.getBoundingClientRect().top + window.scrollY;
+        let mainBodyTop = mainBody.getBoundingClientRect().top + window.scrollY;
+        let distanceFromMainBodyTop = portraitTop - mainBodyTop;
+
+        portrait.addEventListener('click', () => {
+            allImages.forEach((img) => {
+                console.log('Portrait clicked');
+                img.style.position = 'static';
+                img.style.rotate = '0deg';
+                img.style.marginLeft = '2rem';
+                img.style.marginBottom = '2rem';
+            });
+
+            let flexbox = document.querySelector('.flexbox');
+            if (flexbox) {
+                flexbox.style.height = 'min-content';
+                flexbox.style.marginTop = distanceFromMainBodyTop + 'px';
             }
 
-            let mainBodyRect = mainBody.getBoundingClientRect();
-            let mainBodyHeight = mainBodyRect.height;
-            let topOffset = mainBodyRect.top + window.scrollY;
+            let container = document.querySelector('.my-container');
+            if (container) {
+                container.style.width = 'inherit';
+            }
 
-            let imageHeight = allImages[0].offsetHeight;
-            let portraitHeight = portrait.offsetHeight;
-
-            portrait.style.top = topOffset + (mainBodyHeight - portraitHeight) / 2 + 'px';
-
-            let stAngle = -allImages.length * 8;
-            let endAngl = allImages.length * 8;
-
-            let stPos = topOffset + mainBodyHeight / 2 - imageHeight - 100;
-            let endPos = topOffset + mainBodyHeight / 2 + imageHeight - 100;
-
-            allImages.forEach((img, index) => {
-                let rotation = stAngle + (index * (endAngl - stAngle) / (allImages.length - 1));
-                let position = stPos + (index * (endPos - stPos) / (allImages.length - 1));
-
-                img.style.top = position + 'px';
-                img.style.left = '11rem';
-                img.style.rotate = rotation + 'deg';
-            });
-
-            let portraitTop = portrait.getBoundingClientRect().top + window.scrollY;
-            let mainBodyTop = mainBody.getBoundingClientRect().top + window.scrollY;
-            let distanceFromMainBodyTop = portraitTop - mainBodyTop;
-
-            portrait.addEventListener('click', () => {
-                allImages.forEach((img) => {
-                    console.log('Portrait clicked');
-                    img.style.position = 'static';
-                    img.style.rotate = '0deg';
-                    img.style.marginLeft = '2rem';
-                    img.style.marginBottom = '2rem';
-                });
-
-                let flexbox = document.querySelector('.flexbox');
-                if (flexbox) {
-                    flexbox.style.height = 'min-content';
-                    flexbox.style.marginTop = distanceFromMainBodyTop + 'px';
-                }
-
-                let container = document.querySelector('.my-container');
-                if (container) {
-                    container.style.width = 'inherit';
-                }
-
-                let text = document.getElementById('text');
-                if (text) {
-                    text.style.marginTop = '3rem';
-                    text.style.maxWidth = '40rem';
-                    text.style.marginLeft = 'auto';
-                    text.style.marginRight = 'auto';
-                }
-            });
-        } else {
-            console.warn('No images found to apply layout');
-        }
+            let text = document.getElementById('text');
+            if (text) {
+                text.style.marginTop = '3rem';
+                text.style.maxWidth = '40rem';
+                text.style.marginLeft = 'auto';
+                text.style.marginRight = 'auto';
+            }
+        });
+    } else {
+        console.warn('No images found to apply layout');
     }
+}
     
     // Listen for hash changes to handle browser back/forward navigation
     window.addEventListener('hashchange', () => {
