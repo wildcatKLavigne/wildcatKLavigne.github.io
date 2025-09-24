@@ -20,9 +20,15 @@
   <div id="free-response-container"></div>
 
   <a href="index.html" class="btn">Back to Quiz</a>
+  <button id="print-btn" class="btn" type="button" style="margin-left: 1rem;">Print This Page</button
 </main>
 
 <script src="load-answers.js"></script>
+  <script>
+  document.getElementById('print-btn').addEventListener('click', () => {
+    window.print();
+  });
+</script>
 
 </body>
 </html>
