@@ -1,0 +1,238 @@
+{
+  "title": "AP Computer Science A - Practice Quiz",
+  "sections": [
+    {
+      "id": "mcq-vocab",
+      "title": "Vocabulary & Key Concepts",
+      "questions": [
+        {
+          "qid": "q1",
+          "text": "1. What is the role of a compiler in programming?",
+          "options": {
+            "A": "To execute the program line by line",
+            "B": "To translate source code into machine code",
+            "C": "To write the program code",
+            "D": "To debug the program"
+          }
+        },
+        {
+          "qid": "q2",
+          "text": "2. Which of the following is a primitive data type in Java?",
+          "options": {
+            "A": "String",
+            "B": "int",
+            "C": "Scanner",
+            "D": "ArrayList"
+          }
+        },
+        {
+          "qid": "q3",
+          "text": "3. What is the correct way to declare a variable that can store a decimal number?",
+          "options": {
+            "A": "int number;",
+            "B": "double number;",
+            "C": "char number;",
+            "D": "boolean number;"
+          }
+        },
+        {
+          "qid": "q4",
+          "text": "4. Which operator is used to assign a value to a variable?",
+          "options": {
+            "A": "==",
+            "B": "=",
+            "C": "+=",
+            "D": "-="
+          }
+        },
+        {
+          "qid": "q5",
+          "text": "5. What does the term \"casting\" refer to in Java?",
+          "options": {
+            "A": "Running a program",
+            "B": "Converting a value from one type to another",
+            "C": "Declaring a variable",
+            "D": "Printing output"
+          }
+        },
+        {
+          "qid": "q6",
+          "text": "6. What is the output of the expression 5 + 3 * 2 in Java?",
+          "options": {
+            "A": "16",
+            "B": "11",
+            "C": "13",
+            "D": "10"
+          }
+        },
+        {
+          "qid": "q7",
+          "text": "7. Which of the following is a valid compound assignment operator?",
+          "options": {
+            "A": "=+",
+            "B": "++=",
+            "C": "+=",
+            "D": "=="
+          }
+        },
+        {
+          "qid": "q8",
+          "text": "8. What is the purpose of an algorithm?",
+          "options": {
+            "A": "To create a graphical user interface",
+            "B": "To outline steps to solve a problem",
+            "C": "To store data in variables",
+            "D": "To compile Java code"
+          }
+        },
+        {
+          "qid": "q9",
+          "text": "9. Which statement correctly reads an integer input from the user using Scanner?",
+          "options": {
+            "A": "int x = input.nextInt();",
+            "B": "int x = input.nextDouble();",
+            "C": "int x = input.readInt();",
+            "D": "int x = input.getInt();"
+          }
+        },
+        {
+          "qid": "q10",
+          "text": "10. What does it mean if a Java program will not compile?",
+          "options": {
+            "A": "It runs successfully but produces wrong output",
+            "B": "It contains syntax errors preventing translation to bytecode",
+            "C": "It produces runtime exceptions",
+            "D": "It takes too long to execute"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mcq-code",
+      "title": "Code Evaluation & Error Analysis",
+      "questions": [
+        {
+          "qid": "q11",
+          "text": "11. What is the output of this code snippet?\nint x = 5;\nx += 3;\nSystem.out.println(x);",
+          "options": {
+            "A": "8",
+            "B": "53",
+            "C": "3",
+            "D": "5"
+          }
+        },
+        {
+          "qid": "q12",
+          "text": "12. Identify the error in the following code:\nint num = \"10\";\nSystem.out.println(num);",
+          "options": {
+            "A": "Missing semicolon",
+            "B": "Type mismatch: cannot convert String to int",
+            "C": "Variable not declared",
+            "D": "No error"
+          }
+        },
+        {
+          "qid": "q13",
+          "text": "13. What is wrong with this code?\ndouble val = 10;\nint num = val;",
+          "options": {
+            "A": "Cannot assign int to double",
+            "B": "Syntax error: missing semicolon",
+            "C": "Cannot assign double to int without casting",
+            "D": "No error"
+          }
+        },
+        {
+          "qid": "q14",
+          "text": "14. What will this output?\nint a = 7;\nint b = 2;\nSystem.out.println(a / b);",
+          "options": {
+            "A": "3.5",
+            "B": "3",
+            "C": "4",
+            "D": "0"
+          }
+        },
+        {
+          "qid": "q15",
+          "text": "15. Which line will cause a compilation error?\nint x = 5;\nx = x + 2.5;",
+          "options": {
+            "A": "int x = 5;",
+            "B": "x = x + 2.5;",
+            "C": "Both lines",
+            "D": "No error"
+          }
+        },
+        {
+          "qid": "q16",
+          "text": "16. What is the output?\nint x = 10;\nx -= 4;\nSystem.out.println(x);",
+          "options": {
+            "A": "6",
+            "B": "14",
+            "C": "4",
+            "D": "10"
+          }
+        },
+        {
+          "qid": "q17",
+          "text": "17. What does the following code print?\nint x = 3;\nint y = 4;\nSystem.out.println(x * y + 2);",
+          "options": {
+            "A": "14",
+            "B": "20",
+            "C": "18",
+            "D": "12"
+          }
+        },
+        {
+          "qid": "q18",
+          "text": "18. Identify the error:\nSystem.out.println(\"Hello World)",
+          "options": {
+            "A": "Missing closing quotation mark",
+            "B": "Missing semicolon",
+            "C": "Both A and B",
+            "D": "No error"
+          }
+        },
+        {
+          "qid": "q19",
+          "text": "19. What is wrong with this snippet?\nScanner input = new Scanner(System.in);\nSystem.out.println(\"Enter a number:\");\nint num = input.nextLine();",
+          "options": {
+            "A": "nextLine() returns a String, not int",
+            "B": "Scanner needs import statement",
+            "C": "No error",
+            "D": "Should use nextInt() method"
+          }
+        },
+        {
+          "qid": "q20",
+          "text": "20. What is the output?\nint result = 5;\nresult *= 2 + 3;\nSystem.out.println(result);",
+          "options": {
+            "A": "25",
+            "B": "50",
+            "C": "15",
+            "D": "10"
+          }
+        }
+      ]
+    },
+    {
+      "id": "free-response",
+      "title": "Free Response Questions",
+      "questions": [
+        {
+          "qid": "FR1",
+          "text": "1. Write a Java code block that declares an integer variable named score, assigns it the value 85, then prints \"Your score is: \" followed by the value of score.",
+          "canonical": "int score = 85;\nSystem.out.println(\"Your score is: \" + score);"
+        },
+        {
+          "qid": "FR2",
+          "text": "2. Given two variables a and b of type double, write code to calculate their average and store it in a variable named avg. Then print the value of avg.",
+          "canonical": "double avg = (a + b) / 2;\nSystem.out.println(avg);"
+        },
+        {
+          "qid": "FR3",
+          "text": "3. Write code that reads an integer input from the user using a Scanner object named input, then decreases the value by 10 using a compound assignment operator, and finally prints the new value.",
+          "canonical": "int num = input.nextInt();\nnum -= 10;\nSystem.out.println(num);"
+        }
+      ]
+    }
+  ]
+}
