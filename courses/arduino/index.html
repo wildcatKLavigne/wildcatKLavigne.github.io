@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title></title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 id="page-title"></h1>
+      <div class="meta">
+        <label class="inline">
+          Your Name
+          <input id="student-name" type="text" placeholder="Enter your full name" />
+        </label>
+        <label class="inline">
+          Email
+          <input id="student-email" type="email" placeholder="you@school.edu" />
+        </label>
+        <label class="inline small">
+          Graduation Year
+          <input id="grad-year" type="number" min="1900" max="2100" placeholder="2026" />
+        </label>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section id="description" class="card">
+        <h2>Description</h2>
+        <p id="desc-text"></p>
+      </section>
+
+      <section id="objectives" class="card prompt">
+        <h2>Objective / Outcome</h2>
+        <textarea id="objective" rows="3" placeholder="State the objective/outcome of your project..."></textarea>
+        <div class="upload">
+          <label>Upload Screenshot (optional)
+            <input type="file" id="objective-img" accept="image/png, image/jpeg" />
+          </label>
+          <div class="preview" id="objective-preview"></div>
+        </div>
+      </section>
+
+      <section id="understandings" class="card">
+        <h2>Unit Understandings</h2>
+        <div id="understandings-list" class="checklist"></div>
+      </section>
+
+      <section id="essential-questions" class="card">
+        <h2>Essential Questions</h2>
+        <div id="questions-list" class="checklist"></div>
+      </section>
+
+
+
+      <section id="vocabulary" class="card">
+        <h2>Vocabulary</h2>
+        <div id="vocab-list"></div>
+      </section>
+
+      <section id="reflection-section" class="card prompt">
+        <h2>Reflection</h2>
+        <textarea id="reflection" rows="4" placeholder="What did you learn? What would you improve?"></textarea>
+        <div class="upload">
+          <label>Upload Screenshot (optional)
+            <input type="file" id="reflection-img" accept="image/png, image/jpeg" />
+          </label>
+          <div class="preview" id="reflection-preview"></div>
+        </div>
+      </section>
+
+      <div class="actions card">
+        <div class="left">
+          <button id="save-btn">Save My Work (download .json)</button>
+          <label class="file-btn">
+            Load Saved Work
+            <input id="load-file" type="file" accept="application/json" />
+          </label>
+          <label class="file-btn">
+            Upload content.json
+            <input id="upload-content-json" type="file" accept="application/json" />
+          </label>
+        </div>
+        <div class="right">
+          <button id="show-btn">Show My Responses (print view)</button>
+          <button id="clear-btn" class="danger">Clear All Responses</button>
+        </div>
+      </div>
+
+      <footer class="card small muted">
+        <p>Template loads content dynamically from <code>content.json</code>. Screenshot uploads are saved in JSON as Base64.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
