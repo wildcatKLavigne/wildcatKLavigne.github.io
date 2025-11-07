@@ -1,0 +1,42 @@
+{
+  "title": "Arduino Basics: Blinking an LED",
+  "description": "This unit introduces students to the fundamentals of microcontrollers and electronic circuits through the classic Arduino Blink example. Students will explore how software commands control physical hardware, how current flows through a circuit, and how microcontrollers like the Arduino translate code into electrical actions.",
+  "understandings": [
+    "A microcontroller is a small computer that runs code to control electronic components like LEDs, sensors, and motors.",
+    "Digital output pins on a microcontroller can send HIGH or LOW voltage signals to control devices such as LEDs.",
+    "Setting the mode of a pin (input or output) using pinMode() determines how the microcontroller interacts with that pin.",
+    "The circuit connected to the Arduino must include components like resistors to safely manage current and voltage flow.",
+    "Timing functions like delay() allow microcontrollers to control the sequence and duration of electrical signals, enabling visible patterns such as blinking lights."
+  ],
+  "essentialQuestions": [
+    "How does a microcontroller use digital pins to send and receive signals in a circuit?",
+    "Why is it important to configure a pin’s mode before using it in a program, and how does that affect the circuit’s behavior?",
+    "How does the delay() function control timing in a microcontroller program, and what are the trade-offs of using it?",
+    "Why must a resistor be used in an LED circuit, and how does understanding voltage and current help prevent damage to the microcontroller?",
+    "How does combining knowledge of hardware (circuits, components) and software (code, logic) allow you to design functional microcontroller-based systems?"
+  ],
+  "vocabulary": [
+    "Microcontroller",
+    "Digital Pin",
+    "pinMode()",
+    "digitalWrite()",
+    "LED",
+    "Resistor",
+    "Circuit",
+    "Voltage",
+    "Current",
+    "delay()"
+  ],
+  "vocabDefinitions": {
+    "Microcontroller": "A small programmable computer on a chip that can read inputs, process code, and control electronic devices through its pins.",
+    "Digital Pin": "A connector on a microcontroller board that can send or receive digital signals—either HIGH (on) or LOW (off).",
+    "pinMode()": "An Arduino function that tells the microcontroller whether a pin will be used for input (receiving signals) or output (sending signals).",
+    "digitalWrite()": "An Arduino function that sets a digital output pin to HIGH or LOW, controlling connected components like LEDs.",
+    "LED": "A light-emitting diode that converts electrical energy into light when current flows through it in the correct direction.",
+    "Resistor": "An electronic component that limits current in a circuit to protect other components and control brightness or voltage.",
+    "Circuit": "A closed path that allows electricity to flow through components, such as from a microcontroller pin, through a resistor, and into an LED.",
+    "Voltage": "The electrical potential difference between two points in a circuit, measured in volts; it drives current through the circuit.",
+    "Current": "The flow of electric charge through a circuit, measured in amperes (A); it must be controlled to avoid damaging components.",
+    "delay()": "An Arduino function that pauses the program for a set time, allowing the microcontroller to create timed patterns or effects."
+  }
+}
