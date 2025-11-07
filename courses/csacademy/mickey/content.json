@@ -1,0 +1,34 @@
+{
+  "title": "Python Programming and Digital Art - Mickey Mouse!",
+  "description": "This unit introduces students to using Python (specifically CMU CS Academy) to create digital art. Students learn how functions, parameters, and arguments work together to draw shapes, how to organize shapes using Groups, and how the coordinate system differs from traditional math classes. Emphasis is placed on calling functions, passing arguments (required and optional), and using Groups to control collections of shapes.",
+  "understandings": [
+    "A function is a basic building block of programming and contains instructions for completing a specific task.",
+    "To use the code provided by a function, programmers execute a function call; in Python this is done by naming the function followed by parentheses, e.g., Circle().",
+    "A function often requires one or more inputs called parameters; parameters (synonymous with variables) provide information about how the function will complete its task.",
+    "When calling a function that requires information, programmers pass arguments inside the function call; arguments are listed in the order expected and provide the values used to complete the function.",
+    "Groups are used in CMU CS Academy to collect and organize shape objects, improving the ability to control multiple shapes at once."
+  ],
+  "essentialQuestions": [
+    "When calling a function to draw a shape in CMU CS Academy, some parameters are required and some are optional. Show an example of calling a function that has both required and optional parameters. Explain, in detail, how you use those parameters to create something specific in your drawing.",
+    "The coordinate system in CMU CS Academy is different from the one you know from your math classes. Illustrate, with both a code snippet and written explanation, how X and Y coordinates are used while creating your drawing.",
+    "In CMU CS Academy, Groups are used to collect and organize shape objects in your drawing. Show an example of how you used Groups in your drawing. Explain how using a Group improves your ability to control how shapes appear. (If you didn’t use a Group, create a Group, add shapes to it, and demonstrate how you can control the entire group at once.)"
+  ],
+  "vocabulary": [
+    "Function",
+    "Parameter",
+    "Argument",
+    "Function Call",
+    "Passing Arguments",
+    "Group",
+    "Shape (CMU CS Academy)"
+  ],
+  "vocabDefinitions": {
+    "Function": "A reusable block of code that performs a specific task when called.",
+    "Parameter": "A variable listed inside a function’s parentheses that defines the information the function needs.",
+    "Argument": "The actual value passed to a function’s parameter when the function is called.",
+    "Function Call": "The act of executing a function by using its name followed by parentheses, possibly including arguments.",
+    "Passing Arguments": "Providing specific values to a function’s parameters when calling it.",
+    "Group": "A collection of shapes in CMU CS Academy that can be controlled together as one unit.",
+    "Shape (CMU CS Academy)": "A graphical object like a Circle or Rect that can be drawn and manipulated using code in CMU CS Academy."
+  }
+}
