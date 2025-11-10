@@ -5,6 +5,15 @@
     return params.get(name);
   }
 
+  // ============================================================================
+  // CONFIGURATION
+  // ============================================================================
+  // Set to true to enable Google Classroom integration, false to disable
+  const ENABLE_GOOGLE_CLASSROOM = false;
+  // Your Google OAuth Client ID (only needed if ENABLE_GOOGLE_CLASSROOM is true)
+  const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID';
+  // ============================================================================
+
   // Modules will be loaded dynamically from modules.json
   let modules = [];
 
@@ -424,13 +433,16 @@
           .classroom-status.info { background: #d1ecf1; color: #0c5460; }
           select { padding: 8px; margin: 5px; border-radius: 4px; border: 1px solid #ccc; }
         </style>
+        ${ENABLE_GOOGLE_CLASSROOM ? `
         <script src="https://apis.google.com/js/api.js"></script>
         <script src="https://accounts.google.com/gsi/client"></script>
+        ` : ''}
       </head>
       <body>
         <h1>Web Design Project — Student Responses</h1>
         <p><strong>${escapeHtml(data.meta.name || '')}</strong> (${escapeHtml(data.meta.email || '')}) — Graduation Year: ${escapeHtml(String(data.meta.gradYear || ''))}</p>
 
+        ${ENABLE_GOOGLE_CLASSROOM ? `
         <div class="classroom-integration">
           <h2>📚 Submit to Google Classroom</h2>
           <div id="classroom-status"></div>
@@ -445,6 +457,7 @@
             <button id="classroom-submit" class="classroom-btn" style="display: none;" disabled>Submit to Google Classroom</button>
           </div>
         </div>
+        ` : ''}
 
         ${checklist('Unit Understandings', data.understandings || [])}
         ${objectiveHtml}
@@ -454,9 +467,11 @@
         <h3>Vocabulary</h3>
         <div class="box">${vocabHtml}</div>
 
+        ${ENABLE_GOOGLE_CLASSROOM ? `
         <script>
           ${generateClassroomIntegrationScript(data)}
         </script>
+        ` : ''}
       </body>
       </html>
     `;
@@ -465,7 +480,7 @@
   function generateClassroomIntegrationScript(data) {
     return `
       (function() {
-        const CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with your Google OAuth Client ID
+        const CLIENT_ID = '${GOOGLE_CLIENT_ID}';
         const SCOPES = 'https://www.googleapis.com/auth/classroom.coursework.me https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/documents https://www.googleapis.com/auth/drive.file';
         
         let tokenClient;
@@ -531,8 +546,8 @@
         }
 
         signinBtn.addEventListener('click', () => {
-          if (CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
-            showStatus('Please configure your Google OAuth Client ID in the script. See instructions in the code.', 'error');
+          if (!CLIENT_ID || CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+            showStatus('Please configure your Google OAuth Client ID in the script. See GOOGLE_CLASSROOM_SETUP.md for instructions.', 'error');
             return;
           }
           if (!tokenClient) {
