@@ -13,6 +13,22 @@ header {
   font-weight: bold;
   letter-spacing: 1px;
 }
+.site-header {
+  background-color: #001f4d;
+  text-align: center;
+  padding: 1.25rem 2rem;
+}
+.site-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.site-subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+  font-weight: 600;
+}
 main {
   max-width: 900px;
   margin: 2rem auto 4rem;
