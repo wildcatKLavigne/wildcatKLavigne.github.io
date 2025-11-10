@@ -3,20 +3,46 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AP Computer Science A - Practice Quiz</title>
+<title>Courses</title>
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <header>
-  Loading Quiz...
+  Courses
 </header>
 
 <main>
-  <!-- Quiz content will be loaded here dynamically -->
+  <div id="landing" class="landing hidden">
+    <p>Select a course module:</p>
+    <div id="modules-grid" class="modules-grid"></div>
+  </div>
+
+  <div id="module-view" class="hidden">
+    <a href="index.html" class="btn">← Back to Courses</a>
+    <section class="card" id="module-header">
+      <h2 id="module-title"></h2>
+      <p id="module-description"></p>
+    </section>
+
+    <section class="card" id="module-understandings">
+      <h2>Unit Understandings</h2>
+      <ul id="understandings-list"></ul>
+    </section>
+
+    <section class="card" id="module-questions">
+      <h2>Essential Questions</h2>
+      <ol id="questions-list"></ol>
+    </section>
+
+    <section class="card" id="module-vocab">
+      <h2>Vocabulary</h2>
+      <div id="vocab-list"></div>
+    </section>
+  </div>
 </main>
 
-<script src="load-quiz.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
