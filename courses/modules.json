@@ -1,0 +1,6 @@
+[
+  { "id": "arduino/blink", "path": "arduino/blink/content.json" },
+  { "id": "csacademy/mickey", "path": "csacademy/mickey/content.json" },
+  { "id": "python/intro", "path": "python/intro/content.json" }
+]
+

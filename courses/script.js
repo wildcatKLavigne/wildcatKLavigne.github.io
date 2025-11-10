@@ -5,12 +5,8 @@
     return params.get(name);
   }
 
-  // Known modules; each has a path to a subdirectory containing content.json
-  // Display titles/descriptions will be fetched from each content.json
-  const modules = [
-    { id: 'arduino/blink', path: 'arduino/blink/content.json' },
-    { id: 'csacademy/mickey', path: 'csacademy/mickey/content.json' }
-  ];
+  // Modules will be loaded dynamically from modules.json
+  let modules = [];
 
   function show(el) { el.classList.remove('hidden'); }
   function hide(el) { el.classList.add('hidden'); }
@@ -21,9 +17,46 @@
     return res.json();
   }
 
+  // Dynamically discover modules by loading modules.json
+  async function loadModules() {
+    try {
+      modules = await fetchJson('modules.json');
+    } catch (err) {
+      console.warn('Could not load modules.json, trying to discover modules...', err);
+      // Fallback: try to discover modules by attempting common subdirectory patterns
+      const commonPaths = [
+        'arduino/blink/content.json',
+        'csacademy/mickey/content.json',
+        'python/intro/content.json'
+      ];
+      modules = [];
+      for (const path of commonPaths) {
+        try {
+          await fetchJson(path);
+          // Extract module id from path (e.g., "arduino/blink/content.json" -> "arduino/blink")
+          const id = path.replace('/content.json', '');
+          modules.push({ id, path });
+        } catch {
+          // Module doesn't exist at this path, skip it
+        }
+      }
+    }
+  }
+
   async function renderLanding() {
     const landing = document.getElementById('landing');
     const grid = document.getElementById('modules-grid');
+    grid.innerHTML = '<p>Loading modules...</p>';
+
+    // Load modules dynamically
+    await loadModules();
+
+    if (modules.length === 0) {
+      grid.innerHTML = '<p>No modules found.</p>';
+      show(landing);
+      return;
+    }
+
     grid.innerHTML = '';
 
     // Load titles from each module's content.json
@@ -314,6 +347,11 @@
 
   async function renderModule(moduleId) {
     const moduleView = document.getElementById('module-view');
+
+    // Ensure modules are loaded
+    if (modules.length === 0) {
+      await loadModules();
+    }
 
     const mod = modules.find(m => m.id === moduleId);
     if (!mod) {

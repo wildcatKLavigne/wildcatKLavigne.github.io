@@ -1,0 +1,43 @@
+{
+  "title": "Python Programming: Introduction",
+  "description": "This unit introduces students to the fundamentals of Python programming. Students will learn basic syntax, data types, variables, and control structures. Emphasis is placed on writing clear, readable code and understanding how Python interprets and executes programs.",
+  "understandings": [
+    "Python is an interpreted programming language that executes code line by line.",
+    "Variables in Python store data and can be reassigned to different values.",
+    "Data types like strings, integers, and floats determine how values can be used and manipulated.",
+    "Control structures like if/else statements and loops allow programs to make decisions and repeat actions.",
+    "Functions are reusable blocks of code that perform specific tasks when called."
+  ],
+  "essentialQuestions": [
+    "How do variables and data types work together in Python to store and manipulate information?",
+    "What is the difference between an integer and a float, and when would you use each?",
+    "How do control structures like if/else and loops change the flow of program execution?",
+    "Why are functions useful in programming, and how do they help organize code?",
+    "What are the benefits of using Python's simple syntax compared to other programming languages?"
+  ],
+  "vocabulary": [
+    "Variable",
+    "String",
+    "Integer",
+    "Float",
+    "Function",
+    "Loop",
+    "Conditional",
+    "Syntax",
+    "Interpreter",
+    "Comment"
+  ],
+  "vocabDefinitions": {
+    "Variable": "A named storage location in memory that holds a value and can be changed during program execution.",
+    "String": "A data type in Python that represents text, enclosed in single or double quotes.",
+    "Integer": "A whole number data type in Python, such as 5, -10, or 0.",
+    "Float": "A decimal number data type in Python, such as 3.14 or -0.5.",
+    "Function": "A reusable block of code that performs a specific task when called by name.",
+    "Loop": "A control structure that repeats a block of code multiple times until a condition is met.",
+    "Conditional": "A control structure that executes code only when a certain condition is true.",
+    "Syntax": "The set of rules that define how code must be written in a programming language.",
+    "Interpreter": "A program that reads and executes Python code line by line.",
+    "Comment": "Text in code that is ignored by the interpreter, used to explain what the code does."
+  }
+}
+
