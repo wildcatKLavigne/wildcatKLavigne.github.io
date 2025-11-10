@@ -398,11 +398,53 @@
           img { display: block; margin-top: 8px; max-width: 500px; border-radius: 6px; border: 1px solid #ccc; }
           ul { margin-left: 20px; }
           .vocab-item { margin-bottom: 10px; }
+          .classroom-integration { 
+            margin: 20px 0; 
+            padding: 20px; 
+            border: 2px solid #1a73e8; 
+            border-radius: 8px; 
+            background: #f8f9fa;
+          }
+          .classroom-integration h2 { margin-top: 0; color: #1a73e8; }
+          .classroom-btn { 
+            background: #1a73e8; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 14px;
+            margin: 5px;
+          }
+          .classroom-btn:hover { background: #1557b0; }
+          .classroom-btn:disabled { background: #ccc; cursor: not-allowed; }
+          .classroom-status { margin: 10px 0; padding: 10px; border-radius: 4px; }
+          .classroom-status.success { background: #d4edda; color: #155724; }
+          .classroom-status.error { background: #f8d7da; color: #721c24; }
+          .classroom-status.info { background: #d1ecf1; color: #0c5460; }
+          select { padding: 8px; margin: 5px; border-radius: 4px; border: 1px solid #ccc; }
         </style>
+        <script src="https://apis.google.com/js/api.js"></script>
+        <script src="https://accounts.google.com/gsi/client"></script>
       </head>
       <body>
         <h1>Web Design Project — Student Responses</h1>
         <p><strong>${escapeHtml(data.meta.name || '')}</strong> (${escapeHtml(data.meta.email || '')}) — Graduation Year: ${escapeHtml(String(data.meta.gradYear || ''))}</p>
+
+        <div class="classroom-integration">
+          <h2>📚 Submit to Google Classroom</h2>
+          <div id="classroom-status"></div>
+          <div id="classroom-controls">
+            <button id="classroom-signin" class="classroom-btn">Sign in with Google</button>
+            <div id="classroom-course-select" style="display: none; margin: 10px 0;">
+              <label>Select Course: <select id="course-select"></select></label>
+            </div>
+            <div id="classroom-assignment-select" style="display: none; margin: 10px 0;">
+              <label>Select Assignment: <select id="assignment-select"></select></label>
+            </div>
+            <button id="classroom-submit" class="classroom-btn" style="display: none;" disabled>Submit to Google Classroom</button>
+          </div>
+        </div>
 
         ${checklist('Unit Understandings', data.understandings || [])}
         ${objectiveHtml}
@@ -411,8 +453,390 @@
 
         <h3>Vocabulary</h3>
         <div class="box">${vocabHtml}</div>
+
+        <script>
+          ${generateClassroomIntegrationScript(data)}
+        </script>
       </body>
       </html>
+    `;
+  }
+
+  function generateClassroomIntegrationScript(data) {
+    return `
+      (function() {
+        const CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with your Google OAuth Client ID
+        const SCOPES = 'https://www.googleapis.com/auth/classroom.coursework.me https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/documents https://www.googleapis.com/auth/drive.file';
+        
+        let tokenClient;
+        let accessToken = null;
+        let courses = [];
+        let assignments = [];
+        let selectedCourseId = null;
+        let selectedAssignmentId = null;
+
+        const statusEl = document.getElementById('classroom-status');
+        const signinBtn = document.getElementById('classroom-signin');
+        const courseSelect = document.getElementById('course-select');
+        const assignmentSelect = document.getElementById('assignment-select');
+        const courseSelectDiv = document.getElementById('classroom-course-select');
+        const assignmentSelectDiv = document.getElementById('classroom-assignment-select');
+        const submitBtn = document.getElementById('classroom-submit');
+
+        function showStatus(message, type = 'info') {
+          statusEl.innerHTML = '<div class="classroom-status ' + type + '">' + escapeHtml(message) + '</div>';
+        }
+
+        function escapeHtml(str) {
+          return String(str || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+        }
+
+        function initializeGapi() {
+          return new Promise((resolve, reject) => {
+            gapi.load('client', () => {
+              gapi.client.init({
+                apiKey: '', // Optional: API key if needed
+                discoveryDocs: [
+                  'https://classroom.googleapis.com/$discovery/rest?version=v1',
+                  'https://docs.googleapis.com/$discovery/rest?version=v1',
+                  'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'
+                ]
+              }).then(() => {
+                resolve();
+              }).catch(reject);
+            });
+          });
+        }
+
+        function initializeTokenClient() {
+          tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: SCOPES,
+            callback: (response) => {
+              if (response.error) {
+                showStatus('Authentication failed: ' + response.error, 'error');
+                return;
+              }
+              accessToken = response.access_token;
+              signinBtn.textContent = 'Signed in';
+              signinBtn.disabled = true;
+              loadCourses();
+            }
+          });
+        }
+
+        signinBtn.addEventListener('click', () => {
+          if (CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+            showStatus('Please configure your Google OAuth Client ID in the script. See instructions in the code.', 'error');
+            return;
+          }
+          if (!tokenClient) {
+            initializeGapi().then(() => {
+              initializeTokenClient();
+              tokenClient.requestAccessToken({ prompt: 'consent' });
+            }).catch(err => {
+              showStatus('Failed to initialize Google API: ' + err.message, 'error');
+            });
+          } else {
+            tokenClient.requestAccessToken({ prompt: 'consent' });
+          }
+        });
+
+        async function loadCourses() {
+          try {
+            showStatus('Loading courses...', 'info');
+            const response = await gapi.client.classroom.courses.list({
+              studentId: 'me',
+              courseStates: 'ACTIVE'
+            });
+            courses = response.result.courses || [];
+            
+            if (courses.length === 0) {
+              showStatus('No active courses found.', 'error');
+              return;
+            }
+
+            courseSelect.innerHTML = '<option value="">Select a course...</option>';
+            courses.forEach(course => {
+              const option = document.createElement('option');
+              option.value = course.id;
+              option.textContent = course.name;
+              courseSelect.appendChild(option);
+            });
+            
+            courseSelectDiv.style.display = 'block';
+            showStatus('Select a course to continue.', 'info');
+          } catch (err) {
+            showStatus('Failed to load courses: ' + err.message, 'error');
+          }
+        }
+
+        courseSelect.addEventListener('change', async (e) => {
+          selectedCourseId = e.target.value;
+          if (!selectedCourseId) {
+            assignmentSelectDiv.style.display = 'none';
+            submitBtn.style.display = 'none';
+            return;
+          }
+          
+          try {
+            showStatus('Loading assignments...', 'info');
+            const response = await gapi.client.classroom.courses.courseWork.list({
+              courseId: selectedCourseId
+            });
+            assignments = response.result.courseWork || [];
+            
+            if (assignments.length === 0) {
+              showStatus('No assignments found for this course.', 'error');
+              return;
+            }
+
+            assignmentSelect.innerHTML = '<option value="">Select an assignment...</option>';
+            assignments.forEach(assignment => {
+              const option = document.createElement('option');
+              option.value = assignment.id;
+              option.textContent = assignment.title;
+              assignmentSelect.appendChild(option);
+            });
+            
+            assignmentSelectDiv.style.display = 'block';
+            showStatus('Select an assignment to submit.', 'info');
+          } catch (err) {
+            showStatus('Failed to load assignments: ' + err.message, 'error');
+          }
+        });
+
+        assignmentSelect.addEventListener('change', (e) => {
+          selectedAssignmentId = e.target.value;
+          submitBtn.disabled = !selectedAssignmentId;
+          submitBtn.style.display = selectedAssignmentId ? 'inline-block' : 'none';
+        });
+
+        submitBtn.addEventListener('click', async () => {
+          if (!selectedCourseId || !selectedAssignmentId) {
+            showStatus('Please select a course and assignment.', 'error');
+            return;
+          }
+
+          try {
+            submitBtn.disabled = true;
+            showStatus('Creating Google Doc...', 'info');
+            
+            // Create Google Doc with the response content
+            const docContent = generateDocContent(${JSON.stringify(data)});
+            const doc = await gapi.client.docs.documents.create({
+              title: 'Student Response - ' + new Date().toLocaleDateString()
+            });
+            
+            const docId = doc.result.documentId;
+            showStatus('Adding content to document...', 'info');
+            
+            // Insert content into the document
+            await gapi.client.docs.documents.batchUpdate({
+              documentId: docId,
+              requests: docContent
+            });
+
+            showStatus('Submitting to Google Classroom...', 'info');
+            
+            // Get student submission (submissions are automatically created when student accesses assignment)
+            const listResponse = await gapi.client.classroom.courses.courseWork.studentSubmissions.list({
+              courseId: selectedCourseId,
+              courseWorkId: selectedAssignmentId,
+              userId: 'me'
+            });
+            
+            if (!listResponse.result.studentSubmissions || listResponse.result.studentSubmissions.length === 0) {
+              throw new Error('No submission found. Please open the assignment in Google Classroom first.');
+            }
+            
+            const submission = listResponse.result.studentSubmissions[0];
+            const submissionId = submission.id;
+            
+            // Add attachment to submission
+            await gapi.client.classroom.courses.courseWork.studentSubmissions.modifyAttachments({
+              courseId: selectedCourseId,
+              courseWorkId: selectedAssignmentId,
+              id: submissionId
+            }, {
+              addAttachments: [{
+                driveFile: {
+                  id: docId,
+                  title: 'Student Response'
+                }
+              }]
+            });
+            
+            // Turn in the submission
+            await gapi.client.classroom.courses.courseWork.studentSubmissions.turnIn({
+              courseId: selectedCourseId,
+              courseWorkId: selectedAssignmentId,
+              id: submissionId
+            });
+
+            showStatus('Successfully submitted to Google Classroom!', 'success');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitted ✓';
+          } catch (err) {
+            showStatus('Failed to submit: ' + err.message, 'error');
+            submitBtn.disabled = false;
+          }
+        });
+
+        function generateDocContent(data) {
+          const requests = [];
+          let index = 1;
+          
+          // Title
+          requests.push({
+            insertText: {
+              location: { index: index },
+              text: 'Student Response\\n\\n'
+            }
+          });
+          index += 'Student Response\\n\\n'.length;
+          
+          // Student info
+          requests.push({
+            insertText: {
+              location: { index: index },
+              text: 'Student: ' + (data.meta.name || '') + '\\n'
+            }
+          });
+          index += ('Student: ' + (data.meta.name || '') + '\\n').length;
+          
+          requests.push({
+            insertText: {
+              location: { index: index },
+              text: 'Email: ' + (data.meta.email || '') + '\\n'
+            }
+          });
+          index += ('Email: ' + (data.meta.email || '') + '\\n').length;
+          
+          requests.push({
+            insertText: {
+              location: { index: index },
+              text: 'Graduation Year: ' + (data.meta.gradYear || '') + '\\n\\n'
+            }
+          });
+          index += ('Graduation Year: ' + (data.meta.gradYear || '') + '\\n\\n').length;
+          
+          // Unit Understandings
+          if (data.understandings && data.understandings.length > 0) {
+            requests.push({
+              insertText: {
+                location: { index: index },
+                text: 'Unit Understandings\\n'
+              }
+            });
+            index += 'Unit Understandings\\n'.length;
+            
+            data.understandings.forEach(u => {
+              const text = (u.checked ? '✓ ' : '  ') + u.text + '\\n';
+              requests.push({
+                insertText: {
+                  location: { index: index },
+                  text: text
+                }
+              });
+              index += text.length;
+            });
+            requests.push({
+              insertText: {
+                location: { index: index },
+                text: '\\n'
+              }
+            });
+            index += 2;
+          }
+          
+          // Objective
+          if (data.objective && data.objective.text) {
+            requests.push({
+              insertText: {
+                location: { index: index },
+                text: 'Objective\\n' + data.objective.text + '\\n\\n'
+              }
+            });
+            index += ('Objective\\n' + data.objective.text + '\\n\\n').length;
+          }
+          
+          // Reflection
+          if (data.reflection && data.reflection.text) {
+            requests.push({
+              insertText: {
+                location: { index: index },
+                text: 'Reflection\\n' + data.reflection.text + '\\n\\n'
+              }
+            });
+            index += ('Reflection\\n' + data.reflection.text + '\\n\\n').length;
+          }
+          
+          // Essential Questions
+          if (data.studentQuestions && data.studentQuestions.length > 0) {
+            data.studentQuestions.forEach((q, i) => {
+              requests.push({
+                insertText: {
+                  location: { index: index },
+                  text: 'Question ' + (i + 1) + ': ' + q.text + '\\n'
+                }
+              });
+              index += ('Question ' + (i + 1) + ': ' + q.text + '\\n').length;
+              
+              if (q.response) {
+                requests.push({
+                  insertText: {
+                    location: { index: index },
+                    text: q.response + '\\n\\n'
+                  }
+                });
+                index += (q.response + '\\n\\n').length;
+              }
+            });
+          }
+          
+          // Vocabulary
+          if (data.vocabulary && data.vocabulary.length > 0) {
+            requests.push({
+              insertText: {
+                location: { index: index },
+                text: 'Vocabulary\\n'
+              }
+            });
+            index += 'Vocabulary\\n'.length;
+            
+            data.vocabulary.forEach(v => {
+              const text = v.term + ': ' + v.definition + '\\n';
+              requests.push({
+                insertText: {
+                  location: { index: index },
+                  text: text
+                }
+              });
+              index += text.length;
+            });
+          }
+          
+          return { requests: requests };
+        }
+
+        // Initialize on load
+        if (typeof gapi !== 'undefined' && typeof google !== 'undefined') {
+          initializeGapi().then(() => {
+            initializeTokenClient();
+            showStatus('Ready to sign in with Google Classroom.', 'info');
+          }).catch(err => {
+            showStatus('Failed to initialize: ' + err.message, 'error');
+          });
+        } else {
+          showStatus('Google API libraries not loaded. Please refresh the page.', 'error');
+        }
+      })();
     `;
   }
 
