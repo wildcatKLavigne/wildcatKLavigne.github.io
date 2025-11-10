@@ -87,6 +87,87 @@ code {
   border-radius: 4px;
   font-weight: bold;
 }
+.meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 0.5rem; }
+.inline { display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; }
+.inline input {
+  padding: 8px 10px;
+  border: 1px solid #d0d6df;
+  border-radius: 8px;
+  min-width: 160px;
+}
+.inline.small input { min-width: 110px; }
+.checklist { display: flex; flex-direction: column; gap: 8px; padding-top: 6px; }
+.check-item { display: flex; gap: 10px; align-items: flex-start; }
+.check-item input[type="checkbox"] { transform: scale(1.2); margin-top: 4px; }
+.term { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.term .term-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; font-size: 0.95rem; font-weight: 600; color: #222; }
+.term select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d0d6df;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: #fff;
+  cursor: pointer;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+.term select:focus { outline: none; border-color: #004080; box-shadow: 0 0 0 2px rgba(0, 64, 128, 0.2); }
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d0d6df;
+  min-height: 56px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+.actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.actions .left, .actions .right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+button {
+  background: #004080;
+  color: white;
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+button:hover { background: #002d5a; }
+button.danger { background: #ef5350; }
+.file-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #d0d6df;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #222;
+  font-weight: 600;
+}
+.file-btn input { display: none; }
+.upload { margin-top: 10px; }
+.upload label {
+  font-weight: 600;
+  background: #eef3f8;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+}
+.upload input[type="file"] { display: none; }
+.preview { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; }
+.preview img {
+  width: 150px;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 .option {
   margin: 0.3rem 0;
   padding: 0.3rem 0.5rem;
