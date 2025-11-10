@@ -1,0 +1,43 @@
+{
+  "title": "Arduino Sensors: Reading Input",
+  "description": "This unit introduces students to reading sensor data with Arduino. Students will learn how to use analog and digital input pins to read values from sensors like temperature sensors, light sensors, and buttons. Emphasis is placed on understanding the difference between analog and digital signals, and how to process sensor data in code.",
+  "understandings": [
+    "Analog sensors provide continuous values that can be read using analogRead() on analog input pins.",
+    "Digital sensors provide discrete HIGH or LOW values that can be read using digitalRead() on digital pins.",
+    "The Arduino's analog-to-digital converter (ADC) converts analog voltage (0-5V) to digital values (0-1023).",
+    "Sensor data often needs to be mapped or scaled to be useful in applications.",
+    "Reading sensor values in a loop allows programs to continuously monitor and respond to changes in the environment."
+  ],
+  "essentialQuestions": [
+    "What is the difference between analog and digital sensors, and when would you use each type?",
+    "How does the Arduino convert analog voltage readings into digital values, and what is the range of values?",
+    "How can you use sensor data to make decisions in your program using conditional statements?",
+    "Why might you need to map or scale sensor values, and how would you do this?",
+    "How can reading sensors continuously in a loop enable interactive and responsive projects?"
+  ],
+  "vocabulary": [
+    "Analog Sensor",
+    "Digital Sensor",
+    "analogRead()",
+    "digitalRead()",
+    "ADC",
+    "Voltage",
+    "Mapping",
+    "Threshold",
+    "Input Pin",
+    "Sensor Data"
+  ],
+  "vocabDefinitions": {
+    "Analog Sensor": "A sensor that provides continuous values representing a physical quantity, such as temperature or light intensity.",
+    "Digital Sensor": "A sensor that provides discrete HIGH or LOW signals, such as a button or switch.",
+    "analogRead()": "An Arduino function that reads an analog voltage value from an analog input pin and returns a value between 0 and 1023.",
+    "digitalRead()": "An Arduino function that reads the state of a digital pin, returning either HIGH or LOW.",
+    "ADC": "Analog-to-Digital Converter; a component that converts continuous analog voltage signals into discrete digital values.",
+    "Voltage": "The electrical potential difference measured in volts; analog sensors output voltage proportional to the measured quantity.",
+    "Mapping": "The process of converting a value from one range to another, such as mapping sensor readings to useful output values.",
+    "Threshold": "A specific value used to make decisions, such as determining when a sensor reading indicates a certain condition.",
+    "Input Pin": "A pin on the Arduino configured to read signals from sensors or other input devices.",
+    "Sensor Data": "The values read from sensors that represent measurements of physical quantities or states."
+  }
+}
+

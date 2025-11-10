@@ -64,6 +64,72 @@ code {
   margin-bottom: 1rem;
 }
 .landing p { margin-top: 0; }
+.recent-module {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #e6f0fa 0%, #f0f7ff 100%);
+  border-left: 4px solid #004080;
+}
+.recent-module h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
+  padding: 0;
+  margin-bottom: 0.75rem;
+}
+.recent-module h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #001f4d;
+}
+.topic-badge {
+  display: inline-block;
+  background: #004080;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+.topics-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.topic-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.topic-label {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #001f4d;
+  margin-bottom: 0.25rem;
+}
+.topic-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #d0d6df;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.topic-select:hover {
+  border-color: #004080;
+}
+.topic-select:focus {
+  outline: none;
+  border-color: #004080;
+  box-shadow: 0 0 0 3px rgba(0, 64, 128, 0.1);
+}
 .modules-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));

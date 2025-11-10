@@ -26,8 +26,11 @@
       // Fallback: try to discover modules by attempting common subdirectory patterns
       const commonPaths = [
         'arduino/blink/content.json',
+        'arduino/sensor/content.json',
         'csacademy/mickey/content.json',
-        'python/intro/content.json'
+        'csacademy/shapes/content.json',
+        'python/intro/content.json',
+        'python/functions/content.json'
       ];
       modules = [];
       for (const path of commonPaths) {
@@ -45,19 +48,20 @@
 
   async function renderLanding() {
     const landing = document.getElementById('landing');
-    const grid = document.getElementById('modules-grid');
-    grid.innerHTML = '<p>Loading modules...</p>';
+    const recentModuleEl = document.getElementById('recent-module');
+    const topicsContainer = document.getElementById('topics-container');
+    
+    recentModuleEl.innerHTML = '<p>Loading...</p>';
+    topicsContainer.innerHTML = '';
 
     // Load modules dynamically
     await loadModules();
 
     if (modules.length === 0) {
-      grid.innerHTML = '<p>No modules found.</p>';
+      recentModuleEl.innerHTML = '<p>No modules found.</p>';
       show(landing);
       return;
     }
-
-    grid.innerHTML = '';
 
     // Load titles from each module's content.json
     const details = await Promise.all(modules.map(async (m) => {
@@ -66,22 +70,89 @@
         return {
           id: m.id,
           title: data.title || m.id,
-          description: data.description || ''
+          description: data.description || '',
+          topic: m.topic || m.id.split('/')[0],
+          added: m.added || new Date().toISOString()
         };
       } catch {
-        return { id: m.id, title: m.id, description: '' };
+        return { 
+          id: m.id, 
+          title: m.id, 
+          description: '',
+          topic: m.topic || m.id.split('/')[0],
+          added: m.added || new Date().toISOString()
+        };
       }
     }));
 
+    // Find most recently added module
+    const sortedByDate = [...details].sort((a, b) => 
+      new Date(b.added) - new Date(a.added)
+    );
+    const mostRecent = sortedByDate[0];
+
+    // Display most recent module
+    recentModuleEl.innerHTML = `
+      <h2>Most Recent Module</h2>
+      <h3>${escapeHtml(mostRecent.title)}</h3>
+      <p class="topic-badge">${escapeHtml(mostRecent.topic.toUpperCase())}</p>
+      <p>${escapeHtml(mostRecent.description)}</p>
+      <a href="index.html?module=${encodeURIComponent(mostRecent.id)}" class="btn">Open Module</a>
+    `;
+
+    // Organize modules by topic
+    const modulesByTopic = {};
     details.forEach(d => {
-      const card = document.createElement('div');
-      card.className = 'module-card';
-      card.innerHTML = `
-        <h3>${escapeHtml(d.title)}</h3>
-        <p>${escapeHtml(d.description)}</p>
-        <a href="index.html?module=${encodeURIComponent(d.id)}">Open</a>
-      `;
-      grid.appendChild(card);
+      const topic = d.topic;
+      if (!modulesByTopic[topic]) {
+        modulesByTopic[topic] = [];
+      }
+      modulesByTopic[topic].push(d);
+    });
+
+    // Sort modules within each topic by date (newest first)
+    Object.keys(modulesByTopic).forEach(topic => {
+      modulesByTopic[topic].sort((a, b) => new Date(b.added) - new Date(a.added));
+    });
+
+    // Create dropdown for each topic
+    Object.keys(modulesByTopic).sort().forEach(topic => {
+      const topicDiv = document.createElement('div');
+      topicDiv.className = 'topic-section';
+      
+      const topicLabel = document.createElement('label');
+      topicLabel.className = 'topic-label';
+      topicLabel.textContent = topic.charAt(0).toUpperCase() + topic.slice(1);
+      topicLabel.setAttribute('for', `topic-${topic}`);
+      
+      const select = document.createElement('select');
+      select.id = `topic-${topic}`;
+      select.className = 'topic-select';
+      
+      // Add default option
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = `Select a ${topic} module...`;
+      select.appendChild(defaultOption);
+      
+      // Add modules for this topic
+      modulesByTopic[topic].forEach(module => {
+        const option = document.createElement('option');
+        option.value = module.id;
+        option.textContent = module.title;
+        select.appendChild(option);
+      });
+      
+      // Handle selection change
+      select.addEventListener('change', (e) => {
+        if (e.target.value) {
+          window.location.href = `index.html?module=${encodeURIComponent(e.target.value)}`;
+        }
+      });
+      
+      topicDiv.appendChild(topicLabel);
+      topicDiv.appendChild(select);
+      topicsContainer.appendChild(topicDiv);
     });
 
     show(landing);

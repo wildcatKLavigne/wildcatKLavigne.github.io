@@ -1,0 +1,43 @@
+{
+  "title": "Python Functions: Reusable Code",
+  "description": "This unit introduces students to creating and using functions in Python. Students learn how to define functions with def, pass parameters, return values, and call functions. Emphasis is placed on understanding how functions help organize code, reduce repetition, and make programs more maintainable.",
+  "understandings": [
+    "Functions are defined using the def keyword followed by a function name and parentheses containing parameters.",
+    "Functions can accept parameters (inputs) that allow them to work with different data.",
+    "Functions can return values using the return statement, which passes data back to the caller.",
+    "Functions must be called (invoked) by name to execute their code.",
+    "Using functions helps organize code, reduces duplication, and makes programs easier to understand and maintain."
+  ],
+  "essentialQuestions": [
+    "What is the difference between defining a function and calling a function?",
+    "How do parameters allow functions to work with different inputs, and what happens if you don't provide required parameters?",
+    "What is the purpose of the return statement, and how do you use a function's return value?",
+    "How do functions help reduce code duplication and improve program organization?",
+    "When would you create a new function versus writing code directly in your main program?"
+  ],
+  "vocabulary": [
+    "Function Definition",
+    "Function Call",
+    "Parameter",
+    "Argument",
+    "Return",
+    "def",
+    "Scope",
+    "Reusable Code",
+    "Function Body",
+    "Return Value"
+  ],
+  "vocabDefinitions": {
+    "Function Definition": "The code that creates a function, starting with def, specifying the function name, parameters, and body.",
+    "Function Call": "The act of executing a function by using its name followed by parentheses, optionally with arguments.",
+    "Parameter": "A variable listed in a function's definition that receives a value when the function is called.",
+    "Argument": "The actual value passed to a function's parameter when the function is called.",
+    "Return": "A statement that sends a value back from a function to the code that called it.",
+    "def": "The Python keyword used to define (create) a new function.",
+    "Scope": "The area of code where a variable or function is accessible; variables defined in a function are local to that function.",
+    "Reusable Code": "Code written in functions that can be called multiple times with different inputs, avoiding duplication.",
+    "Function Body": "The indented block of code inside a function definition that executes when the function is called.",
+    "Return Value": "The value that a function sends back to the caller using the return statement."
+  }
+}
+

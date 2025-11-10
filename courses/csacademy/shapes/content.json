@@ -1,0 +1,43 @@
+{
+  "title": "CMU CS Academy: Drawing Shapes",
+  "description": "This unit introduces students to drawing basic shapes in CMU CS Academy. Students learn how to use functions like Circle(), Rect(), and Line() to create geometric shapes. Emphasis is placed on understanding coordinate systems, positioning shapes, and using color and styling options.",
+  "understandings": [
+    "Shapes in CMU CS Academy are created by calling functions like Circle(), Rect(), and Line() with specific parameters.",
+    "The coordinate system in CMU CS Academy has (0,0) at the top-left corner, with X increasing to the right and Y increasing downward.",
+    "Shape functions require parameters such as position (x, y), size, and optional styling like color and fill.",
+    "Shapes can be styled with colors, borders, and fills to create visually appealing graphics.",
+    "Understanding coordinate positioning is essential for placing shapes exactly where you want them on the canvas."
+  ],
+  "essentialQuestions": [
+    "How does the coordinate system in CMU CS Academy differ from the traditional math coordinate system?",
+    "What parameters are required to draw a Circle, and what optional parameters can you use to style it?",
+    "How do you position multiple shapes relative to each other using coordinates?",
+    "What is the difference between fill and border when styling shapes, and how do you control each?",
+    "How can you use shape functions creatively to design more complex graphics and patterns?"
+  ],
+  "vocabulary": [
+    "Circle()",
+    "Rect()",
+    "Line()",
+    "Coordinate System",
+    "X-Axis",
+    "Y-Axis",
+    "Fill",
+    "Border",
+    "Canvas",
+    "Position"
+  ],
+  "vocabDefinitions": {
+    "Circle()": "A function in CMU CS Academy that draws a circle at a specified position with a given radius.",
+    "Rect()": "A function in CMU CS Academy that draws a rectangle at a specified position with given width and height.",
+    "Line()": "A function in CMU CS Academy that draws a line between two points specified by their coordinates.",
+    "Coordinate System": "A system for specifying positions using X and Y values; in CMU CS Academy, (0,0) is at the top-left.",
+    "X-Axis": "The horizontal axis in the coordinate system; values increase from left to right.",
+    "Y-Axis": "The vertical axis in the coordinate system; values increase from top to bottom.",
+    "Fill": "The interior color of a shape; can be set using the fill parameter in shape functions.",
+    "Border": "The outline color of a shape; can be set using the border parameter in shape functions.",
+    "Canvas": "The drawing area in CMU CS Academy where shapes and graphics are displayed.",
+    "Position": "The location of a shape on the canvas, specified by X and Y coordinates."
+  }
+}
+
