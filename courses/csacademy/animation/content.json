@@ -1,0 +1,43 @@
+{
+  "title": "Animating with Groups and Motion in CMU CS Academy",
+  "description": "In this module, students explore how to create and animate complex visual objects in CMU CS Academy using groups, shape objects, app variables, and the onStep() function. Through projects such as animating a custom character or object (like Mickey Mouse), students learn to combine creativity with programming structure to produce dynamic, interactive scenes.",
+  "understandings": [
+    "Groups allow multiple shape objects to be combined and manipulated as a single object.",
+    "App variables are used to store and update data that affects animation, such as position or speed.",
+    "The onStep() function creates continuous animation by repeating code many times per second.",
+    "Conditional statements allow programs to respond to events or boundaries, such as reversing direction when an object hits a screen edge.",
+    "Transformations like rotation, scaling, and position changes can be applied to groups or shapes to create lifelike motion and interaction."
+  ],
+  "essentialQuestions": [
+    "How can grouping shapes together make it easier to manage and animate complex objects?",
+    "What role do app variables play in controlling movement and animation speed?",
+    "How does the onStep() function create the illusion of motion in CMU CS Academy?",
+    "How can conditionals be used to make an animation respond to its environment?",
+    "In what ways can scaling, rotation, and translation bring character and realism to a digital animation?"
+  ],
+  "vocabulary": [
+    "Group",
+    "Shape Object",
+    "App Variable",
+    "onStep Function",
+    "Iteration",
+    "Conditional Statement",
+    "Rotation",
+    "Scaling",
+    "Translation",
+    "Boundary Detection"
+  ],
+  "vocabDefinitions": {
+    "Group": "A CMU CS Academy object that holds multiple shapes and allows them to be moved, rotated, or scaled together as one unit.",
+    "Shape Object": "A visual element like a Circle, Rect, or Polygon that can be drawn, styled, and positioned on the canvas.",
+    "App Variable": "A variable prefixed with 'app.' used to store global data such as speed, position, or state information throughout the program.",
+    "onStep Function": "A special function that runs continuously, creating animation by repeatedly updating properties such as position or rotation.",
+    "Iteration": "The process of repeating actions in a loop, often used for animation or updating object behavior over time.",
+    "Conditional Statement": "A decision-making structure (if, elif, else) that lets a program choose different actions based on logical tests.",
+    "Rotation": "Turning a shape or group around a point, usually its center, by changing its rotateAngle property.",
+    "Scaling": "Changing the size of an object by multiplying its width and height by a scaling factor.",
+    "Translation": "Moving an object by changing its centerX and centerY properties.",
+    "Boundary Detection": "A technique to check whether an object has reached the edge of the screen and take action, such as reversing direction."
+  }
+}
+
