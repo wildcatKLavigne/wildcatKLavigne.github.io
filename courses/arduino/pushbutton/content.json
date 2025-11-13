@@ -1,0 +1,45 @@
+{
+  "title": "Arduino Push Button: Digital Input and Control",
+  "description": "This unit introduces students to reading digital input from push buttons with Arduino. Students will learn how to connect a push button to an Arduino, read its state using digitalRead(), and use that input to control outputs like LEDs. Emphasis is placed on understanding pull-up and pull-down resistors, the difference between input and output pins, and how to use conditional statements to respond to button presses.",
+  "understandings": [
+    "Push buttons are digital input devices that provide HIGH or LOW signals when pressed or released.",
+    "Digital input pins must be configured using pinMode() with INPUT mode to read button states.",
+    "The digitalRead() function reads the state of a digital input pin, returning either HIGH or LOW.",
+    "Pull-up or pull-down resistors are necessary to ensure a button has a defined state when not pressed, preventing floating values.",
+    "Conditional statements (if/else) allow programs to respond differently based on button state.",
+    "Buttons can be used to control outputs, toggle states, or trigger actions in microcontroller programs."
+  ],
+  "essentialQuestions": [
+    "How does a push button work as a digital input device, and what signals does it provide when pressed or released?",
+    "Why must input pins be configured differently than output pins, and how does pinMode() affect pin behavior?",
+    "What is the purpose of pull-up or pull-down resistors in a button circuit, and what happens if they are omitted?",
+    "How does digitalRead() differ from digitalWrite(), and when would you use each function?",
+    "How can you use conditional statements to make your program respond to button presses in different ways?",
+    "What are some practical applications where reading button input and controlling outputs would be useful in a real-world project?"
+  ],
+  "vocabulary": [
+    "Push Button",
+    "Digital Input",
+    "digitalRead()",
+    "Pull-Up Resistor",
+    "Pull-Down Resistor",
+    "Button State",
+    "HIGH",
+    "LOW",
+    "Floating Pin",
+    "Input Pin"
+  ],
+  "vocabDefinitions": {
+    "Push Button": "A simple switch that completes or breaks an electrical circuit when pressed, providing a digital HIGH or LOW signal.",
+    "Digital Input": "A pin configured to read digital signals (HIGH or LOW) from sensors, buttons, or other input devices.",
+    "digitalRead()": "An Arduino function that reads the state of a digital input pin, returning HIGH (1) or LOW (0) based on the voltage level.",
+    "Pull-Up Resistor": "A resistor connected between a pin and VCC (5V) that keeps the pin HIGH when the button is not pressed, preventing floating values.",
+    "Pull-Down Resistor": "A resistor connected between a pin and GND (ground) that keeps the pin LOW when the button is not pressed, preventing floating values.",
+    "Button State": "The current condition of a button, either pressed (HIGH or LOW depending on wiring) or not pressed (opposite state).",
+    "HIGH": "A digital signal representing a voltage near 5V (or 3.3V on 3.3V boards), typically interpreted as 'on' or 'true'.",
+    "LOW": "A digital signal representing a voltage near 0V (ground), typically interpreted as 'off' or 'false'.",
+    "Floating Pin": "An input pin that is not connected to a defined voltage level, which can cause unpredictable readings and should be avoided.",
+    "Input Pin": "A pin on the Arduino configured using pinMode(pin, INPUT) to read signals from sensors, buttons, or other input devices."
+  }
+}
+
