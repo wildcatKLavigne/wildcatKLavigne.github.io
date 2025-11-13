@@ -1,0 +1,43 @@
+{
+  "title": "Interactive Programming: Comments, Conditionals, and Collision Detection",
+  "description": "In this module, students learn to create interactive programs in CMU CS Academy by combining comments, conditional statements, and collision detection. Students explore how to use the onKeyHold() function to respond to keyboard input, how conditional statements enable decision-making in code, and how the hitsShape() method detects when objects collide. Through projects like creating interactive characters that respond to user input and interact with other objects, students develop skills in event-driven programming and game-like interactions.",
+  "understandings": [
+    "Comments are used to explain code and make programs more readable and maintainable.",
+    "Conditional statements (if, elif, else) allow programs to make decisions and execute different code based on conditions.",
+    "The hitsShape() method detects when one shape object collides with another shape object.",
+    "The onKeyHold() function responds to keyboard input and allows for continuous movement while keys are pressed.",
+    "Combining conditionals with collision detection enables interactive behaviors, such as moving objects when they collide.",
+    "App variables can store movement speed and other properties that control interactive behavior."
+  ],
+  "essentialQuestions": [
+    "How do comments help make code more understandable, and what makes a comment effective?",
+    "How do conditional statements enable programs to make decisions and respond differently to different situations?",
+    "What is collision detection, and how does the hitsShape() method work to detect when two objects touch?",
+    "How does the onKeyHold() function differ from other event handlers, and when would you use it for interactive programming?",
+    "How can you combine conditionals and collision detection to create interactive behaviors, such as moving one object when it collides with another?",
+    "In what ways can you use comments to explain complex logic, especially when working with conditionals and collision detection?"
+  ],
+  "vocabulary": [
+    "Comment",
+    "Conditional Statement",
+    "Collision Detection",
+    "hitsShape()",
+    "onKeyHold()",
+    "Event-Driven Programming",
+    "Boolean Expression",
+    "If Statement",
+    "Interactive Programming"
+  ],
+  "vocabDefinitions": {
+    "Comment": "Text in code that is ignored by the computer but helps humans understand what the code does; in Python, comments start with #.",
+    "Conditional Statement": "A programming structure that allows code to execute only when a certain condition is true, using keywords like if, elif, and else.",
+    "Collision Detection": "The process of determining when two objects in a program touch or overlap each other.",
+    "hitsShape()": "A method in CMU CS Academy that returns True when one shape object collides with another shape object, and False otherwise.",
+    "onKeyHold()": "A special function in CMU CS Academy that runs continuously while specific keys are being held down, allowing for smooth, continuous movement.",
+    "Event-Driven Programming": "A programming paradigm where the program responds to events such as keyboard input, mouse clicks, or collisions.",
+    "Boolean Expression": "An expression that evaluates to either True or False, used in conditional statements to make decisions.",
+    "If Statement": "A conditional statement that executes code only when a specified condition is true.",
+    "Interactive Programming": "A style of programming where the program responds to user input in real-time, creating an interactive experience."
+  }
+}
+
