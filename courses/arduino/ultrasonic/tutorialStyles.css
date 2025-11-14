@@ -423,8 +423,8 @@ body {
 }
 
 .wiring-diagram {
-  width: 100%;
-  max-width: 100%;
+  width: 50%;
+  max-width: 50%;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -544,7 +544,8 @@ body {
   }
 
   .wiring-diagram {
-    min-width: 100%;
+    width: 80%;
+    max-width: 80%;
   }
 }
 
