@@ -393,6 +393,45 @@ body {
   color: var(--text-light);
 }
 
+/* Wiring Diagrams */
+.wiring-diagrams {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--border-color);
+}
+
+.wiring-diagrams h3 {
+  color: var(--secondary-color);
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+}
+
+.wiring-diagrams h3:first-child {
+  margin-top: 0;
+}
+
+.diagram-container {
+  background: #ffffff;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+  text-align: center;
+}
+
+.wiring-diagram {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  background: #fafafa;
+  border-radius: 4px;
+}
+
 /* Troubleshooting */
 .troubleshooting-list {
   margin-top: 1.5rem;
@@ -498,6 +537,14 @@ body {
   .code-block pre {
     padding: 1rem;
     font-size: 0.85rem;
+  }
+
+  .diagram-container {
+    padding: 1rem;
+  }
+
+  .wiring-diagram {
+    min-width: 100%;
   }
 }
 
