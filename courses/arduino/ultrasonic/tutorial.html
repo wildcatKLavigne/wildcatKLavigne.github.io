@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arduino Ultrasonic Sensor with LCD Display - Tutorial</title>
+  <link rel="stylesheet" href="tutorialStyles.css">
+</head>
+<body>
+  <header class="tutorial-header">
+    <div class="header-content">
+      <a href="../../index.html" class="back-link">← Back to Courses</a>
+      <h1>Arduino Ultrasonic Distance Sensor Tutorial</h1>
+      <p class="subtitle">Using HC-SR04 with LCD1602 Display</p>
+    </div>
+  </header>
+
+  <main class="tutorial-container">
+    <!-- Introduction Section -->
+    <section class="tutorial-section">
+      <h2>Introduction</h2>
+      <p>In this tutorial, you'll learn how to build a distance measurement system using an Arduino, an HC-SR04 ultrasonic sensor, and an LCD1602 display module. The ultrasonic sensor will measure distances by sending out sound waves and detecting their echo, then display the results on the LCD screen.</p>
+      
+      <div class="info-box">
+        <strong>What You'll Learn:</strong>
+        <ul>
+          <li>How to connect and use the HC-SR04 ultrasonic sensor</li>
+          <li>How to interface with an LCD1602 display module</li>
+          <li>How to use the LiquidCrystal library</li>
+          <li>How to calculate distance from time measurements</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Components Section -->
+    <section class="tutorial-section">
+      <h2>Components Required</h2>
+      <div class="components-grid">
+        <div class="component-card">
+          <div class="component-icon">🔌</div>
+          <h3>Arduino Uno</h3>
+          <p>Microcontroller board</p>
+        </div>
+        <div class="component-card">
+          <div class="component-icon">📡</div>
+          <h3>HC-SR04</h3>
+          <p>Ultrasonic distance sensor</p>
+        </div>
+        <div class="component-card">
+          <div class="component-icon">📺</div>
+          <h3>LCD1602</h3>
+          <p>16x2 character LCD display</p>
+        </div>
+        <div class="component-card">
+          <div class="component-icon">🔧</div>
+          <h3>Breadboard</h3>
+          <p>For circuit connections</p>
+        </div>
+        <div class="component-card">
+          <div class="component-icon">🔗</div>
+          <h3>Jumper Wires</h3>
+          <p>Male-to-male and male-to-female</p>
+        </div>
+        <div class="component-card">
+          <div class="component-icon">⚡</div>
+          <h3>Potentiometer</h3>
+          <p>10kΩ for LCD contrast</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="tutorial-section">
+      <h2>How the HC-SR04 Works</h2>
+      <div class="explanation-box">
+        <p>The HC-SR04 ultrasonic sensor measures distance using sound waves:</p>
+        <ol>
+          <li><strong>Trigger:</strong> Send a 10μs HIGH pulse to the Trig pin</li>
+          <li><strong>Echo:</strong> The sensor sends out 8 ultrasonic pulses (40kHz)</li>
+          <li><strong>Receive:</strong> When the pulses bounce back, the Echo pin goes HIGH</li>
+          <li><strong>Calculate:</strong> Distance = (Echo pulse duration × Speed of sound) / 2</li>
+        </ol>
+        <p class="formula">Distance (cm) = (pulseIn(echoPin, HIGH) × 0.034) / 2</p>
+      </div>
+    </section>
+
+    <!-- Wiring Section -->
+    <section class="tutorial-section">
+      <h2>Circuit Wiring</h2>
+      
+      <div class="wiring-instructions">
+        <h3>HC-SR04 Ultrasonic Sensor Connections</h3>
+        <div class="connection-table">
+          <div class="connection-row">
+            <span class="pin-name">VCC</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">5V (Arduino)</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">GND</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">GND (Arduino)</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">Trig</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">Digital Pin 9</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">Echo</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">Digital Pin 10</span>
+          </div>
+        </div>
+
+        <h3>LCD1602 Display Connections</h3>
+        <div class="connection-table">
+          <div class="connection-row">
+            <span class="pin-name">VSS</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">GND</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">VDD</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">5V</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">V0</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">Potentiometer middle pin (contrast)</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">RS</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">Digital Pin 12</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">E</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">Digital Pin 11</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">D4</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">Digital Pin 5</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">D5</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">Digital Pin 4</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">D6</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">Digital Pin 3</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">D7</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">Digital Pin 2</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">A</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">5V (backlight)</span>
+          </div>
+          <div class="connection-row">
+            <span class="pin-name">K</span>
+            <span class="arrow">→</span>
+            <span class="pin-dest">GND (backlight)</span>
+          </div>
+        </div>
+
+        <div class="note-box">
+          <strong>Note:</strong> The potentiometer is used to adjust the LCD contrast. Connect one outer pin to 5V, the other to GND, and the middle pin to V0 on the LCD.
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Section -->
+    <section class="tutorial-section">
+      <h2>Arduino Code</h2>
+      <p>Copy and paste the following code into your Arduino IDE:</p>
+      
+      <div class="code-block">
+        <div class="code-header">
+          <span>Arduino Sketch</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>#include &lt;LiquidCrystal.h&gt;
+
+// Initialize LCD with pin connections
+// RS, E, D4, D5, D6, D7
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+// Ultrasonic sensor pins
+const int trigPin = 9;
+const int echoPin = 10;
+
+void setup() {
+  // Initialize serial communication
+  Serial.begin(9600);
+  
+  // Set up ultrasonic sensor pins
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  
+  // Initialize LCD display
+  lcd.begin(16, 2);
+  lcd.print("Distance Sensor");
+  delay(2000);
+  lcd.clear();
+}
+
+void loop() {
+  // Clear the trigger pin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  
+  // Send 10 microsecond pulse to trigger
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  // Read the echo pin, returns time in microseconds
+  long duration = pulseIn(echoPin, HIGH);
+  
+  // Calculate distance in centimeters
+  // Speed of sound = 343 m/s = 0.034 cm/μs
+  // Divide by 2 because sound travels to object and back
+  float distance = (duration * 0.034) / 2;
+  
+  // Display on LCD
+  lcd.setCursor(0, 0);
+  lcd.print("Distance: ");
+  lcd.setCursor(0, 1);
+  
+  // Check if distance is within valid range (2-400 cm)
+  if (distance &gt;= 2 && distance &lt;= 400) {
+    lcd.print(distance);
+    lcd.print(" cm     ");
+  } else {
+    lcd.print("Out of range");
+  }
+  
+  // Also print to serial monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  
+  // Wait before next measurement
+  delay(500);
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Code Explanation Section -->
+    <section class="tutorial-section">
+      <h2>Code Explanation</h2>
+      
+      <div class="explanation-item">
+        <h3>Library and Setup</h3>
+        <p>The <code>LiquidCrystal</code> library is included to control the LCD display. The LCD is initialized with the pin numbers for RS, Enable, and data pins D4-D7.</p>
+      </div>
+
+      <div class="explanation-item">
+        <h3>Ultrasonic Sensor Function</h3>
+        <p>The sensor works by:</p>
+        <ul>
+          <li>Sending a 10μs HIGH pulse to the Trig pin to start measurement</li>
+          <li>Using <code>pulseIn()</code> to measure how long the Echo pin stays HIGH</li>
+          <li>Calculating distance using the formula: distance = (duration × 0.034) / 2</li>
+        </ul>
+      </div>
+
+      <div class="explanation-item">
+        <h3>LCD Display</h3>
+        <p>The LCD shows the distance measurement on two lines. The first line displays "Distance: " and the second line shows the actual measurement in centimeters. If the reading is outside the sensor's range (2-400 cm), it displays "Out of range".</p>
+      </div>
+    </section>
+
+    <!-- Step-by-Step Instructions -->
+    <section class="tutorial-section">
+      <h2>Step-by-Step Instructions</h2>
+      
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Prepare Your Components</h3>
+            <p>Gather all the components listed above and place your Arduino and breadboard on a flat surface.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Connect the HC-SR04 Sensor</h3>
+            <p>Connect the ultrasonic sensor to the Arduino following the wiring diagram. Make sure VCC goes to 5V and GND to ground.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Connect the LCD Display</h3>
+            <p>Wire the LCD1602 to the Arduino using the 4-bit mode connections. Connect the potentiometer to adjust contrast.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Upload the Code</h3>
+            <p>Open the Arduino IDE, copy the code above, and upload it to your Arduino board. Make sure you select the correct board and port.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h3>Test the Circuit</h3>
+            <p>After uploading, the LCD should display "Distance Sensor" for 2 seconds, then show distance measurements. Try placing objects at different distances in front of the sensor.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">6</div>
+          <div class="step-content">
+            <h3>Adjust and Experiment</h3>
+            <p>Adjust the potentiometer if the LCD text is not visible. Try modifying the code to display distance in inches or add a minimum/maximum distance alarm.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Troubleshooting Section -->
+    <section class="tutorial-section">
+      <h2>Troubleshooting</h2>
+      
+      <div class="troubleshooting-list">
+        <div class="trouble-item">
+          <h3>LCD shows nothing or garbled text</h3>
+          <ul>
+            <li>Adjust the potentiometer to change contrast</li>
+            <li>Check that all LCD pins are connected correctly</li>
+            <li>Verify the backlight is connected (pins A and K)</li>
+          </ul>
+        </div>
+
+        <div class="trouble-item">
+          <h3>Distance readings are incorrect</h3>
+          <ul>
+            <li>Make sure the sensor is facing the object directly</li>
+            <li>Check that Trig and Echo pins are connected to the correct digital pins</li>
+            <li>Ensure the sensor is powered with 5V (not 3.3V)</li>
+            <li>Keep objects between 2-400 cm from the sensor</li>
+          </ul>
+        </div>
+
+        <div class="trouble-item">
+          <h3>Sensor always reads "Out of range"</h3>
+          <ul>
+            <li>Check wiring connections, especially VCC and GND</li>
+            <li>Verify the sensor is not too close or too far from objects</li>
+            <li>Test with Serial Monitor to see raw values</li>
+          </ul>
+        </div>
+
+        <div class="trouble-item">
+          <h3>Code won't upload</h3>
+          <ul>
+            <li>Select the correct board (Tools → Board → Arduino Uno)</li>
+            <li>Select the correct COM port (Tools → Port)</li>
+            <li>Make sure no other programs are using the serial port</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Additional Resources -->
+    <section class="tutorial-section">
+      <h2>Additional Resources</h2>
+      <div class="resources-box">
+        <ul>
+          <li><strong>HC-SR04 Datasheet:</strong> Search online for the official datasheet to understand the sensor specifications</li>
+          <li><strong>LiquidCrystal Library:</strong> Visit Arduino's reference page for more LCD functions</li>
+          <li><strong>Extensions:</strong> Try adding a buzzer that beeps when objects are too close, or log distance data over time</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="tutorial-footer">
+    <p>Wilmington High School Computer Science - Mr. Lavigne</p>
+  </footer>
+
+  <script>
+    function copyCode(button) {
+      const codeBlock = button.closest('.code-block').querySelector('code');
+      const text = codeBlock.textContent;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        button.textContent = 'Copied!';
+        setTimeout(() => {
+          button.textContent = 'Copy';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
+

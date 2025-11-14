@@ -162,6 +162,44 @@
       topicDiv.appendChild(topicLabel);
       topicDiv.appendChild(select);
       topicsContainer.appendChild(topicDiv);
+      
+      // Add tutorials dropdown for Arduino
+      if (topic === 'arduino') {
+        const tutorialDiv = document.createElement('div');
+        tutorialDiv.className = 'topic-section';
+        
+        const tutorialLabel = document.createElement('label');
+        tutorialLabel.className = 'topic-label';
+        tutorialLabel.textContent = 'Arduino Tutorials';
+        tutorialLabel.setAttribute('for', 'arduino-tutorials');
+        
+        const tutorialSelect = document.createElement('select');
+        tutorialSelect.id = 'arduino-tutorials';
+        tutorialSelect.className = 'topic-select';
+        
+        // Add default option with help text
+        const tutorialDefaultOption = document.createElement('option');
+        tutorialDefaultOption.value = '';
+        tutorialDefaultOption.textContent = 'Select a tutorial';
+        tutorialSelect.appendChild(tutorialDefaultOption);
+        
+        // Add ultrasonic tutorial option
+        const ultrasonicOption = document.createElement('option');
+        ultrasonicOption.value = 'arduino/ultrasonic/tutorial.html';
+        ultrasonicOption.textContent = 'Ultrasonic Sensor with LCD Display';
+        tutorialSelect.appendChild(ultrasonicOption);
+        
+        // Handle tutorial selection change
+        tutorialSelect.addEventListener('change', (e) => {
+          if (e.target.value) {
+            window.location.href = e.target.value;
+          }
+        });
+        
+        tutorialDiv.appendChild(tutorialLabel);
+        tutorialDiv.appendChild(tutorialSelect);
+        topicsContainer.appendChild(tutorialDiv);
+      }
     });
 
     show(landing);
