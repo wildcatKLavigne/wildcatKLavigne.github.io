@@ -136,12 +136,20 @@
 
     // Create dropdown for each topic
     Object.keys(modulesByTopic).sort().forEach(topic => {
+      const topicWrapper = document.createElement('div');
+      topicWrapper.className = 'topic-wrapper';
+
+      const topicTitle = document.createElement('h3');
+      topicTitle.className = 'topic-title';
+      topicTitle.textContent = topic.charAt(0).toUpperCase() + topic.slice(1);
+      topicWrapper.appendChild(topicTitle);
+
       const topicDiv = document.createElement('div');
       topicDiv.className = 'topic-section';
       
       const topicLabel = document.createElement('label');
       topicLabel.className = 'topic-label';
-      topicLabel.textContent = topic.charAt(0).toUpperCase() + topic.slice(1);
+      topicLabel.textContent = 'Reflections';
       topicLabel.setAttribute('for', `topic-${topic}`);
       
       const select = document.createElement('select');
@@ -171,7 +179,7 @@
       
       topicDiv.appendChild(topicLabel);
       topicDiv.appendChild(select);
-      topicsContainer.appendChild(topicDiv);
+      topicWrapper.appendChild(topicDiv);
       
       // Add tutorials dropdown when available
       if (tutorialsByTopic[topic]) {
@@ -180,7 +188,7 @@
         
         const tutorialLabel = document.createElement('label');
         tutorialLabel.className = 'topic-label';
-        tutorialLabel.textContent = `${topic.charAt(0).toUpperCase() + topic.slice(1)} Tutorials`;
+        tutorialLabel.textContent = 'Tutorials';
         tutorialLabel.setAttribute('for', `tutorials-${topic}`);
         
         const tutorialSelect = document.createElement('select');
@@ -207,8 +215,10 @@
         
         tutorialDiv.appendChild(tutorialLabel);
         tutorialDiv.appendChild(tutorialSelect);
-        topicsContainer.appendChild(tutorialDiv);
+        topicWrapper.appendChild(tutorialDiv);
       }
+
+      topicsContainer.appendChild(topicWrapper);
     });
 
     show(landing);

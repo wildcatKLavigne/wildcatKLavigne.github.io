@@ -101,6 +101,19 @@ code {
   gap: 1.25rem;
   margin-top: 1.5rem;
 }
+.topic-wrapper {
+  border: 1px solid #dde6f3;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+.topic-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+  color: #001f4d;
+  font-weight: 700;
+}
 .topic-section {
   display: flex;
   flex-direction: column;
