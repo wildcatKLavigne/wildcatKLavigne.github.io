@@ -124,6 +124,15 @@
       modulesByTopic[topic].sort((a, b) => new Date(b.added) - new Date(a.added));
     });
 
+    const tutorialsByTopic = {
+      arduino: [
+        { value: 'arduino/ultrasonic/tutorial.html', label: 'Ultrasonic Sensor with LCD Display' }
+      ],
+      csacademy: [
+        { value: 'csacademy/mickey/tutorial.html', label: 'Mickey Circles & Groups Starter' }
+      ]
+    };
+
     // Create dropdown for each topic
     Object.keys(modulesByTopic).sort().forEach(topic => {
       const topicDiv = document.createElement('div');
@@ -163,33 +172,32 @@
       topicDiv.appendChild(select);
       topicsContainer.appendChild(topicDiv);
       
-      // Add tutorials dropdown for Arduino
-      if (topic === 'arduino') {
+      // Add tutorials dropdown when available
+      if (tutorialsByTopic[topic]) {
         const tutorialDiv = document.createElement('div');
         tutorialDiv.className = 'topic-section';
         
         const tutorialLabel = document.createElement('label');
         tutorialLabel.className = 'topic-label';
-        tutorialLabel.textContent = 'Arduino Tutorials';
-        tutorialLabel.setAttribute('for', 'arduino-tutorials');
+        tutorialLabel.textContent = `${topic.charAt(0).toUpperCase() + topic.slice(1)} Tutorials`;
+        tutorialLabel.setAttribute('for', `tutorials-${topic}`);
         
         const tutorialSelect = document.createElement('select');
-        tutorialSelect.id = 'arduino-tutorials';
+        tutorialSelect.id = `tutorials-${topic}`;
         tutorialSelect.className = 'topic-select';
         
-        // Add default option with help text
         const tutorialDefaultOption = document.createElement('option');
         tutorialDefaultOption.value = '';
         tutorialDefaultOption.textContent = 'Select a tutorial';
         tutorialSelect.appendChild(tutorialDefaultOption);
         
-        // Add ultrasonic tutorial option
-        const ultrasonicOption = document.createElement('option');
-        ultrasonicOption.value = 'arduino/ultrasonic/tutorial.html';
-        ultrasonicOption.textContent = 'Ultrasonic Sensor with LCD Display';
-        tutorialSelect.appendChild(ultrasonicOption);
+        tutorialsByTopic[topic].forEach(tutorial => {
+          const option = document.createElement('option');
+          option.value = tutorial.value;
+          option.textContent = tutorial.label;
+          tutorialSelect.appendChild(option);
+        });
         
-        // Handle tutorial selection change
         tutorialSelect.addEventListener('change', (e) => {
           if (e.target.value) {
             window.location.href = e.target.value;

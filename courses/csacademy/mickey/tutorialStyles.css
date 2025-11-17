@@ -1,0 +1,130 @@
+:root {
+  --bg: #f4f6fb;
+  --card-bg: #ffffff;
+  --primary: #1c3faa;
+  --accent: #ff9c41;
+  --text: #1f2533;
+  --muted: #5f6785;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.hero {
+  background: linear-gradient(120deg, #1c3faa, #5b7cfa);
+  color: #fff;
+  padding: 2.5rem 1.5rem;
+}
+
+.hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-block;
+  color: #cfd8ff;
+  text-decoration: none;
+  margin-bottom: 1rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 2.4rem;
+}
+
+.hero .tagline {
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  color: #e5e9ff;
+}
+
+.tutorial {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.card {
+  background: var(--card-bg);
+  padding: 1.75rem;
+  border-radius: 14px;
+  box-shadow: 0 15px 30px rgba(28, 63, 170, 0.08);
+  margin-bottom: 1.75rem;
+}
+
+.card h2 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+.code-sample {
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 0.95rem;
+  overflow-x: auto;
+}
+
+.code-sample .accent {
+  color: var(--accent);
+}
+
+ul.two-col {
+  columns: 2;
+  column-gap: 1.5rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+ul.two-col li {
+  margin-bottom: 0.3rem;
+}
+
+.tip {
+  background: #fff3cd;
+  border-left: 4px solid #ffca28;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  color: #5f4a09;
+}
+
+.checklist ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.checklist li {
+  margin-bottom: 0.5rem;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 1.5rem;
+  background: #0f172a;
+  color: #cbd5f5;
+}
+
+@media (max-width: 640px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  ul.two-col {
+    columns: 1;
+  }
+}

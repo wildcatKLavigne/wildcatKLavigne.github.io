@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS Academy Mickey Starter Tutorial</title>
+  <link rel="stylesheet" href="tutorialStyles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <a class="back-link" href="../../index.html?module=csacademy/mickey">← Back to CS Academy Modules</a>
+      <h1>Mickey Starter: Circles → Groups</h1>
+      <p class="tagline">Draw circles, style them, group them, then move the whole character.</p>
+    </div>
+  </header>
+
+  <main class="tutorial">
+    <section class="card">
+      <h2>1. Required Circle Arguments</h2>
+      <p>Every Circle in CMU CS Academy needs three positional arguments in this order:</p>
+      <div class="code-sample">
+        <pre><code>head = Circle(<span class="accent">centerX</span>, <span class="accent">centerY</span>, <span class="accent">radius</span>)</code></pre>
+      </div>
+      <ul>
+        <li><strong>centerX</strong>: horizontal position (0 left → 400 right)</li>
+        <li><strong>centerY</strong>: vertical position (0 top → 400 bottom)</li>
+        <li><strong>radius</strong>: distance from center to edge in pixels</li>
+      </ul>
+      <p>Example:</p>
+      <div class="code-sample">
+        <pre><code>head = Circle(200, 240, 120)</code></pre>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. Optional Style Arguments</h2>
+      <p>Add keyword arguments after the required ones to customize colors and outlines:</p>
+      <ul class="two-col">
+        <li><code>fill="color"</code></li>
+        <li><code>border="color"</code></li>
+        <li><code>borderWidth=4</code></li>
+        <li><code>opacity=80</code></li>
+      </ul>
+      <div class="code-sample">
+        <pre><code>leftEar = Circle(105, 120, 70, fill="black")
+rightEar = Circle(295, 120, 70, fill="black", border="gray", borderWidth=2)</code></pre>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. Place Head + Ears</h2>
+      <p>Create three circles to match the classic silhouette:</p>
+      <ol>
+        <li>Head centered lower on the canvas</li>
+        <li>Left ear shifted up-left</li>
+        <li>Right ear mirrored up-right</li>
+      </ol>
+      <div class="code-sample">
+        <pre><code>head = Circle(200, 240, 120, fill="black")
+leftEar = Circle(105, 120, 70, fill="black")
+rightEar = Circle(295, 120, 70, fill="black")</code></pre>
+      </div>
+      <p class="tip">Sketching on paper first helps you estimate good center points.</p>
+    </section>
+
+    <section class="card">
+      <h2>4. Build a Group</h2>
+      <p>Groups let you move multiple shapes together.</p>
+      <div class="code-sample">
+        <pre><code>mickey = Group(leftEar, rightEar, head)</code></pre>
+      </div>
+      <p>You can also start empty and <code>add()</code> shapes one at a time.</p>
+      <div class="code-sample">
+        <pre><code>mickey = Group()
+mickey.add(leftEar)
+mickey.add(rightEar)
+mickey.add(head)</code></pre>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. Change Group Properties</h2>
+      <p>Use dot notation to transform the entire character:</p>
+      <div class="code-sample">
+        <pre><code>mickey.centerX = 200
+mickey.centerY = 200
+mickey.width *= 0.8
+mickey.height *= 0.8
+mickey.rotateAngle = -5</code></pre>
+      </div>
+      <p>Later you can animate these properties inside <code>onStep</code> or <code>onKeyHold</code>.</p>
+    </section>
+
+    <section class="card checklist">
+      <h2>Checklist</h2>
+      <ul>
+        <li>✅ Three circles drawn with correct coordinates</li>
+        <li>✅ Optional styling applied</li>
+        <li>✅ Group created and populated</li>
+        <li>✅ Group moved/scaled/rotated with dot notation</li>
+      </ul>
+      <p>Next lesson: add facial features, colors, and make Mickey move!</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Wilmington CS • CS Academy Mickey Tutorial</p>
+  </footer>
+</body>
+</html>
