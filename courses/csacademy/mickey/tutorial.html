@@ -7,105 +7,123 @@
   <link rel="stylesheet" href="tutorialStyles.css" />
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-content">
-      <a class="back-link" href="../../index.html?module=csacademy/mickey">← Back to CS Academy Modules</a>
-      <h1>Mickey Starter: Circles → Groups</h1>
-      <p class="tagline">Draw circles, style them, group them, then move the whole character.</p>
+  <header class="tutorial-header">
+    <div class="header-content">
+      <a class="back-link" href="../../index.html?module=csacademy/mickey">← Back to Courses</a>
+      <h1>CS Academy Mickey Starter</h1>
+      <p class="subtitle">Circles ➜ Group ➜ Dot notation</p>
     </div>
   </header>
 
-  <main class="tutorial">
-    <section class="card">
-      <h2>1. Required Circle Arguments</h2>
-      <p>Every Circle in CMU CS Academy needs three positional arguments in this order:</p>
-      <div class="code-sample">
-        <pre><code>head = Circle(<span class="accent">centerX</span>, <span class="accent">centerY</span>, <span class="accent">radius</span>)</code></pre>
+  <main class="tutorial-container">
+    <section class="tutorial-section">
+      <h2>Introduction</h2>
+      <p>This tutorial helps you build the classic Mickey silhouette in CMU CS Academy by combining three circles into a single <code>Group</code>. You will learn the required arguments for <code>Circle</code>, how to add optional styling, position shapes precisely, and then transform the entire character with dot notation.</p>
+      <div class="info-box">
+        <strong>What you'll practice:</strong>
+        <ul>
+          <li>Using <code>Circle(centerX, centerY, radius)</code></li>
+          <li>Applying optional keyword arguments like <code>fill</code> and <code>borderWidth</code></li>
+          <li>Creating and populating <code>Group</code> objects</li>
+          <li>Changing <code>Group</code> properties (position, size, rotation)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>Circle Essentials</h2>
+      <p>Every circle starts with three required arguments:</p>
+      <div class="code-block">
+        <pre><code>head = Circle(centerX, centerY, radius)</code></pre>
       </div>
       <ul>
-        <li><strong>centerX</strong>: horizontal position (0 left → 400 right)</li>
-        <li><strong>centerY</strong>: vertical position (0 top → 400 bottom)</li>
-        <li><strong>radius</strong>: distance from center to edge in pixels</li>
+        <li><strong>centerX</strong> – horizontal position (0 on the left, 400 on the right)</li>
+        <li><strong>centerY</strong> – vertical position (0 at the top, 400 at the bottom)</li>
+        <li><strong>radius</strong> – size in pixels, measured from center to edge</li>
       </ul>
-      <p>Example:</p>
-      <div class="code-sample">
+      <p>Example head circle:</p>
+      <div class="code-block">
         <pre><code>head = Circle(200, 240, 120)</code></pre>
       </div>
     </section>
 
-    <section class="card">
-      <h2>2. Optional Style Arguments</h2>
-      <p>Add keyword arguments after the required ones to customize colors and outlines:</p>
-      <ul class="two-col">
-        <li><code>fill="color"</code></li>
-        <li><code>border="color"</code></li>
-        <li><code>borderWidth=4</code></li>
-        <li><code>opacity=80</code></li>
-      </ul>
-      <div class="code-sample">
+    <section class="tutorial-section">
+      <h2>Optional Style Arguments</h2>
+      <p>After the required arguments, you can add keyword arguments to change colors and outlines.</p>
+      <div class="two-column-list">
+        <div><code>fill="black"</code></div>
+        <div><code>border="gray"</code></div>
+        <div><code>borderWidth=3</code></div>
+        <div><code>opacity=80</code></div>
+      </div>
+      <div class="code-block">
         <pre><code>leftEar = Circle(105, 120, 70, fill="black")
 rightEar = Circle(295, 120, 70, fill="black", border="gray", borderWidth=2)</code></pre>
       </div>
+      <p class="note">Keyword arguments always come after the positional ones.</p>
     </section>
 
-    <section class="card">
-      <h2>3. Place Head + Ears</h2>
-      <p>Create three circles to match the classic silhouette:</p>
-      <ol>
-        <li>Head centered lower on the canvas</li>
-        <li>Left ear shifted up-left</li>
-        <li>Right ear mirrored up-right</li>
+    <section class="tutorial-section">
+      <h2>Build the Silhouette</h2>
+      <p>Create the head and two ears to match the Mickey outline.</p>
+      <ol class="step-list">
+        <li>Place the head toward the lower center.</li>
+        <li>Place the left ear above and to the left of the head.</li>
+        <li>Mirror that position for the right ear.</li>
       </ol>
-      <div class="code-sample">
+      <div class="code-block">
         <pre><code>head = Circle(200, 240, 120, fill="black")
 leftEar = Circle(105, 120, 70, fill="black")
 rightEar = Circle(295, 120, 70, fill="black")</code></pre>
       </div>
-      <p class="tip">Sketching on paper first helps you estimate good center points.</p>
+      <div class="tip-box">
+        <strong>Tip:</strong> Sketch coordinates on graph paper or use the CS Academy grid overlay to estimate positions quickly.
+      </div>
     </section>
 
-    <section class="card">
-      <h2>4. Build a Group</h2>
-      <p>Groups let you move multiple shapes together.</p>
-      <div class="code-sample">
+    <section class="tutorial-section">
+      <h2>Create a Group</h2>
+      <p>Groups let you move or resize multiple shapes together.</p>
+      <div class="code-block">
         <pre><code>mickey = Group(leftEar, rightEar, head)</code></pre>
       </div>
-      <p>You can also start empty and <code>add()</code> shapes one at a time.</p>
-      <div class="code-sample">
+      <p>Or add shapes one at a time:</p>
+      <div class="code-block">
         <pre><code>mickey = Group()
 mickey.add(leftEar)
 mickey.add(rightEar)
 mickey.add(head)</code></pre>
       </div>
+      <p>Grouping ensures the ears follow the head when you transform the group later.</p>
     </section>
 
-    <section class="card">
-      <h2>5. Change Group Properties</h2>
-      <p>Use dot notation to transform the entire character:</p>
-      <div class="code-sample">
+    <section class="tutorial-section">
+      <h2>Transform with Dot Notation</h2>
+      <p>Every <code>Group</code> exposes properties such as <code>centerX</code>, <code>width</code>, and <code>rotateAngle</code>. Changing them affects all shapes inside.</p>
+      <div class="code-block">
         <pre><code>mickey.centerX = 200
 mickey.centerY = 200
-mickey.width *= 0.8
-mickey.height *= 0.8
+mickey.width *= 0.85
+mickey.height *= 0.85
 mickey.rotateAngle = -5</code></pre>
       </div>
-      <p>Later you can animate these properties inside <code>onStep</code> or <code>onKeyHold</code>.</p>
+      <p>Later you can animate these values in <code>onStep</code> or respond to keyboard input in <code>onKeyHold</code>.</p>
     </section>
 
-    <section class="card checklist">
+    <section class="tutorial-section checklist">
       <h2>Checklist</h2>
       <ul>
-        <li>✅ Three circles drawn with correct coordinates</li>
-        <li>✅ Optional styling applied</li>
-        <li>✅ Group created and populated</li>
+        <li>✅ Head + ears drawn using required circle arguments</li>
+        <li>✅ Optional styling applied to at least one circle</li>
+        <li>✅ All shapes added to a <code>Group</code></li>
         <li>✅ Group moved/scaled/rotated with dot notation</li>
       </ul>
-      <p>Next lesson: add facial features, colors, and make Mickey move!</p>
+      <p>Next up: add facial features, colors, and make Mickey interactive in the <strong>CS Academy Interactive</strong> module.</p>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>Wilmington CS • CS Academy Mickey Tutorial</p>
+  <footer class="tutorial-footer">
+    <p>Wilmington High School Computer Science • CS Academy</p>
   </footer>
 </body>
 </html>
