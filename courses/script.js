@@ -129,7 +129,8 @@
         { value: 'arduino/ultrasonic/tutorial.html', label: 'Ultrasonic Sensor with LCD Display' }
       ],
       csacademy: [
-        { value: 'csacademy/mickey/tutorial.html', label: 'Mickey Circles & Groups Starter' }
+        { value: 'csacademy/mickey/tutorial.html', label: 'Mickey Circles & Groups Starter' },
+        { value: 'csacademy/animation/tutorial.html', label: 'Mickey onStep Animation' }
       ]
     };
 

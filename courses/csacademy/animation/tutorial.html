@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS Academy Animation Tutorial</title>
+  <link rel="stylesheet" href="tutorialStyles.css" />
+</head>
+<body>
+  <header class="tutorial-header">
+    <div class="header-content">
+      <a class="back-link" href="../../index.html?module=csacademy/animation">← Back to Courses</a>
+      <h1>Animate Mickey with onStep</h1>
+      <p class="subtitle">Use app variables, onStep, and collision checks to keep Mickey moving.</p>
+    </div>
+  </header>
+
+  <main class="tutorial-container">
+    <section class="tutorial-section">
+      <h2>Introduction</h2>
+      <p>The <code>onStep()</code> function is built into the CS Academy canvas. Think of it as a clock that ticks 60 times per second. Every tick, the code inside <code>onStep()</code> runs again. In this tutorial you will:</p>
+      <div class="info-box">
+        <ul>
+          <li>Review how <code>onStep()</code> controls frame-by-frame animation</li>
+          <li>Create global <code>app</code> variables for horizontal/vertical speed</li>
+          <li>Move the Mickey <code>Group</code> each frame</li>
+          <li>Use conditional statements to bounce off the canvas edges</li>
+          <li>Experiment with different speeds and boundary rules</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>1. Understand onStep()</h2>
+      <p>Add the handler once—CS Academy calls it repeatedly:</p>
+      <div class="code-block">
+        <pre><code>def onStep():
+    # this code runs ~60 times per second
+    pass</code></pre>
+      </div>
+      <p>Whatever you place inside will happen every frame. Use it to update positions, check collisions, or animate colors.</p>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>2. Prepare the Mickey Group</h2>
+      <p>Reuse the grouped Mickey from the circles tutorial (or create a simplified version). The key idea is that all parts live inside one <code>Group</code> so we can move them together.</p>
+      <div class="code-block">
+        <pre><code>head = Circle(200, 240, 120, fill="black")
+leftEar = Circle(105, 120, 70, fill="black")
+rightEar = Circle(295, 120, 70, fill="black")
+
+mickey = Group(leftEar, rightEar, head)
+</code></pre>
+      </div>
+      <p>Set an initial position if needed:</p>
+      <div class="code-block">
+        <pre><code>mickey.centerX = 200
+mickey.centerY = 200</code></pre>
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>3. Create Global Speed Variables</h2>
+      <p>The <code>app</code> object stores global data that persists between frames. Add horizontal and vertical speed values:</p>
+      <div class="code-block">
+        <pre><code>app.xSpeed = 3
+app.ySpeed = 2</code></pre>
+      </div>
+      <p>Because they live on <code>app</code>, you can read or change them inside any function—perfect for animation.</p>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>4. Move Mickey in onStep()</h2>
+      <p>Use the speed variables to update Mickey’s position each frame:</p>
+      <div class="code-block">
+        <pre><code>def onStep():
+    mickey.centerX += app.xSpeed
+    mickey.centerY += app.ySpeed</code></pre>
+      </div>
+      <p>If you run this now, Mickey moves diagonally forever because nothing changes the speeds.</p>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>5. Add Boundary Detection</h2>
+      <p>Use conditional statements to reverse the direction when the group touches the canvas edges.</p>
+      <div class="code-block">
+        <pre><code>def onStep():
+    mickey.centerX += app.xSpeed
+    mickey.centerY += app.ySpeed
+
+    # Horizontal bounds
+    if (mickey.centerX <= 0) or (mickey.centerX >= 400):
+        app.xSpeed *= -1
+
+    # Vertical bounds
+    if (mickey.centerY <= 0) or (mickey.centerY >= 400):
+        app.ySpeed *= -1</code></pre>
+      </div>
+      <p>We compare to <code>0</code> and <code>400</code> because CSAcademy canvases default to 400×400 pixels. Use <code>&lt;=</code> and <code>&gt;=</code> so the bounce triggers even if the group overshoots by a tiny amount.</p>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>6. Experiment!</h2>
+      <ul class="step-list">
+        <li>Double <code>app.xSpeed</code> or <code>app.ySpeed</code> and note how the motion feels.</li>
+        <li>Change the boundary values (e.g., <code><= 40</code>) to create an invisible safety zone.</li>
+        <li>Add color changes inside the edge checks to flash when Mickey bounces.</li>
+        <li>Track how many times Mickey hits a wall using another <code>app</code> variable.</li>
+      </ul>
+      <div class="tip-box">
+        <strong>Tip:</strong> Print out <code>app.xSpeed</code> and <code>app.ySpeed</code> inside <code>onStep()</code> while testing so you can see when they flip direction.</div>
+    </section>
+
+    <section class="tutorial-section checklist">
+      <h2>Checklist</h2>
+      <ul>
+        <li>✅ Mickey grouped and positioned on the canvas</li>
+        <li>✅ Global <code>app.xSpeed</code> and <code>app.ySpeed</code> declared</li>
+        <li>✅ <code>onStep()</code> moves the group each frame</li>
+        <li>✅ Conditionals reverse direction at boundaries</li>
+        <li>✅ Experiments tried (speed tweaks, custom boundaries, counters, etc.)</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="tutorial-footer">
+    <p>Wilmington High School Computer Science • CS Academy</p>
+  </footer>
+</body>
+</html>
