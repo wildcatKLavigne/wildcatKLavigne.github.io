@@ -119,6 +119,9 @@ code {
   flex-direction: column;
   gap: 0.5rem;
 }
+.topic-wrapper .topic-section + .topic-section {
+  margin-top: 1rem;
+}
 .topic-label {
   font-weight: 600;
   font-size: 1.1rem;

@@ -145,6 +145,28 @@ body {
   color: #cbd5f5;
 }
 
+.tutorial-action {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.cta-button {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  text-decoration: none;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.24);
+}
+
 @media (max-width: 640px) {
   .tutorial-section {
     padding: 1.5rem;

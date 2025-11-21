@@ -1,0 +1,48 @@
+{
+  "title": "Bouncing Ball with Physics and Keyboard Input",
+  "description": "Students create an interactive bouncing ball simulation that demonstrates physics concepts like gravity and momentum. They learn to use app variables to track speed and state, implement continuous animation with onStep(), handle keyboard input with onKeyPress(), add sound effects, and detect collisions with boundaries. This tutorial combines multiple programming concepts to create a realistic, interactive animation.",
+  "understandings": [
+    "App variables store global data that persists across function calls and can be modified by any function.",
+    "The onStep() function creates continuous animation by running code repeatedly, allowing for frame-by-frame updates.",
+    "Physics can be simulated by incrementally changing speed values (acceleration) and applying those speeds to position updates.",
+    "Keyboard input handlers like onKeyPress() allow programs to respond to user actions in real-time.",
+    "Collision detection uses conditional statements to check object positions and trigger appropriate responses.",
+    "Sound effects enhance user experience and provide feedback for important events like collisions.",
+    "Boolean flags (like app.kicked) control program flow and determine when certain behaviors should occur."
+  ],
+  "essentialQuestions": [
+    "How do app variables differ from regular variables, and why are they useful for animation?",
+    "What role does the onStep() function play in creating smooth, continuous animation?",
+    "How can you simulate gravity and other physics effects using simple mathematical operations?",
+    "How does onKeyPress() enable user interaction, and how does it differ from onKeyHold()?",
+    "What strategies can you use to detect when objects collide with boundaries or other shapes?",
+    "How do boolean flags help control complex program behavior and state management?"
+  ],
+  "vocabulary": [
+    "App Variable",
+    "onStep()",
+    "onKeyPress()",
+    "Gravity",
+    "Acceleration",
+    "Velocity",
+    "Collision Detection",
+    "Boundary Detection",
+    "Boolean Flag",
+    "Sound Effect",
+    "Physics Simulation"
+  ],
+  "vocabDefinitions": {
+    "App Variable": "A variable stored on the global app object (e.g., app.ballySpeed) that persists across function calls and can be accessed from anywhere in the program.",
+    "onStep()": "A special function in CMU CS Academy that runs continuously (about 60 times per second), creating animation by repeatedly updating object properties.",
+    "onKeyPress()": "An event handler function that runs once when a specific key is pressed, allowing programs to respond to keyboard input.",
+    "Gravity": "A force that pulls objects downward, simulated in code by constantly increasing downward speed (acceleration).",
+    "Acceleration": "The rate at which velocity changes over time. In this tutorial, gravity adds 0.25 to vertical speed each frame.",
+    "Velocity": "The speed and direction of an object's movement, represented by variables like app.ballySpeed and app.ballxSpeed.",
+    "Collision Detection": "The process of checking whether objects have touched or crossed boundaries, typically using conditional statements to compare positions.",
+    "Boundary Detection": "A specific type of collision detection that checks if an object has reached the edges of the canvas or a defined area.",
+    "Boolean Flag": "A variable (usually True/False) used to track program state and control when certain behaviors should occur.",
+    "Sound Effect": "An audio file played at specific moments (like collisions) to provide user feedback and enhance interactivity.",
+    "Physics Simulation": "Using mathematical calculations to mimic real-world physical behaviors like gravity, momentum, and collisions in a program."
+  }
+}
+

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS Academy Bouncing Ball Tutorial</title>
+  <link rel="stylesheet" href="tutorialStyles.css" />
+</head>
+<body>
+  <header class="tutorial-header">
+    <div class="header-content">
+      <a class="back-link" href="../../index.html">← Back to Courses</a>
+      <h1>Bouncing Ball with Physics</h1>
+      <p class="subtitle">Use gravity, keyboard input, and sound effects to create a realistic bouncing ball.</p>
+    </div>
+  </header>
+
+  <main class="tutorial-container">
+    <section class="tutorial-section">
+      <h2>Introduction</h2>
+      <p>In this tutorial, you'll create a bouncing ball that responds to physics, keyboard input, and plays sound effects. You'll learn how to simulate gravity, handle user input with <code>onKeyPress()</code>, and create interactive animations that feel realistic.</p>
+      <div class="info-box">
+        <strong>What you'll practice:</strong>
+        <ul>
+          <li>Creating and positioning shapes with <code>Circle()</code></li>
+          <li>Using <code>app</code> variables to track speed and state</li>
+          <li>Implementing gravity and physics in <code>onStep()</code></li>
+          <li>Handling keyboard input with <code>onKeyPress()</code></li>
+          <li>Adding sound effects to enhance interactivity</li>
+          <li>Detecting collisions and boundaries</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>1. Initialize Variables and Create the Ball</h2>
+      <p>Start by setting up your speed variables and creating the ball shape. The <code>app</code> object stores global data that persists across function calls.</p>
+      <div class="code-block">
+        <pre><code>app.ballySpeed = 0
+app.ballxSpeed = 0
+
+ball = Circle(50, 200, 30, fill="red")</code></pre>
+      </div>
+      <p><strong>Explanation:</strong></p>
+      <ul class="step-list">
+        <li><code>app.ballySpeed</code> tracks vertical (Y-axis) movement speed</li>
+        <li><code>app.ballxSpeed</code> tracks horizontal (X-axis) movement speed</li>
+        <li><code>app.kicked</code> will be a boolean flag to track if the ball is in motion</li>
+        <li>The ball starts at position (50, 200) with radius 30 and red fill</li>
+      </ul>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>2. Add Sound Effects</h2>
+      <p>Sound effects make your animation more engaging. Load a sound file using the CMU sound URL format.</p>
+      <div class="code-block">
+        <pre><code>bounce = Sound("cmu://896525/43174323/bounce-8111.mp3")</code></pre>
+      </div>
+      <p>You can also use local sound files or other CMU sound library URLs. The sound will play when the ball bounces off the ground.</p>
+      <div class="tip-box">
+        <strong>Tip:</strong> Test your sound early to make sure it loads correctly. If a sound URL doesn't work, try a different one from the CMU library.
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>3. Initialize the Kicked Flag</h2>
+      <p>Add a boolean variable to track whether the ball has been kicked and is currently in motion.</p>
+      <div class="code-block">
+        <pre><code>app.kicked = False</code></pre>
+      </div>
+      <p>This flag prevents the ball from moving until the user presses the spacebar. It also allows you to stop the animation when the ball reaches a certain boundary.</p>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>4. Create the Animation Loop with onStep()</h2>
+      <p>The <code>onStep()</code> function runs continuously (about 60 times per second) and updates the ball's position based on physics. Only animate when the ball has been kicked.</p>
+      <div class="code-block">
+        <pre><code>def onStep():
+    if app.kicked:
+        app.ballySpeed += 0.25
+        ball.centerY += app.ballySpeed
+        ball.centerX += app.ballxSpeed</code></pre>
+      </div>
+      <p><strong>How it works:</strong></p>
+      <ul class="step-list">
+        <li><code>app.ballySpeed += 0.25</code> simulates gravity by constantly increasing downward speed</li>
+        <li><code>ball.centerY += app.ballySpeed</code> moves the ball vertically based on current speed</li>
+        <li><code>ball.centerX += app.ballxSpeed</code> moves the ball horizontally (constant speed, no gravity)</li>
+      </ul>
+      <div class="tip-box">
+        <strong>Physics Note:</strong> The value 0.25 is the acceleration due to gravity. Increase it for stronger gravity, decrease it for weaker gravity.
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>5. Add Ground Collision Detection</h2>
+      <p>Detect when the ball hits the ground (Y position > 300) and make it bounce. When bouncing, reverse the vertical speed and reduce it slightly to simulate energy loss.</p>
+      <div class="code-block">
+        <pre><code>def onStep():
+    if app.kicked:
+        app.ballySpeed += 0.25
+        ball.centerY += app.ballySpeed
+        ball.centerX += app.ballxSpeed
+        
+        if ball.centerY > 300:
+            bounce.play()
+            ball.centerY = 299
+            app.ballySpeed *= -0.75</code></pre>
+      </div>
+      <p><strong>Breaking it down:</strong></p>
+      <ul class="step-list">
+        <li><code>if ball.centerY > 300:</code> checks if ball has passed the ground level</li>
+        <li><code>bounce.play()</code> plays the sound effect</li>
+        <li><code>ball.centerY = 299</code> moves the ball back above the ground to prevent it from sinking</li>
+        <li><code>app.ballySpeed *= -0.75</code> reverses direction (negative) and reduces speed by 25% (energy loss)</li>
+      </ul>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>6. Add Boundary Detection to Stop Animation</h2>
+      <p>Stop the animation when the ball reaches a certain horizontal position. This prevents the ball from moving forever.</p>
+      <div class="code-block">
+        <pre><code>def onStep():
+    if app.kicked:
+        app.ballySpeed += 0.25
+        ball.centerY += app.ballySpeed
+        ball.centerX += app.ballxSpeed
+        
+        if ball.centerY > 300:
+            bounce.play()
+            ball.centerY = 299
+            app.ballySpeed *= -0.75
+        
+        if ball.centerX > 385:
+            app.kicked = False</code></pre>
+      </div>
+      <p>When the ball's X position exceeds 385 (near the right edge of a 400px canvas), set <code>app.kicked = False</code> to stop the animation loop.</p>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>7. Handle Keyboard Input</h2>
+      <p>Use <code>onKeyPress()</code> to detect when the user presses the spacebar. When pressed, give the ball an initial upward and forward velocity.</p>
+      <div class="code-block">
+        <pre><code>def onKeyPress(key):
+    if key == 'space':
+        app.ballySpeed = -5
+        app.ballxSpeed = 3
+        app.kicked = True</code></pre>
+      </div>
+      <p><strong>What happens:</strong></p>
+      <ul class="step-list">
+        <li><code>app.ballySpeed = -5</code> gives the ball an upward velocity (negative Y means up)</li>
+        <li><code>app.ballxSpeed = 3</code> gives the ball a forward velocity (positive X means right)</li>
+        <li><code>app.kicked = True</code> activates the animation loop in <code>onStep()</code></li>
+      </ul>
+      <div class="tip-box">
+        <strong>Experiment:</strong> Try different values for the initial speeds. What happens if you make <code>app.ballySpeed = -10</code> or <code>app.ballxSpeed = 5</code>?
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>8. Complete Code</h2>
+      <p>Here's the complete program with all pieces together:</p>
+      <div class="code-block">
+        <pre><code>app.ballySpeed = 0
+app.ballxSpeed = 0
+
+ball = Circle(50, 200, 30, fill="red")
+
+bounce = Sound("cmu://896525/43174323/bounce-8111.mp3")
+
+app.kicked = False
+
+def onStep():
+    if app.kicked:
+        app.ballySpeed += 0.25
+        ball.centerY += app.ballySpeed
+        ball.centerX += app.ballxSpeed
+        
+        if ball.centerY > 300:
+            bounce.play()
+            ball.centerY = 299
+            app.ballySpeed *= -0.75
+        
+        if ball.centerX > 385:
+            app.kicked = False
+
+def onKeyPress(key):
+    if key == 'space':
+        app.ballySpeed = -5
+        app.ballxSpeed = 3
+        app.kicked = True</code></pre>
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>9. Experiment and Extend</h2>
+      <p>Try these challenges to make your bouncing ball even better:</p>
+      <ul class="step-list">
+        <li><strong>Add left/right boundaries:</strong> Make the ball bounce off the sides of the canvas</li>
+        <li><strong>Change bounce physics:</strong> Adjust the <code>-0.75</code> multiplier to make bounces more or less energetic</li>
+        <li><strong>Add multiple balls:</strong> Create an array of balls that all bounce independently</li>
+        <li><strong>Change colors:</strong> Make the ball change color each time it bounces</li>
+        <li><strong>Add a goal:</strong> Create a target area and detect when the ball reaches it</li>
+        <li><strong>Reset functionality:</strong> Press 'r' to reset the ball to its starting position</li>
+        <li><strong>Variable kick strength:</strong> Hold spacebar longer to kick harder, or use number keys for different power levels</li>
+      </ul>
+    </section>
+
+    <section class="tutorial-section checklist">
+      <h2>Checklist</h2>
+      <ul>
+        <li>✅ Ball created and positioned on canvas</li>
+        <li>✅ Speed variables initialized on <code>app</code> object</li>
+        <li>✅ <code>app.kicked</code> flag created to control animation</li>
+        <li>✅ Sound effect loaded and ready to play</li>
+        <li>✅ <code>onStep()</code> function updates ball position with gravity</li>
+        <li>✅ Ground collision detected and ball bounces with sound</li>
+        <li>✅ Boundary detection stops animation at right edge</li>
+        <li>✅ <code>onKeyPress()</code> handles spacebar to kick the ball</li>
+        <li>✅ Ball animates smoothly with realistic physics</li>
+      </ul>
+    </section>
+
+    <div class="tutorial-action">
+      <a class="cta-button" href="../../index.html?module=csacademy/bouncing-ball">Go to Reflection</a>
+    </div>
+  </main>
+
+  <footer class="tutorial-footer">
+    <p>Wilmington High School Computer Science • CS Academy</p>
+  </footer>
+</body>
+</html>
+
