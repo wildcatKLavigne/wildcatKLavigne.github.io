@@ -6,6 +6,8 @@
   { "id": "csacademy/shapes", "path": "csacademy/shapes/content.json", "topic": "csacademy", "added": "2024-01-18T11:15:00Z" },
   { "id": "csacademy/animation", "path": "csacademy/animation/content.json", "topic": "csacademy", "added": "2024-01-25T10:00:00Z" },
   { "id": "csacademy/interactive", "path": "csacademy/interactive/content.json", "topic": "csacademy", "added": "2024-11-13T13:49:00Z" },
+  { "id": "csacademy/bouncing-ball", "path": "csacademy/bouncing-ball/content.json", "topic": "csacademy", "added": "2024-11-21T09:38:00Z" },
+  { "id": "csacademy/chasing", "path": "csacademy/chasing/content.json", "topic": "csacademy", "added": "2024-11-21T09:42:00Z" },
   { "id": "python/intro", "path": "python/intro/content.json", "topic": "python", "added": "2024-01-12T13:00:00Z" },
   { "id": "python/functions", "path": "python/functions/content.json", "topic": "python", "added": "2024-01-22T16:45:00Z" }
 ]
