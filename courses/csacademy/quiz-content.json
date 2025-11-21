@@ -1,0 +1,186 @@
+{
+  "title": "CS Academy Concepts Quiz",
+  "questions": [
+    {
+      "qid": "q1",
+      "text": "1. What is the purpose of the onStep() function in CMU CS Academy?",
+      "options": {
+        "A": "To handle keyboard input when keys are pressed",
+        "B": "To create continuous animation by running code repeatedly (about 60 times per second)",
+        "C": "To check if two shapes are colliding",
+        "D": "To calculate the angle between two points"
+      },
+      "correct": "B",
+      "explanation": "The onStep() function runs continuously, creating animation by repeatedly updating properties such as position or rotation. It executes approximately 60 times per second, allowing for smooth frame-by-frame animation."
+    },
+    {
+      "qid": "q2",
+      "text": "2. What is an app variable in CMU CS Academy?",
+      "options": {
+        "A": "A variable that can only be used inside functions",
+        "B": "A variable stored on the global app object that persists across function calls and can be accessed from anywhere",
+        "C": "A variable that automatically resets to zero each frame",
+        "D": "A variable used only for storing color values"
+      },
+      "correct": "B",
+      "explanation": "App variables (like app.xSpeed or app.ballySpeed) are stored on the global app object and persist across function calls. This makes them perfect for tracking state, speed, or other values that need to be shared between functions like onStep() and onKeyPress()."
+    },
+    {
+      "qid": "q3",
+      "text": "3. What is the main advantage of using a Group in CMU CS Academy?",
+      "options": {
+        "A": "Groups make shapes invisible",
+        "B": "Groups allow multiple shapes to be controlled together as a single unit",
+        "C": "Groups automatically animate shapes",
+        "D": "Groups can only contain circles"
+      },
+      "correct": "B",
+      "explanation": "Groups allow multiple shape objects to be combined and manipulated as a single object. You can move, rotate, or scale all shapes in a group together, which is essential for creating complex characters or objects that need to move as one unit."
+    },
+    {
+      "qid": "q4",
+      "text": "4. What is the difference between onKeyPress() and onKeyHold()?",
+      "options": {
+        "A": "There is no difference; they work the same way",
+        "B": "onKeyPress() runs once when a key is pressed, while onKeyHold() runs continuously while a key is held down",
+        "C": "onKeyPress() only works with arrow keys, onKeyHold() works with all keys",
+        "D": "onKeyPress() is faster than onKeyHold()"
+      },
+      "correct": "B",
+      "explanation": "onKeyPress() is an event handler that runs once when a specific key is pressed, while onKeyHold() runs continuously while specific keys remain pressed. Use onKeyHold() for smooth, continuous movement control, and onKeyPress() for single actions like jumping or shooting."
+    },
+    {
+      "qid": "q5",
+      "text": "5. How do you simulate gravity in a bouncing ball animation?",
+      "options": {
+        "A": "By setting the ball's Y position to a fixed value",
+        "B": "By constantly increasing the downward speed (acceleration) each frame",
+        "C": "By using the hitsShape() function",
+        "D": "By changing the ball's color"
+      },
+      "correct": "B",
+      "explanation": "Gravity is simulated by constantly increasing downward speed (acceleration) each frame. For example, app.ballySpeed += 0.25 adds to the vertical speed each frame, making the ball fall faster over time, just like real gravity."
+    },
+    {
+      "qid": "q6",
+      "text": "6. What does the angleTo() function do?",
+      "options": {
+        "A": "Rotates a shape by a specific angle",
+        "B": "Calculates the angle (in degrees) from one point to another, providing the direction needed for movement",
+        "C": "Checks if two shapes are touching",
+        "D": "Moves an object to a new position"
+      },
+      "correct": "B",
+      "explanation": "The angleTo() function calculates the angle in degrees from one point to another, returning the direction needed to move from the first point toward the second. This is essential for making one object chase another."
+    },
+    {
+      "qid": "q7",
+      "text": "7. What does getPointInDir() return?",
+      "options": {
+        "A": "A boolean value (True or False)",
+        "B": "A tuple of (newX, newY) coordinates at a specific distance and angle from a starting point",
+        "C": "An angle in degrees",
+        "D": "A shape object"
+      },
+      "correct": "B",
+      "explanation": "getPointInDir() finds a new point at a specific distance and angle from a starting point, returning a tuple of (newX, newY) coordinates. This enables incremental movement, creating smooth animation rather than instant positioning."
+    },
+    {
+      "qid": "q8",
+      "text": "8. What is boundary detection?",
+      "options": {
+        "A": "A technique to check if an object has reached the edge of the screen and take action",
+        "B": "A way to change an object's color",
+        "C": "A method to group shapes together",
+        "D": "A function that plays sound effects"
+      },
+      "correct": "A",
+      "explanation": "Boundary detection is a technique to check whether an object has reached the edge of the canvas or a defined area, and then take action such as reversing direction, stopping movement, or wrapping around to the other side."
+    },
+    {
+      "qid": "q9",
+      "text": "9. What does hitsShape() return?",
+      "options": {
+        "A": "The distance between two shapes",
+        "B": "A boolean value (True or False) indicating whether one shape overlaps another",
+        "C": "The angle between two shapes",
+        "D": "A new shape object"
+      },
+      "correct": "B",
+      "explanation": "hitsShape() is a method that checks whether one shape currently overlaps another shape, returning True or False. This boolean value can trigger new actions (like pushing a ball or playing a sound) the instant two shapes touch."
+    },
+    {
+      "qid": "q10",
+      "text": "10. In CMU CS Academy's coordinate system, what does increasing the Y value do?",
+      "options": {
+        "A": "Moves the object to the right",
+        "B": "Moves the object down",
+        "C": "Moves the object to the left",
+        "D": "Moves the object up"
+      },
+      "correct": "B",
+      "explanation": "In CMU CS Academy (and most computer graphics), the coordinate system has (0,0) at the top-left. Increasing Y moves objects down the screen, and decreasing Y moves them up. This is different from traditional math classes where Y increases upward."
+    },
+    {
+      "qid": "q11",
+      "text": "11. What is a boolean flag used for?",
+      "options": {
+        "A": "To store color values",
+        "B": "To track program state and control when certain behaviors should occur (like app.kicked)",
+        "C": "To calculate angles",
+        "D": "To group shapes together"
+      },
+      "correct": "B",
+      "explanation": "A boolean flag is a variable (usually True/False) used to track program state and control when certain behaviors should occur. For example, app.kicked = True might activate animation in onStep(), while app.kicked = False stops it."
+    },
+    {
+      "qid": "q12",
+      "text": "12. How do you create smooth chasing behavior instead of instant movement?",
+      "options": {
+        "A": "By setting the chaser's position equal to the target's position",
+        "B": "By moving the chaser small distances repeatedly (incremental movement) rather than instantly positioning it",
+        "C": "By using onKeyPress() instead of onStep()",
+        "D": "By making the chaser larger than the target"
+      },
+      "correct": "B",
+      "explanation": "Smooth chasing behavior is created by moving objects small distances repeatedly over time (incremental movement) rather than instantly positioning them. Using getPointInDir() with a small distance value (like 2 pixels) each frame creates the smooth pursuit effect."
+    },
+    {
+      "qid": "q13",
+      "text": "13. What is the purpose of conditional statements (if/elif/else) in animation?",
+      "options": {
+        "A": "To create shapes",
+        "B": "To allow programs to respond to events or boundaries, such as reversing direction when an object hits a screen edge",
+        "C": "To play sound effects",
+        "D": "To group shapes together"
+      },
+      "correct": "B",
+      "explanation": "Conditional statements allow programs to respond to events or boundaries. For example, you can check if an object has reached the edge of the screen and then reverse its direction, or check if two objects are colliding and trigger a response."
+    },
+    {
+      "qid": "q14",
+      "text": "14. What is the difference between velocity and acceleration?",
+      "options": {
+        "A": "Velocity is the speed and direction of movement, while acceleration is the rate at which velocity changes",
+        "B": "They are the same thing",
+        "C": "Velocity is used for horizontal movement, acceleration for vertical",
+        "D": "Velocity is a boolean, acceleration is a number"
+      },
+      "correct": "A",
+      "explanation": "Velocity is the speed and direction of an object's movement (like app.ballySpeed). Acceleration is the rate at which velocity changes over time. In a bouncing ball, gravity adds to acceleration each frame (app.ballySpeed += 0.25), which increases the velocity."
+    },
+    {
+      "qid": "q15",
+      "text": "15. When creating a Circle in CMU CS Academy, which parameters are required?",
+      "options": {
+        "A": "centerX, centerY, radius, and fill color",
+        "B": "centerX, centerY, and radius (fill and other styling are optional)",
+        "C": "Only centerX and centerY",
+        "D": "All parameters are optional"
+      },
+      "correct": "B",
+      "explanation": "When calling Circle(), the required parameters are centerX, centerY, and radius. Optional keyword arguments like fill, border, borderWidth, and opacity can be added after the required parameters. For example: Circle(200, 200, 50, fill='red')."
+    }
+  ]
+}
+

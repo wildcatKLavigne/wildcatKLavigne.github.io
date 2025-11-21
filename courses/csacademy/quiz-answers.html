@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CS Academy Quiz - Answers & Explanations</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  .answers-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .answers-header {
+    background: linear-gradient(120deg, #0f172a, #1c3faa);
+    color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+  }
+  
+  .answers-header h1 {
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .score-summary {
+    background: #f7f9fc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+  
+  .score-summary .score {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1c3faa;
+    margin: 0.5rem 0;
+  }
+  
+  .answer-block {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid #e0e4f0;
+  }
+  
+  .answer-block.correct {
+    border-left-color: #10b981;
+    background: #f0fdf4;
+  }
+  
+  .answer-block.incorrect {
+    border-left-color: #ef4444;
+    background: #fef2f2;
+  }
+  
+  .answer-block .question-text {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2533;
+  }
+  
+  .answer-block .student-answer {
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin: 0.5rem 0;
+    font-weight: 500;
+  }
+  
+  .answer-block.correct .student-answer {
+    background: #d1fae5;
+    color: #065f46;
+    border: 2px solid #10b981;
+  }
+  
+  .answer-block.incorrect .student-answer {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 2px solid #ef4444;
+  }
+  
+  .answer-block .correct-answer {
+    padding: 0.75rem;
+    background: #d1fae5;
+    color: #065f46;
+    border: 2px solid #10b981;
+    border-radius: 6px;
+    margin: 0.5rem 0;
+    font-weight: 500;
+  }
+  
+  .answer-block .explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f7f9fc;
+    border-radius: 6px;
+    color: #1f2533;
+    line-height: 1.6;
+  }
+  
+  .answer-block .explanation strong {
+    color: #1c3faa;
+  }
+  
+  .btn-container {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 2rem 0;
+  }
+  
+  .back-link {
+    display: inline-block;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+  
+  .back-link:hover {
+    text-decoration: underline;
+  }
+  
+  .btn {
+    display: inline-block;
+    background: #1c3faa;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 6px;
+    margin: 0 0.5rem;
+    font-weight: 500;
+  }
+  
+  .btn:hover {
+    background: #153a8a;
+  }
+  
+  .btn-print {
+    background: #5f6785;
+  }
+  
+  .btn-print:hover {
+    background: #4a5269;
+  }
+</style>
+</head>
+<body>
+
+<main class="answers-container">
+  <div class="answers-header">
+    <a href="../index.html" class="back-link">← Back to Courses</a>
+    <h1>CS Academy Quiz - Answers & Explanations</h1>
+  </div>
+
+  <div class="score-summary">
+    <div>Your Score:</div>
+    <div class="score" id="score-display">0 / 15</div>
+    <div id="percentage"></div>
+  </div>
+
+  <div id="answers-list"></div>
+
+  <div class="btn-container">
+    <a href="quiz.html" class="btn">Back to Quiz</a>
+    <button id="print-btn" class="btn btn-print" type="button">Print This Page</button>
+  </div>
+</main>
+
+<script src="load-csacademy-quiz-answers.js"></script>
+<script>
+  document.getElementById('print-btn').addEventListener('click', () => {
+    window.print();
+  });
+</script>
+
+</body>
+</html>
+

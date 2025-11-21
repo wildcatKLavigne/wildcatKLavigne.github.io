@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CS Academy Concepts Quiz</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  .quiz-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .quiz-header {
+    background: linear-gradient(120deg, #0f172a, #1c3faa);
+    color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+  }
+  
+  .quiz-header h1 {
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .quiz-header p {
+    margin: 0;
+    opacity: 0.9;
+  }
+  
+  .question-block {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .question-block p {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2533;
+  }
+  
+  .question-block select {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 2px solid #e0e4f0;
+    border-radius: 6px;
+    background: #fff;
+    color: #1f2533;
+    cursor: pointer;
+  }
+  
+  .question-block select:focus {
+    outline: none;
+    border-color: #1c3faa;
+  }
+  
+  .btn-container {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 2rem 0;
+  }
+  
+  .btn-check {
+    background: #1c3faa;
+    color: #fff;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(28, 63, 170, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .btn-check:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(28, 63, 170, 0.4);
+  }
+  
+  .back-link {
+    display: inline-block;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+  
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<main class="quiz-container">
+  <div class="quiz-header">
+    <a href="../index.html" class="back-link">← Back to Courses</a>
+    <h1 id="quiz-title">CS Academy Concepts Quiz</h1>
+    <p>Answer all 15 questions, then click "Check My Work" to see your results and explanations.</p>
+  </div>
+
+  <div id="questions-container"></div>
+
+  <div class="btn-container">
+    <button id="check-btn" class="btn-check">Check My Work</button>
+  </div>
+</main>
+
+<script src="load-csacademy-quiz.js"></script>
+
+</body>
+</html>
+

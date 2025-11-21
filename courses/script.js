@@ -136,6 +136,12 @@
       ]
     };
 
+    const quizzesByTopic = {
+      csacademy: [
+        { value: 'csacademy/quiz.html', label: 'CS Academy Concepts Quiz' }
+      ]
+    };
+
     // Create dropdown for each topic
     Object.keys(modulesByTopic).sort().forEach(topic => {
       const topicWrapper = document.createElement('div');
@@ -218,6 +224,43 @@
         tutorialDiv.appendChild(tutorialLabel);
         tutorialDiv.appendChild(tutorialSelect);
         topicWrapper.appendChild(tutorialDiv);
+      }
+
+      // Add quizzes dropdown when available
+      if (quizzesByTopic[topic]) {
+        const quizDiv = document.createElement('div');
+        quizDiv.className = 'topic-section';
+        
+        const quizLabel = document.createElement('label');
+        quizLabel.className = 'topic-label';
+        quizLabel.textContent = 'Quizzes';
+        quizLabel.setAttribute('for', `quizzes-${topic}`);
+        
+        const quizSelect = document.createElement('select');
+        quizSelect.id = `quizzes-${topic}`;
+        quizSelect.className = 'topic-select';
+        
+        const quizDefaultOption = document.createElement('option');
+        quizDefaultOption.value = '';
+        quizDefaultOption.textContent = 'Select a quiz';
+        quizSelect.appendChild(quizDefaultOption);
+        
+        quizzesByTopic[topic].forEach(quiz => {
+          const option = document.createElement('option');
+          option.value = quiz.value;
+          option.textContent = quiz.label;
+          quizSelect.appendChild(option);
+        });
+        
+        quizSelect.addEventListener('change', (e) => {
+          if (e.target.value) {
+            window.location.href = e.target.value;
+          }
+        });
+        
+        quizDiv.appendChild(quizLabel);
+        quizDiv.appendChild(quizSelect);
+        topicWrapper.appendChild(quizDiv);
       }
 
       topicsContainer.appendChild(topicWrapper);
