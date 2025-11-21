@@ -1,0 +1,147 @@
+{
+    "months": [
+      {
+        "name": "August 2025",
+        "days": [
+          { "date": "Aug 29", "unit": "Unit 1: Using Objects & Methods", "activity": "Introduction to Algorithms, Programming, and Compilers", "noSchool": false }
+        ]
+      },
+      {
+        "name": "September 2025",
+        "days": [
+          { "date": "Sep 2", "unit": "Unit 1", "activity": "Variables and Data Types", "noSchool": false },
+          { "date": "Sep 4", "unit": "Unit 1", "activity": "Expressions and Output", "noSchool": false },
+          { "date": "Sep 8", "unit": "Unit 1", "activity": "Assignment Statements and Input", "noSchool": false },
+          { "date": "Sep 10", "unit": "Unit 1", "activity": "Casting and Range of Variables", "noSchool": false },
+          { "date": "Sep 12", "unit": "Unit 1", "activity": "Compound Assignment Operators", "noSchool": false },
+          { "date": "Sep 16", "unit": "Unit 1", "activity": "API and Libraries", "noSchool": false },
+          { "date": "Sep 18", "unit": "Unit 1", "activity": "Documentation with Comments", "noSchool": false },
+          { "date": "Sep 22", "unit": "Unit 1", "activity": "Method Signatures", "noSchool": false },
+          { "date": "Sep 24", "unit": "Unit 1", "activity": "Calling Class Methods", "noSchool": false },
+          { "date": "Sep 26", "unit": "Unit 1", "activity": "Math Class", "noSchool": false },
+          { "date": "Sep 30", "unit": "Unit 1", "activity": "Objects: Instances of Classes", "noSchool": false }
+        ]
+      },
+      {
+        "name": "October 2025",
+        "days": [
+          { "date": "Oct 2", "unit": "Unit 1", "activity": "Object Creation and Storage (Instantiation)", "noSchool": false },
+          { "date": "Oct 6", "unit": "Unit 1", "activity": "Calling Instance Methods", "noSchool": false },
+          { "date": "Oct 8", "unit": "Unit 1", "activity": "String Manipulation", "noSchool": false },
+          { "date": "Oct 10", "unit": "Unit 1", "activity": "Progress Checks, Review", "noSchool": false },
+          { "date": "Oct 14", "unit": "Unit 2: Selection and Iteration", "activity": "Algorithms with Selection and Repetition", "noSchool": false },
+          { "date": "Oct 16", "unit": "Unit 2", "activity": "Boolean Expressions", "noSchool": false },
+          { "date": "Oct 20", "unit": "Unit 2", "activity": "if Statements", "noSchool": false },
+          { "date": "Oct 22", "unit": "Unit 2", "activity": "Nested if Statements", "noSchool": false },
+          { "date": "Oct 24", "unit": "Unit 2", "activity": "Compound Boolean Expressions", "noSchool": false },
+          { "date": "Oct 28", "unit": "Unit 2", "activity": "Comparing Boolean Expressions", "noSchool": false },
+          { "date": "Oct 30", "unit": "Unit 2", "activity": "while Loops", "noSchool": false }
+        ]
+      },
+      {
+        "name": "November 2025",
+        "days": [
+          { "date": "Nov 3", "unit": "Unit 2", "activity": "for Loops", "noSchool": false },
+          { "date": "Nov 5", "unit": "Unit 2", "activity": "Implementing Selection and Iteration Algorithms", "noSchool": false },
+          { "date": "Nov 7", "unit": "Unit 2", "activity": "Implementing String Algorithms", "noSchool": false },
+          { "date": "Nov 10", "unit": "Unit 2", "activity": "Nested Iteration", "noSchool": false },
+          { "date": "Nov 12", "unit": "Unit 2", "activity": "Informal Run-Time Analysis", "noSchool": false },
+          { "date": "Nov 14", "unit": "Unit 2", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Nov 17", "unit": "Unit 2 Exam", "activity": "Formal Unit Exam", "noSchool": false },
+          { "date": "Nov 19", "unit": "Unit 3: Class Creation", "activity": "Abstraction and Program Design", "noSchool": false },
+          { "date": "Nov 21", "unit": "Unit 3", "activity": "Impact of Program Design", "noSchool": false },
+          { "date": "Nov 24", "unit": "Unit 3", "activity": "Anatomy of a Class", "noSchool": false },
+          { "date": "Nov 26", "unit": null, "activity": "No School (Holiday)", "noSchool": true },
+          { "date": "Nov 28", "unit": "Unit 3", "activity": "Constructors", "noSchool": false }
+        ]
+      },
+      {
+        "name": "December 2025",
+        "days": [
+          { "date": "Dec 1", "unit": "Unit 3", "activity": "Methods: How to Write Them", "noSchool": false },
+          { "date": "Dec 3", "unit": "Unit 3", "activity": "Methods: Passing and Returning References", "noSchool": false },
+          { "date": "Dec 5", "unit": "Unit 3", "activity": "Class Variables and Methods", "noSchool": false },
+          { "date": "Dec 8", "unit": "Unit 3", "activity": "Scope and Access", "noSchool": false },
+          { "date": "Dec 10", "unit": "Unit 3", "activity": "this Keyword", "noSchool": false },
+          { "date": "Dec 12", "unit": "Unit 3", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Dec 15", "unit": "Unit 3 Exam", "activity": "Formal Unit Exam", "noSchool": false },
+          { "date": "Dec 17", "unit": "Unit 4: Data Collections", "activity": "Ethical and Social Issues Around Data Collection", "noSchool": false },
+          { "date": "Dec 22-Jan 2", "unit": null, "activity": "No School (Winter Break)", "noSchool": true }
+        ]
+      },
+      {
+        "name": "January 2026",
+        "days": [
+          { "date": "Jan 5", "unit": "Unit 4", "activity": "Introduction to Using Data Sets", "noSchool": false },
+          { "date": "Jan 7", "unit": "Unit 4", "activity": "Array Creation and Access", "noSchool": false },
+          { "date": "Jan 9", "unit": "Unit 4", "activity": "Array Traversals", "noSchool": false },
+          { "date": "Jan 12", "unit": "Unit 4", "activity": "Implementing Array Algorithms", "noSchool": false },
+          { "date": "Jan 14", "unit": "Unit 4", "activity": "Using Text Files", "noSchool": false },
+          { "date": "Jan 16", "unit": "Unit 4", "activity": "Wrapper Classes", "noSchool": false },
+          { "date": "Jan 20", "unit": null, "activity": "No School (MLK Day)", "noSchool": true },
+          { "date": "Jan 21", "unit": "Unit 4", "activity": "ArrayList Methods", "noSchool": false },
+          { "date": "Jan 23", "unit": "Unit 4", "activity": "ArrayList Traversals", "noSchool": false },
+          { "date": "Jan 26", "unit": "Unit 4", "activity": "Implementing ArrayList Algorithms", "noSchool": false },
+          { "date": "Jan 28", "unit": "Unit 4", "activity": "2D Array Creation and Access", "noSchool": false },
+          { "date": "Jan 30", "unit": "Unit 4", "activity": "2D Array Traversals", "noSchool": false }
+        ]
+      },
+      {
+        "name": "February 2026",
+        "days": [
+          { "date": "Feb 2", "unit": "Unit 4", "activity": "Implementing 2D Array Algorithms", "noSchool": false },
+          { "date": "Feb 4", "unit": "Unit 4", "activity": "Searching Algorithms", "noSchool": false },
+           { "date": "Feb 6", "unit": "Unit 4", "activity": "Sorting Algorithms", "noSchool": false },
+          { "date": "Feb 9", "unit": "Unit 4", "activity": "Recursion", "noSchool": false },
+          { "date": "Feb 11", "unit": "Unit 4", "activity": "Recursive Searching and Sorting", "noSchool": false },
+          { "date": "Feb 13", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Feb 16-20", "unit": null, "activity": "No School (February Break)", "noSchool": true },
+          { "date": "Feb 23", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Feb 25", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Feb 27", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false }
+        ]
+      },
+      {
+        "name": "March 2026",
+        "days": [
+          { "date": "Mar 2", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 4", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 6", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 9", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 11", "unit": null, "activity": "Early Release - Curriculum", "noSchool": true },
+          { "date": "Mar 13", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 16", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 18", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 20", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 23", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 25", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 27", "unit": "Unit 4", "activity": "Additional Practice & Review", "noSchool": false },
+          { "date": "Mar 30", "unit": "Unit 4", "activity": "Unit 4 Exam", "noSchool": false }
+        ]
+      },
+      {
+        "name": "April 2026",
+        "days": [
+          { "date": "Apr 1", "unit": "Unit 4", "activity": "Final Unit Completion", "noSchool": false },
+          { "date": "Apr 2", "unit": "Unit 4", "activity": "Review & Exam Prep", "noSchool": false },
+          { "date": "Apr 6", "unit": "Unit 4", "activity": "Review & Exam Prep", "noSchool": false },
+          { "date": "Apr 8", "unit": "Unit 4", "activity": "Review & Exam Prep", "noSchool": false },
+          { "date": "Apr 10", "unit": "Unit 4", "activity": "Review & Exam Prep", "noSchool": false },
+          { "date": "Apr 13", "unit": "Unit 4", "activity": "Review & Exam Prep", "noSchool": false },
+          { "date": "Apr 15", "unit": "Unit 4", "activity": "Review & Exam Prep", "noSchool": false },
+          { "date": "Apr 17", "unit": "Unit 4", "activity": "Review & Exam Prep", "noSchool": false },
+          { "date": "Apr 20", "unit": null, "activity": "No School (April Break)", "noSchool": true },
+          { "date": "Apr 22", "unit": null, "activity": "No School (April Break)", "noSchool": true },
+          { "date": "Apr 24", "unit": null, "activity": "No School (April Break)", "noSchool": true },
+          { "date": "Apr 27", "unit": "Unit 4", "activity": "Practice Exam – Multiple Choice (Day 1)", "noSchool": false },
+          { "date": "Apr 29", "unit": "Unit 4", "activity": "Practice Exam – Free Response (Day 2)", "noSchool": false }
+        ]
+      },
+      {
+        "name": "May 2026",
+        "days": [
+          { "date": "May 1", "unit": "Unit 4", "activity": "Exam Review and Targeted Practice", "noSchool": false }
+        ]
+      }
+    ]
+  }

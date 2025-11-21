@@ -1,0 +1,61 @@
+{
+    "unit": "Unit 3: Class Creation",
+    "classLength": "74 Minutes",
+     "overview": "Unit 3 focuses on abstraction and effective program design, emphasizing how design choices impact readability, maintainability, and efficiency. Students analyze the structure of a Java class, learning about constructors, instance and class variables, and method creation. They explore how methods pass and return object references, understanding the implications for memory and program behavior. Concepts of scope and access control are introduced to manage data security and encapsulation. The this keyword is examined as a tool for distinguishing instance variables from parameters, reinforcing best practices in object-oriented programming.",
+   
+    "establishedGoals": [
+      "Understand how to design and implement classes in Java.",
+      "Apply object-oriented principles to solve problems."
+    ],
+    "transferGoals": [
+      "Students will be able to independently create and use Java classes for modular, reusable code."
+    ],
+    "understandings": [
+      "Classes encapsulate data and behavior.",
+      "Objects are instances of classes used to represent real-world entities."
+    ],
+    "essentialQuestions": [
+      "How do classes help organize code?",
+      "How does encapsulation improve software design?"
+    ],
+    "knowledge": [
+      "Java syntax for class definition, constructors, and methods.",
+      "Instance vs. class variables."
+    ],
+    "skills": [
+      "Define classes with fields and methods.",
+      "Instantiate and use objects in programs."
+    ],
+    "assessment": [
+      "Creation of functional classes in projects.",
+      "Ability to use objects correctly in assignments."
+    ],
+    "learningEvents": [
+      "Activity 3.1: Defining Classes and Objects",
+      "Activity 3.2: Writing Constructors and Methods",
+      "Activity 3.3: Using Objects in Programs",
+      "Project 3.4: Object-Oriented Project"
+    ],
+    "resources": [
+      "AP CSA Curriculum Examples",
+      "Java Tutorials on Classes",
+      "Practice Problems for Object-Oriented Programming"
+    ],
+    "dlcsStandards": {
+      "Computing Systems": {
+        "Human and Computer Partnerships": [
+          "Design solutions using objects to solve complex tasks."
+        ]
+      },
+      "Computational Thinking": {
+        "Abstraction": [
+          "Use classes to encapsulate functionality.",
+          "Decompose problems into classes and methods."
+        ],
+        "Programming and Development": [
+          "Apply object-oriented principles.",
+          "Debug and test class-based programs."
+        ]
+      }
+    }
+  }

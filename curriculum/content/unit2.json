@@ -1,0 +1,64 @@
+{
+    "unit": "Unit 2: Selection and Iteration",
+    "classLength": "74 Minutes",
+    "overview": "Unit 2 explores algorithmic decision-making and repetition using selection and iteration structures in Java. Students learn to construct and evaluate Boolean expressions, using if and nested if statements to control program flow. They develop compound Boolean expressions and compare them for efficiency and correctness. The unit introduces looping structures, including while and for loops, enabling students to implement selection and iteration algorithms. They apply these concepts to string manipulation and nested iteration, analyzing their efficiency through informal run-time analysis to understand performance trade-offs in algorithm design.",
+  
+    "establishedGoals": [
+      "Understand how to use selection and iteration in Java programs.",
+      "Apply control structures to solve complex problems."
+    ],
+    "transferGoals": [
+      "Students will be able to independently create programs that use loops and conditional statements to solve real-world problems."
+    ],
+    "understandings": [
+      "Control flow is fundamental to program logic.",
+      "Selection and iteration allow programs to make decisions and repeat tasks efficiently."
+    ],
+    "essentialQuestions": [
+      "How do selection and iteration affect the behavior of a program?",
+      "What patterns can be recognized and simplified using loops and conditionals?"
+    ],
+    "knowledge": [
+      "Java syntax for if, if-else, switch statements.",
+      "Java syntax for for, while, and do-while loops."
+    ],
+    "skills": [
+      "Write programs using conditional logic.",
+      "Implement loops to process data efficiently."
+    ],
+    "assessment": [
+      "Correct implementation of control structures in assignments and projects.",
+      "Ability to trace and predict program output for given conditions."
+    ],
+    "learningEvents": [
+      "Activity 2.1: Introduction to If Statements",
+      "Activity 2.2: Nested If and Switch Statements",
+      "Activity 2.3: For and While Loops",
+      "Project 2.4: Loop-based Problem Solving"
+    ],
+    "resources": [
+      "AP CSA Curriculum Examples",
+      "CodingBat Java Exercises",
+      "Java Documentation"
+    ],
+    "dlcsStandards": {
+      "Computing and Society": {
+        "Safety and Security": [
+          "Explain safe coding practices and potential logical errors."
+        ],
+        "Ethics and Laws": [
+          "Identify ethical considerations when implementing control flow."
+        ]
+      },
+      "Computational Thinking": {
+        "Algorithms": [
+          "Represent algorithms using pseudocode and loops.",
+          "Analyze performance of iterative solutions."
+        ],
+        "Programming and Development": [
+          "Use control structures appropriately.",
+          "Debug and test selection/iteration logic."
+        ]
+      }
+    }
+  }

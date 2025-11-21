@@ -1,0 +1,86 @@
+{
+    "unit": "Unit 1: Using Objects and Methods",
+    "classLength": "~32–34 class periods",
+    "overview": "Unit 1 introduces students to fundamental programming concepts in Java, starting with algorithms, programming structures, and the role of compilers. Students learn about variables, data types, expressions, and input/output operations, including assignment statements and type casting. They explore operators, including compound assignment, and gain experience using APIs and libraries. Emphasis is placed on writing clear, well-documented code with comments. The unit covers method signatures, calling class and instance methods, and working with Java's Math class. Students also develop an understanding of objects as instances of classes, focusing on object creation, storage, and string manipulation techniques.",
+  
+  
+    "establishedGoals": [
+      "Understand the foundational concepts of Java, including variables, data types, expressions, methods, and object creation.",
+      "Recognize the ethical, social, and economic implications of digital technologies in computing."
+    ],
+  
+    "transferGoals": [
+      "Students will independently design and implement Java programs using objects, methods, and data manipulation.",
+      "Students will analyze the societal impact of computing technologies."
+    ],
+  
+    "dlcsStandards": {
+      "computing And Society": {
+        "interpersonal And SocietalImpact": [
+          "Analyze beneficial and harmful effects of computing innovations. [9-12.CAS.c.5]",
+          "Discuss social and economic implications associated with malicious hacking, software piracy, and cyber terrorism. [9-12.CAS.c.9]"
+        ]
+      },
+      "digital Tools And Collaboration": {
+        "digital Tools": [
+          "Use digital tools to design and develop a significant digital artifact. [9-12.DTC.a.1]",
+          "Select digital tools or resources based on efficiency and justify the selection. [9-12.DTC.a.2]"
+        ]
+      },
+  
+      "computational Thinking": {
+        "abstraction": [
+          "Discuss the value of generalizing and decomposing aspects of a problem. [9-12.CT.a.1]"
+        ],
+        "algorithms": [
+          "Represent algorithms using structured language such as pseudocode. [9-12.CT.b.2]"
+        ]
+      }
+    },
+  
+    "understandings": [
+      "Algorithms are implemented through sequencing and method calls.",
+      "Objects are instances of classes with attributes and behaviors.",
+      "Data types and casting affect program behavior and output.",
+      "Methods can be called on objects or classes to perform actions."
+    ],
+  
+    "essentialQuestions": [
+      "How do objects and methods help model real-world scenarios in programming?",
+      "How does Java manage data types and expressions during program execution?"
+    ],
+  
+    "knowledge": [
+      "Primitive data types: int, double, boolean.",
+      "Object creation, method signatures, class methods, and instance methods.",
+      "String and Math class methods usage."
+    ],
+  
+    "skills": [
+      "Writing Java code that uses variables, expressions, and method calls.",
+      "Creating and manipulating objects and strings.",
+      "Debugging code and interpreting compiler errors."
+    ],
+  
+    "assessment": [
+      "Progress Checks Part 1-3 and Free-Response Questions on Methods and Control Structures.",
+      "Multiple-choice questions aligned with Unit 1 topics.",
+      "Formative assessments via AP Classroom."
+    ],
+  
+    "learningEvents": [
+      "Pre-Assessments: Evaluate student familiarity with programming fundamentals and Java syntax.",
+      "Introduction to programming concepts and Java environment.",
+      "Variable declaration, data types, expressions, and output.",
+      "Object creation and method calls (instance and class methods).",
+      "Usage of String and Math classes.",
+      "Debugging and documentation best practices.",
+      "Resources: AP Classroom Unit 1 Progress Checks, Java Quick Reference, Receipt Lab."
+    ],
+  
+    "resources": [
+      "AP Classroom Unit 1 Progress Checks",
+      "Java Quick Reference",
+      "Receipt Lab"
+    ]
+  }

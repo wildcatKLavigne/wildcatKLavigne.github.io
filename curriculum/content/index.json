@@ -1,0 +1,8 @@
+{
+    "units": [
+      { "title": "Unit 1: Using Objects and Methods", "file": "unit1.json" },
+      { "title": "Unit 2: Selection and Iteration", "file": "unit2.json" },
+      { "title": "Unit 3: Class Creation", "file": "unit3.json" },
+      { "title": "Unit 4: Data Collections", "file": "unit4.json" }
+    ]
+  }

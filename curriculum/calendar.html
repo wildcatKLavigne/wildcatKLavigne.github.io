@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar - AP CSA</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <div id="header"></div>
+
+  <div class="main-container">
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <button onclick="window.location.href='index.html'" class="sidebar-btn">⬅️ Back to Main</button>
+    </aside>
+
+    <!-- Calendar Content -->
+    <main id="content">
+      <div id="calendarContent">
+        <div id="calendar-header">
+          <button id="prevMonthBtn">◀ Previous</button>
+          <h2 id="currentMonth"></h2>
+          <button id="nextMonthBtn">Next ▶</button>
+        </div>
+        <div id="calendarBody" class="calendar-grid"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="calendar.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{
+    "unit": "Unit 4: Data Collections",
+    "classLength": "74 Minutes",
+    "overview": "Unit 4 explores data structures, algorithms, and ethical considerations in computing. Students examine the societal impact of data collection and learn to work with datasets, including reading from text files. They develop proficiency with arrays and ArrayList objects, implementing traversal techniques and algorithms for data manipulation. The unit introduces two-dimensional arrays, reinforcing multi-level data organization and processing. Students study fundamental searching and sorting algorithms, comparing their efficiency. Recursion is introduced as a powerful problem-solving approach, culminating in recursive implementations of searching and sorting algorithms to deepen algorithmic thinking.",
+  
+    "establishedGoals": [
+      "Understand how to use arrays and ArrayLists in Java.",
+      "Apply data collection techniques to organize and manipulate information."
+    ],
+    "transferGoals": [
+      "Students will be able to independently manage and process collections of data in programs."
+    ],
+    "understandings": [
+      "Data structures allow efficient storage and retrieval of information.",
+      "Arrays have fixed size, ArrayLists are dynamic."
+    ],
+    "essentialQuestions": [
+      "How do different data structures affect program performance?",
+      "When should arrays vs. ArrayLists be used?"
+    ],
+    "knowledge": [
+      "Java syntax for arrays and ArrayLists.",
+      "Iteration over collections of data."
+    ],
+    "skills": [
+      "Create, populate, and access arrays and ArrayLists.",
+      "Sort, search, and manipulate collections of data."
+    ],
+    "assessment": [
+      "Programs correctly using arrays/ArrayLists.",
+      "Ability to choose appropriate data structure for a task."
+    ],
+    "learningEvents": [
+      "Activity 4.1: Using Arrays",
+      "Activity 4.2: Using ArrayLists",
+      "Activity 4.3: Iterating Over Collections",
+      "Project 4.4: Data Management Project"
+    ],
+    "resources": [
+      "AP CSA Curriculum Examples",
+      "Java Documentation on Collections",
+      "Coding Practice Websites"
+    ],
+    "dlcsStandards": {
+      "Computational Thinking": {
+        "Data": [
+          "Use arrays and lists to store, filter, and sort data.",
+          "Analyze data to solve problems."
+        ],
+        "Programming and Development": [
+          "Select appropriate data structures.",
+          "Implement algorithms to manipulate collections."
+        ]
+      },
+      "Digital Tools and Collaboration": {
+        "Digital Tools": [
+          "Use Java to create digital artifacts that process collections of data."
+        ]
+      }
+    }
+  }
