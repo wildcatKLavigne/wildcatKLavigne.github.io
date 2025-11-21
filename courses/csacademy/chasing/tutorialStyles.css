@@ -1,0 +1,173 @@
+:root {
+  --bg: #f7f9fc;
+  --card-bg: #ffffff;
+  --primary: #1c3faa;
+  --accent: #ff9c41;
+  --text: #1f2533;
+  --muted: #5f6785;
+  --border: #e0e4f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.tutorial-header {
+  background: linear-gradient(120deg, #0f172a, #1c3faa);
+  color: #fff;
+  padding: 2.5rem 1.5rem;
+}
+
+.header-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-block;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  margin-bottom: 1rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.tutorial-header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+}
+
+.subtitle {
+  margin: 0.4rem 0 0;
+  font-size: 1.1rem;
+  color: #d4dcff;
+}
+
+.tutorial-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.tutorial-section {
+  background: var(--card-bg);
+  padding: 1.75rem 2rem;
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  margin-bottom: 1.75rem;
+}
+
+.tutorial-section h2 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+.info-box {
+  background: linear-gradient(120deg, #edf2ff, #f9fbff);
+  border-left: 4px solid var(--primary);
+  padding: 1.2rem 1.5rem;
+  border-radius: 10px;
+  margin-top: 1.25rem;
+}
+
+.info-box ul {
+  margin: 0.75rem 0 0 1.25rem;
+}
+
+.code-block {
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 0.95rem;
+  overflow-x: auto;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.two-column-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem 1rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.two-column-list div {
+  background: #eef2ff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--primary);
+}
+
+.step-list {
+  margin: 1rem 0 1.25rem 1.25rem;
+  line-height: 1.6;
+}
+
+.tip-box {
+  background: #fff8e1;
+  border-left: 4px solid #ffca28;
+  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  color: #5f4a09;
+}
+
+.checklist ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem 0 0;
+}
+
+.checklist li {
+  margin-bottom: 0.45rem;
+}
+
+.tutorial-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #0f172a;
+  color: #cbd5f5;
+}
+
+.tutorial-action {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.cta-button {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  text-decoration: none;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.24);
+}
+
+@media (max-width: 640px) {
+  .tutorial-section {
+    padding: 1.5rem;
+  }
+
+  .tutorial-header h1 {
+    font-size: 2rem;
+  }
+}

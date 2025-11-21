@@ -1,0 +1,47 @@
+{
+  "title": "Chasing Objects with angleTo() and getPointInDir()",
+  "description": "Students learn to create smooth chasing behavior where one object follows another using angle calculations and directional movement. They explore the angleTo() function to determine direction, use getPointInDir() to move objects incrementally, combine onStep() for continuous animation with onKeyHold() for keyboard control, and understand the difference between smooth movement and instant positioning.",
+  "understandings": [
+    "The angleTo() function calculates the angle (in degrees) from one point to another, providing the direction needed for movement.",
+    "The getPointInDir() function finds a new point at a specific distance and angle from a starting point, enabling incremental movement.",
+    "Smooth chasing behavior is created by moving objects small distances repeatedly rather than instantly positioning them.",
+    "The onStep() function continuously recalculates angles and updates positions, allowing objects to adjust their path as targets move.",
+    "The onKeyHold() function enables continuous keyboard input, perfect for smooth movement control.",
+    "Combining automatic movement (chasing) with user-controlled movement (keyboard) creates engaging interactive experiences.",
+    "The speed parameter in getPointInDir() controls how quickly the chaser approaches the target."
+  ],
+  "essentialQuestions": [
+    "How does angleTo() help determine the direction one object should move to reach another?",
+    "What is the difference between using getPointInDir() with a small distance versus instantly setting coordinates?",
+    "Why does moving an object in small increments create smooth chasing behavior?",
+    "How does onStep() enable objects to continuously adjust their path toward a moving target?",
+    "What is the difference between onKeyHold() and onKeyPress(), and when should each be used?",
+    "How can you control the speed and smoothness of chasing behavior?",
+    "What strategies can make chasing behavior more realistic or interesting?"
+  ],
+  "vocabulary": [
+    "angleTo()",
+    "getPointInDir()",
+    "Angle",
+    "Direction",
+    "Incremental Movement",
+    "Smooth Animation",
+    "onKeyHold()",
+    "Coordinate System",
+    "Pursuit Behavior",
+    "Vector Movement"
+  ],
+  "vocabDefinitions": {
+    "angleTo()": "A CMU CS Academy function that calculates the angle (in degrees) from one point to another, returning the direction needed to move from the first point toward the second.",
+    "getPointInDir()": "A CMU CS Academy function that finds a new point at a specific distance and angle from a starting point, useful for moving objects incrementally in a particular direction.",
+    "Angle": "A measure of rotation in degrees, where 0° points right, 90° points down, 180° points left, and 270° points up.",
+    "Direction": "The orientation or path an object should take to reach a destination, typically expressed as an angle.",
+    "Incremental Movement": "Moving an object small distances repeatedly over time, creating smooth animation rather than instant positioning.",
+    "Smooth Animation": "Animation that appears fluid and continuous, achieved by making small, frequent updates rather than large, infrequent changes.",
+    "onKeyHold()": "An event handler function that runs continuously while specific keys are pressed, ideal for smooth, continuous movement control.",
+    "Coordinate System": "The grid system used to position objects on the canvas, with X representing horizontal position and Y representing vertical position.",
+    "Pursuit Behavior": "Programming pattern where one object continuously moves toward another object, adjusting its path as the target moves.",
+    "Vector Movement": "Movement that has both direction (angle) and magnitude (distance), allowing objects to move in any direction at any speed."
+  }
+}
+

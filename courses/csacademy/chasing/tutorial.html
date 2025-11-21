@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS Academy Chasing Objects Tutorial</title>
+  <link rel="stylesheet" href="tutorialStyles.css" />
+</head>
+<body>
+  <header class="tutorial-header">
+    <div class="header-content">
+      <a class="back-link" href="../../index.html">← Back to Courses</a>
+      <h1>Chasing Objects with angleTo() and getPointInDir()</h1>
+      <p class="subtitle">Make one object smoothly chase another using angle calculations and directional movement.</p>
+    </div>
+  </header>
+
+  <main class="tutorial-container">
+    <section class="tutorial-section">
+      <h2>Introduction</h2>
+      <p>In this tutorial, you'll create a chasing behavior where one object (the chaser) smoothly follows another object (the target) as it moves. You'll learn how to calculate angles between objects, move objects in specific directions, and combine keyboard input with automatic movement to create engaging interactive animations.</p>
+      <div class="info-box">
+        <strong>What you'll practice:</strong>
+        <ul>
+          <li>Creating multiple shapes and positioning them on the canvas</li>
+          <li>Using <code>angleTo()</code> to calculate the direction between two points</li>
+          <li>Using <code>getPointInDir()</code> to move objects in a specific direction</li>
+          <li>Implementing smooth chasing behavior in <code>onStep()</code></li>
+          <li>Handling keyboard input with <code>onKeyHold()</code> for continuous movement</li>
+          <li>Understanding the difference between smooth and instant movement</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>1. Create the Chaser and Target Objects</h2>
+      <p>Start by creating two circles: one that will chase (ball1) and one that will be chased (ball2). Use different colors to distinguish them.</p>
+      <div class="code-block">
+        <pre><code>ball1 = Circle(50, 50, 20, fill="red")
+ball2 = Circle(350, 350, 20, fill="blue")</code></pre>
+      </div>
+      <p><strong>Explanation:</strong></p>
+      <ul class="step-list">
+        <li><code>ball1</code> (red) is the chaser, starting at position (50, 50)</li>
+        <li><code>ball2</code> (blue) is the target, starting at position (350, 350)</li>
+        <li>Both circles have radius 20</li>
+        <li>They start far apart so you can see the chasing behavior clearly</li>
+      </ul>
+      <div class="tip-box">
+        <strong>Tip:</strong> You can use any shapes you want—rectangles, polygons, or even groups. The chasing logic works the same way!
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>2. Understanding angleTo()</h2>
+      <p>The <code>angleTo()</code> function calculates the angle (in degrees) from one point to another. This tells you the direction the chaser needs to move to reach the target.</p>
+      <div class="code-block">
+        <pre><code>angle = angleTo(ball1.centerX, ball1.centerY, ball2.centerX, ball2.centerY)</code></pre>
+      </div>
+      <p><strong>How it works:</strong></p>
+      <ul class="step-list">
+        <li>The first two parameters are the starting point (chaser's position)</li>
+        <li>The last two parameters are the destination point (target's position)</li>
+        <li>Returns an angle in degrees (0° = right, 90° = down, 180° = left, 270° = up)</li>
+        <li>This angle points from the chaser directly toward the target</li>
+      </ul>
+      <div class="tip-box">
+        <strong>Visual Guide:</strong> Imagine drawing an arrow from ball1 to ball2. The angle returned is the direction that arrow points.
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>3. Understanding getPointInDir()</h2>
+      <p>The <code>getPointInDir()</code> function finds a point that is a certain distance away from a starting point, in a specific direction. This is perfect for moving the chaser closer to the target.</p>
+      <div class="code-block">
+        <pre><code>newX, newY = getPointInDir(ball1.centerX, ball1.centerY, angle, 2)</code></pre>
+      </div>
+      <p><strong>Parameters:</strong></p>
+      <ul class="step-list">
+        <li><strong>First two:</strong> Starting X and Y coordinates (chaser's current position)</li>
+        <li><strong>Third:</strong> The angle in degrees (from <code>angleTo()</code>)</li>
+        <li><strong>Fourth:</strong> Distance to move (2 pixels in this example)</li>
+        <li><strong>Returns:</strong> A tuple of (newX, newY) coordinates</li>
+      </ul>
+      <p>By moving only 2 pixels per frame, the chaser moves smoothly rather than instantly jumping to the target.</p>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>4. Implement the Chasing Behavior in onStep()</h2>
+      <p>Use <code>onStep()</code> to continuously update the chaser's position. Each frame, calculate the angle to the target and move the chaser a small distance in that direction.</p>
+      <div class="code-block">
+        <pre><code>def onStep():
+    # First, find the angle between the chaser and the target
+    angle = angleTo(ball1.centerX, ball1.centerY, ball2.centerX, ball2.centerY)
+    
+    # Then, use getPointInDir to find a point between the chaser and target
+    # The last number (2) is how quickly the chaser should be moving
+    ball1.centerX, ball1.centerY = getPointInDir(ball1.centerX, ball1.centerY, angle, 2)</code></pre>
+      </div>
+      <p><strong>Step-by-step process:</strong></p>
+      <ol class="step-list">
+        <li>Calculate the angle from ball1 to ball2</li>
+        <li>Find a new point 2 pixels away from ball1 in that direction</li>
+        <li>Update ball1's position to that new point</li>
+        <li>Repeat 60 times per second, creating smooth chasing motion</li>
+      </ol>
+      <div class="tip-box">
+        <strong>Speed Control:</strong> Change the number <code>2</code> to make the chaser faster (larger number) or slower (smaller number). Try values like 1, 3, or 5 to see the difference!
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>5. Add Keyboard Control with onKeyHold()</h2>
+      <p>Make the target (ball2) moveable using arrow keys. <code>onKeyHold()</code> runs continuously while keys are pressed, perfect for smooth movement.</p>
+      <div class="code-block">
+        <pre><code>def onKeyHold(keys):
+    if "left" in keys:
+        ball2.centerX -= 5
+    if "right" in keys:
+        ball2.centerX += 5
+    if "up" in keys:
+        ball2.centerY -= 5
+    if "down" in keys:
+        ball2.centerY += 5</code></pre>
+      </div>
+      <p><strong>How it works:</strong></p>
+      <ul class="step-list">
+        <li><code>onKeyHold(keys)</code> receives a list of currently pressed keys</li>
+        <li>Check if a key is in the list using <code>in</code></li>
+        <li>Move ball2 by 5 pixels in the corresponding direction</li>
+        <li>This runs continuously while keys are held, creating smooth movement</li>
+      </ul>
+      <div class="tip-box">
+        <strong>Difference from onKeyPress():</strong> <code>onKeyHold()</code> runs continuously while keys are pressed, while <code>onKeyPress()</code> runs only once per key press. Use <code>onKeyHold()</code> for movement!
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>6. Complete Code</h2>
+      <p>Here's the complete program with all pieces together:</p>
+      <div class="code-block">
+        <pre><code>ball1 = Circle(50, 50, 20, fill="red")
+ball2 = Circle(350, 350, 20, fill="blue")
+
+def onStep():
+    # First, find the angle between the chaser and the target
+    angle = angleTo(ball1.centerX, ball1.centerY, ball2.centerX, ball2.centerY)
+    
+    # Then, use getPointInDir to find a point between the chaser and target
+    # The last number (2) is how quickly the chaser should be moving
+    ball1.centerX, ball1.centerY = getPointInDir(ball1.centerX, ball1.centerY, angle, 2)
+
+def onKeyHold(keys):
+    if "left" in keys:
+        ball2.centerX -= 5
+    if "right" in keys:
+        ball2.centerX += 5
+    if "up" in keys:
+        ball2.centerY -= 5
+    if "down" in keys:
+        ball2.centerY += 5</code></pre>
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>7. Understanding the Chasing Behavior</h2>
+      <p>Why does this create smooth chasing instead of instant movement?</p>
+      <ul class="step-list">
+        <li><strong>Small increments:</strong> Moving only 2 pixels per frame means the chaser gradually approaches the target</li>
+        <li><strong>Continuous updates:</strong> <code>onStep()</code> recalculates the angle every frame, so if the target moves, the chaser adjusts its direction</li>
+        <li><strong>Never catches up instantly:</strong> As long as the target keeps moving, the chaser will always be slightly behind, creating a pursuit effect</li>
+      </ul>
+      <p>If you wanted instant movement, you could simply set:</p>
+      <div class="code-block">
+        <pre><code>ball1.centerX = ball2.centerX
+ball1.centerY = ball2.centerY</code></pre>
+      </div>
+      <p>But that wouldn't look like chasing—it would look like teleporting!</p>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>8. Experiment and Extend</h2>
+      <p>Try these challenges to enhance your chasing game:</p>
+      <ul class="step-list">
+        <li><strong>Multiple chasers:</strong> Create several red balls that all chase the blue ball</li>
+        <li><strong>Variable speeds:</strong> Make some chasers faster than others</li>
+        <li><strong>Chase chains:</strong> Make ball1 chase ball2, and ball2 chase ball3 (a chain reaction!)</li>
+        <li><strong>Boundary detection:</strong> Prevent balls from moving outside the canvas edges</li>
+        <li><strong>Collision detection:</strong> Use <code>hitsShape()</code> to detect when the chaser catches the target</li>
+        <li><strong>Speed boost:</strong> Press spacebar to temporarily make the target move faster</li>
+        <li><strong>Visual effects:</strong> Draw a line between the chaser and target to visualize the angle</li>
+        <li><strong>Evasive behavior:</strong> Make the target try to avoid the chaser by moving away when too close</li>
+      </ul>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>9. Advanced: Making the Chaser Smarter</h2>
+      <p>You can add logic to make the chaser behave differently based on distance:</p>
+      <div class="code-block">
+        <pre><code>def onStep():
+    angle = angleTo(ball1.centerX, ball1.centerY, ball2.centerX, ball2.centerY)
+    
+    # Calculate distance between objects
+    distance = ((ball2.centerX - ball1.centerX)**2 + (ball2.centerY - ball1.centerY)**2)**0.5
+    
+    # Move faster when far away, slower when close
+    if distance > 100:
+        speed = 4  # Fast when far
+    else:
+        speed = 1  # Slow when close
+    
+    ball1.centerX, ball1.centerY = getPointInDir(ball1.centerX, ball1.centerY, angle, speed)</code></pre>
+      </div>
+      <p>This creates more realistic behavior where the chaser speeds up when far away and slows down when approaching.</p>
+    </section>
+
+    <section class="tutorial-section checklist">
+      <h2>Checklist</h2>
+      <ul>
+        <li>✅ Two circles created (chaser and target) with different colors</li>
+        <li>✅ <code>angleTo()</code> used to calculate direction from chaser to target</li>
+        <li>✅ <code>getPointInDir()</code> used to move chaser toward target</li>
+        <li>✅ Chasing behavior implemented in <code>onStep()</code></li>
+        <li>✅ <code>onKeyHold()</code> handles arrow key input for target movement</li>
+        <li>✅ Chaser smoothly follows target as it moves</li>
+        <li>✅ Speed value adjusted to create desired chasing effect</li>
+        <li>✅ Experimented with variations (multiple chasers, variable speeds, etc.)</li>
+      </ul>
+    </section>
+
+    <div class="tutorial-action">
+      <a class="cta-button" href="../../index.html?module=csacademy/chasing">Go to Reflection</a>
+    </div>
+  </main>
+
+  <footer class="tutorial-footer">
+    <p>Wilmington High School Computer Science • CS Academy</p>
+  </footer>
+</body>
+</html>
+
