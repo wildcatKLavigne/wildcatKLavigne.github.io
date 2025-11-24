@@ -1,0 +1,41 @@
+{
+  "title": "CS Academy - Creative Project Reflection",
+  "description": "This reflection helps you demonstrate your understanding of basic python programming in CMU CS Academy by analyzing your original creative project. You will explain how you used shape objects, groups, event handlers, conditionals, and collision detection to create your program.",
+  "understandings": [
+    "Shape objects are the main elements of a program in CS Academy and can be customized through their properties.",
+    "Groups allow us to collect and organize multiple shape objects to control them together as a single unit.",
+    "The onStep function runs continuously in a loop, allowing for animation and continuous updates.",
+    "Event handlers like onKeyPress and onKeyHold respond to user input to create interactive programs.",
+    "Conditional statements (if statements) allow programs to make decisions based on True/False conditions.",
+    "The hitsShape method detects collisions between shapes, enabling interactive behaviors in programs."
+  ],
+  "essentialQuestions": [
+    "Shape objects - In CS Academy, the main element of a program are its shape objects. Describe, in detail, how you customize shape objects to use them in a unique and original way. Show, with at least two examples of code, how changing the properties of shapes results in different shapes being drawn and identify exactly what that code does in your program. This can be done in words and/or a screenshot.",
+    "Groups: Why do we group shapes in CS Academy? How do we group shapes in CS Academy? What does grouping shapes allow us to do? Again, you must show at least two examples of code that creates a group and 2 examples of how code affects a group in some way. You must be specific. Your response can and should include both specific written responses and a screenshot that illustrates your understanding of groups.",
+    "onStep: What is the role of the onStep function in a CS Academy program. Include a screenshot of onStep code from your project and explain, referring to specific code in the example, what that code does when your program runs.",
+    "onKeyPress and/or onKeyHold. What is the purpose of these functions? How are they similar or different from each other? How do you use one of them in your program? Be specific in describing what your code does when the program is run.",
+    "If <condition> then <do something>: What is the role of if statements in a program? What does it mean that an if statement results in either True or False? Show, and explain, how if statements are used in your program.",
+    "What is hitsShape used for? How is it combined with an if statement in your program? What does your program do in response to that statement being True? How about when it's False?"
+  ],
+  "vocabulary": [
+    "Shape Object",
+    "Group",
+    "onStep",
+    "onKeyPress",
+    "onKeyHold",
+    "Conditional Statement",
+    "hitsShape",
+    "Boolean"
+  ],
+  "vocabDefinitions": {
+    "Shape Object": "A graphical element in CS Academy (like Circle, Rect, etc.) that can be drawn and customized with properties like position, size, color, and border.",
+    "Group": "A collection of shape objects in CS Academy that can be controlled together as a single unit, allowing you to move, resize, or transform multiple shapes at once.",
+    "onStep": "A function in CS Academy that runs continuously in a loop, typically used for animation and continuous updates to the program.",
+    "onKeyPress": "An event handler in CS Academy that runs code once when a specific key is pressed down.",
+    "onKeyHold": "An event handler in CS Academy that runs code continuously while a specific key remains pressed.",
+    "Conditional Statement": "Code that executes only when a condition evaluates to True, allowing programs to make decisions (if/elif/else statements).",
+    "hitsShape": "A method in CS Academy that checks whether one shape overlaps or touches another shape, returning True if they collide or False if they don't.",
+    "Boolean": "A data type that can only be True or False, used in conditional statements and logical expressions."
+  }
+}
+
