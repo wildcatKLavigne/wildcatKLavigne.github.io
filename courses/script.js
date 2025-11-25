@@ -975,6 +975,11 @@
 
     try {
       const data = await fetchJson(mod.path);
+      
+      // Reset imageData before building page (previews will be populated by buildPageFromContent)
+      imageData = {};
+      previews = {};
+      
       buildPageFromContent(data);
 
       // Wire buttons for this module view
@@ -983,9 +988,6 @@
       const uploadContentInput = document.getElementById('upload-content-json');
       const showBtn = document.getElementById('show-btn');
       const clearBtn = document.getElementById('clear-btn');
-
-      imageData = {};
-      previews = {};
 
       saveBtn.addEventListener('click', () => {
         const data = collectResponses();
