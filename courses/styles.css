@@ -169,6 +169,22 @@ code {
   border-radius: 4px;
   font-weight: bold;
 }
+.module-meta {
+  margin-bottom: 1.5rem;
+}
+.module-meta h2#module-title {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+  color: #001f4d;
+  font-weight: 700;
+}
+.module-meta p#module-description {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
 .meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 0.5rem; }
 .inline { display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; }
 .inline input {
