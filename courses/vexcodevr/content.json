@@ -1,0 +1,30 @@
+{
+  "title": "Vexcode VR",
+  "description": "Use computational thinking strategies to solve problems in robotics. This reflection explores how computational thinking - including decomposition, pattern recognition, abstraction, and algorithmic thinking - helps simplify problem solving and complete tasks in robotics programming.",
+  "understandings": [
+    "Computational thinking is a problem solving strategy that can be used with and without computer programming to help simplify problem solving and completing tasks.",
+    "Computational thinking includes 4 steps: Decomposition, pattern recognition, abstraction, and algorithmic thinking."
+  ],
+  "essentialQuestions": [
+    "How is computational thinking used to solve problems? Identify the steps and how they are used in the process of solving a problem.",
+    "What is the purpose of decomposing a problem before trying to solve it? Provide an example, show, and explain how it is done using code.",
+    "What are the benefits of using pattern recognition as part of a problem solving strategy? Use code to illustrate your answer.",
+    "Why do we use abstraction as part of the computational thinking process? Show an example of how abstraction in code simplifies the problem solution.",
+    "What is an algorithm? Explain the algorithm for programming a robot to draw an equilateral polygon."
+  ],
+  "vocabulary": [
+    "Computational thinking",
+    "Pattern recognition",
+    "Abstraction",
+    "Algorithm",
+    "Procedure, function, or method"
+  ],
+  "vocabDefinitions": {
+    "Computational thinking": "A problem-solving strategy that involves breaking down complex problems into smaller, manageable parts and using logical reasoning to find solutions. It includes decomposition, pattern recognition, abstraction, and algorithmic thinking.",
+    "Pattern recognition": "The process of identifying similarities, trends, or regularities in problems or data that can help solve new problems more efficiently by recognizing familiar patterns.",
+    "Abstraction": "The process of hiding unnecessary details and focusing on the essential features of a problem or solution, making it easier to understand and work with complex systems.",
+    "Algorithm": "A step-by-step set of instructions or rules to solve a problem or complete a task. In programming, an algorithm is a sequence of commands that a computer or robot can execute.",
+    "Procedure, function, or method": "A named block of code that performs a specific task and can be reused throughout a program. It allows you to organize code, avoid repetition, and make programs easier to understand and maintain."
+  }
+}
+
