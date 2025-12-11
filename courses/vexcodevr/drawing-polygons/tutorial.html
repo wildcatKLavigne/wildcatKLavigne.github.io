@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vexcode VR: Drawing Polygons Tutorial</title>
+  <link rel="stylesheet" href="tutorialStyles.css" />
+</head>
+<body>
+  <header class="tutorial-header">
+    <div class="header-content">
+      <a class="back-link" href="../../index.html">← Back to Courses</a>
+      <h1>Drawing Polygons with Vexcode VR</h1>
+      <p class="subtitle">Learn computational thinking by drawing shapes step-by-step, from procedural code to abstraction</p>
+    </div>
+  </header>
+
+  <main class="tutorial-container">
+    <section class="tutorial-section">
+      <h2>Introduction</h2>
+      <p>In this tutorial, you'll learn to draw polygons using a VEXcode VR robot. We'll start with simple, step-by-step instructions and gradually introduce computational thinking concepts: <strong>decomposition</strong>, <strong>pattern recognition</strong>, and <strong>abstraction</strong>.</p>
+      <div class="info-box">
+        <p><strong>Computational Thinking Concepts:</strong></p>
+        <ul>
+          <li><strong>Decomposition:</strong> Breaking a complex problem into smaller, easier tasks</li>
+          <li><strong>Pattern Recognition:</strong> Identifying repeating steps that can be streamlined</li>
+          <li><strong>Abstraction:</strong> Creating reusable blocks of code (functions) to simplify solutions</li>
+          <li><strong>Algorithm:</strong> The sequence of instructions to complete a task</li>
+        </ul>
+      </div>
+      <p>You'll progress through 4 stages, each building on the previous one. By the end, you'll have a flexible function that can draw any polygon!</p>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>Stage 1: Procedural Approach - Drawing a Square</h2>
+      <p>We'll start completely procedural—no functions, no loops, no variables. Just step-by-step instructions to draw a square.</p>
+      
+      <h3>Understanding the Robot Commands</h3>
+      <p>Your robot has these key commands:</p>
+      <div class="two-column-list">
+        <div><code>pen.move(DOWN)</code> - Start drawing</div>
+        <div><code>pen.move(UP)</code> - Stop drawing</div>
+        <div><code>drivetrain.drive_for(FORWARD, length, MM)</code> - Move forward</div>
+        <div><code>drivetrain.turn_for(RIGHT, angle, DEGREES)</code> - Turn right</div>
+      </div>
+
+      <h3>Drawing a Square - Step by Step</h3>
+      <p>To draw a square, we need to:</p>
+      <ol class="step-list">
+        <li>Put the pen down</li>
+        <li>Drive forward (one side)</li>
+        <li>Turn right 90 degrees</li>
+        <li>Drive forward (second side)</li>
+        <li>Turn right 90 degrees</li>
+        <li>Drive forward (third side)</li>
+        <li>Turn right 90 degrees</li>
+        <li>Drive forward (fourth side)</li>
+        <li>Turn right 90 degrees (to face original direction)</li>
+        <li>Lift the pen up</li>
+      </ol>
+
+      <div class="code-block">
+        <pre><code>def main():
+    # Draw a square - completely procedural
+    pen.move(DOWN)
+    drivetrain.drive_for(FORWARD, 285, MM)  # Side 1
+    drivetrain.turn_for(RIGHT, 90, DEGREES)
+    
+    drivetrain.drive_for(FORWARD, 285, MM)  # Side 2
+    drivetrain.turn_for(RIGHT, 90, DEGREES)
+    
+    drivetrain.drive_for(FORWARD, 285, MM)  # Side 3
+    drivetrain.turn_for(RIGHT, 90, DEGREES)
+    
+    drivetrain.drive_for(FORWARD, 285, MM)  # Side 4
+    drivetrain.turn_for(RIGHT, 90, DEGREES)
+    
+    pen.move(UP)
+
+vr_thread(main)</code></pre>
+      </div>
+
+      <div class="tip-box">
+        <strong>Try it:</strong> Run this code in VEXcode VR. You should see your robot draw a square! Notice how we repeat the same pattern: drive forward, then turn right 90 degrees, four times.
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>Stage 2: Pattern Recognition - Using Loops</h2>
+      <p>Look at the code from Stage 1. Do you see a pattern? We're doing the same thing four times:</p>
+      <ul class="step-list">
+        <li>Drive forward a certain distance</li>
+        <li>Turn right 90 degrees</li>
+      </ul>
+      <p>This is <strong>pattern recognition</strong>! When we identify repeating steps, we can use a <code>for</code> loop to make our code shorter and easier to understand.</p>
+
+      <h3>Refactoring with a Loop</h3>
+      <p>Instead of writing the same commands four times, we can use a loop:</p>
+
+      <div class="code-block">
+        <pre><code>def main():
+    pen.move(DOWN)
+    
+    # Repeat 4 times: drive forward, then turn right
+    for i in range(4):
+        drivetrain.drive_for(FORWARD, 285, MM)
+        drivetrain.turn_for(RIGHT, 90, DEGREES)
+    
+    pen.move(UP)
+
+vr_thread(main)</code></pre>
+      </div>
+
+      <p><strong>What changed?</strong></p>
+      <ul class="step-list">
+        <li>We removed the repeated code</li>
+        <li>We used <code>for i in range(4):</code> to repeat the pattern 4 times</li>
+        <li>The code is now shorter and easier to modify</li>
+      </ul>
+
+      <div class="tip-box">
+        <strong>Experiment:</strong> Change <code>range(4)</code> to <code>range(3)</code> to draw a triangle, or <code>range(6)</code> to draw a hexagon. But wait—you'll need to adjust the turn angle too! That's what we'll solve in Stage 4.
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>Stage 3: Abstraction - Creating a Function</h2>
+      <p>Now we'll use <strong>abstraction</strong> to create a reusable function. Notice that "drawing one side" is a complete task: put pen down, drive forward, turn, lift pen up.</p>
+      <p>By creating a function for this task, we separate <em>what</em> we want to do (draw a side) from <em>how</em> we do it (the specific commands).</p>
+
+      <h3>Creating the draw_a_side Function</h3>
+      <p>Let's create a function that draws one side of a polygon:</p>
+
+      <div class="code-block">
+        <pre><code>def draw_a_side(length, angle):
+    """
+    Draws one side of a polygon.
+    length: how far to drive forward (in MM)
+    angle: how many degrees to turn after drawing the side
+    """
+    pen.move(DOWN)
+    drivetrain.drive_for(FORWARD, length, MM)
+    drivetrain.turn_for(RIGHT, angle, DEGREES)
+    pen.move(UP)
+
+def main():
+    # Draw a square using our function
+    for i in range(4):
+        draw_a_side(285, 90)
+
+vr_thread(main)</code></pre>
+      </div>
+
+      <p><strong>What is abstraction?</strong></p>
+      <ul class="step-list">
+        <li>We created a <strong>function</strong> called <code>draw_a_side</code></li>
+        <li>This function takes <strong>parameters</strong>: <code>length</code> and <code>angle</code></li>
+        <li>Now we can call this function whenever we need to draw a side</li>
+        <li>The function <strong>abstracts</strong> (hides) the details of how to draw a side</li>
+      </ul>
+
+      <div class="tip-box">
+        <strong>Why abstraction matters:</strong> If we need to change how we draw a side (maybe add a pause, or change the pen color), we only change it in one place—inside the function. This makes our code easier to maintain and understand.
+      </div>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>Stage 4: Complete Abstraction - The draw_a_polygon Function</h2>
+      <p>Now we'll create a function that can draw <em>any</em> polygon! This requires using variables and arithmetic to calculate the correct side length and turn angle.</p>
+
+      <h3>Understanding Polygon Math</h3>
+      <p>For any polygon with <code>n</code> sides:</p>
+      <ul class="step-list">
+        <li><strong>Turn angle:</strong> To complete a full circle (360°), we need to turn <code>360 / n</code> degrees after each side</li>
+        <li><strong>Side length:</strong> To fit the polygon in a reasonable size, we can calculate: <code>(475 * 3) / n</code></li>
+      </ul>
+      <p>For example, a pentagon (5 sides):</p>
+      <ul class="step-list">
+        <li>Turn angle = 360 / 5 = 72 degrees</li>
+        <li>Side length = (475 * 3) / 5 = 285 MM</li>
+      </ul>
+
+      <h3>Creating the Complete Function</h3>
+      <p>Now let's create a function that uses these calculations:</p>
+
+      <div class="code-block">
+        <pre><code>def draw_a_side(length, angle):
+    """Draws one side of a polygon."""
+    pen.move(DOWN)
+    drivetrain.drive_for(FORWARD, length, MM)
+    drivetrain.turn_for(RIGHT, angle, DEGREES)
+    pen.move(UP)
+
+def draw_a_polygon(number_of_sides):
+    """
+    Draws any polygon with the specified number of sides.
+    Uses decomposition, pattern recognition, and abstraction!
+    """
+    # Calculate the angle to turn after each side
+    angle = 360 / number_of_sides
+    
+    # Calculate the length of each side
+    length = (475 * 3) / number_of_sides
+    
+    # Draw each side using a loop (pattern recognition)
+    for i in range(number_of_sides):
+        draw_a_side(length, angle)
+
+def main():
+    # Now we can draw any polygon easily!
+    draw_a_polygon(5)  # Draw a pentagon
+
+vr_thread(main)</code></pre>
+      </div>
+
+      <h3>How It All Works Together</h3>
+      <p>This solution demonstrates all four computational thinking steps:</p>
+      <ol class="step-list">
+        <li><strong>Decomposition:</strong> We broke "draw a polygon" into "draw multiple sides"</li>
+        <li><strong>Pattern Recognition:</strong> We saw that each side follows the same pattern</li>
+        <li><strong>Abstraction:</strong> We created functions (<code>draw_a_side</code> and <code>draw_a_polygon</code>) to hide implementation details</li>
+        <li><strong>Algorithm:</strong> The complete sequence: calculate values, loop through sides, draw each side</li>
+      </ol>
+
+      <div class="tip-box">
+        <strong>Try different polygons:</strong> Change <code>draw_a_polygon(5)</code> to <code>draw_a_polygon(3)</code> for a triangle, <code>draw_a_polygon(6)</code> for a hexagon, or <code>draw_a_polygon(8)</code> for an octagon!
+      </div>
+    </section>
+
+    <section class="tutorial-section checklist">
+      <h2>Checklist</h2>
+      <ul>
+        <li>✅ Stage 1: Drew a square using procedural code (no loops or functions)</li>
+        <li>✅ Stage 2: Recognized the pattern and used a <code>for</code> loop to simplify</li>
+        <li>✅ Stage 3: Created the <code>draw_a_side</code> function to abstract drawing one side</li>
+        <li>✅ Stage 4: Created the <code>draw_a_polygon</code> function with variables and calculations</li>
+        <li>✅ Tested drawing different polygons (triangle, square, pentagon, hexagon, etc.)</li>
+        <li>✅ Understood how decomposition, pattern recognition, and abstraction work together</li>
+      </ul>
+    </section>
+
+    <section class="tutorial-section">
+      <h2>Next Steps</h2>
+      <p>Now that you understand computational thinking concepts, try these challenges:</p>
+      <ul class="step-list">
+        <li>Modify <code>draw_a_polygon</code> to draw polygons of different sizes</li>
+        <li>Create a function to draw a star (hint: you'll need to turn more than 360/n degrees)</li>
+        <li>Draw multiple polygons in different locations</li>
+        <li>Experiment with the pen width and color</li>
+      </ul>
+    </section>
+
+    <div class="tutorial-action">
+      <a class="cta-button" href="../../index.html?module=vexcodevr/computational-thinking">Go to Reflection</a>
+    </div>
+  </main>
+</body>
+</html>
+

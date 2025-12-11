@@ -133,6 +133,9 @@
         { value: 'csacademy/animation/tutorial.html', label: 'Mickey onStep Animation' },
         { value: 'csacademy/bouncing-ball/tutorial.html', label: 'Bouncing Ball with Physics' },
         { value: 'csacademy/chasing/tutorial.html', label: 'Chasing Objects with angleTo()' }
+      ],
+      vexcodevr: [
+        { value: 'vexcodevr/drawing-polygons/tutorial.html', label: 'Drawing Polygons with Computational Thinking' }
       ]
     };
 
