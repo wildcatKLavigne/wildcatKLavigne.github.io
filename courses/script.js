@@ -287,8 +287,13 @@
   function buildPageFromContent(content) {
     const titleEl = document.getElementById('module-title');
     const descEl = document.getElementById('desc-text');
-    if (content.title) titleEl.textContent = content.title;
-    if (content.description) descEl.textContent = content.description;
+    if (titleEl) {
+      titleEl.textContent = content.title || 'Untitled Module';
+      titleEl.style.display = 'block';
+    }
+    if (descEl) {
+      descEl.textContent = content.description || '';
+    }
 
     vocabDefinitions = content.vocabDefinitions || {};
 
@@ -979,6 +984,10 @@
       // Reset imageData before building page (previews will be populated by buildPageFromContent)
       imageData = {};
       previews = {};
+      
+      // Debug: log the data to ensure it's loaded
+      console.log('Module data loaded:', data);
+      console.log('Module title:', data.title);
       
       buildPageFromContent(data);
 
