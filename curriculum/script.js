@@ -229,49 +229,9 @@ function setupPrintMap() {
         h3 { font-size: 1rem; margin-top: 15px; margin-bottom: 5px; }
         ul { margin-left: 20px; margin-bottom: 15px; }
         li { margin-bottom: 4px; }
-        .export-buttons { 
-          margin: 20px 0; 
-          padding: 15px; 
-          background: #f5f5f5; 
-          border-radius: 8px; 
-          border: 1px solid #ddd;
-        }
-        .export-btn { 
-          background: #1a73e8; 
-          color: white; 
-          border: none; 
-          padding: 10px 20px; 
-          border-radius: 4px; 
-          cursor: pointer; 
-          font-size: 14px;
-          margin-right: 10px;
-          margin-bottom: 10px;
-        }
-        .export-btn:hover { background: #1557b0; }
-        .export-btn:active { background: #0d47a1; }
-        .status-message {
-          margin-top: 10px;
-          padding: 10px;
-          border-radius: 4px;
-          display: none;
-        }
-        .status-message.success {
-          background: #d4edda;
-          color: #155724;
-          border: 1px solid #c3e6cb;
-        }
-        .status-message.error {
-          background: #f8d7da;
-          color: #721c24;
-          border: 1px solid #f5c6cb;
-        }
       </style>
     </head>
     <body>
-      <div class="export-buttons">
-        <button class="export-btn" onclick="exportToGoogleDocs()">📄 Export to Google Docs</button>
-        <div class="status-message" id="statusMessage"></div>
-      </div>
       <h1>${data.unit}</h1>
       ${data.overview ? `<h3>Overview</h3><p>${data.overview}</p>` : ""}
       <h2>Class Length: ${data.classLength}</h2>
@@ -309,112 +269,7 @@ function setupPrintMap() {
     });
   }
 
-  html += `
-      <script>
-        function exportToGoogleDocs() {
-          const statusMsg = document.getElementById('statusMessage');
-          statusMsg.style.display = 'none';
-          
-          try {
-            // Extract and format the content
-            let textContent = '';
-            
-            // Get title
-            const h1 = document.querySelector('h1');
-            if (h1) {
-              textContent += h1.textContent.trim() + '\\n\\n';
-            }
-            
-            // Get overview if it exists
-            const allH3 = Array.from(document.querySelectorAll('h3'));
-            const overviewH3 = allH3.find(h => h.textContent.trim() === 'Overview');
-            if (overviewH3) {
-              textContent += 'Overview\\n';
-              let next = overviewH3.nextElementSibling;
-              if (next && next.tagName === 'P') {
-                textContent += next.textContent.trim() + '\\n\\n';
-              }
-            }
-            
-            // Get class length
-            const h2 = document.querySelector('h2');
-            if (h2) {
-              textContent += h2.textContent.trim() + '\\n\\n';
-            }
-            
-            // Process all headings and their content
-            const allHeadings = Array.from(document.querySelectorAll('h3, h4, h5'));
-            allHeadings.forEach((heading, index) => {
-              const headingText = heading.textContent.trim();
-              
-              // Skip Overview as we already handled it
-              if (headingText === 'Overview') return;
-              
-              // Add heading with appropriate indentation
-              if (heading.tagName === 'H3') {
-                textContent += '\\n' + headingText + '\\n';
-              } else if (heading.tagName === 'H4') {
-                textContent += '\\n  ' + headingText + '\\n';
-              } else if (heading.tagName === 'H5') {
-                textContent += '\\n    ' + headingText + '\\n';
-              }
-              
-              // Get content after this heading (until next heading of same or higher level)
-              let next = heading.nextElementSibling;
-              while (next) {
-                const nextTag = next.tagName;
-                
-                // Stop if we hit another heading
-                if (nextTag === 'H1' || nextTag === 'H2' || 
-                    (nextTag === 'H3' && heading.tagName !== 'H3') ||
-                    (nextTag === 'H4' && (heading.tagName === 'H3' || heading.tagName === 'H4')) ||
-                    (nextTag === 'H5' && heading.tagName === 'H5')) {
-                  break;
-                }
-                
-                // Process lists
-                if (nextTag === 'UL') {
-                  const items = next.querySelectorAll('li');
-                  items.forEach(li => {
-                    const indent = heading.tagName === 'H3' ? '  ' : heading.tagName === 'H4' ? '    ' : '      ';
-                    textContent += indent + '• ' + li.textContent.trim() + '\\n';
-                  });
-                } else if (nextTag === 'P') {
-                  textContent += '  ' + next.textContent.trim() + '\\n';
-                }
-                
-                next = next.nextElementSibling;
-              }
-            });
-            
-            // Copy to clipboard
-            navigator.clipboard.writeText(textContent).then(() => {
-              statusMsg.textContent = '✓ Content copied to clipboard! Opening Google Docs...';
-              statusMsg.className = 'status-message success';
-              statusMsg.style.display = 'block';
-              
-              // Open Google Docs
-              window.open('https://docs.google.com/document/create', '_blank');
-              
-              // Clear status message after 5 seconds
-              setTimeout(() => {
-                statusMsg.style.display = 'none';
-              }, 5000);
-            }).catch(err => {
-              statusMsg.textContent = '✗ Error copying to clipboard. Please copy the content manually.';
-              statusMsg.className = 'status-message error';
-              statusMsg.style.display = 'block';
-              console.error('Clipboard error:', err);
-            });
-          } catch (err) {
-            statusMsg.textContent = '✗ Error exporting content: ' + err.message;
-            statusMsg.className = 'status-message error';
-            statusMsg.style.display = 'block';
-            console.error('Export error:', err);
-          }
-        }
-      </script>
-    </body></html>`;
+  html += `</body></html>`;
   newWindow.document.write(html);
   newWindow.document.close();
   newWindow.focus();
