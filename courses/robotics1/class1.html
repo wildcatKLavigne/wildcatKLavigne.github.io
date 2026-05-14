@@ -1,1 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 1: What is Engineering? Intentional Design</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue: #1a4f82;
+    --blue-light: #e8f0f9;
+    --green: #2d6a4f;
+    --green-light: #e8f4ee;
+    --amber: #7d4e00;
+    --amber-light: #fdf3e3;
+    --red: #7a1f1f;
+    --gray: #444;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', Arial, sans-serif;
+    font-size: 11pt;
+    color: #222;
+    background: #fff;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0.5in 0.75in;
+  }
+
+  /* --- HEADER --- */
+  .ws-header {
+    border-top: 5px solid var(--blue);
+    padding-top: 14px;
+    margin-bottom: 20px;
+  }
+  .ws-header .course-label {
+    font-size: 9pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .ws-header h1 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 22pt;
+    color: #111;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .ws-header .subtitle {
+    font-size: 10pt;
+    color: #666;
+    margin-bottom: 14px;
+  }
+  .ws-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .ws-meta-item {
+    padding: 8px 12px;
+    border-right: 1px solid var(--border);
+  }
+  .ws-meta-item:last-child { border-right: none; }
+  .ws-meta-item .meta-label {
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #888;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .ws-meta-item .meta-value {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #222;
+  }
+
+  /* --- OBJECTIVES BOX --- */
+  .objectives-box {
+    background: var(--blue-light);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 12px 16px;
+    margin: 18px 0;
+  }
+  .objectives-box h3 {
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--blue);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .objectives-box ol {
+    padding-left: 18px;
+    margin: 0;
+  }
+  .objectives-box li {
+    font-size: 10pt;
+    margin-bottom: 4px;
+    color: #1a1a3a;
+  }
+
+  /* --- SECTION --- */
+  .section {
+    margin-bottom: 22px;
+  }
+  .section-label {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+    border-bottom: 1.5px solid var(--blue-light);
+  }
+  .section h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 8px;
+  }
+
+  /* --- CONTENT BLOCKS --- */
+  .reading-block {
+    background: var(--gray-light);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 10.5pt;
+    line-height: 1.7;
+    color: #333;
+  }
+  .reading-block p { margin-bottom: 10px; }
+  .reading-block p:last-child { margin-bottom: 0; }
+
+  .key-term {
+    display: inline;
+    font-weight: 700;
+    color: var(--blue);
+  }
+
+  /* --- INPUT FIELDS --- */
+  .write-line {
+    border: none;
+    border-bottom: 1px solid #999;
+    display: block;
+    width: 100%;
+    margin: 8px 0 14px;
+    height: 26px;
+    background: transparent;
+  }
+  .write-lines-short {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+    margin-bottom: 14px;
+  }
+  .write-lines-short .line-group label {
+    font-size: 9pt;
+    color: #666;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .write-area {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    width: 100%;
+    min-height: 70px;
+    display: block;
+    background: transparent;
+    resize: none;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 10.5pt;
+    color: #222;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  /* --- SKETCH BOX --- */
+  .sketch-box {
+    border: 1.5px dashed #bbb;
+    border-radius: var(--radius);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+    font-size: 9pt;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .sketch-box.tall { height: 180px; }
+  .sketch-box.short { height: 100px; }
+
+  /* --- ANALYSIS TABLE --- */
+  .analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 14px;
+    font-size: 10pt;
+  }
+  .analysis-table th {
+    background: var(--blue);
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .analysis-table td {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    vertical-align: top;
+  }
+  .analysis-table tr:nth-child(even) td { background: var(--gray-light); }
+  .analysis-table .write-cell {
+    height: 44px;
+    vertical-align: top;
+  }
+
+  /* --- LEVEL SCAFFOLDING --- */
+  .scaffold-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .scaffold-tab {
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    font-size: 9.5pt;
+  }
+  .scaffold-tab .tab-label {
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .scaffold-tab.novice { background: var(--green-light); }
+  .scaffold-tab.novice .tab-label { color: var(--green); }
+  .scaffold-tab.intermediate { background: var(--blue-light); }
+  .scaffold-tab.intermediate .tab-label { color: var(--blue); }
+  .scaffold-tab.proficient { background: #f0ecff; }
+  .scaffold-tab.proficient .tab-label { color: #3d2a99; }
+
+  /* --- REFLECTION / NOTEBOOK --- */
+  .notebook-prompt {
+    background: var(--amber-light);
+    border-left: 4px solid #c8860a;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+  }
+  .notebook-prompt .nb-label {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+  .notebook-prompt p { font-size: 10.5pt; color: #3a2a00; line-height: 1.6; }
+
+  /* --- EXTENSION --- */
+  .extension-box {
+    background: #f0ecff;
+    border: 1px solid #c5b8f5;
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-top: 6px;
+  }
+  .extension-box .ext-label {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    color: #3d2a99;
+    margin-bottom: 6px;
+  }
+  .extension-box p { font-size: 10pt; color: #2a1a55; line-height: 1.6; }
+
+  /* --- DIVIDER --- */
+  hr.section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 22px 0;
+  }
+
+  /* --- FOOTER --- */
+  .ws-footer {
+    margin-top: 28px;
+    padding-top: 10px;
+    border-top: 2px solid var(--blue);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 8.5pt;
+    color: #888;
+  }
+
+  @media print {
+    body { padding: 0.4in 0.6in; }
+    .write-area { border: 1px solid #aaa; }
+    .sketch-box { border: 1.5px dashed #999; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
+  <h1>What is Engineering?<br>Intentional Design</h1>
+  <div class="subtitle">Class 1 of 4 &nbsp;·&nbsp; 74 minutes</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><span class="meta-value">_______________________</span></div>
+  </div>
+</div>
+
+<!-- OBJECTIVES -->
+<div class="objectives-box">
+  <h3>Learning Objectives</h3>
+  <ol>
+    <li>Define <em>intentional design</em> and explain what makes it different from trial-and-error.</li>
+    <li>Identify design decisions visible in a robot photo and explain their likely purpose.</li>
+    <li>Set up and make your first entry in your engineering notebook.</li>
+  </ol>
+</div>
+
+<!-- PART 1 -->
+<div class="section">
+  <div class="section-label">Part 1 &nbsp;·&nbsp; Reading &amp; Discussion (15 min)</div>
+  <h2>What Makes a Design Intentional?</h2>
+
+  <div class="reading-block">
+    <p>Engineering is the practice of solving problems with <span class="key-term">constraints</span>. A constraint is a limit you must work within — weight, cost, size, time, available materials. Engineers don't just build whatever they imagine; they make decisions that balance competing demands.</p>
+    <p><span class="key-term">Intentional design</span> means every choice in your robot has a reason. You chose that wheel size because it gives the right ground clearance. You placed the battery low because it lowers the center of gravity. You used a modular bracket so you can swap it later. When someone asks "why did you build it that way?" you should have an answer.</p>
+    <p>Trial-and-error means trying things until something works — without understanding why it works. It can get you a functioning robot, but you won't be able to improve it reliably or explain it to a judge, a teammate, or next year's team.</p>
+  </div>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:12px;">After the class discussion, answer these questions in the space below.</p>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> In your own words, what is the difference between intentional design and trial-and-error?</p>
+  <textarea class="write-area" rows="3" placeholder="Write your answer here..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Give one example from everyday life (not a robot) where someone used intentional design. What was the constraint they were working within?</p>
+  <textarea class="write-area" rows="3" placeholder="Example and constraint..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 2 -->
+<div class="section">
+  <div class="section-label">Part 2 &nbsp;·&nbsp; Robot Photo Analysis (20 min)</div>
+  <h2>Reading a Robot Like an Engineer</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:12px;">Your teacher will show you a photo (or photos) of a REV-based robot. Examine it carefully before answering.</p>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice">
+      <span class="tab-label">Novice task</span>
+      Identify and label 3 design choices you can see. Use the table below.
+    </div>
+    <div class="scaffold-tab intermediate">
+      <span class="tab-label">Intermediate task</span>
+      Complete the table AND write a comparison paragraph (Part 2B).
+    </div>
+    <div class="scaffold-tab proficient">
+      <span class="tab-label">Proficient task</span>
+      Complete both tables, the paragraph, and propose one improvement with full rationale.
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; font-weight:600; margin-bottom:8px;">Part 2A — Design Decisions Table</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">For each design choice you observe, describe what you see, guess the reason for that choice, and identify any trade-off it might create.</p>
+
+  <table class="analysis-table">
+    <thead>
+      <tr>
+        <th style="width:28%">What I observe</th>
+        <th style="width:36%">Why the designer probably chose this</th>
+        <th style="width:36%">What might be traded off</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; font-weight:600; margin-bottom:6px;">Part 2B — Comparison Paragraph <em style="font-weight:400; color:#777;">(Intermediate &amp; Proficient)</em></p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">If you have a second robot photo, compare the two designs. Which design choices are similar? Which are different? What does each difference tell you about what each team prioritized?</p>
+  <textarea class="write-area" rows="5" placeholder="Compare the two robots. Discuss at least 2 similarities and 2 differences..."></textarea>
+
+  <p style="font-size:10.5pt; font-weight:600; margin-bottom:6px;">Part 2C — Improvement Proposal <em style="font-weight:400; color:#777;">(Proficient)</em></p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Choose one design decision you observed that you think could be improved. Describe the current design, explain the problem, and propose a specific alternative. Use engineering vocabulary.</p>
+  <textarea class="write-area" rows="5" placeholder="Current design: ... Problem: ... My proposed change: ... Rationale: ..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 3 -->
+<div class="section">
+  <div class="section-label">Part 3 &nbsp;·&nbsp; Engineering Notebook Setup (15 min)</div>
+  <h2>Your First Notebook Entry</h2>
+
+  <div class="reading-block">
+    <p>Your engineering notebook is a legal record of your design process. In competitions like FIRST Tech Challenge, judges read notebooks to understand how your team thinks — not just what you built. Every entry must be dated and signed. Every sketch must be labeled. Every decision must have a reason.</p>
+    <p>Today you will set up your notebook and make your first entry: a title page and a definition entry for <em>intentional design</em>.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:8px;"><strong>Notebook setup checklist</strong> — check each box as you complete it in your physical notebook:</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px 24px; margin-bottom:16px; font-size:10.5pt;">
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Title page with team name, year, and member names</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Table of contents page (leave 2 pages blank)</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> First entry dated and signed by all members</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Definition of "intentional design" in your own words</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> One design decision from the robot photo, with rationale</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Page number written at the bottom of the entry page</label>
+  </div>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry Prompt</div>
+    <p>Write today's full date at the top right. Then write: <em>"Today I learned that intentional design means..."</em> — finish this sentence in at least 3 sentences. Then sketch or describe one design choice from the robot photo and explain the engineering reason behind it.</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 4 — REFLECTION -->
+<div class="section">
+  <div class="section-label">Part 4 &nbsp;·&nbsp; Exit Reflection (10 min)</div>
+  <h2>Checking Your Understanding</h2>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Write one sentence that defines intentional design without using the word "intentional."</p>
+  <textarea class="write-area" rows="2"></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> What is one question you still have after today's class?</p>
+  <textarea class="write-area" rows="2"></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Rate your confidence on each objective (circle one):</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead>
+      <tr><th style="width:60%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>I can define intentional design</td><td></td><td></td><td></td></tr>
+      <tr><td>I can identify design decisions in a robot photo</td><td></td><td></td><td></td></tr>
+      <tr><td>I set up my engineering notebook correctly</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension / Exploration</div>
+    <p>Research a real-world engineering failure — good starting points include the Tacoma Narrows Bridge (1940), the Gimli Glider (1983), or the Therac-25 radiation machine (1985–1987). Write a 1-page analysis in your engineering notebook: What was the design intent? What constraint was underestimated or ignored? What would intentional design have caught?</p>
+  </div>
+</div>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 1, Class 1</span>
+  <span>What is Engineering? Intentional Design</span>
+  <span>Page 1 of 1</span>
+</div>
+
+</body>
+</html>
 
