@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMU CS Academy — Python Graphics & Animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#f5f2eb;color:#0e0e1a;font-family:'DM Sans',system-ui,sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+.topbar{background:#0e0e1a;color:#fff;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;gap:1rem}
+.topbar-left{display:flex;align-items:center;gap:.75rem;min-width:0}
+.cmu-link{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.55);text-decoration:none;white-space:nowrap;transition:color .15s}
+.cmu-link:hover{color:#fff}
+.topbar-sep{color:rgba(255,255,255,.2);font-size:13px;flex-shrink:0}
+.menu-wrap{position:relative}
+.menu-btn{display:flex;align-items:center;gap:.45rem;background:none;border:none;color:#fff;font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;cursor:pointer;padding:.3rem .5rem;border-radius:5px;transition:background .15s;white-space:nowrap}
+.menu-btn:hover{background:rgba(255,255,255,.1)}
+.menu-btn .chevron{font-size:10px;opacity:.7;transition:transform .2s}
+.menu-btn.open .chevron{transform:rotate(180deg)}
+.dropdown{position:absolute;top:calc(100% + 8px);left:0;background:#fff;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.18);min-width:268px;overflow:hidden;display:none;z-index:300}
+.dropdown.open{display:block;animation:dropIn .18s ease}
+@keyframes dropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.dd-section{padding:.5rem 0}
+.dd-section:not(:last-child){border-bottom:1px solid #f0ede6}
+.dd-label{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#aaa;padding:.4rem 1rem .2rem}
+.dd-item{display:flex;align-items:center;gap:.75rem;padding:.55rem 1rem;cursor:pointer;transition:background .12s;color:#0e0e1a}
+.dd-item:hover{background:#f5f2eb}
+.dd-item.active{background:#d6e4ff;color:#1a4fa8}
+.dd-num{font-family:'DM Mono',monospace;font-size:10px;color:#bbb;width:20px;flex-shrink:0;text-align:right}
+.dd-item.active .dd-num{color:#1a4fa8}
+.dd-title{font-size:13.5px;font-weight:500;line-height:1.3}
+.dd-sub{font-size:11px;color:#888;margin-top:1px}
+.dd-item.active .dd-sub{color:#5f88cc}
+.topbar-right{display:flex;align-items:center;flex-shrink:0;font-family:'DM Mono',monospace;font-size:10.5px}
+.step-badge{opacity:.5;white-space:nowrap}
+.prog-wrap{height:3px;background:#d8d4c8;position:sticky;top:52px;z-index:99}
+.prog-bar{height:100%;background:#1a4fa8;width:0%;transition:width .4s ease}
+.shell{max-width:780px;margin:0 auto;padding:0 1.25rem 6rem}
+.home{display:none}.home.active{display:block}
+.home-hero{padding:2.75rem 0 2rem;border-bottom:2px solid #0e0e1a;margin-bottom:2.25rem}
+.home-kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;color:#6b6860;text-transform:uppercase;margin-bottom:.6rem}
+.home-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,5vw,3.25rem);font-weight:700;line-height:1.1;margin-bottom:.4rem}
+.home-sub{font-size:15px;color:#6b6860;font-family:'Fraunces',Georgia,serif;font-weight:300;font-style:italic;margin-bottom:1.5rem}
+.home-desc{font-size:15px;max-width:600px}
+.unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;margin-top:1.75rem}
+.unit-card{background:#faf8f3;border:1.5px solid #d8d4c8;border-radius:10px;padding:1.1rem 1.2rem;cursor:pointer;transition:all .18s;display:block}
+.unit-card:hover{border-color:#1a4fa8;background:#f0f5ff;transform:translateY(-2px);box-shadow:0 4px 16px rgba(26,79,168,.1)}
+.uc-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;color:#aaa;margin-bottom:.35rem}
+.uc-title{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:600;line-height:1.25;margin-bottom:.25rem}
+.uc-sub{font-size:12.5px;color:#6b6860;line-height:1.4}
+.uc-tag{display:inline-block;margin-top:.6rem;font-family:'DM Mono',monospace;font-size:9.5px;background:#e4e0d8;color:#6b6860;padding:2px 7px;border-radius:3px}
+.lesson-screen{display:none}.lesson-screen.active{display:block}
+.lesson-header{padding:2.25rem 0 1.6rem;border-bottom:2px solid #0e0e1a;margin-bottom:2rem}
+.kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;color:#6b6860;text-transform:uppercase;margin-bottom:.5rem}
+.lesson-title-h{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:700;line-height:1.1;margin-bottom:.4rem}
+.lesson-sub{font-size:14px;color:#6b6860;font-style:italic;font-family:'Fraunces',Georgia,serif;font-weight:300}
+.obj-box{background:#d6e4ff;border-left:4px solid #1a4fa8;border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin-top:1.4rem}
+.obj-box h3{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#1a4fa8;margin-bottom:.5rem}
+.obj-box ul{list-style:none}
+.obj-box li{font-size:13.5px;padding-left:1.1rem;position:relative;margin-bottom:.2rem}
+.obj-box li::before{content:'\2192';position:absolute;left:0;color:#1a4fa8;font-size:12px}
+.dots{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:1.75rem}
+.dot{height:7px;border-radius:4px;background:#d8d4c8;border:none;cursor:pointer;transition:all .2s;width:22px;flex-shrink:0}
+.dot.done{background:#0e7c6e}.dot.cur{background:#1a4fa8;width:32px}
+.step-card{display:none;animation:fadeUp .3s ease forwards}.step-card.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.step-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6b6860;margin-bottom:.4rem}
+.step-h{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.1rem,3vw,1.55rem);font-weight:600;line-height:1.2;margin-bottom:1.1rem;padding-bottom:.85rem;border-bottom:1.5px solid #d8d4c8}
+.prose{margin-bottom:.85rem;font-size:15px}.prose:last-child{margin-bottom:0}
+code{font-family:'DM Mono',monospace;font-size:.84em;background:#e4e0d8;padding:1px 5px;border-radius:3px;color:#1a3a6b;word-break:break-word}
+.code-wrap{position:relative;margin:1rem 0}
+.code-block{background:#151b2e;border-radius:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.code-block pre{margin:0;padding:1rem 1.2rem;font-family:'DM Mono',monospace;font-size:clamp(11.5px,1.6vw,13px);line-height:1.9;color:#b8d4f8;white-space:pre;tab-size:4}
+.copy-btn{position:absolute;top:.45rem;right:.55rem;background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:3px;cursor:pointer;z-index:2;transition:all .15s}
+.copy-btn:hover{background:rgba(255,255,255,.16);color:#fff}
+.callout{border-radius:8px;overflow:hidden;margin:1.1rem 0}
+.ch{padding:.5rem 1rem;font-family:'DM Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.04em}
+.cb{padding:.75rem 1.05rem;font-size:14px;line-height:1.7}
+.cb p{margin-bottom:.45rem}.cb p:last-child{margin-bottom:0}
+.cb ul{list-style:none;margin-top:.3rem}
+.cb li{padding-left:1.05rem;position:relative;margin-bottom:.22rem}
+.cb li::before{content:'\2022';position:absolute;left:0}
+.concept .ch{background:#1a4fa8;color:#fff}.concept .cb{background:#d6e4ff}.concept .cb li::before{color:#1a4fa8}
+.try-box .ch{background:#c46b00;color:#fff}.try-box .cb{background:#fde8c2}.try-box .cb li::before{color:#c46b00}
+.observe .ch{background:#5c2d91;color:#fff}.observe .cb{background:#ece3f8}.observe .cb li::before{color:#5c2d91}
+.warn .ch{background:#b72a2a;color:#fff}.warn .cb{background:#fde0e0}.warn .cb li::before{color:#b72a2a}
+.green-box .ch{background:#0e7c6e;color:#fff}.green-box .cb{background:#c8ede9}.green-box .cb li::before{color:#0e7c6e}
+.qbox{border:1.5px solid #d8d4c8;border-left:5px solid #0e7c6e;border-radius:0 8px 8px 0;padding:.85rem 1.05rem;margin:1.1rem 0;background:#faf8f3}
+.qlbl{font-family:'DM Mono',monospace;font-size:10px;color:#0e7c6e;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.28rem}
+.qtxt{font-size:14px;line-height:1.65}
+.qnote{margin-top:.45rem;font-size:12px;color:#6b6860;font-style:italic}
+.mc-box{border:1.5px solid #d8d4c8;border-left:5px solid #5c2d91;border-radius:0 8px 8px 0;padding:.85rem 1.05rem;margin:1.1rem 0;background:#faf8f3}
+.mc-box .qlbl{color:#5c2d91}
+.mc-opts{list-style:none;margin-top:.5rem}
+.mc-opts li{font-size:13.5px;padding:.18rem 0 .18rem 1rem;position:relative}
+.mc-opts li::before{content:'\25A1';position:absolute;left:0;color:#aaa}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.1rem;border-top:1.5px solid #d8d4c8;gap:.75rem}
+.nbtn{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem 1.15rem;border:2px solid #0e0e1a;background:transparent;color:#0e0e1a;font-family:'DM Sans',system-ui,sans-serif;font-size:13px;font-weight:600;border-radius:6px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.nbtn:hover:not(:disabled){background:#0e0e1a;color:#f5f2eb}
+.nbtn:disabled{opacity:.22;cursor:default}
+.nbtn.primary{background:#1a4fa8;border-color:#1a4fa8;color:#fff}
+.nbtn.primary:hover{background:#133d87;border-color:#133d87}
+.step-ctr{font-family:'DM Mono',monospace;font-size:11px;color:#6b6860;white-space:nowrap}
+.done-screen{display:none;text-align:center;padding:3.5rem 1rem}.done-screen.active{display:block}
+.done-icon{font-size:3rem;margin-bottom:.75rem}
+.done-screen h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.3rem,3.5vw,1.85rem);font-weight:700;margin-bottom:.65rem}
+.done-screen p{color:#6b6860;margin-bottom:1.5rem;font-size:15px;max-width:500px;margin-left:auto;margin-right:auto}
+.done-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.done-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:8px;font-family:'DM Sans',system-ui,sans-serif;font-weight:600;font-size:13.5px;cursor:pointer;border:none;text-decoration:none}
+.done-btn.primary{background:#1a4fa8;color:#fff}
+.done-btn.secondary{background:transparent;border:2px solid #0e0e1a;color:#0e0e1a}
+.sub-item{font-size:13px;color:#6b6860;padding-left:1rem;margin-top:.2rem}
+@media(max-width:520px){
+  .topbar{padding:0 .9rem}.step-badge{display:none}
+  .dot{width:15px}.dot.cur{width:22px}
+  .nbtn{padding:.45rem .8rem;font-size:12px}
+  .unit-grid{grid-template-columns:1fr}
+}
+@media(max-width:380px){.cmu-link{display:none}.topbar-sep{display:none}}
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <div class="topbar-left">
+    <a class="cmu-link" href="https://academy.cs.cmu.edu" target="_blank" rel="noopener">CMU CS Academy</a>
+    <span class="topbar-sep">/</span>
+    <div class="menu-wrap">
+      <button class="menu-btn" id="menu-btn" onclick="toggleMenu()" aria-haspopup="true" aria-expanded="false" aria-label="Select lesson">
+        <span id="menu-label">Course Home</span>
+        <span class="chevron">&#9660;</span>
+      </button>
+      <div class="dropdown" id="dropdown" role="menu"></div>
+    </div>
+  </div>
+  <div class="topbar-right"><span class="step-badge" id="tb-step"></span></div>
+</nav>
+<div class="prog-wrap"><div class="prog-bar" id="prog"></div></div>
+<div class="shell">
+  <div class="home active" id="home-screen">
+    <div class="home-hero">
+      <div class="home-kicker">CMU CS Academy &middot; Python Graphics &amp; Animation</div>
+      <h1 class="home-title">Drawing with Code</h1>
+      <p class="home-sub">An introduction to Python programming through visual art and interactive animation</p>
+      <p class="home-desc">Work through the lessons in order. Each one builds on the last. Click any lesson to begin &mdash; or use the menu in the top-left to jump between lessons at any time.</p>
+    </div>
+    <div class="unit-grid" id="unit-grid"></div>
+  </div>
+  <div class="lesson-screen" id="lesson-screen">
+    <header class="lesson-header" id="lesson-header"></header>
+    <div class="dots" id="dots"></div>
+    <div id="steps-container"></div>
+    <div class="done-screen" id="done-screen"></div>
+    <div class="nav-row" id="nav-row">
+      <button class="nbtn" id="btn-back" onclick="navStep(-1)" disabled>&#8592; Back</button>
+      <span class="step-ctr" id="step-ctr"></span>
+      <button class="nbtn primary" id="btn-next" onclick="navStep(1)">Next &#8594;</button>
+    </div>
+  </div>
+</div>
+<script>
+var COURSE=[
+{id:'flower',num:1,title:'Drawing with Code',subtitle:'Circles, Coordinates & Color',icon:'\uD83C\uDF38',tag:'Intro \u00B7 Shapes',
+ objectives:['Place a Circle() on the canvas using centerX, centerY, and radius','Read argument names from the CMU CS Academy Docs tab','Set fill color using named color strings','Control outlines with border and borderWidth','Make shapes transparent using opacity','Use code order to control layering','Design and code an original flower'],
+ steps:[
+  {title:'The Canvas & Your First Circle',content:[
+    {t:'p',html:'The Canvas is a 400\u00D7400 pixel grid. The origin (0,0) is the top-left corner. x increases to the right; y increases downward.'},
+    {t:'code',lines:['Circle(centerX, centerY, radius)']},
+    {t:'callout',kind:'try',header:'Try This',items:['Type Circle(200, 200, 50) and run it.','Change the first number to different values. What moves?','Change the second number. What moves?','Change the third number. What changes?']},
+    {t:'q',label:'Q1',text:'What does the first argument (centerX) control about the circle?'},
+    {t:'q',label:'Q2',text:'What does the second argument (centerY) control?'},
+    {t:'q',label:'Q3',text:'What does the third argument (radius) control?'},
+    {t:'q',label:'Q4',text:'Without running code, predict: what single command draws a circle in the top-left corner with radius 30?'}
+  ]},
+  {title:'Naming the Arguments \u2014 The Docs Tab',content:[
+    {t:'p',html:'Every argument in a Python function has a name. Knowing argument names helps you write clearer code and add optional arguments.'},
+    {t:'callout',kind:'concept',header:'Concept \u2014 How to Use the Docs Tab',items:['Click the Docs tab at the top of the CMU CS Academy editor.','Search for Circle and read the entry \u2014 it lists every argument by name, type, and description.']},
+    {t:'q',label:'Q5',text:'Look up Circle in the Docs. What are the exact names of the three required arguments? 1) ____________  2) ____________  3) ____________'},
+    {t:'q',label:'Q6',text:'The Docs list optional arguments too. List any three and state what type of value each takes.'}
+  ]},
+  {title:'Adding Color with fill',content:[
+    {t:'p',html:'The fill argument sets the interior color. Color names must be strings in quotation marks.'},
+    {t:'code',lines:["Circle(200, 200, 50)","Circle(200, 200, 25, fill='yellow')","Circle(200, 200, 10, fill='red')"]},
+    {t:'callout',kind:'try',header:'Try This',items:["What happens when you write fill=yellow (no quotes)?","Try 'red', 'cornflowerblue', 'hotpink'.",'Open the Colors tab to see all available names.']},
+    {t:'q',label:'Q7',text:'What error message appears when you remove the quotation marks from a color name?'},
+    {t:'q',label:'Q8',text:'Why do you think color names must be strings (inside quotation marks)?'},
+    {t:'q',label:'Q9',text:'Find two color names from the Colors tab that surprised you. Write them here.'}
+  ]},
+  {title:'Layering \u2014 Code Order Matters',content:[
+    {t:'code',lines:["Circle(200, 200, 50)               # drawn first = bottom","Circle(200, 200, 25, fill='yellow')","Circle(200, 200, 10, fill='red')   # drawn last = top"]},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['Swap the order of the three lines. What happens?','Move Circle(200,200,50) to be last. What do you see, and why?','What general rule can you state about code order and layering?']},
+    {t:'q',label:'Q10',text:'A shape written later in the code appears __________ (in front of / behind) a shape written earlier.'},
+    {t:'q',label:'Q11',text:'Describe what you see when you move the large (radius 50) circle to the last line. Explain why this happens.'},
+    {t:'q',label:'Q12',text:'A classmate wants a white circle with a yellow star on top. Should the white circle code come before or after the yellow star? Explain.'}
+  ]},
+  {title:'Optional Properties \u2014 border, borderWidth, opacity',content:[
+    {t:'code',lines:["Circle(200, 200, 80, fill='lightyellow', border='darkblue', borderWidth=5)","Circle(150, 200, 80, fill='red',   opacity=1.0)","Circle(250, 200, 80, fill='blue',  opacity=0.5)","Circle(200, 200, 80, fill='green', opacity=0.3)"]},
+    {t:'callout',kind:'concept',header:'Concept \u2014 The Optional Arguments',items:["fill  string  'yellow'  Interior fill color","border  string  'black'  Outline color",'borderWidth  number  3  Thickness of outline in pixels','opacity  number  0.5  1=fully opaque, 0=invisible']},
+    {t:'callout',kind:'try',header:'Try This',items:['borderWidth: try 1, 5, 15, 30. Effect of very large values?',"border='red' but no fill argument. What happens?",'opacity: try 1.0, 0.5, 0.1, 0. What does opacity=0 produce?','Combine overlapping circles with opacity < 1. What visual effect?']},
+    {t:'q',label:'Q13',text:'Describe the visual effect of borderWidth=20 compared to borderWidth=2. What happens to the fill area?'},
+    {t:'q',label:'Q14',text:'What value of opacity makes a circle completely invisible? Fully solid?'},
+    {t:'q',label:'Q15',text:'Write one Circle() command that creates a semi-transparent circle with all the optional properties.'}
+  ]},
+  {title:'Final Challenge \u2014 Draw a Flower',content:[
+    {t:'callout',kind:'green-box',header:'Design Requirements',items:['A center circle','At least 8 petal circles arranged around the center','At least 3 different fill colors','At least one circle using border and borderWidth','At least one circle using opacity less than 1','Intentional layering']},
+    {t:'q',label:'Q16',text:'How did you position the petals around the center? Describe your strategy for choosing centerX and centerY values.'},
+    {t:'q',label:'Q17',text:'Which ordering decision did you make deliberately \u2014 what did you put in front and why?'},
+    {t:'q',label:'Q18',text:'What would you change or add to your flower if you had more time?'},
+    {t:'mc',label:'Q19',text:'Which correctly draws a circle at x=100, y=300, radius 40?',opts:['A. Circle(40, 100, 300)','B. Circle(100, 300, 40)','C. Circle(300, 100, 40)','D. Circle(100, 40, 300)'],answer:'B'},
+    {t:'mc',label:'Q20',text:'Circle(200,200,80,fill="blue") then Circle(200,200,80,fill="red") produces:',opts:['A. Two side-by-side circles','B. A blue circle with a red border','C. A red circle on top of a blue','D. A blue circle on top of a red'],answer:'C'},
+    {t:'mc',label:'Q21',text:'What is the effect of opacity=0.5?',opts:['A. Completely invisible','B. Fully opaque','C. 50% transparent','D. Border becomes 50% thinner'],answer:'C'}
+  ]}
+ ]},
+
+{id:'portraits',num:2,title:'Creative Portraits',subtitle:'Circle \u00B7 Oval \u00B7 Rect \u00B7 Line \u00B7 Arc \u00B7 rotateAngle',icon:'\uD83C\uDFA8',tag:'Project \u00B7 Shapes',
+ objectives:['Use Circle(), Oval(), Rect(), Line(), and Arc() together','Control position and layering for correct front-to-back arrangement','Apply fill, border, borderWidth, and opacity with artistic intent','Use rotateAngle to angle ovals and create natural shapes','Plan your design on paper before writing any code','Use # comments to label every section of your code'],
+ steps:[
+  {title:'What Is This Project?',content:[
+    {t:'p',html:'You will create a recognizable character \u2014 a face, animal, robot, or figure \u2014 built entirely from overlapping shapes layered to produce a convincing result.'},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Building a Face Piece by Piece',items:['Ears come first (behind the head), then the head, then eyes from stacked ovals.','Each detail is built from several overlapping shapes.','Code order (layering) determines what appears in front.','rotateAngle on ovals creates tilted, natural-looking shapes.']},
+    {t:'callout',kind:'green-box',header:'Project Requirements',items:['A clear subject \u2014 recognizable face, character, creature, or figure','At least 10 shapes \u2014 any combination of Circle, Oval, Rect, Line, Arc','At least 4 distinct colors','border and borderWidth on at least two shapes','opacity on at least one shape','rotateAngle on at least one shape','Intentional layering throughout','# comments labeling each section']}
+  ]},
+  {title:'Planning Your Portrait',content:[
+    {t:'callout',kind:'try',header:'Step 1 \u2014 Choose Your Subject',items:['Options: Human face, Animal, Cartoon character, Robot/monster, Other','Describe your subject in one sentence in your Google Doc.']},
+    {t:'callout',kind:'try',header:'Step 2 \u2014 Sketch on a 400\u00D7400 Grid',items:['Label each region and note approximate center coordinates.']},
+    {t:'callout',kind:'try',header:'Step 3 \u2014 Plan Your Shapes',items:['List at least 8 shapes: shape type, what it represents, approx. center (x,y), color/properties.']},
+    {t:'callout',kind:'try',header:'Step 4 \u2014 Plan Your Layering Order',items:['Code runs top to bottom. Shapes coded first appear behind shapes coded later.','List your shapes in order \u2014 background first, foreground last.']},
+    {t:'q',label:'Planning Q',text:'What subject did you choose and why? What was your biggest layering decision?'}
+  ]},
+  {title:'New Shapes \u2014 Oval, Rect, Line, Arc',content:[
+    {t:'callout',kind:'concept',header:'Concept \u2014 New Shape Commands',items:['Oval(centerX, centerY, width, height) \u2014 like Circle but with separate width and height','Oval(x, y, w, h, rotateAngle=45) \u2014 use rotateAngle to tilt','Rect(left, top, width, height) \u2014 placed by its top-left corner','Line(x1, y1, x2, y2) \u2014 straight line from point 1 to point 2','Arc(x, y, w, h, startAngle, endAngle) \u2014 partial oval, useful for smiles']},
+    {t:'callout',kind:'try',header:'Experiment',items:['Try Oval(200, 200, 80, 40). How does it differ from Circle(200, 200, 40)?','Add rotateAngle=30. What changes?','Try Line(100, 100, 300, 300). Where does it draw?','Try Arc(200, 200, 80, 40, 0, 180) for a smile.']},
+    {t:'q',label:'Q1',text:'How is Oval() similar to Circle()? What is the key difference?'},
+    {t:'q',label:'Q2',text:'What does rotateAngle do to an oval? Give a specific example from your portrait.'}
+  ]},
+  {title:'Build Your Portrait',content:[
+    {t:'p',html:'Open CMU CS Academy and build your portrait section by section. Start with the largest/background shapes, then add details. Add a # comment before each section.'},
+    {t:'callout',kind:'concept',header:'Tip \u2014 Working Method',items:['Build one section at a time. Run after every few lines.','If a shape is in the wrong position, adjust centerX and centerY in small steps.','If a shape is behind something it should be in front of, move its line later in the code.']},
+    {t:'q',label:'Q3',text:'What was the hardest part of getting the layering right?'},
+    {t:'q',label:'Q4',text:'Where did you use rotateAngle, and what shape or feature were you trying to recreate?'}
+  ]},
+  {title:'Reflection & Self-Assessment',content:[
+    {t:'callout',kind:'green-box',header:'Self-Assessment',items:['1. Subject & Creativity \u2014 Is your character immediately recognizable?','2. Shape Variety & Quantity \u2014 10+ shapes from at least 3 types?','3. Color & Visual Design \u2014 4+ colors chosen deliberately?','4. border, borderWidth & opacity \u2014 All three used?','5. rotateAngle \u2014 Used intentionally?','6. Layering \u2014 Does code order produce the correct effect?','7. Code Comments \u2014 Every section labeled?']},
+    {t:'q',label:'Q5',text:'Which part of your portrait are you most proud of, and why?'},
+    {t:'q',label:'Q6',text:'What would you change or add if you had more time?'},
+    {t:'q',label:'Q7',text:'A classmate wants to draw an eye using overlapping ovals. Describe the layering order they should use.'}
+  ]}
+ ]},
+
+{id:'animation',num:3,title:'Introduction to Animation',subtitle:'Variables \u00B7 app object \u00B7 onStep() \u00B7 if statements \u00B7 RGB',icon:'\uD83C\uDFAC',tag:'Animation \u00B7 Logic',
+ objectives:['Store shapes in variables so you can change their properties after creation','Use the app object to share values across your program','Write an onStep() function that runs many times per second','Use += and *= operators to update values each step','Write if statements to check conditions and change behavior','Make a shape bounce by reversing its speed with *= -1','Animate fill color by changing RGB tuple values step by step'],
+ steps:[
+  {title:'Shapes as Variables',content:[
+    {t:'code',lines:['my_circle_1 = Circle(200, 200, 50, fill="red")','myCircleTwo  = Circle(200, 200, 25, fill="yellow")','myCircleTwo.radius   = 15','my_circle_1.centerX += 25']},
+    {t:'callout',kind:'try',header:'Try This',items:['Run the code. Why are two circles at the same position initially?','Change myCircleTwo.radius to 40. What happens?','Try my_circle_1.centerY -= 50. Which direction?','Try my_circle_1.fill = "cornflowerblue". What changes?']},
+    {t:'q',label:'Q1',text:'What does the += operator do? Write a sentence in your own words.'},
+    {t:'q',label:'Q2',text:'After myCircleTwo.radius = 15, the yellow circle is (larger / smaller) than when created. Circle one and explain why.'},
+    {t:'q',label:'Q3',text:'If my_circle_1.centerX starts at 200 and you run my_circle_1.centerX += 25, what is the new centerX?'}
+  ]},
+  {title:'The App Object \u2014 Sharing Values',content:[
+    {t:'code',lines:['app.speed = 5','app.color = (255, 5, 5)  # tuple: (red, green, blue)']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Why Use app.speed Instead of Just speed?',items:["Python functions (like onStep()) can't easily read or change a regular variable defined outside them.",'Storing values on app is a simple way to share data between the main program and your functions.']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 What Does rgb(*app.color) Mean?',items:['rgb() creates a color from three numbers: rgb(red, green, blue).','The * before app.color is called unpacking.','rgb(*app.color) is the same as rgb(app.color[0], app.color[1], app.color[2]).']},
+    {t:'q',label:'Q4',text:'Write the rgb() call that produces pure blue (no red, no green, full blue).'},
+    {t:'q',label:'Q5',text:'What are the three numbers inside app.color called?'},
+    {t:'q',label:'Q6',text:'If app.color = (255, 5, 5) and you want to access only the green value, what do you write?'}
+  ]},
+  {title:'The onStep() Function \u2014 Making Things Move',content:[
+    {t:'callout',kind:'concept',header:'Concept \u2014 Key Terms',items:['def \u2014 the Python keyword for defining a function.','indentation \u2014 Python uses spaces to show lines belong inside a function.','+= \u2014 add to the current value. x += 5 is the same as x = x + 5.']},
+    {t:'code',lines:['app.speed = 5','def onStep():','    myCircleTwo.centerX += app.speed','    my_circle_1.radius  += app.speed']},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['Run the code. Describe in words what you see.','Change app.speed to 1. How does the animation change?','Change app.speed to 20. What do you notice?','Try changing += to -= for myCircleTwo.centerX. Which direction?']},
+    {t:'q',label:'Q7',text:'What does the def keyword tell Python?'},
+    {t:'q',label:'Q8',text:'Why must the lines inside onStep() be indented?'},
+    {t:'q',label:'Q9',text:'If app.speed = 5 and onStep() runs 30 times per second, how many pixels does myCircleTwo move each second?'},
+    {t:'q',label:'Q10',text:'Describe what you see when app.speed = 20 vs. app.speed = 1. Why does the number matter?'}
+  ]},
+  {title:'if Statements \u2014 Making Decisions',content:[
+    {t:'code',lines:['def onStep():','    if myCircleTwo.centerX > 400 or myCircleTwo.centerX < 200:','        app.speed *= -1','    myCircleTwo.centerX += app.speed','    my_circle_1.radius  += app.speed']},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['Run the code. Does the yellow circle now bounce?','Change 400 to 300. What happens to the bounce point?','Remove the  or myCircleTwo.centerX < 200  part. What happens?','What does *= -1 do to a negative number? Predict before testing.']},
+    {t:'q',label:'Q11',text:'What does the or keyword do in an if condition?'},
+    {t:'q',label:'Q12',text:'What is the effect of *= -1 on app.speed? Give an example with numbers.'},
+    {t:'q',label:'Q13',text:'In the bounce condition, what do the numbers 400 and 200 represent?'}
+  ]},
+  {title:'Animating Color with rgb()',content:[
+    {t:'code',lines:['app.color = (255, 5, 5)','def onStep():','    if myCircleTwo.centerX > 400 or myCircleTwo.centerX < 200:','        app.speed *= -1','    if app.color[2] > 0:','        app.color = (255, app.color[1] + app.speed, app.color[2] + app.speed)','    else:','        app.color = (255, 5, 5)','    my_circle_1.fill    = rgb(*app.color)','    myCircleTwo.centerX += app.speed','    my_circle_1.radius  += app.speed']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Tracing the Color Logic',items:["Each step: 'Is the blue component greater than 0?'",'YES: increase green and blue \u2192 color shifts toward white/cyan','NO: reset to (255, 5, 5) \u2192 jumps back to bright red']},
+    {t:'q',label:'Q15',text:'What does app.color[2] refer to? What value triggers the else branch?'},
+    {t:'q',label:'Q16',text:'Starting from (255, 5, 5) with app.speed = 5, what will app.color be after 3 steps?'},
+    {t:'q',label:'Q18',text:'Why is red always kept at 255? What would change if you set it to 0?'}
+  ]},
+  {title:'Extension Challenges',content:[
+    {t:'callout',kind:'try',header:'Choose one or more challenges',items:['a) Variable speed \u2014 add app.speed2 = 3 and give myCircleTwo a different speed','b) Add a third circle that moves in the opposite direction','c) Make my_circle_1 grow and shrink \u2014 reverse speed at extremes','d) Add vertical movement to myCircleTwo and bounce off top and bottom','e) Make myCircleTwo change color too']},
+    {t:'q',label:'Extension',text:'Which challenge did you choose? Describe your plan, then describe what actually happened.'},
+    {t:'mc',label:'Q19',text:'What does  myCircleTwo.centerX += app.speed  do?',opts:['A. Sets centerX to the value of app.speed','B. Adds app.speed to the current centerX value','C. Multiplies centerX by app.speed','D. Resets centerX to zero then adds app.speed'],answer:'B'},
+    {t:'mc',label:'Q20',text:'Code inside onStep() runs:',opts:['A. Once when the program starts','B. Only when the user clicks','C. Many times per second, automatically','D. Only when a variable changes'],answer:'C'}
+  ]}
+ ]},
+
+{id:'sun',num:4,title:'The Sun Project',subtitle:'Groups \u00B7 Animation \u00B7 For Loops',icon:'\u2600\uFE0F',tag:'Groups \u00B7 Loops',
+ objectives:['Create a Group and add shapes to it manually','Use compound operators (+=, *=)','Animate a group using onStep()','Use a for loop with range() to draw repeated shapes efficiently','Use if statements in onStep() to reverse animation direction'],
+ steps:[
+  {title:'Building a Sun with Groups',content:[
+    {t:'code',lines:["sun = Group()","sun.add(Line(125, 200, 275, 200, fill='orange'))","sun.add(Line(200, 125, 200, 275, fill='orange'))","sun.add(Line(163, 150, 237, 250, fill='orange'))","sun.add(Line(163, 250, 237, 150, fill='orange'))","sun.add(Circle(200, 200, 50, fill='gold'))"]},
+    {t:'callout',kind:'concept',header:'Concept \u2014 What is a Group?',items:['A Group holds other shapes.','Use Group() to create and .add() to place shapes inside.','Changing any Group property applies to every shape inside at once.']},
+    {t:'q',label:'Q1',text:'Run your code. Describe what you see. How many rays does the sun have?'},
+    {t:'q',label:'Q2',text:'Why do you think we add the Circle last, after the Lines?'}
+  ]},
+  {title:'Resizing the Group \u2014 Compound Operators',content:[
+    {t:'code',lines:['sun.width  *= 1.5','sun.height *= 1.5']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Compound Operators',items:['sun.width *= 1.5  is the same as  sun.width = sun.width * 1.5','+=  x += 5 means x = x + 5','-=  x -= 3 means x = x - 3','*=  x *= 2 means x = x * 2','/=  x /= 4 means x = x / 4']},
+    {t:'q',label:'Q3',text:'What happened to the sun after adding the *= lines?'},
+    {t:'q',label:'Q4',text:'What happened when you used 0.75 instead of 1.5? Explain why.'},
+    {t:'q',label:'Q5',text:'What value would leave the sun exactly the same size? Explain.'}
+  ]},
+  {title:'Animating with onStep()',content:[
+    {t:'code',lines:['def onStep():','    sun.rotateAngle += 5']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 onStep() and Event-Driven Programming',items:['onStep() is an event handler \u2014 it runs automatically on each animation frame.','You never call it yourself; CMU CS Academy calls it for you.']},
+    {t:'q',label:'Q6',text:'When you rotate the Group, do all the Lines and the Circle rotate too? Why?'},
+    {t:'q',label:'Q7',text:'What would you change to make the sun rotate faster? Slower? Counter-clockwise?'}
+  ]},
+  {title:'For Loops \u2014 A Better Sun',content:[
+    {t:'code',lines:["sun = Group()","app.rotateAngle = 0","for i in range(36):","    sun.add(Line(200, 125, 200, 275, fill='orange', rotateAngle = app.rotateAngle))","    app.rotateAngle += 10","sun.add(Circle(200, 200, 50, fill='gold'))"]},
+    {t:'callout',kind:'concept',header:'Concept \u2014 for Loops and range()',items:['for i in range(36): runs the block 36 times.','i takes values 0, 1, 2, \u2026 35 automatically.','range(n) produces 0, 1, 2, \u2026 n-1 (stops before n).']},
+    {t:'q',label:'Q8',text:'Before running: predict how many Line objects will be added. Then run and check.'},
+    {t:'q',label:'Q9',text:'Why is app.rotateAngle used instead of a plain variable?'},
+    {t:'q',label:'Q10',text:'What happened when you commented out app.rotateAngle += 10? Why?'}
+  ]},
+  {title:'Pulsing Animation \u2014 Bounce Guards',content:[
+    {t:'code',lines:['app.growthRate = 0.98','def onStep():','    sun.rotateAngle += 5','    sun.width  *= app.growthRate','    sun.height *= app.growthRate','    if sun.width < 25:','        app.growthRate = 1.02','    if sun.width > 125:','        app.growthRate = 0.98']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Bounce Guards',items:['When growthRate < 1: the sun shrinks each step.','When growthRate > 1: the sun grows each step.','The if statements catch the extremes and reverse direction.']},
+    {t:'q',label:'Q11',text:'Why do we only need to test the width OR height, not both?'},
+    {t:'q',label:'Q12',text:'What would happen if you set app.growthRate = 1.0? Would the sun pulse? Explain.'},
+    {t:'q',label:'Q13',text:'Change the threshold values (25 and 125). What happens when you make them closer? Further apart?'}
+  ]}
+ ]},
+
+{id:'spiral',num:5,title:'The Spiral Project',subtitle:'For Loops \u00B7 rgb() Color \u00B7 The Golden Spiral',icon:'\uD83C\uDF00',tag:'Math \u00B7 Color',
+ objectives:['Use rgb() to create and vary colors mathematically','Combine multiple changing variables inside a single loop','Use getPointInDir() to build a path one step at a time','Grow a value exponentially using *=','Chain if statements to cycle through colors','Understand how small repeated changes produce emergent complex patterns'],
+ steps:[
+  {title:'Part 1 \u2014 The Grayscale Spoke Wheel',content:[
+    {t:'callout',kind:'concept',header:'Concept \u2014 rgb()',items:['rgb(red, green, blue) takes three values, each 0\u2013255.','rgb(0,0,0)=black. rgb(255,255,255)=white. Equal channels = gray.']},
+    {t:'code',lines:['app.rotateAngle = 0','app.hue = 255','for i in range(18):','    Rect(200, 200, 80, 2, fill = rgb(app.hue, app.hue, app.hue), rotateAngle = app.rotateAngle)','    app.rotateAngle += 5','    app.hue -= 6']},
+    {t:'q',label:'Q1',text:'app.hue starts at 255. By how much does it change each cycle? After 18 iterations, what is the final value?'},
+    {t:'q',label:'Q2',text:'Describe what color each spoke should be \u2014 the first, the middle, and the last.'}
+  ]},
+  {title:'Part 2 \u2014 The Color Gradient Spiral',content:[
+    {t:'code',lines:['spiral = Group()','app.color = 0','app.rotateAngle = 0','for i in range(36):','    spiral.add(Line(200, 125, 200, 275, fill = rgb(app.color, app.color, 255), rotateAngle = app.rotateAngle))','    app.color += 6','    app.rotateAngle += 15','def onStep():','    spiral.rotateAngle += 10']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Partial Color Channels',items:['The fill is rgb(app.color, app.color, 255). Blue is always 255.','Red and green start at 0 and climb. The gradient goes from deep blue to lighter blue-white.']},
+    {t:'q',label:'Q6',text:'app.color starts at 0 and increases by 6 each loop, running 36 times. What is the final value? Is that within 0\u2013255?'},
+    {t:'q',label:'Q8',text:'Describe the visual illusion you observed when the spiral rotates.'}
+  ]},
+  {title:'Part 3 \u2014 The Golden Spiral: Setup & Path',content:[
+    {t:'callout',kind:'concept',header:'Concept \u2014 getPointInDir()',items:['getPointInDir(x, y, direction, distance) answers: "If I walk distance pixels in direction degrees from (x,y), where do I end up?"','It returns a new (x, y) point.','Each shape depends on the previous one \u2014 a chain, not independent shapes.']},
+    {t:'code',lines:['golden = Group()','app.length = 0.5','app.ratio  = 1.618','app.currentPoint = (100, 200)','app.direction = 45','','for i in range(1440):','    nextPoint = getPointInDir(*app.currentPoint, app.direction, app.length)','    golden.add(Line(*app.currentPoint, *nextPoint, fill=\'black\'))','    app.direction    += 1','    app.currentPoint  = nextPoint','    app.length       *= app.ratio ** (app.length / 360)']},
+    {t:'q',label:'Q11',text:'For each variable, write your best prediction of what role it will play: app.length, app.ratio, app.currentPoint, app.direction.'},
+    {t:'q',label:'Q13',text:'Re-read: app.length *= app.ratio ** (app.length / 360). What is the exponent when app.length = 0.5? When app.length = 36?'}
+  ]},
+  {title:'Part 3 \u2014 Color Cycling & Animation',content:[
+    {t:'code',lines:['app.red=0','app.green=0','app.blue=0','# Change fill to: rgb(app.red, app.green, app.blue)','# Add after length update:','    if app.red < 255 and app.blue != 255:','        app.red += 1','    if app.red == 255 and app.green < 255:','        app.green += 1','    if app.green == 255 and app.blue < 255:','        app.blue += 1','    if app.blue == 255 and app.red > 0:','        app.red -= 1','# Add at the very bottom:','def onStep():','    golden.rotateAngle += 5']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Independent if vs. if/elif Chains',items:['Four separate if statements are all checked independently every iteration.','In the color cycling code, multiple conditions can be simultaneously true.','If/elif would stop at the first true condition \u2014 that would break the color cycle.']},
+    {t:'q',label:'Q16',text:'At the start, red=0, green=0, blue=0. Which of the four if statements fires on the very first iteration?'},
+    {t:'q',label:'Q17',text:'Why are these four conditions written as separate ifs rather than if/elif? Give a specific example of when two would be true simultaneously.'}
+  ]},
+  {title:'Part 4 \u2014 Synthesis & Extension',content:[
+    {t:'callout',kind:'concept',header:'Emergent Complexity',items:['All three patterns share something remarkable: the individual steps are simple.','No single step knows anything about the final shape.','The spiral "emerges" from thousands of tiny, individually boring actions.']},
+    {t:'q',label:'Q22',text:'All three projects used a for loop, but the role was different each time. Describe what the loop was doing in each: Part 1, Part 2, Part 3.'},
+    {t:'q',label:'Q23',text:'In your own words: what does "emergent complexity" mean, and which pattern felt most surprising?'},
+    {t:'callout',kind:'try',header:'Extension \u2014 Design Your Own',items:['A) A double spiral \u2014 two spirals rotating in opposite directions.','B) A color-changing spoke wheel that rotates using onStep().','C) A spiral where color depends on the loop counter i.','D) A drifting spiral \u2014 modify app.currentPoint each iteration.','E) Your own original idea.']}
+  ]}
+ ]},
+
+{id:'bubble1',num:6,title:'Bubble Wand \u2014 Lesson 1',subtitle:'Layering \u00B7 Trig \u00B7 Mouse Interactivity \u00B7 Friction',icon:'\uD83E\uDEE7',tag:'Interactivity \u00B7 Math',
+ objectives:['Use draw order (layering) to control which shapes appear in front','Use sin() and cos() to place shapes around a circle','Convert degrees to radians using math.radians()','Respond to mouse events with onMouseRelease()','Use a friction pattern to gradually decelerate a rotating object','Use shape.contains() to make interactivity conditional on click location'],
+ steps:[
+  {title:'Layering \u2014 The Staff Must Come First',content:[
+    {t:'code',lines:['Rect(227, 210, 20, 180, fill = rgb(150, 125, 125))']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Layering and Draw Order',items:['CMU CS Academy draws shapes in the order you write them.','The first shape goes on the bottom; the last sits on top.','The wand staff Rect must be drawn BEFORE the Group of circles.']},
+    {t:'q',label:'Q1',text:'Run the code. Where is the Rect, how wide, how tall? What do the first two arguments to Rect() represent?'},
+    {t:'callout',kind:'try',header:'Try This',items:["Add Circle(227, 210, 50, fill='blue') after the Rect. Is the circle in front or behind?","Move the Circle line to BEFORE the Rect. What changed?","Delete the test circle before moving on."]}
+  ]},
+  {title:'Building the Wand Head',content:[
+    {t:'code',lines:["bubbleWand = Group()","bubbleWand.add(Circle(237, 210, 70, fill=None, border='black'))","bubbleWand.add(Circle(237, 210, 48, fill=None, border='black'))","bubbleWand.add(Circle(237, 210, 43, fill='red'))"]},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['How many visible circles are there?','The largest circle has fill=None. What does that mean visually?','Why might we need three circles rather than one?']},
+    {t:'q',label:'Q4',text:'The three circles have radii 70, 48, 43. Why does the innermost filled circle (radius 43) need to exist?'},
+    {t:'q',label:'Q5',text:'All three circles are added to the Group. What does that make possible later?'}
+  ]},
+  {title:'sin() and cos() \u2014 Placing Circles Around the Rim',content:[
+    {t:'callout',kind:'concept',header:'Concept \u2014 sin() and cos()',items:['cos(angle) = how far LEFT or RIGHT from center.','sin(angle) = how far UP or DOWN from center.','0\u00B0: cos=1, sin=0 \u2192 right.  90\u00B0: cos=0, sin=1 \u2192 below.  270\u00B0: cos=0, sin=-1 \u2192 above.']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Degrees vs. Radians',items:["Python's math library expects radians, not degrees.",'math.radians(angle) converts degrees to radians.','Always wrap degree values in math.radians() before passing to sin() or cos().']},
+    {t:'code',lines:['import math','app.rotateAngle = 270','app.rotateSpeed = 0','app.x = 180','app.y = 200','for i in range(18):','    bubbleWand.add(Circle(app.x, app.y, 10, fill=None, border=\'red\'))','    app.rotateAngle += 20','    app.xDirection = math.cos(math.radians(app.rotateAngle))','    app.yDirection = math.sin(math.radians(app.rotateAngle))','    app.x += 20 * app.xDirection','    app.y += 20 * app.yDirection']},
+    {t:'q',label:'Q7',text:'app.rotateAngle increases by 20 degrees each iteration, and the loop runs 18 times. Total rotation covered? What does that tell you?'},
+    {t:'q',label:'Q9',text:'app.x += 20 * app.xDirection \u2014 why is the distance multiplied by app.xDirection rather than used directly?'}
+  ]},
+  {title:'Mouse Events & Friction',content:[
+    {t:'code',lines:['def onMouseRelease(mouseX, mouseY):','    app.rotateSpeed = 10','def onStep():','    bubbleWand.rotateAngle += app.rotateSpeed','    app.rotateSpeed *= 0.98','    if app.rotateSpeed < 1:','        app.rotateSpeed = 0']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Friction',items:['app.rotateSpeed *= 0.98 reduces speed to 98% each step \u2014 simulating drag.','The if statement snaps speed to 0 when it becomes imperceptibly small.']},
+    {t:'q',label:'Q11',text:'Why does app.rotateSpeed start at 0? What would happen if it started at 10?'},
+    {t:'q',label:'Q12',text:'The friction line uses 0.98. What would happen with 0.5? With 0.999?'}
+  ]},
+  {title:'Step 2 \u2014 contains() as a Gate',content:[
+    {t:'code',lines:['def onMouseRelease(mouseX, mouseY):','    if bubbleWand.contains(mouseX, mouseY):','        app.rotateSpeed = 10']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 shape.contains(x, y)',items:['shape.contains(x, y) returns True if (x, y) is inside the shape.','Combined with an if statement, it makes the spin conditional on clicking the wand directly.']},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['Click directly on the wand head. Does it spin?','Click on the staff. Does it spin?','Click on an empty area. Does it spin?']},
+    {t:'q',label:'Q14',text:'Why is the contains() version more useful? Give an example where precision clicking matters.'},
+    {t:'q',label:'Q15',text:'Could you write  if bubbleWand.contains(mouseX, mouseY) == True:  instead? Are these equivalent? Which is better style?'}
+  ]}
+ ]},
+
+{id:'bubble2',num:7,title:'Bubble Wand \u2014 Lesson 2',subtitle:'Lists \u00B7 Factory Functions \u00B7 Animation \u00B7 Removal',icon:'\uD83E\uDEE7',tag:'Lists \u00B7 Particle Systems',
+ objectives:['Use a Python list to track multiple bubble objects','Write a factory function that builds one bubble from three shapes','Call that function from onMouseRelease on every click','Loop over the list in onStep() to move and grow every bubble','Remove bubbles from both the list and the canvas when they reach the edge'],
+ steps:[
+  {title:'The Bubble List \u2014 app.bubbles = []',content:[
+    {t:'code',lines:['app.bubbles = []']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Python Lists vs. CS Academy Groups',items:['A Group holds shape objects and draws them on canvas.','A list holds any Python objects and lets your program track them in memory.','Storing it on app makes it accessible everywhere.']},
+    {t:'q',label:'Q1',text:'In your own words, what is the difference between a Python list and a CS Academy Group?'},
+    {t:'q',label:'Q2',text:'app.bubbles = [] creates an empty list before any click happens. Why must this happen before any events fire?'}
+  ]},
+  {title:'The Factory Function \u2014 makeBubble()',content:[
+    {t:'code',lines:['def makeBubble():','    bubble = Group()','    bubble.add(Circle(240, 220, 5, fill=\'white\', border=\'silver\'))','    bubble.add(Circle(241, 221, 4, fill=None, border=rgb(0, 75, 0), opacity=15))','    bubble.add(Circle(241, 221, 2, fill=rgb(0, 75, 0), border=\'silver\', opacity=15))','    app.bubbles.append(bubble)']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Factory Functions',items:['makeBubble() is a factory function \u2014 it creates a new object each time it is called.','Unlike onStep() which runs automatically, a factory function only runs when you directly call it.']},
+    {t:'q',label:'Q3',text:'makeBubble() is defined but not called. Will you see any bubbles if you run now? Why?'},
+    {t:'q',label:'Q4',text:'The second and third circles have opacity=15. What does that look like? Why useful for the sheen effect?'}
+  ]},
+  {title:'Calling makeBubble() on Every Click',content:[
+    {t:'code',lines:['def onMouseRelease(mouseX, mouseY):','    app.rotateSpeed = 10','    # what happens if you click the wand multiple times?','    makeBubble()']},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['The comment asks: "What happens if you click the wand multiple times?"','Do bubbles follow your mouse, or always appear in the same spot? Why?','After clicking 5 times, how many items are in app.bubbles?']},
+    {t:'q',label:'Q6',text:'Answer the question from the code\'s comment \u2014 "what happens if you click multiple times?"'},
+    {t:'q',label:'Q7',text:'The bubble always appears at (240, 220). What would you change to make it appear at the click location?'}
+  ]},
+  {title:'Animating Bubbles \u2014 Looping Over the List',content:[
+    {t:'code',lines:['def onStep():','    bubbleWand.rotateAngle += app.rotateSpeed','    app.rotateSpeed *= 0.98','    if app.rotateSpeed < 1:','        app.rotateSpeed = 0','    for bubble in app.bubbles:','        # what happens to the bubble each time onStep runs?','        bubble.centerX += 3','        bubble.centerY += 3','        bubble.width   *= 1.05','        bubble.height  *= 1.05']},
+    {t:'q',label:'Q8',text:'Answer the comment: "What happens to the bubble each time onStep runs?" Describe the movement and size change.'},
+    {t:'q',label:'Q9',text:'Both centerX and centerY increase by 3. y increases downward on the canvas. Which diagonal direction?'}
+  ]},
+  {title:'Removing Bubbles \u2014 List and Canvas',content:[
+    {t:'code',lines:['    for bubble in app.bubbles:','        bubble.centerX += 3','        bubble.centerY += 3','        bubble.width   *= 1.05','        bubble.height  *= 1.05','        # what is the purpose of the following conditional statement?','        # what happens visibly on the canvas?  how do you know?','        if bubble.centerX >= 380:','            app.bubbles.remove(bubble)','            app.group.remove(bubble)']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Two Removals: List and Canvas Are Separate',items:['app.bubbles.remove(bubble) \u2014 removes from the tracking list.','app.group.remove(bubble) \u2014 removes from the canvas.','Removing from only one place creates a ghost. Both removals are always needed.']},
+    {t:'callout',kind:'warn',header:'Caution \u2014 Never Remove from a List While Iterating Over It',items:['Calling remove() inside the for loop modifies the list while reading it.','Safe pattern: collect items to remove in to_remove = [], then remove after the loop.']},
+    {t:'q',label:'Q12',text:'Answer all three questions from the code\'s comments: a) purpose of the if? b) what happens visibly? c) how do you verify the bubble is gone?'},
+    {t:'q',label:'Q13',text:'What would happen if you called app.bubbles.remove(bubble) but forgot app.group.remove(bubble)?'}
+  ]},
+  {title:'Synthesis & Extension',content:[
+    {t:'callout',kind:'concept',header:'The Pattern \u2014 Create, Track, Update, Remove',items:['Create \u2014 factory function builds the object and appends to a list','Track \u2014 list remembers every active object between frames','Update \u2014 onStep() loops over the list each frame','Remove \u2014 when a condition is met, remove from list and canvas','You have just built your first particle system.']},
+    {t:'q',label:'Q16',text:'Trace the complete life of one bubble, naming the function responsible at each stage.'},
+    {t:'callout',kind:'try',header:'Extension Options',items:['A) Add bubbleWand.contains() so bubbles only appear when you click the wand.','B) Update def makeBubble(x, y): so bubbles appear at the click location.','C) Change removal condition to bubble.width >= 80 so bubbles pop.','D) Implement the safe two-pass to_remove pattern.','E) Your own idea.']}
+  ]}
+ ]},
+
+{id:'bubble3',num:8,title:'Bubble Wand \u2014 Lesson 3',subtitle:'randint \u00B7 Random Direction \u00B7 getPointInDir \u00B7 Compound Conditionals',icon:'\uD83E\uDEE7',tag:'Randomness \u00B7 Conditionals',
+ objectives:['Use from random import randint \u2014 selective import syntax','Assign each bubble a random direction using randint(0, 360)','Use getPointInDir() to move each bubble in the direction it faces','Activate the wand only when the user clicks it using contains()','Explore custom object attributes to vary bubble growth per bubble','Write compound conditional statements using or and and'],
+ steps:[
+  {title:'A New Import Syntax \u2014 from random import randint',content:[
+    {t:'code',lines:['from random import randint']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Selective Import',items:['import math loads the entire math library. You use math.cos(), etc.','from random import randint imports only the randint function.','Call it directly as randint() \u2014 no random. prefix needed.','randint(a, b) returns a random whole number between a and b inclusive.']},
+    {t:'q',label:'Q1',text:'What is the difference between  import random  and  from random import randint ?'},
+    {t:'q',label:'Q2',text:'randint(0, 360) can return 360 itself, but randrange(0, 360) cannot. Write the randrange() call that produces the same range.'}
+  ]},
+  {title:'Random Direction \u2014 Each Bubble Faces a Different Way',content:[
+    {t:'code',lines:['def makeBubble():','    bubble = Group()','    bubble.add(Circle(240, 220, 5, fill=\'white\', border=\'silver\'))','    bubble.add(Circle(241, 221, 4, fill=None, border=rgb(0, 75, 0), opacity=15))','    bubble.add(Circle(241, 221, 2, fill=rgb(0, 75, 0), border=\'silver\', opacity=15))','    # assign a random direction \u2014 will control which way the bubble moves','    bubble.rotateAngle = randint(0, 360)','    app.bubbles.append(bubble)']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Custom Object Attributes',items:['bubble.rotateAngle = randint(0, 360) attaches a property to this specific bubble Group.','Every bubble gets its own rotateAngle set to a different random number.','Each bubble carries its own direction value independently.']},
+    {t:'q',label:'Q4',text:'If you click 5 times, could two bubbles ever get the same angle? Does it matter?'},
+    {t:'q',label:'Q5',text:'In Lesson 2 direction was hardcoded: centerX += 3, centerY += 3. Now it comes from bubble.rotateAngle. What is the practical benefit?'}
+  ]},
+  {title:'Step 2 Implemented \u2014 contains() Gates the Wand',content:[
+    {t:'code',lines:['def onMouseRelease(mouseX, mouseY):','    if bubbleWand.contains(mouseX, mouseY):','        app.rotateSpeed = 10','        makeBubble()']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 contains() as a Gate',items:['Lesson 2: every click anywhere spins the wand and creates a bubble.','Lesson 3: only a click inside the wand does anything.','Clicking outside the wand has no effect \u2014 the if block is skipped.']},
+    {t:'q',label:'Q6',text:'Why does nesting both app.rotateSpeed = 10 and makeBubble() inside the same if block make sense?'},
+    {t:'q',label:'Q7',text:'Now that contains() is implemented, does "what happens if you click multiple times?" have a different answer than in Lesson 2?'}
+  ]},
+  {title:'Directional Movement \u2014 getPointInDir()',content:[
+    {t:'code',lines:['    for bubble in app.bubbles:','        bubble.centerX, bubble.centerY = getPointInDir(','            bubble.centerX, bubble.centerY, bubble.rotateAngle, 3)','        bubble.width  *= 1.05','        bubble.height *= 1.05']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 getPointInDir()',items:['getPointInDir(x, y, direction, distance) returns the new (x, y) after moving.','bubble.rotateAngle is the direction (set randomly in makeBubble).','3 is the distance to move each step.']},
+    {t:'callout',kind:'warn',header:'Spot the Bug \u2014 A Teaching Moment',items:['The original code has a subtle bug:','  bubble.centerX, bubbleY = getPointInDir(...)','bubbleY instead of bubble.centerY! A local variable is created and immediately lost.','Corrected: bubble.centerX, bubble.centerY = getPointInDir(...)']},
+    {t:'q',label:'Q9',text:'What single change in makeBubble() made bubbles move in random directions? Explain the chain: randint \u2192 rotateAngle \u2192 getPointInDir.'},
+    {t:'q',label:'Q11',text:'Describe what the buggy version (bubbleY) would look like on screen. How would you diagnose the problem?'}
+  ]},
+  {title:'Compound Conditionals \u2014 Removing at Any Edge',content:[
+    {t:'code',lines:['        if bubble.centerX >= 380 or bubble.centerX < 20 or \\','           bubble.centerY < 20  or bubble.centerY > 380:','            app.bubbles.remove(bubble)','            app.group.remove(bubble)']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Compound Conditional Statements',items:['or \u2014 the whole condition is True if ANY ONE part is True.','and \u2014 the whole condition is True only if ALL parts are True.','The removal condition checks all four canvas edges.']},
+    {t:'q',label:'Q18',text:'Answer all three questions from the code\'s comments: a) purpose of the compound if? b) what happens visibly? c) how do you verify?'},
+    {t:'q',label:'Q19',text:'Is this a good condition for removal? Would bubble width or height be better? What are the tradeoffs?'},
+    {t:'q',label:'Q20',text:'If bubble.centerX = 390 and bubble.centerY = 200, trace through all four clauses. What is the result?'}
+  ]},
+  {title:'Synthesis \u2014 Three Lessons of Upgrades',content:[
+    {t:'callout',kind:'concept',header:'The Pattern Grows More Sophisticated',items:['Create: Lesson 2: one circle. Lesson 3: three circles + random direction.','Track: All lessons: app.bubbles + app.group.','Update: Lesson 2: fixed direction. Lesson 3: getPointInDir() from rotateAngle.','Remove: Lesson 2: one edge. Lesson 3: all four edges with compound or.']},
+    {t:'q',label:'Q25',text:'Explain how a single random number created at birth controls the entire trajectory of a bubble. Trace the chain: randint \u2192 rotateAngle \u2192 getPointInDir.'},
+    {t:'callout',kind:'try',header:'Extension Options',items:['A) Variable speed \u2014 add bubble.speed = randint(1, 6) and use it in getPointInDir().','B) Bubble color variation \u2014 randomize the sheen color in makeBubble().','C) Slow rotation \u2014 add bubble.rotateAngle += randint(-2, 2) in onStep().','D) Max bubble limit \u2014 add: if len(app.bubbles) >= 10: return at the start of makeBubble().','E) Your own idea.']}
+  ]}
+ ]},
+
+{id:'bubble4',num:9,title:'Bubble Wand \u2014 Lesson 4',subtitle:'onMousePress \u00B7 contains() \u00B7 Label() \u00B7 Score & Missed',icon:'\uD83C\uDFAF',tag:'Game Logic',
+ objectives:['Use onMousePress to detect clicks on individual bubbles','Use bubble.contains() to identify which bubble was clicked','Remove a clicked bubble from both app.bubbles and app.group \u2014 popping it','Create Label() objects to display score and missed count on the canvas','Increment the score when a bubble is popped','Increment the missed count when a bubble escapes off the edge'],
+ steps:[
+  {title:'Popping Bubbles \u2014 onMousePress and bubble.contains()',content:[
+    {t:'p',html:'In Lesson 3 you used <code>onMouseRelease</code> to spin the wand and create bubbles. Now you will add a separate event handler that fires when the mouse button is pressed \u2014 to pop bubbles.'},
+    {t:'callout',kind:'concept',header:'Concept \u2014 onMousePress vs. onMouseRelease',items:['onMouseRelease(mouseX, mouseY) \u2014 fires when the user releases the button. Used in Lessons 1\u20133 to spin the wand.','onMousePress(mouseX, mouseY) \u2014 fires the moment the user presses down. Used here for popping.','Both receive mouseX and mouseY. Both can be active in the same program doing different things.']},
+    {t:'p',html:'Add this new function below your <code>onMouseRelease</code> function:'},
+    {t:'code',lines:['def onMousePress(mouseX, mouseY):','    # check each bubble to see if the click landed inside it','    to_pop = []','    for bubble in app.bubbles:','        if bubble.contains(mouseX, mouseY):','            to_pop.append(bubble)','','    for bubble in to_pop:','        app.bubbles.remove(bubble)','        app.group.remove(bubble)']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 bubble.contains(mouseX, mouseY)',items:['You used bubbleWand.contains() in Lesson 3. The same method works on any Group including your bubble Groups.','bubble.contains(mouseX, mouseY) returns True if the click is inside the bubble, False otherwise.','The loop checks every bubble. Clicked ones go into to_pop and are removed safely after the loop.']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 The Two-Pass to_pop Pattern',items:['Pass 1: read app.bubbles without touching it. Collect clicked bubbles into to_pop.','Pass 2: iterate over to_pop \u2014 removing each bubble safely without disrupting the original loop.','Both removals are required: app.bubbles.remove(bubble) removes from tracking. app.group.remove(bubble) removes from canvas.']},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['Click directly on a bubble. Does it disappear immediately?','Click on an area with no bubble. Does anything happen?','Click the wand. Does the press do anything beyond what onMouseRelease does?','Try clicking where two bubbles overlap. What happens?']},
+    {t:'q',label:'Q1',text:'In your own words, describe what happens to a bubble when you click on it. Name both functions involved and the role each one plays.'},
+    {t:'q',label:'Q2',text:'Why is the two-pass to_pop pattern required? What specific problem would occur if you called app.bubbles.remove(bubble) directly inside the first for loop?'},
+    {t:'q',label:'Q3',text:'onMousePress and onMouseRelease are both active at the same time. When you click and release on the wand, which events fire and in what order? What does each do?'}
+  ]},
+  {title:'Creating Score Labels with Label()',content:[
+    {t:'p',html:'Now that bubbles can be popped, we need a way to keep score. Add these lines at the top of your program, after <code>app.bubbles = []</code>:'},
+    {t:'code',lines:['# Score and missed tracking','app.score  = 0','app.missed = 0','','# Labels displayed on the canvas',"scoreLabel  = Label('Score: 0',  20, 15, size=16, bold=True, align='left')",'missedLabel = Label(\'Missed: 0\', 380, 15, size=16, bold=True, align=\'right\')']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Label() \u2014 Text on the Canvas',items:['Label(text, x, y) creates a text object on the canvas.','Required: text (string to display), x (horizontal position), y (vertical position).','Optional: size=16 (font size), bold=True, align=\'left\'|\'center\'|\'right\'.','Updating the text: scoreLabel.value = \'Score: \' + str(app.score)','Always convert numbers to strings with str() before concatenating with a string.']},
+    {t:'callout',kind:'try',header:'Try This',items:['Run the code. Can you see both labels in the correct corners?','Change align=\'left\' to align=\'center\' on scoreLabel. What changes?','Try fill=\'red\' as an argument. Can you color the score red and missed blue?','Restore to size=16 before continuing.']},
+    {t:'q',label:'Q4',text:'Why is str(app.score) needed when updating the label? What error would you get if you wrote \'Score: \' + app.score without str()?'},
+    {t:'q',label:'Q5',text:'scoreLabel is at x=20, align=\'left\'. missedLabel is at x=380, align=\'right\'. The canvas is 400px wide. Why are these positions and alignments a good choice for corner labels?'}
+  ]},
+  {title:'Connecting Popping to the Score',content:[
+    {t:'p',html:'The labels exist but do not update yet. Update <code>onMousePress</code> to increment the score and refresh the label each time a bubble is popped:'},
+    {t:'code',lines:['def onMousePress(mouseX, mouseY):','    to_pop = []','    for bubble in app.bubbles:','        if bubble.contains(mouseX, mouseY):','            to_pop.append(bubble)','','    for bubble in to_pop:','        app.bubbles.remove(bubble)','        app.group.remove(bubble)','        # award a point for each bubble popped','        app.score += 1','        scoreLabel.value = \'Score: \' + str(app.score)']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Updating a Label with .value',items:['scoreLabel.value = \'Score: \' + str(app.score) changes the displayed text.','This works like any shape property update \u2014 just as bubble.centerX += 3 moved a bubble, .value changes the label.','The update happens in the second for loop \u2014 one point per bubble in to_pop.']},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['Does the score label update immediately when you click a bubble?','Pop three bubbles in a row. Does the score show 3?','Click somewhere with no bubble. Does the score change? Why?','Two bubbles overlap and you click the overlapping region. What score does one click register?']},
+    {t:'q',label:'Q6',text:'If to_pop contains 3 bubbles after one click, what will app.score increase by? Walk through the second loop step by step.'},
+    {t:'q',label:'Q7',text:'The score update is inside the second for loop, not the first. Why does it make sense to update the score in the same loop that removes the bubble?'}
+  ]},
+  {title:'Tracking Missed Bubbles in onStep()',content:[
+    {t:'p',html:'A bubble is "missed" when it crosses an edge and disappears on its own. The removal already happens in <code>onStep()</code>, so that is where the missed count must be updated. This version also upgrades to the safe two-pass pattern:'},
+    {t:'code',lines:['def onStep():','    bubbleWand.rotateAngle += app.rotateSpeed','    app.rotateSpeed *= 0.98','    if app.rotateSpeed < 1:','        app.rotateSpeed = 0','','    to_remove = []','    for bubble in app.bubbles:','        bubble.centerX, bubble.centerY = getPointInDir(','            bubble.centerX, bubble.centerY, bubble.rotateAngle, 3)','        bubble.width  *= 1.05','        bubble.height *= 1.05','        if bubble.centerX >= 380 or bubble.centerX < 20 or \\','           bubble.centerY < 20  or bubble.centerY > 380:','            to_remove.append(bubble)','','    for bubble in to_remove:','        app.bubbles.remove(bubble)','        app.group.remove(bubble)','        # a bubble escaped \u2014 count it as missed','        app.missed += 1','        missedLabel.value = \'Missed: \' + str(app.missed)']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Safe Removal in onStep() with to_remove',items:['Same two-pass pattern from onMousePress.','In Lesson 3, app.bubbles.remove(bubble) was called directly inside the for loop \u2014 that is fragile and can skip bubbles.','The missed count and label update happen in the second pass, after the bubble is confirmed gone.']},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['Let several bubbles drift off the edge. Does the Missed counter increase each time?','Pop a bubble before it reaches the edge. Does missed increase? Does score increase?','Let every bubble escape. What do both labels read at the end?','Can a bubble be counted as both a miss AND a pop?']},
+    {t:'q',label:'Q8',text:'In Lesson 3, app.bubbles.remove(bubble) was called directly inside the for loop. What problem did that cause, and why does the two-pass pattern fix it?'},
+    {t:'q',label:'Q9',text:'A bubble reaches the right edge and is added to to_remove. Walk through the second for loop step by step \u2014 what does each of the four lines do?',subItems:['app.bubbles.remove(bubble): _______________','app.group.remove(bubble): _______________','app.missed += 1: _______________','missedLabel.value = ...: _______________']},
+    {t:'q',label:'Q10',text:'A bubble can exit the system in two ways. For each, name the function responsible and the labels that update: a) player pops it.  b) it escapes to the edge.'}
+  ]},
+  {title:'Synthesis \u2014 The Complete Game',content:[
+    {t:'callout',kind:'concept',header:'The Four-Lesson Arc',items:['Lesson 1: Wand built from Groups. Mouse events. Friction.','Lesson 2: app.bubbles list. makeBubble() factory. Bubbles move and grow. Single-edge removal.','Lesson 3: Random direction via randint + rotateAngle. getPointInDir(). Four-edge compound conditional removal.','Lesson 4: onMousePress + contains() for popping. Label() for score. to_remove safe pattern. Missed tracking.']},
+    {t:'q',label:'Q11',text:'List every place app.bubbles is modified \u2014 the method called, the trigger, and what it does.',subItems:['1. makeBubble() calls: _______  triggered by: _______','2. onMousePress second loop calls: _______  triggered by: _______','3. onStep() second loop calls: _______  triggered by: _______']},
+    {t:'q',label:'Q12',text:'When a user clicks directly on the wand, describe the exact sequence: which event handlers fire, in what order, and what does each one do?'},
+    {t:'callout',kind:'try',header:'Extension \u2014 Make It a Real Game',items:['A) Game over \u2014 check if app.missed >= 5 in onStep() and display a Game Over label.','B) Level up \u2014 increase bubble speed after every 5 pops using app.score % 5 == 0.','C) Pop animation \u2014 briefly change the bubble fill before removing it.','D) Timer \u2014 add app.timeLeft = 30 countdown in onStep() that ends the game at 0.','E) Your own idea.']}
+  ]}
+ ]}
+,
+{id:'finale',num:10,title:'Bubble Wand \u2014 Finale',subtitle:'Autonomous Spawning \u00B7 Game State \u00B7 Win & Loss \u00B7 Enhancements',icon:'\uD83C\uDFC6',tag:'Game Design',
+ objectives:['Remove mouse-driven bubble creation and replace with automatic spawning','Use app.stepsPerSecond and probability to control the spawn rate','Add a game state flag to stop all activity when the game ends','End the game when the player reaches a score goal or misses too many bubbles','Display win and game-over messages with Label()','Explore difficulty selection, a leveling system, and bonus/bust bubbles'],
+ steps:[
+  {title:'Autonomous Spawning \u2014 Removing Mouse Control',content:[
+    {t:'p',html:'Right now bubbles are created when the player clicks the wand. To make this a game, the program should take over \u2014 creating bubbles automatically while the player focuses on popping them.'},
+    {t:'callout',kind:'concept',header:'Step 1A \u2014 Remove Mouse-Driven Creation',items:['Comment out or delete your onMouseRelease function entirely.','The wand will no longer spin or create bubbles on click.','onMousePress still handles popping \u2014 that stays untouched.']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 app.stepsPerSecond',items:['app.stepsPerSecond controls how many times per second onStep() fires.','app.stepsPerSecond = 30 means onStep() fires 30 times every second.','Higher values make animation smoother and faster. Lower values slow everything down.','Set this near the top of your program, after your other app variables.']},
+    {t:'p',html:'Add this near the top of your program, after <code>app.missed = 0</code>:'},
+    {t:'code',lines:['app.stepsPerSecond = 30']},
+    {t:'p',html:'Now add automatic bubble spawning inside <code>onStep()</code>, near the top before the movement loop:'},
+    {t:'code',lines:['def onStep():','    # randomly spawn a bubble once per second on average','    if randint(1, app.stepsPerSecond) == 1:','        bubbleWand.rotateAngle += randint(20, 60)','        makeBubble()','','    # ... rest of onStep() continues below ...']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Probability-Based Spawning',items:['randint(1, app.stepsPerSecond) == 1 gives a 1-in-30 chance per frame.','With 30 frames per second: 30 \u00D7 (1/30) = 1 bubble per second on average.','To spawn more frequently: randint(1, 15) == 1 \u2192 ~2 bubbles/second.','Using app.stepsPerSecond as the upper bound ties the probability to the frame rate.']},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['Do bubbles appear automatically without any clicking?','Does the spawn rate feel about right \u2014 roughly one bubble per second?','What happens if you set app.stepsPerSecond = 60? Does spawning speed up?','What happens if you change the condition to randint(1, 5) == 1?']},
+    {t:'q',label:'Q1',text:'randint(1, app.stepsPerSecond) == 1 gives a 1-in-30 chance per frame. How many bubbles per second does that produce on average? Show your reasoning.'},
+    {t:'q',label:'Q2',text:'Why is using app.stepsPerSecond as the upper bound better than writing randint(1, 30) == 1 directly? What breaks if you later change app.stepsPerSecond to 60 but keep the hardcoded 30?'},
+    {t:'q',label:'Q3',text:'The wand now rotates by randint(20, 60) each spawn. In Lesson 1 the wand rotated by app.rotateSpeed which faded using *= 0.98. Why is the fixed random jump more appropriate for autonomous spawning?'}
+  ]},
+  {title:'Game State \u2014 Win & Loss Conditions',content:[
+    {t:'p',html:'Right now the game runs forever. We need to track game state \u2014 whether the game is still running \u2014 and end it cleanly when the player wins or loses.'},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Game State and the Running Flag',items:['A game state is a variable that tells your program what mode it is currently in.','app.playing = True \u2014 the game is running normally.','app.playing = False \u2014 the game has ended.','When app.playing becomes False, onStep() should stop everything. A guard at the very top achieves this:','  if not app.playing: return','return inside a function immediately exits it \u2014 nothing below that line runs.']},
+    {t:'p',html:'Step 2A \u2014 Add game state variables after <code>app.missed = 0</code>:'},
+    {t:'code',lines:['app.playing   = True','app.scoreGoal = 10   # player wins by reaching this score','app.maxMisses = 5    # player loses by missing this many','','# Win / loss message label (hidden until game ends)',"gameLabel = Label('', 200, 200, size=24, bold=True)"]},
+    {t:'p',html:'Step 2B \u2014 Add the guard and loss check to <code>onStep()</code>:'},
+    {t:'code',lines:['def onStep():','    if not app.playing:','        return','','    if randint(1, app.stepsPerSecond) == 1:','        bubbleWand.rotateAngle += randint(20, 60)','        makeBubble()','','    to_remove = []','    for bubble in app.bubbles:','        bubble.centerX, bubble.centerY = getPointInDir(','            bubble.centerX, bubble.centerY, bubble.rotateAngle, 3)','        bubble.width  *= 1.05','        bubble.height *= 1.05','        if bubble.centerX >= 380 or bubble.centerX < 20 or \\','           bubble.centerY < 20  or bubble.centerY > 380:','            to_remove.append(bubble)','','    for bubble in to_remove:','        app.bubbles.remove(bubble)','        app.group.remove(bubble)','        app.missed += 1','        missedLabel.value = \'Missed: \' + str(app.missed)','        if app.missed >= app.maxMisses:','            app.playing = False','            gameLabel.value = \'Game Over!  Score: \' + str(app.score)']},
+    {t:'p',html:'Step 2C \u2014 Add the win check in <code>onMousePress</code> after the score is updated:'},
+    {t:'code',lines:['    for bubble in to_pop:','        app.bubbles.remove(bubble)','        app.group.remove(bubble)','        app.score += 1','        scoreLabel.value = \'Score: \' + str(app.score)','        if app.score >= app.scoreGoal:','            app.playing = False','            gameLabel.value = \'You Win!  Final misses: \' + str(app.missed)']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Checking Win and Loss in Different Places',items:['Win check in onMousePress \u2014 score only increases when the player pops a bubble.','Loss check in onStep() \u2014 missed count only increases when a bubble escapes.','In both cases the check comes immediately after the value changes \u2014 the earliest possible moment it could matter.','The guard  if not app.playing: return  freezes the canvas as soon as the game ends.']},
+    {t:'callout',kind:'observe',header:'Observe & Predict',items:['When you miss app.maxMisses bubbles, does "Game Over!" appear? Does the game stop?','When you reach app.scoreGoal pops, does "You Win!" appear?','After the game ends, do bubbles still appear and move?','What happens to any bubbles already on screen when the game ends?']},
+    {t:'q',label:'Q5',text:'Explain why the guard  if not app.playing: return  is placed at the very top of onStep() rather than around each individual section. What would happen if you forgot it?'},
+    {t:'q',label:'Q6',text:'The win check is in onMousePress and the loss check is in onStep(). Could you move both into onStep() instead? What would be the downside?'},
+    {t:'q',label:'Q7',text:'When the game ends, any bubbles currently on screen stay visible but frozen. How would you remove them? Write the code that clears all remaining bubbles from both the list and the canvas.'},
+    {t:'q',label:'Q8',text:'List every variable and label value that needs to be reset to start a new game. Write out the complete reset block.'}
+  ]},
+  {title:'Enhancement A \u2014 Difficulty Selection',content:[
+    {t:'p',html:'A difficulty system lets the player choose their challenge. Before the game begins, the program presents options and sets parameters accordingly.'},
+    {t:'callout',kind:'concept',header:'Design Brief \u2014 Difficulty Selection',items:['Three parameters control difficulty: bubble speed (distance in getPointInDir), spawn rate (denominator in randint), max misses.','Use onKeyPress to select difficulty before the game starts:','  app.started = False','  startLabel = Label(\'Press 1=Easy  2=Medium  3=Hard\', 200, 200)','','  def onKeyPress(key):','      if not app.started:','          if key == \'1\':  # Easy','              app.bubbleSpeed = 2','              app.maxMisses   = 8','              app.spawnRate   = app.stepsPerSecond','              app.started     = True','              startLabel.visible = False','          elif key == \'2\': # Medium (fill in)','              ...','          elif key == \'3\': # Hard (fill in)','              ...','','In onStep(), guard with  if not app.playing or not app.started: return','Replace hardcoded 3 and stepsPerSecond with app.bubbleSpeed and app.spawnRate.']},
+    {t:'q',label:'Design Q1',text:'What specific values of app.bubbleSpeed, app.maxMisses, and app.spawnRate will you use for Easy, Medium, and Hard? Explain your reasoning for each.'},
+    {t:'q',label:'Design Q2',text:'The difficulty selection uses onKeyPress instead of onMousePress. Why is keyboard input more appropriate for a pre-game menu?'},
+    {t:'q',label:'Design Q3',text:'When the player wins or loses, how would you allow them to restart and re-select difficulty? Write the pseudocode for the restart sequence.'}
+  ]},
+  {title:'Enhancement B \u2014 Leveling System',content:[
+    {t:'p',html:'A leveling system rewards skilled players by increasing the challenge as they improve. Each time the player reaches a points milestone, the game gets harder.'},
+    {t:'callout',kind:'concept',header:'Design Brief \u2014 Leveling System',items:['Track app.level and recalculate parameters each time the score crosses a threshold.','In onMousePress, after app.score += 1:','  new_level = app.score // app.pointsPerLevel + 1','  if new_level > app.level:','      app.level = new_level','      app.spawnRate = max(5, app.stepsPerSecond // app.level)','      app.bubbleSpeed = min(8, 2 + app.level)','      levelLabel.value = \'Level \' + str(app.level)','','  app.score // app.pointsPerLevel \u2014 integer division gives completed milestones.','  max(5, ...) \u2014 prevents spawn rate below 5 (very fast).','  min(8, ...) \u2014 caps bubble speed at 8 so the game stays playable.']},
+    {t:'code',lines:['app.level          = 1','app.pointsPerLevel = 5   # level up every 5 points','app.spawnRate      = app.stepsPerSecond','app.bubbleSpeed    = 3','','levelLabel = Label(\'Level 1\', 200, 15, size=16, bold=True, align=\'center\')']},
+    {t:'q',label:'Design Q4',text:'With app.pointsPerLevel = 5, at what score values does the player level up? Calculate the first 4 level-up scores.'},
+    {t:'q',label:'Design Q5',text:'The spawn rate formula is max(5, app.stepsPerSecond // app.level). Fill in: at Level 1, 2, 3, 4, 5, 6 \u2014 what is app.spawnRate and the expected bubbles per second? (app.stepsPerSecond = 30)'},
+    {t:'q',label:'Design Q6',text:'At Level 6 the spawn rate hits the floor of 5. Is max(5, ...) the right floor? Would you choose a different value? Explain.'}
+  ]},
+  {title:'Enhancement C \u2014 Bonus & Bust Bubbles',content:[
+    {t:'p',html:'Not all bubbles are equal. Bonus bubbles reward fast players with extra points. Bust bubbles punish players who let them escape \u2014 ending the game immediately.'},
+    {t:'callout',kind:'concept',header:'Design Brief \u2014 Bonus & Bust Bubbles',items:['Store a custom bubble.kind attribute on each bubble when created.','Update makeBubble() to accept a kind parameter (default \'normal\'):','  def makeBubble(kind=\'normal\'):','      bubble = Group()','      if kind == \'bonus\': fill=\'gold\', border=\'orange\'','      elif kind == \'bust\': fill=\'red\', border=\'darkred\'','      else: fill=\'white\', border=\'silver\'  # normal','      bubble.kind = kind','','In onStep() spawning:','  r = randint(1, 10)','  if r == 1:   makeBubble(\'bonus\')','  elif r == 2: makeBubble(\'bust\')','  else:        makeBubble()','','In onMousePress when popping:','  if bubble.kind == \'bonus\': app.score += 3','  else: app.score += 1','','In onStep() to_remove loop when a bubble escapes:','  if bubble.kind == \'bust\':','      app.playing = False','      gameLabel.value = \'Busted!  Score: \' + str(app.score)','  else:','      app.missed += 1']},
+    {t:'q',label:'Design Q7',text:'With a 1-in-10 chance each for bonus and bust, what percentage of all bubbles are normal? Would you adjust these probabilities?'},
+    {t:'q',label:'Design Q8',text:'A bust bubble that escapes ends the game immediately. Is this too punishing? Describe an alternative \u2014 for example, costing 3 misses instead of instant game over.'},
+    {t:'q',label:'Design Q9',text:'If a bonus bubble is popped for 3 points and app.pointsPerLevel = 5, could a player skip levels? Is that a problem?'}
+  ]},
+  {title:'Final Reflection',content:[
+    {t:'callout',kind:'concept',header:'The Five-Lesson Arc',items:['Lesson 1: Wand, Groups, trig, friction, contains().','Lesson 2: app.bubbles list, makeBubble() factory, movement, growth, single-edge removal.','Lesson 3: randint, random direction, getPointInDir(), four-edge compound removal.','Lesson 4: onMousePress, popping, Label(), score and missed tracking, to_remove safe pattern.','Finale: autonomous spawning, app.stepsPerSecond, game state, win/loss conditions, enhancements.']},
+    {t:'q',label:'R1',text:'Looking back across all five lessons, trace the evolution of onStep(). What did it contain in Lesson 1? What does it contain now at the Finale? Describe each addition and what concept it introduced.'},
+    {t:'q',label:'R2',text:'The Create \u2192 Track \u2192 Update \u2192 Remove pattern appeared in Lesson 2. Does it still describe the structure of your final program? For each of the four steps, describe what the code does now compared to Lesson 2.'},
+    {t:'q',label:'R3',text:'If a friend asked you to explain the biggest conceptual jump between any two consecutive lessons, which transition would you choose and why?'}
+  ]}
+ ]}
+];
+
+
+var activeLessonIdx=-1,activeStep=0;
+function buildHome(){var g=document.getElementById('unit-grid');COURSE.forEach(function(L,i){var d=document.createElement('div');d.className='unit-card';d.innerHTML='<div class="uc-num">Lesson '+L.num+'</div><div class="uc-title">'+L.icon+'&nbsp; '+L.title+'</div><div class="uc-sub">'+L.subtitle+'</div><span class="uc-tag">'+L.tag+'</span>';d.onclick=(function(n){return function(){openLesson(n);};})(i);g.appendChild(d);});}
+function buildDropdown(){var dd=document.getElementById('dropdown');dd.innerHTML='';var s0=document.createElement('div');s0.className='dd-section';var h=document.createElement('div');h.className='dd-item'+(activeLessonIdx===-1?' active':'');h.id='dd-home';h.innerHTML='<span class="dd-num">&#8962;</span><div><div class="dd-title">Course Home</div></div>';h.onclick=function(){goHome();closeMenu();};s0.appendChild(h);dd.appendChild(s0);var s1=document.createElement('div');s1.className='dd-section';var lb=document.createElement('div');lb.className='dd-label';lb.textContent='Lessons';s1.appendChild(lb);COURSE.forEach(function(L,i){var it=document.createElement('div');it.className='dd-item'+(i===activeLessonIdx?' active':'');it.id='dd-item-'+i;it.innerHTML='<span class="dd-num">'+L.num+'</span><div><div class="dd-title">'+L.icon+' '+L.title+'</div><div class="dd-sub">'+L.tag+'</div></div>';it.onclick=(function(n){return function(){openLesson(n);closeMenu();};})(i);s1.appendChild(it);});dd.appendChild(s1);}
+function toggleMenu(){var b=document.getElementById('menu-btn'),dd=document.getElementById('dropdown'),o=dd.classList.contains('open');if(o){dd.classList.remove('open');b.classList.remove('open');b.setAttribute('aria-expanded','false');}else{dd.classList.add('open');b.classList.add('open');b.setAttribute('aria-expanded','true');}}
+function closeMenu(){document.getElementById('dropdown').classList.remove('open');document.getElementById('menu-btn').classList.remove('open');document.getElementById('menu-btn').setAttribute('aria-expanded','false');}
+document.addEventListener('click',function(e){if(!e.target.closest('.menu-wrap'))closeMenu();});
+function goHome(){activeLessonIdx=-1;activeStep=0;document.getElementById('home-screen').classList.add('active');document.getElementById('lesson-screen').classList.remove('active');document.getElementById('menu-label').textContent='Course Home';document.getElementById('tb-step').textContent='';document.getElementById('prog').style.width='0%';buildDropdown();window.scrollTo({top:0,behavior:'smooth'});}
+function openLesson(i){activeLessonIdx=i;activeStep=0;var L=COURSE[i];document.getElementById('home-screen').classList.remove('active');document.getElementById('lesson-screen').classList.add('active');document.getElementById('menu-label').textContent=L.icon+' '+L.title;var hdr=document.getElementById('lesson-header');var obj='<div class="obj-box"><h3>In this lesson you will</h3><ul>';L.objectives.forEach(function(o){obj+='<li>'+o+'</li>';});obj+='</ul></div>';hdr.innerHTML='<div class="kicker">Lesson '+L.num+' &middot; Python Graphics &amp; Animation</div><h2 class="lesson-title-h">'+L.title+'</h2><p class="lesson-sub">'+L.subtitle+'</p>'+obj;buildSteps(L);buildDots(L.steps.length);goToStep(0);buildDropdown();window.scrollTo({top:0,behavior:'smooth'});}
+function buildSteps(L){var c=document.getElementById('steps-container');c.innerHTML='';var tot=L.steps.length;L.steps.forEach(function(step,i){var div=document.createElement('div');div.className='step-card';div.id='step-'+i;var html='<div class="step-lbl">Step '+(i+1)+' of '+tot+'</div><h3 class="step-h">'+step.title+'</h3>';step.content.forEach(function(item){if(item.t==='p'){html+='<p class="prose">'+item.html+'</p>';}else if(item.t==='code'){html+='<div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">copy</button><div class="code-block"><pre></pre></div></div>';}else if(item.t==='callout'){var k=item.kind==='try'?'try-box':item.kind;html+='<div class="callout '+k+'"><div class="ch">'+item.header+'</div><div class="cb"><ul>';item.items.forEach(function(li){html+='<li>'+li+'</li>';});html+='</ul></div></div>';}else if(item.t==='q'){html+='<div class="qbox"><div class="qlbl">'+item.label+'</div><div class="qtxt">'+item.text+'</div>';if(item.subItems)item.subItems.forEach(function(s){html+='<div class="sub-item">'+s+'</div>';});html+='<div class="qnote">Answer in your Google Doc.</div></div>';}else if(item.t==='mc'){html+='<div class="mc-box"><div class="qlbl">'+item.label+'</div><div class="qtxt">'+item.text+'</div><ul class="mc-opts">';item.opts.forEach(function(o){html+='<li>'+o+'</li>';});html+='</ul><div class="qnote">Answer in your Google Doc. Correct: '+item.answer+'</div></div>';}});div.innerHTML=html;var ci=0,pres=div.querySelectorAll('pre');step.content.forEach(function(item){if(item.t==='code'){if(pres[ci]){pres[ci].textContent=item.lines.join('\n');ci++;}}});c.appendChild(div);});var done=document.getElementById('done-screen');done.className='done-screen';var nb=(activeLessonIdx+1<COURSE.length)?'<button class="done-btn primary" onclick="openLesson('+(activeLessonIdx+1)+')">Next: '+COURSE[activeLessonIdx+1].title+' &#8594;</button>':'';done.innerHTML='<div class="done-icon">'+L.icon+'</div><h2>Lesson '+L.num+' Complete!</h2><p>'+L.title+' &mdash; you\'ve finished all '+tot+' steps.</p><div class="done-btns">'+nb+'<button class="done-btn secondary" onclick="goHome()">&#8962; Course Home</button></div>';}
+function buildDots(tot){var el=document.getElementById('dots');el.innerHTML='';for(var i=0;i<tot;i++){var b=document.createElement('button');b.className='dot';b.title='Step '+(i+1);b.onclick=(function(n){return function(){goToStep(n);};})(i);el.appendChild(b);}}
+function updateDots(cur,tot){document.querySelectorAll('.dot').forEach(function(d,i){d.className='dot'+(i<cur?' done':i===cur?' cur':'');});}
+function goToStep(n){var L=COURSE[activeLessonIdx],tot=L.steps.length;document.querySelectorAll('.step-card').forEach(function(c){c.classList.remove('active');});document.getElementById('done-screen').classList.remove('active');document.getElementById('nav-row').style.display='flex';activeStep=n;var card=document.getElementById('step-'+n);if(card)card.classList.add('active');updateDots(n,tot);document.getElementById('prog').style.width=Math.min(n/tot*100,100)+'%';document.getElementById('btn-back').disabled=(n===0);document.getElementById('btn-next').textContent=(n===tot-1)?'Finish \u2713':'Next \u2192';document.getElementById('step-ctr').textContent=(n+1)+' / '+tot;document.getElementById('tb-step').textContent='Step '+(n+1)+' / '+tot;window.scrollTo({top:0,behavior:'smooth'});}
+function navStep(dir){var L=COURSE[activeLessonIdx],tot=L.steps.length;if(dir===1&&activeStep===tot-1){document.querySelectorAll('.step-card').forEach(function(c){c.classList.remove('active');});document.getElementById('done-screen').classList.add('active');document.getElementById('nav-row').style.display='none';document.getElementById('prog').style.width='100%';updateDots(tot,tot);document.getElementById('tb-step').textContent='Complete!';return;}var nx=activeStep+dir;if(nx<0||nx>=tot)return;goToStep(nx);}
+function copyCode(btn){var pre=btn.parentElement.querySelector('pre');if(!pre)return;var txt=pre.textContent;if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(function(){btn.textContent='copied!';setTimeout(function(){btn.textContent='copy';},1600);}).catch(function(){btn.textContent='ctrl+c';setTimeout(function(){btn.textContent='copy';},2500);});}else{btn.textContent='ctrl+c to copy';setTimeout(function(){btn.textContent='copy';},2500);}}
+buildHome();buildDropdown();
+</script>
+</body>
+</html>
