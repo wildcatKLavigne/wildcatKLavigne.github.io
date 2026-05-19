@@ -114,6 +114,10 @@ code{font-family:'DM Mono',monospace;font-size:.84em;background:#e4e0d8;padding:
 .done-btn.primary{background:#1a4fa8;color:#fff}
 .done-btn.secondary{background:transparent;border:2px solid #0e0e1a;color:#0e0e1a}
 .sub-item{font-size:13px;color:#6b6860;padding-left:1rem;margin-top:.2rem}
+.dl-bar{display:flex;align-items:center;gap:.65rem;margin-top:1.1rem;padding:.65rem 1rem;background:#faf8f3;border:1.5px solid #d8d4c8;border-radius:7px;font-size:13.5px;color:#6b6860}
+.dl-bar span{flex-shrink:0;font-size:16px}
+.dl-bar a{font-family:'DM Mono',monospace;font-size:12.5px;color:#0e7c6e;text-decoration:none;font-weight:500;word-break:break-all}
+.dl-bar a:hover{text-decoration:underline;color:#0a5f54}
 @media(max-width:520px){
   .topbar{padding:0 .9rem}.step-badge{display:none}
   .dot{width:15px}.dot.cur{width:22px}
@@ -163,7 +167,7 @@ code{font-family:'DM Mono',monospace;font-size:.84em;background:#e4e0d8;padding:
 </div>
 <script>
 var COURSE=[
-{id:'flower',num:1,title:'Drawing with Code',subtitle:'Circles, Coordinates & Color',icon:'\uD83C\uDF38',tag:'Intro \u00B7 Shapes',
+{id:'flower',download:'lesson_01_flower.docx',num:1,title:'Drawing with Code',subtitle:'Circles, Coordinates & Color',icon:'\uD83C\uDF38',tag:'Intro \u00B7 Shapes',
  objectives:['Place a Circle() on the canvas using centerX, centerY, and radius','Read argument names from the CMU CS Academy Docs tab','Set fill color using named color strings','Control outlines with border and borderWidth','Make shapes transparent using opacity','Use code order to control layering','Design and code an original flower'],
  steps:[
   {title:'The Canvas & Your First Circle',content:[
@@ -215,7 +219,7 @@ var COURSE=[
   ]}
  ]},
 
-{id:'portraits',num:2,title:'Creative Portraits',subtitle:'Circle \u00B7 Oval \u00B7 Rect \u00B7 Line \u00B7 Arc \u00B7 rotateAngle',icon:'\uD83C\uDFA8',tag:'Project \u00B7 Shapes',
+{id:'portraits',download:'lesson_02_portraits.docx',num:2,title:'Creative Portraits',subtitle:'Circle \u00B7 Oval \u00B7 Rect \u00B7 Line \u00B7 Arc \u00B7 rotateAngle',icon:'\uD83C\uDFA8',tag:'Project \u00B7 Shapes',
  objectives:['Use Circle(), Oval(), Rect(), Line(), and Arc() together','Control position and layering for correct front-to-back arrangement','Apply fill, border, borderWidth, and opacity with artistic intent','Use rotateAngle to angle ovals and create natural shapes','Plan your design on paper before writing any code','Use # comments to label every section of your code'],
  steps:[
   {title:'What Is This Project?',content:[
@@ -250,7 +254,7 @@ var COURSE=[
   ]}
  ]},
 
-{id:'animation',num:3,title:'Introduction to Animation',subtitle:'Variables \u00B7 app object \u00B7 onStep() \u00B7 if statements \u00B7 RGB',icon:'\uD83C\uDFAC',tag:'Animation \u00B7 Logic',
+{id:'animation',download:'lesson_03_animation.docx',num:3,title:'Introduction to Animation',subtitle:'Variables \u00B7 app object \u00B7 onStep() \u00B7 if statements \u00B7 RGB',icon:'\uD83C\uDFAC',tag:'Animation \u00B7 Logic',
  objectives:['Store shapes in variables so you can change their properties after creation','Use the app object to share values across your program','Write an onStep() function that runs many times per second','Use += and *= operators to update values each step','Write if statements to check conditions and change behavior','Make a shape bounce by reversing its speed with *= -1','Animate fill color by changing RGB tuple values step by step'],
  steps:[
   {title:'Shapes as Variables',content:[
@@ -299,7 +303,7 @@ var COURSE=[
   ]}
  ]},
 
-{id:'sun',num:4,title:'The Sun Project',subtitle:'Groups \u00B7 Animation \u00B7 For Loops',icon:'\u2600\uFE0F',tag:'Groups \u00B7 Loops',
+{id:'sun',download:'lesson_04_sun.docx',num:4,title:'The Sun Project',subtitle:'Groups \u00B7 Animation \u00B7 For Loops',icon:'\u2600\uFE0F',tag:'Groups \u00B7 Loops',
  objectives:['Create a Group and add shapes to it manually','Use compound operators (+=, *=)','Animate a group using onStep()','Use a for loop with range() to draw repeated shapes efficiently','Use if statements in onStep() to reverse animation direction'],
  steps:[
   {title:'Building a Sun with Groups',content:[
@@ -337,7 +341,7 @@ var COURSE=[
   ]}
  ]},
 
-{id:'spiral',num:5,title:'The Spiral Project',subtitle:'For Loops \u00B7 rgb() Color \u00B7 The Golden Spiral',icon:'\uD83C\uDF00',tag:'Math \u00B7 Color',
+{id:'spiral',download:'lesson_05_spiral.docx',num:5,title:'The Spiral Project',subtitle:'For Loops \u00B7 rgb() Color \u00B7 The Golden Spiral',icon:'\uD83C\uDF00',tag:'Math \u00B7 Color',
  objectives:['Use rgb() to create and vary colors mathematically','Combine multiple changing variables inside a single loop','Use getPointInDir() to build a path one step at a time','Grow a value exponentially using *=','Chain if statements to cycle through colors','Understand how small repeated changes produce emergent complex patterns'],
  steps:[
   {title:'Part 1 \u2014 The Grayscale Spoke Wheel',content:[
@@ -372,7 +376,7 @@ var COURSE=[
   ]}
  ]},
 
-{id:'bubble1',num:6,title:'Bubble Wand \u2014 Lesson 1',subtitle:'Layering \u00B7 Trig \u00B7 Mouse Interactivity \u00B7 Friction',icon:'\uD83E\uDEE7',tag:'Interactivity \u00B7 Math',
+{id:'bubble1',download:'lesson_06_bubble_wand_1.docx',num:6,title:'Bubble Wand \u2014 Lesson 1',subtitle:'Layering \u00B7 Trig \u00B7 Mouse Interactivity \u00B7 Friction',icon:'\uD83E\uDEE7',tag:'Interactivity \u00B7 Math',
  objectives:['Use draw order (layering) to control which shapes appear in front','Use sin() and cos() to place shapes around a circle','Convert degrees to radians using math.radians()','Respond to mouse events with onMouseRelease()','Use a friction pattern to gradually decelerate a rotating object','Use shape.contains() to make interactivity conditional on click location'],
  steps:[
   {title:'Layering \u2014 The Staff Must Come First',content:[
@@ -409,7 +413,7 @@ var COURSE=[
   ]}
  ]},
 
-{id:'bubble2',num:7,title:'Bubble Wand \u2014 Lesson 2',subtitle:'Lists \u00B7 Factory Functions \u00B7 Animation \u00B7 Removal',icon:'\uD83E\uDEE7',tag:'Lists \u00B7 Particle Systems',
+{id:'bubble2',download:'lesson_07_bubble_wand_2.docx',num:7,title:'Bubble Wand \u2014 Lesson 2',subtitle:'Lists \u00B7 Factory Functions \u00B7 Animation \u00B7 Removal',icon:'\uD83E\uDEE7',tag:'Lists \u00B7 Particle Systems',
  objectives:['Use a Python list to track multiple bubble objects','Write a factory function that builds one bubble from three shapes','Call that function from onMouseRelease on every click','Loop over the list in onStep() to move and grow every bubble','Remove bubbles from both the list and the canvas when they reach the edge'],
  steps:[
   {title:'The Bubble List \u2014 app.bubbles = []',content:[
@@ -449,7 +453,7 @@ var COURSE=[
   ]}
  ]},
 
-{id:'bubble3',num:8,title:'Bubble Wand \u2014 Lesson 3',subtitle:'randint \u00B7 Random Direction \u00B7 getPointInDir \u00B7 Compound Conditionals',icon:'\uD83E\uDEE7',tag:'Randomness \u00B7 Conditionals',
+{id:'bubble3',download:'lesson_08_bubble_wand_3.docx',num:8,title:'Bubble Wand \u2014 Lesson 3',subtitle:'randint \u00B7 Random Direction \u00B7 getPointInDir \u00B7 Compound Conditionals',icon:'\uD83E\uDEE7',tag:'Randomness \u00B7 Conditionals',
  objectives:['Use from random import randint \u2014 selective import syntax','Assign each bubble a random direction using randint(0, 360)','Use getPointInDir() to move each bubble in the direction it faces','Activate the wand only when the user clicks it using contains()','Explore custom object attributes to vary bubble growth per bubble','Write compound conditional statements using or and and'],
  steps:[
   {title:'A New Import Syntax \u2014 from random import randint',content:[
@@ -491,7 +495,7 @@ var COURSE=[
   ]}
  ]},
 
-{id:'bubble4',num:9,title:'Bubble Wand \u2014 Lesson 4',subtitle:'onMousePress \u00B7 contains() \u00B7 Label() \u00B7 Score & Missed',icon:'\uD83C\uDFAF',tag:'Game Logic',
+{id:'bubble4',download:'lesson_09_bubble_wand_4.docx',num:9,title:'Bubble Wand \u2014 Lesson 4',subtitle:'onMousePress \u00B7 contains() \u00B7 Label() \u00B7 Score & Missed',icon:'\uD83C\uDFAF',tag:'Game Logic',
  objectives:['Use onMousePress to detect clicks on individual bubbles','Use bubble.contains() to identify which bubble was clicked','Remove a clicked bubble from both app.bubbles and app.group \u2014 popping it','Create Label() objects to display score and missed count on the canvas','Increment the score when a bubble is popped','Increment the missed count when a bubble escapes off the edge'],
  steps:[
   {title:'Popping Bubbles \u2014 onMousePress and bubble.contains()',content:[
@@ -539,7 +543,7 @@ var COURSE=[
   ]}
  ]}
 ,
-{id:'finale',num:10,title:'Bubble Wand \u2014 Finale',subtitle:'Autonomous Spawning \u00B7 Game State \u00B7 Win & Loss \u00B7 Enhancements',icon:'\uD83C\uDFC6',tag:'Game Design',
+{id:'finale',download:'lesson_10_bubble_wand_finale.docx',num:10,title:'Bubble Wand \u2014 Finale',subtitle:'Autonomous Spawning \u00B7 Game State \u00B7 Win & Loss \u00B7 Enhancements',icon:'\uD83C\uDFC6',tag:'Game Design',
  objectives:['Remove mouse-driven bubble creation and replace with automatic spawning','Use app.stepsPerSecond and probability to control the spawn rate','Add a game state flag to stop all activity when the game ends','End the game when the player reaches a score goal or misses too many bubbles','Display win and game-over messages with Label()','Explore difficulty selection, a leveling system, and bonus/bust bubbles'],
  steps:[
   {title:'Autonomous Spawning \u2014 Removing Mouse Control',content:[
@@ -611,7 +615,7 @@ function toggleMenu(){var b=document.getElementById('menu-btn'),dd=document.getE
 function closeMenu(){document.getElementById('dropdown').classList.remove('open');document.getElementById('menu-btn').classList.remove('open');document.getElementById('menu-btn').setAttribute('aria-expanded','false');}
 document.addEventListener('click',function(e){if(!e.target.closest('.menu-wrap'))closeMenu();});
 function goHome(){activeLessonIdx=-1;activeStep=0;document.getElementById('home-screen').classList.add('active');document.getElementById('lesson-screen').classList.remove('active');document.getElementById('menu-label').textContent='Course Home';document.getElementById('tb-step').textContent='';document.getElementById('prog').style.width='0%';buildDropdown();window.scrollTo({top:0,behavior:'smooth'});}
-function openLesson(i){activeLessonIdx=i;activeStep=0;var L=COURSE[i];document.getElementById('home-screen').classList.remove('active');document.getElementById('lesson-screen').classList.add('active');document.getElementById('menu-label').textContent=L.icon+' '+L.title;var hdr=document.getElementById('lesson-header');var obj='<div class="obj-box"><h3>In this lesson you will</h3><ul>';L.objectives.forEach(function(o){obj+='<li>'+o+'</li>';});obj+='</ul></div>';hdr.innerHTML='<div class="kicker">Lesson '+L.num+' &middot; Python Graphics &amp; Animation</div><h2 class="lesson-title-h">'+L.title+'</h2><p class="lesson-sub">'+L.subtitle+'</p>'+obj;buildSteps(L);buildDots(L.steps.length);goToStep(0);buildDropdown();window.scrollTo({top:0,behavior:'smooth'});}
+function openLesson(i){activeLessonIdx=i;activeStep=0;var L=COURSE[i];document.getElementById('home-screen').classList.remove('active');document.getElementById('lesson-screen').classList.add('active');document.getElementById('menu-label').textContent=L.icon+' '+L.title;var hdr=document.getElementById('lesson-header');var obj='<div class="obj-box"><h3>In this lesson you will</h3><ul>';L.objectives.forEach(function(o){obj+='<li>'+o+'</li>';});obj+='</ul></div>';var dlBar=L.download?'<div class="dl-bar"><span>&#x1F4C4;</span><span>Google Doc worksheet:</span> <a href="../downloads/'+L.download+'" download>'+L.download+'</a></div>':'';hdr.innerHTML='<div class="kicker">Lesson '+L.num+' &middot; Python Graphics &amp; Animation</div><h2 class="lesson-title-h">'+L.title+'</h2><p class="lesson-sub">'+L.subtitle+'</p>'+obj+dlBar;buildSteps(L);buildDots(L.steps.length);goToStep(0);buildDropdown();window.scrollTo({top:0,behavior:'smooth'});}
 function buildSteps(L){var c=document.getElementById('steps-container');c.innerHTML='';var tot=L.steps.length;L.steps.forEach(function(step,i){var div=document.createElement('div');div.className='step-card';div.id='step-'+i;var html='<div class="step-lbl">Step '+(i+1)+' of '+tot+'</div><h3 class="step-h">'+step.title+'</h3>';step.content.forEach(function(item){if(item.t==='p'){html+='<p class="prose">'+item.html+'</p>';}else if(item.t==='code'){html+='<div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">copy</button><div class="code-block"><pre></pre></div></div>';}else if(item.t==='callout'){var k=item.kind==='try'?'try-box':item.kind;html+='<div class="callout '+k+'"><div class="ch">'+item.header+'</div><div class="cb"><ul>';item.items.forEach(function(li){html+='<li>'+li+'</li>';});html+='</ul></div></div>';}else if(item.t==='q'){html+='<div class="qbox"><div class="qlbl">'+item.label+'</div><div class="qtxt">'+item.text+'</div>';if(item.subItems)item.subItems.forEach(function(s){html+='<div class="sub-item">'+s+'</div>';});html+='<div class="qnote">Answer in your Google Doc.</div></div>';}else if(item.t==='mc'){html+='<div class="mc-box"><div class="qlbl">'+item.label+'</div><div class="qtxt">'+item.text+'</div><ul class="mc-opts">';item.opts.forEach(function(o){html+='<li>'+o+'</li>';});html+='</ul><div class="qnote">Answer in your Google Doc. Correct: '+item.answer+'</div></div>';}});div.innerHTML=html;var ci=0,pres=div.querySelectorAll('pre');step.content.forEach(function(item){if(item.t==='code'){if(pres[ci]){pres[ci].textContent=item.lines.join('\n');ci++;}}});c.appendChild(div);});var done=document.getElementById('done-screen');done.className='done-screen';var nb=(activeLessonIdx+1<COURSE.length)?'<button class="done-btn primary" onclick="openLesson('+(activeLessonIdx+1)+')">Next: '+COURSE[activeLessonIdx+1].title+' &#8594;</button>':'';done.innerHTML='<div class="done-icon">'+L.icon+'</div><h2>Lesson '+L.num+' Complete!</h2><p>'+L.title+' &mdash; you\'ve finished all '+tot+' steps.</p><div class="done-btns">'+nb+'<button class="done-btn secondary" onclick="goHome()">&#8962; Course Home</button></div>';}
 function buildDots(tot){var el=document.getElementById('dots');el.innerHTML='';for(var i=0;i<tot;i++){var b=document.createElement('button');b.className='dot';b.title='Step '+(i+1);b.onclick=(function(n){return function(){goToStep(n);};})(i);el.appendChild(b);}}
 function updateDots(cur,tot){document.querySelectorAll('.dot').forEach(function(d,i){d.className='dot'+(i<cur?' done':i===cur?' cur':'');});}
