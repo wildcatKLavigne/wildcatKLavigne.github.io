@@ -1,1 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMU CS Academy — Messaging App Worksheet 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#f5f2eb;color:#0e0e1a;font-family:'DM Sans',system-ui,sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+.topbar{background:#0e0e1a;color:#fff;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;gap:1rem}
+.topbar-left{display:flex;align-items:center;gap:.75rem;min-width:0}
+.cmu-link{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.55);text-decoration:none;white-space:nowrap;transition:color .15s}
+.cmu-link:hover{color:#fff}
+.topbar-sep{color:rgba(255,255,255,.2);font-size:13px;flex-shrink:0}
+.menu-wrap{position:relative}
+.menu-btn{display:flex;align-items:center;gap:.45rem;background:none;border:none;color:#fff;font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;cursor:pointer;padding:.3rem .5rem;border-radius:5px;transition:background .15s;white-space:nowrap}
+.menu-btn:hover{background:rgba(255,255,255,.1)}
+.menu-btn .chevron{font-size:10px;opacity:.7;transition:transform .2s}
+.menu-btn.open .chevron{transform:rotate(180deg)}
+.dropdown{position:absolute;top:calc(100% + 8px);left:0;background:#fff;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.18);min-width:268px;overflow:hidden;display:none;z-index:300}
+.dropdown.open{display:block;animation:dropIn .18s ease}
+@keyframes dropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.dd-section{padding:.5rem 0}
+.dd-section:not(:last-child){border-bottom:1px solid #f0ede6}
+.dd-label{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#aaa;padding:.4rem 1rem .2rem}
+.dd-item{display:flex;align-items:center;gap:.75rem;padding:.55rem 1rem;cursor:pointer;transition:background .12s;color:#0e0e1a}
+.dd-item:hover{background:#f5f2eb}
+.dd-item.active{background:#d6e4ff;color:#1a4fa8}
+.dd-num{font-family:'DM Mono',monospace;font-size:10px;color:#bbb;width:20px;flex-shrink:0;text-align:right}
+.dd-item.active .dd-num{color:#1a4fa8}
+.dd-title{font-size:13.5px;font-weight:500;line-height:1.3}
+.dd-sub{font-size:11px;color:#888;margin-top:1px}
+.dd-item.active .dd-sub{color:#5f88cc}
+.topbar-right{display:flex;align-items:center;flex-shrink:0;font-family:'DM Mono',monospace;font-size:10.5px}
+.step-badge{opacity:.5;white-space:nowrap}
+.prog-wrap{height:3px;background:#d8d4c8;position:sticky;top:52px;z-index:99}
+.prog-bar{height:100%;background:#1a4fa8;width:0%;transition:width .4s ease}
+.shell{max-width:780px;margin:0 auto;padding:0 1.25rem 6rem}
+.home{display:none}.home.active{display:block}
+.home-hero{padding:2.75rem 0 2rem;border-bottom:2px solid #0e0e1a;margin-bottom:225rem;margin-bottom:2.25rem}
+.home-kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;color:#6b6860;text-transform:uppercase;margin-bottom:.6rem}
+.home-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,5vw,3.25rem);font-weight:700;line-height:1.1;margin-bottom:.4rem}
+.home-sub{font-size:15px;color:#6b6860;font-family:'Fraunces',Georgia,serif;font-weight:300;font-style:italic;margin-bottom:1.5rem}
+.home-desc{font-size:15px;max-width:600px}
+.unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;margin-top:1.75rem}
+.unit-card{background:#faf8f3;border:1.5px solid #d8d4c8;border-radius:10px;padding:1.1rem 1.2rem;cursor:pointer;transition:all .18s;display:block}
+.unit-card:hover{border-color:#1a4fa8;background:#f0f5ff;transform:translateY(-2px);box-shadow:0 4px 16px rgba(26,79,168,.1)}
+.uc-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;color:#aaa;margin-bottom:.35rem}
+.uc-title{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:600;line-height:1.25;margin-bottom:.25rem}
+.uc-sub{font-size:12.5px;color:#6b6860;line-height:1.4}
+.uc-tag{display:inline-block;margin-top:.6rem;font-family:'DM Mono',monospace;font-size:9.5px;background:#e4e0d8;color:#6b6860;padding:2px 7px;border-radius:3px}
+.lesson-screen{display:none}.lesson-screen.active{display:block}
+.lesson-header{padding:2.25rem 0 1.6rem;border-bottom:2px solid #0e0e1a;margin-bottom:2rem}
+.kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;color:#6b6860;text-transform:uppercase;margin-bottom:.5rem}
+.lesson-title-h{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:700;line-height:1.1;margin-bottom:.4rem}
+.lesson-sub{font-size:14px;color:#6b6860;font-style:italic;font-family:'Fraunces',Georgia,serif;font-weight:300}
+.obj-box{background:#d6e4ff;border-left:4px solid #1a4fa8;border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin-top:1.4rem}
+.obj-box h3{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#1a4fa8;margin-bottom:.5rem}
+.obj-box ul{list-style:none}
+.obj-box li{font-size:13.5px;padding-left:1.1rem;position:relative;margin-bottom:.2rem}
+.obj-box li::before{content:'\2192';position:absolute;left:0;color:#1a4fa8;font-size:12px}
+.dots{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:1.75rem}
+.dot{height:7px;border-radius:4px;background:#d8d4c8;border:none;cursor:pointer;transition:all .2s;width:22px;flex-shrink:0}
+.dot.done{background:#0e7c6e}.dot.cur{background:#1a4fa8;width:32px}
+.step-card{display:none;animation:fadeUp .3s ease forwards}.step-card.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.step-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6b6860;margin-bottom:.4rem}
+.step-h{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.1rem,3vw,1.55rem);font-weight:600;line-height:1.2;margin-bottom:1.1rem;padding-bottom:.85rem;border-bottom:1.5px solid #d8d4c8}
+.prose{margin-bottom:.85rem;font-size:15px}.prose:last-child{margin-bottom:0}
+code{font-family:'DM Mono',monospace;font-size:.84em;background:#e4e0d8;padding:1px 5px;border-radius:3px;color:#1a3a6b;word-break:break-word}
+.code-wrap{position:relative;margin:1rem 0}
+.code-block{background:#151b2e;border-radius:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.code-block pre{margin:0;padding:1rem 1.2rem;font-family:'DM Mono',monospace;font-size:clamp(11.5px,1.6vw,13px);line-height:1.9;color:#b8d4f8;white-space:pre;tab-size:4}
+.copy-btn{position:absolute;top:.45rem;right:.55rem;background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:3px;cursor:pointer;z-index:2;transition:all .15s}
+.copy-btn:hover{background:rgba(255,255,255,.16);color:#fff}
+.callout{border-radius:8px;overflow:hidden;margin:1.1rem 0}
+.ch{padding:.5rem 1rem;font-family:'DM Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.04em}
+.cb{padding:.75rem 1.05rem;font-size:14px;line-height:1.7}
+.cb p{margin-bottom:.45rem}.cb p:last-child{margin-bottom:0}
+.cb ul{list-style:none;margin-top:.3rem}
+.cb li{padding-left:1.05rem;position:relative;margin-bottom:.22rem}
+.cb li::before{content:'\2022';position:absolute;left:0}
+.concept .ch{background:#1a4fa8;color:#fff}.concept .cb{background:#d6e4ff}.concept .cb li::before{color:#1a4fa8}
+.try-box .ch{background:#c46b00;color:#fff}.try-box .cb{background:#fde8c2}.try-box .cb li::before{color:#c46b00}
+.observe .ch{background:#5c2d91;color:#fff}.observe .cb{background:#ece3f8}.observe .cb li::before{color:#5c2d91}
+.warn .ch{background:#b72a2a;color:#fff}.warn .cb{background:#fde0e0}.warn .cb li::before{color:#b72a2a}
+.green-box .ch{background:#0e7c6e;color:#fff}.green-box .cb{background:#c8ede9}.green-box .cb li::before{color:#0e7c6e}
+.qbox{border:1.5px solid #d8d4c8;border-left:5px solid #0e7c6e;border-radius:0 8px 8px 0;padding:.85rem 1.05rem;margin:1.1rem 0;background:#faf8f3}
+.qlbl{font-family:'DM Mono',monospace;font-size:10px;color:#0e7c6e;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.28rem}
+.qtxt{font-size:14px;line-height:1.65}
+.qinput{width:100%;padding:.5rem;margin-top:.5rem;border:1.5px solid #d8d4c8;border-radius:5px;font-family:inherit;font-size:14px;background:#fff;color:#0e0e1a}
+.qinput:focus{outline:none;border-color:#0e7c6e}
+.mc-box{border:1.5px solid #d8d4c8;border-left:5px solid #5c2d91;border-radius:0 8px 8px 0;padding:.85rem 1.05rem;margin:1.1rem 0;background:#faf8f3}
+.mc-box .qlbl{color:#5c2d91}
+.mc-opts{list-style:none;margin-top:.5rem}
+.mc-opts li{font-size:13.5px;padding:.3rem 0 .3rem 1.8rem;position:relative;cursor:pointer}
+.mc-opts li::before{content:'\25A1';position:absolute;left:.2rem;color:#aaa;font-size:14px}
+.mc-opts li.selected::before{content:'\25A3';color:#5c2d91}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.1rem;border-top:1.5px solid #d8d4c8;gap:.75rem}
+.nbtn{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem 1.15rem;border:2px solid #0e0e1a;background:transparent;color:#0e0e1a;font-family:'DM Sans',system-ui,sans-serif;font-size:13px;font-weight:600;border-radius:6px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.nbtn:hover:not(:disabled){background:#0e0e1a;color:#f5f2eb}
+.nbtn:disabled{opacity:.22;cursor:default}
+.nbtn.primary{background:#1a4fa8;border-color:#1a4fa8;color:#fff}
+.nbtn.primary:hover{background:#133d87;border-color:#133d87}
+.step-ctr{font-family:'DM Mono',monospace;font-size:11px;color:#6b6860;white-space:nowrap}
+.done-screen{display:none;text-align:center;padding:3.5rem 1rem}.done-screen.active{display:block}
+.done-icon{font-size:3rem;margin-bottom:.75rem}
+.done-screen h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.3rem,3.5vw,1.85rem);font-weight:700;margin-bottom:.65rem}
+.done-screen p{color:#6b6860;margin-bottom:1.5rem;font-size:15px;max-width:500px;margin-left:auto;margin-right:auto}
+.done-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.done-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:8px;font-family:'DM Sans',system-ui,sans-serif;font-weight:600;font-size:13.5px;cursor:pointer;border:none;text-decoration:none}
+.done-btn.primary{background:#1a4fa8;color:#fff}
+.done-btn.secondary{background:transparent;border:2px solid #0e0e1a;color:#0e0e1a}
+.table-wrap{overflow-x:auto;margin:1rem 0;border-radius:6px;border:1.5px solid #d8d4c8}
+table{width:100%;border-collapse:collapse;font-size:14px;text-align:left;background:#faf8f3}
+th,td{padding:.75rem 1rem;border-bottom:1px solid #d8d4c8}
+th{background:#0e0e1a;color:#fff;font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+tr:last-child td{border-bottom:none}
+@media(max-width:520px){
+  .topbar{padding:0 .9rem}.step-badge{display:none}
+  .dot{width:15px}.dot.cur{width:22px}
+  .nbtn{padding:.45rem .8rem;font-size:12px}
+  .unit-grid{grid-template-columns:1fr}
+}
+@media(max-width:380px){.cmu-link{display:none}.topbar-sep{display:none}}
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <div class="topbar-left">
+    <a class="cmu-link" href="#" onclick="goHome()">CMU CS Academy</a>
+    <span class="topbar-sep">/</span>
+    <div class="menu-wrap">
+      <button class="menu-btn" id="menu-btn" onclick="toggleMenu()" aria-haspopup="true" aria-expanded="false" aria-label="Select lesson">
+        <span id="menu-label">Course Home</span>
+        <span class="chevron">&#9660;</span>
+      </button>
+      <div class="dropdown" id="dropdown" role="menu"></div>
+    </div>
+  </div>
+  <div class="topbar-right"><span class="step-badge" id="tb-step"></span></div>
+</nav>
+<div class="prog-wrap"><div class="prog-bar" id="prog"></div></div>
+<div class="shell">
+  <div class="home active" id="home-screen">
+    <div class="home-hero">
+      <div class="home-kicker">CMU CS Academy &middot; Project Units</div>
+      <h1 class="home-title">Data Structures &amp; Routing</h1>
+      <p class="home-sub">Building user-to-user networking models using Python collections</p>
+      <p class="home-desc">Welcome to the course player. Select the active worksheet below to start learning how to structure complex application environments and deliver scoped packets.</p>
+    </div>
+    <div class="unit-grid" id="unit-grid"></div>
+  </div>
+  <div class="lesson-screen" id="lesson-screen">
+    <header class="lesson-header" id="lesson-header"></header>
+    <div class="dots" id="dots"></div>
+    <div id="steps-container"></div>
+    <div class="done-screen" id="done-screen"></div>
+    <div class="nav-row" id="nav-row">
+      <button class="nbtn" id="btn-back" onclick="navStep(-1)">&#8592; Back</button>
+      <span class="step-ctr" id="step-ctr"></span>
+      <button class="nbtn primary" id="btn-next" onclick="navStep(1)">Next &#8594;</button>
+    </div>
+  </div>
+</div>
+<script>
+var COURSE=[
+{
+  id:'worksheet4',
+  num:4,
+  title:'Worksheet 4',
+  subtitle:'Sending Messages to Other Users',
+  icon:'💬',
+  tag:'Routing \u00B7 Dicts',
+  objectives:[
+    'Understand Dictionaries: how to store and look up application panels dynamically by unique key strings without manual loop structures.',
+    'Implement text manipulation filters using string rules including startswith(), find(), and case-insensitive lower() transformations.',
+    'Write code architecture patterns using safe key registration checks (key in dict) to bypass systemic KeyError crashes.',
+    'Refactor onKeyPress network engines to safely intercept global broadcasts (@all) vs localized targeted recipient delivery routes.'
+  ],
+  steps:[
+    {
+      title:'Overview & Core Architecture',
+      content:[
+        {t:'p',html:'In Worksheets 1–3 you built the UI, handled keyboard input, and made the message box display sent messages. Right now every message a user sends goes into their own message box.'},
+        {t:'p',html:'In this worksheet you will change that: if a message starts with <code>@username</code>, it will be routed to that user\'s message box instead.'},
+        {t:'callout',kind:'concept',header:'To make this work you need three things:',items:[
+          'A dictionary (app.users) that maps each username string to the matching entry group.',
+          'A parsing function (parseRecipient) that reads the message, extracts the @username if present, and returns both the recipient and the message body.',
+          'Updated routing logic in onKeyPress that uses the parsed recipient to decide where the message goes.'
+        ]},
+        {t:'callout',kind:'observe',header:'By the end of this worksheet you will understand:',items:[
+          'Dictionaries — storing and looking up values by a key name',
+          'str.startswith() — checking how a string begins',
+          'str.find() — locating a character inside a string',
+          'str.lower() — making comparisons case-insensitive',
+          'key in dict — checking whether a key exists before looking it up',
+          'Conditional routing — using an if/else to send data to different destinations'
+        ]},
+        {t:'q',label:'Q1',text:'Before writing any code, think about the design decisions involved. How would your program know a message is meant for someone else? Describe the rule a user would follow when typing.'},
+        {t:'q',label:'Q2',text:'What information does the program need to extract from a message like "@user two hello there"? List each piece.'},
+        {t:'q',label:'Q3',text:'What should happen if the user types @nobody (a username that doesn\'t exist)? What would feel natural to the user?'}
+      ]
+    },
+    {
+      title:'Part 1 — The app.users Dictionary',
+      content:[
+        {t:'p',html:'You already have <code>app.fields</code>, a list you loop through to find clickable fields. For message routing you need something different: a way to <strong>look up a user by name</strong>. A dictionary is the right tool.'},
+        {t:'callout',kind:'concept',header:'Key Concept — Dictionaries',items:[
+          'Think of a real English dictionary: you look up a word (the key) and it takes you straight to its definition (the value). You never read the whole book — you jump straight to the entry you need.',
+          'A Python dictionary works exactly the same way. The key is the word; the value is whatever you want to associate with it. Written with curly braces: { "key": value }.',
+          'To look up a value: myDict["key"]. To add or update an entry: myDict["key"] = value.',
+          'In this app, the dictionary maps usernames (keys) to entry groups (values): "user one" \u2192 User One entry group, "user two" \u2192 User Two entry group.'
+        ]},
+        {t:'callout',kind:'concept',header:'Key Concept — Lists vs. Dictionaries',items:[
+          'A list is good when you want to visit every item in order (for field in app.fields).',
+          'A dictionary is good when you want to jump directly to one item by name, without looping. Here, once we know the recipient\'s name, we want to go straight to their entry group — no loop needed.'
+        ]},
+        {t:'p',html:'Add <code>app.users</code> to your application state at the top of the program:'},
+        {t:'code',lines:['# Pseudocode: app.users \u2190 { }','app.users = {}   # maps lowercase username -> entryGroup']},
+        {t:'p',html:'Then, after your three <code>makeUserPanel</code> calls, populate the dictionary and link each nameGroup to its paired entryGroup:'},
+        {t:'code',lines:[
+          '# Link each nameGroup to its paired entryGroup for username updates',
+          'userOneName.entryGroup   = userOneEntry',
+          'userTwoName.entryGroup   = userTwoEntry',
+          'userThreeName.entryGroup = userThreeEntry',
+          '',
+          '# Seed the dictionary with the initial usernames',
+          'app.users[userOneName.username]   = userOneEntry',
+          'app.users[userTwoName.username]   = userTwoEntry',
+          'app.users[userThreeName.username] = userThreeEntry'
+        ]},
+        {t:'callout',kind:'try',header:'Design Insights',items:[
+          'Writing app.users[userOneName.username] instead of app.users["user one"] means the dictionary always starts in sync with whatever name the factory function recorded.',
+          'Why lowercase? We store the keys in lowercase so that "User Two", "user two", and "USER TWO" all match the same entry.',
+          'When a user changes their name, the old key must be removed entirely using: del app.users[oldName]. Without this, the old name remains valid forever.'
+        ]},
+        {t:'q',label:'Q4',text:'What is the difference between app.fields and app.users? When would you use each one?'},
+        {t:'q',label:'Q5',text:'What would app.users["user two"] return after the setup lines run?'},
+        {t:'q',label:'Q6',text:'If you added a fourth user, what single line would you need to add to app.users?'}
+      ]
+    },
+    {
+      title:'Part 2 — Parsing the Recipient',
+      content:[
+        {t:'p',html:'The <code>parseRecipient</code> function takes a message string and figures out whether it starts with <code>@username</code>. If it does, it returns the username and body as separate values. If not, it returns <code>None</code> and the original message.'},
+        {t:'code',lines:[
+          'def parseRecipient(msg):',
+          '    # 2a — Checking for the @ symbol',
+          '    if not msg.startswith("@"):',
+          '        return None, msg',
+          '',
+          '    # 2b — Finding the space that separates username from message body',
+          '    spaceAt = msg.find(" ")',
+          '    if spaceAt == -1:',
+          '        return None, msg',
+          '',
+          '    # 2c — Extracting username and body',
+          '    username = msg[1:spaceAt].lower()',
+          '    body = msg[spaceAt+1:]',
+          '    return username, body'
+        ]},
+        {t:'callout',kind:'concept',header:'Key Methods Decoded',items:[
+          'str.startswith(prefix): Returns True if string begins with prefix. Safer than msg[0] because it safely handles empty strings.',
+          'Returning early: Act as guard clauses. If no @ or space exists, it exits early, eliminating complex layered if/else brackets.',
+          'str.find(target): Returns the index of the first occurrence. Returns -1 if not found. We use it to separate the token from text.',
+          'Slicing msg[1:spaceAt]: Extracts everything after @ up to the first space. Converting it via .lower() keeps lookup case-insensitive.'
+        ]},
+        {t:'q',label:'Q7',text:'What does msg[1:spaceAt] produce when msg is "@user two hello" and spaceAt is 9?'},
+        {t:'q',label:'Q8',text:'Why do we return (None, msg) rather than (None, "") when a message does not start with @?'}
+      ]
+    },
+    {
+      title:'Part 3 — Routing & Delivery Engines',
+      content:[
+        {t:'p',html:'Before updating <code>onKeyPress</code>, add a small helper function <code>deliverMessage</code> that handles appending wrapped lines to any target entry group and refreshing its UI view.'},
+        {t:'code',lines:[
+          'def deliverMessage(entryGroup, wrappedLines):',
+          '    for line in wrappedLines:',
+          '        entryGroup.messages.append(line)',
+          '    refreshMessageBox(entryGroup)'
+        ]},
+        {t:'p',html:'Now, update the enter block in <code>onKeyPress</code> to process incoming messaging rules dynamically:'},
+        {t:'code',lines:[
+          'if key == "enter":',
+          '    if app.activeTextField.type == "entry":',
+          '        msg = app.activeTextField.lbl.value',
+          '        if msg != "":',
+          '            recipient, body = parseRecipient(msg)',
+          '            wrappedBody = wrapMessage(body)',
+          '            wrappedMsg  = wrapMessage(msg)',
+          '',
+          '            if recipient == "all" and body != "":',
+          '                # Broadcast: deliver to every user\'s box',
+          '                for entryGroup in app.users.values():',
+          '                    deliverMessage(entryGroup, wrappedBody)',
+          '                deliverMessage(app.activeTextField, wrappedBody)',
+          '',
+          '            elif recipient != None and recipient in app.users and body != "":',
+          '                # Addressed to one recipient — deliver to them and sender',
+          '                deliverMessage(app.users[recipient], wrappedBody)',
+          '                deliverMessage(app.activeTextField, wrappedBody)',
+          '            else:',
+          '                # Fallback: deliver plain text to sender\'s box',
+          '                deliverMessage(app.activeTextField, wrappedMsg)',
+          '            ',
+          '            app.activeTextField.lbl.value = "" # Clear text bar'
+        ]},
+        {t:'callout',kind:'observe',header:'Routing Mechanics under the Hood',items:[
+          'Sender copy: Real messaging apps show sent text. After delivering to the targeted app.users[recipient], we run it on app.activeTextField.',
+          'Pre-wrapping optimizations: wrappedBody and wrappedMsg are handled once before the branch structure to save execution runtime.',
+          'Broadcasting with @all: Iterating through app.users.values() maps communication channels to all active workspace profiles instantly.'
+        ]},
+        {t:'q',label:'Q9',text:'Trace through "@user two hello". What is recipient? What is body? Which branch runs, and what does each deliverMessage call do?'},
+        {t:'q',label:'Q10',text:'Why do we write "recipient in app.users" before writing "app.users[recipient]"? What would happen if we skipped that check?'}
+      ]
+    },
+    {
+      title:'Part 4 — Verification Matrix',
+      content:[
+        {t:'p',html:'Verify the behavior of your data routing against this testing checklist matrix to ensure validation systems remain fully robust:'},
+        {t:'table',headers:['Input Typed','Expected Core Behavior','System Verification Status'],rows:[
+          ['@user two hello','Body routed into User Two\'s box + Sender\'s box','[ ] Pending Test Verification'],
+          ['@USER TWO hello','Case-insensitive lookup match routes safely','[ ] Pending Test Verification'],
+          ['@all hello everyone','Body loops into every registered user box + Sender','[ ] Pending Test Verification'],
+          ['@all','Fallback route — no body content, sender box only','[ ] Pending Test Verification'],
+          ['@nobody hello','Fallback route — username missing from registry dictionary','[ ] Pending Test Verification']
+        ]},
+        {t:'q',label:'Q11',text:'Can a user send a message to themselves using the @ syntax? Try tracing it. What happens, and does it make sense structurally?'},
+        {t:'q',label:'Q12',text:'When a user changes their username, what three things must happen in the correct order? Explain why the order matters.'}
+      ]
+    },
+    {
+      title:'Quiz — Summary Evaluation',
+      content:[
+        {t:'p',html:'Answer each comprehensive concept question to review your mastery of basic key-value data management frameworks:'},
+        {t:'mc',label:'Quiz 1',text:'Which string line correctly slices out the complete raw username token when processing a routed space indicator position?',opts:[
+          'A. msg[0:spaceAt]',
+          'B. msg[1:spaceAt]',
+          'C. msg[1:spaceAt-1]',
+          'D. msg[spaceAt+1:]'
+        ],answer:'B'},
+        {t:'mc',label:'Quiz 2',text:'What type of syntax token error is thrown by the compiler if a programmer looks up a target user identifier key that is missing from a state dictionary registry?',opts:[
+          'A. IndexError',
+          'B. ValueError',
+          'C. KeyError',
+          'D. TypeError'
+        ],answer:'C'},
+        {t:'mc',label:'Quiz 3',text:'What does the built-in system collection method app.users.values() return during an execution lifecycle loop?',opts:[
+          'A. A sequence containing all stored lowercase string keys',
+          'B. A list of index integers matching data allocation points',
+          'C. A collection holding all registered target panel entry groups',
+          'D. An array containing only active selected input handles'
+        ],answer:'C'}
+      ]
+    }
+  ]
+}
+];
 
+var activeLessonIdx=0;
+var activeStep=0;
+
+function init(){
+  buildHome();
+  buildDropdown();
+  showScreen('home');
+}
+
+function buildHome(){
+  var grid=document.getElementById('unit-grid');
+  grid.innerHTML='';
+  COURSE.forEach(function(l,idx){
+    var card=document.createElement('div');
+    card.className='unit-card';
+    card.onclick=function(){startLesson(idx);};
+    card.innerHTML='<div class="uc-num">UNIT '+l.num+'</div>'+
+                   '<div class="uc-title">'+l.icon+' '+l.title+'</div>'+
+                   '<div class="uc-sub">'+l.subtitle+'</div>'+
+                   '<div class="uc-tag">'+l.tag+'</div>';
+    grid.appendChild(card);
+  });
+}
+
+function buildDropdown(){
+  var dd=document.getElementById('dropdown');
+  dd.innerHTML='';
+  
+  var sec=document.createElement('div');
+  sec.className='dd-section';
+  sec.innerHTML='<div class="dd-label">Worksheets & Units</div>';
+  
+  var itemHome=document.createElement('div');
+  itemHome.className='dd-item';
+  itemHome.onclick=function(){goHome();toggleMenu();};
+  itemHome.innerHTML='<div class="dd-num">\u2302</div><div><div class="dd-title">Course Home</div></div>';
+  sec.appendChild(itemHome);
+  
+  COURSE.forEach(function(l,idx){
+    var item=document.createElement('div');
+    item.className='dd-item';
+    if(idx===activeLessonIdx&&document.getElementById('lesson-screen').classList.contains('active')){
+      item.classList.add('active');
+    }
+    item.onclick=function(){startLesson(idx);toggleMenu();};
+    item.innerHTML='<div class="dd-num">0'+l.num+'</div>'+
+                   '<div><div class="dd-title">'+l.title+'</div><div class="dd-sub">'+l.subtitle+'</div></div>';
+    sec.appendChild(item);
+  });
+  dd.appendChild(sec);
+}
+
+function toggleMenu(){
+  var btn=document.getElementById('menu-btn');
+  var dd=document.getElementById('dropdown');
+  var open=dd.classList.toggle('open');
+  btn.classList.toggle('open',open);
+  btn.setAttribute('aria-expanded',open);
+}
+
+window.addEventListener('click',function(e){
+  if(!document.getElementById('menu-btn').contains(e.target)){
+    document.getElementById('dropdown').classList.remove('open');
+    document.getElementById('menu-btn').classList.remove('open');
+    document.getElementById('menu-btn').setAttribute('aria-expanded','false');
+  }
+});
+
+function showScreen(scr){
+  document.getElementById('home-screen').classList.toggle('active',scr==='home');
+  document.getElementById('lesson-screen').classList.toggle('active',scr==='lesson');
+  if(scr==='home'){
+    document.getElementById('menu-label').textContent='Course Home';
+    document.getElementById('tb-step').textContent='';
+    document.getElementById('prog').style.width='0%';
+  }
+}
+
+function goHome(){
+  showScreen('home');
+  buildDropdown();
+}
+
+function startLesson(idx){
+  activeLessonIdx=idx;
+  activeStep=0;
+  showScreen('lesson');
+  
+  var L=COURSE[idx];
+  document.getElementById('menu-label').textContent=L.title;
+  
+  var hdr=document.getElementById('lesson-header');
+  hdr.innerHTML='<div class="kicker">Unit '+L.num+' &middot; '+L.tag+'</div>'+
+                '<h1 class="lesson-title-h">'+L.title+': '+L.subtitle+'</h1>'+
+                '<div class="obj-box"><h3>Learning Objectives</h3><ul id="obj-list"></ul></div>';
+  
+  var ul=hdr.querySelector('#obj-list');
+  L.objectives.forEach(function(o){
+    var li=document.createElement('li');
+    li.textContent=o;
+    ul.appendChild(li);
+  });
+  
+  buildSteps();
+  goToStep(0);
+  buildDropdown();
+}
+
+function buildSteps(){
+  var L=COURSE[activeLessonIdx];
+  var dotsContainer=document.getElementById('dots');
+  dotsContainer.innerHTML='';
+  
+  var stepContainer=document.getElementById('steps-container');
+  stepContainer.innerHTML='';
+  
+  L.steps.forEach(function(s,idx){
+    var dot=document.createElement('button');
+    dot.className='dot';
+    dot.title=s.title;
+    dot.onclick=function(){goToStep(idx);};
+    dotsContainer.appendChild(dot);
+    
+    var card=document.createElement('div');
+    card.className='step-card';
+    
+    var lbl=document.createElement('div');
+    lbl.className='step-lbl';
+    lbl.textContent='Step '+(idx+1)+' of '+L.steps.length;
+    card.appendChild(lbl);
+    
+    var h=document.createElement('h2');
+    h.className='step-h';
+    h.textContent=s.title;
+    card.appendChild(h);
+    
+    s.content.forEach(function(c){
+      if(c.t==='p'){
+        var p=document.createElement('p');
+        p.className='prose';
+        p.innerHTML=c.html;
+        card.appendChild(p);
+      }else if(c.t==='code'){
+        var wrap=document.createElement('div');
+        wrap.className='code-wrap';
+        wrap.innerHTML='<button class="copy-btn" onclick="copyCode(this)">copy</button>';
+        var block=document.createElement('div');
+        block.className='code-block';
+        var pre=document.createElement('pre');
+        pre.textContent=c.lines.join('\n');
+        block.appendChild(pre);
+        wrap.appendChild(block);
+        card.appendChild(wrap);
+      }else if(c.t==='callout'){
+        var box=document.createElement('div');
+        box.className='callout '+ (c.kind==='try'?'try-box':c.kind==='observe'?'observe':c.kind==='green-box'?'green-box':'concept');
+        var ch=document.createElement('div');
+        ch.className='ch';
+        ch.textContent=c.header;
+        var cb=document.createElement('div');
+        cb.className='cb';
+        var ul=document.createElement('ul');
+        c.items.forEach(function(it){
+          var li=document.createElement('li');
+          li.textContent=it;
+          ul.appendChild(li);
+        });
+        cb.appendChild(ul);
+        box.appendChild(ch);
+        box.appendChild(cb);
+        card.appendChild(box);
+      }else if(c.t==='q'){
+        var qbox=document.createElement('div');
+        qbox.className='qbox';
+        qbox.innerHTML='<div class="qlbl">'+c.label+'</div>'+
+                       '<div class="qtxt">'+c.text+'</div>'+
+                       '<input type="text" class="qinput" placeholder="Type your answer here...">';
+        card.appendChild(qbox);
+      }else if(c.t==='table'){
+        var tw=document.createElement('div');
+        tw.className='table-wrap';
+        var tbl=document.createElement('table');
+        var thead=document.createElement('thead');
+        var trh=document.createElement('tr');
+        c.headers.forEach(function(h){
+          var th=document.createElement('th');
+          th.textContent=h;
+          trh.appendChild(th);
+        });
+        thead.appendChild(trh);
+        tbl.appendChild(thead);
+        
+        var tbody=document.createElement('tbody');
+        c.rows.forEach(function(r){
+          var tr=document.createElement('tr');
+          r.forEach(function(tdVal){
+            var td=document.createElement('td');
+            td.textContent=tdVal;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        tbl.appendChild(tbody);
+        tw.appendChild(tbl);
+        card.appendChild(tw);
+      }else if(c.t==='mc'){
+        var mc=document.createElement('div');
+        mc.className='mc-box';
+        mc.innerHTML='<div class="qlbl">'+c.label+'</div><div class="qtxt">'+c.text+'</div>';
+        var optsUl=document.createElement('ul');
+        optsUl.className='mc-opts';
+        c.opts.forEach(function(o){
+          var li=document.createElement('li');
+          li.textContent=o;
+          li.onclick=function(){
+            optsUl.querySelectorAll('li').forEach(function(el){el.classList.remove('selected');});
+            li.classList.add('selected');
+          };
+          optsUl.appendChild(li);
+        });
+        mc.appendChild(optsUl);
+        card.appendChild(mc);
+      }
+    });
+    stepContainer.appendChild(card);
+  });
+  
+  var doneScreen=document.getElementById('done-screen');
+  doneScreen.innerHTML='<div class="done-icon">\u2713</div>'+
+                       '<h2>'+L.title+' Complete!</h2>'+
+                       '<p>You have finished the implementation tasks, data structures architecture review, and quizzes for this segment.</p>'+
+                       '<div class="done-btns">'+
+                         '<a class="done-btn primary" href="#" onclick="goHome()">Course Home</a>'+
+                       '</div>';
+}
+
+function updateDots(n,tot){
+  var dots=document.querySelectorAll('.dot');
+  dots.forEach(function(d,idx){
+    d.className='dot';
+    if(idx<n)d.classList.add('done');
+    if(idx===n)d.classList.add('cur');
+  });
+}
+
+function goToStep(n){
+  var L=COURSE[activeLessonIdx];
+  var tot=L.steps.length;
+  activeStep=n;
+  
+  document.getElementById('done-screen').classList.remove('active');
+  document.getElementById('nav-row').style.display='flex';
+  
+  var cards=document.querySelectorAll('.step-card');
+  cards.forEach(function(c){c.classList.remove('active');});
+  
+  var card=cards[n];
+  if(card) card.classList.add('active');
+  
+  updateDots(n,tot);
+  document.getElementById('prog').style.width=Math.min(n/tot*100,100)+'%';
+  document.getElementById('btn-back').disabled=(n===0);
+  document.getElementById('btn-next').textContent=(n===tot-1)?'Finish \u2713':'Next \u2192';
+  document.getElementById('step-ctr').textContent=(n+1)+' / '+tot;
+  document.getElementById('tb-step').textContent='Step '+(n+1)+' / '+tot;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function navStep(dir){
+  var L=COURSE[activeLessonIdx];
+  var tot=L.steps.length;
+  if(dir===1&&activeStep===tot-1){
+    document.querySelectorAll('.step-card').forEach(function(c){c.classList.remove('active');});
+    document.getElementById('done-screen').classList.add('active');
+    document.getElementById('nav-row').style.display='none';
+    document.getElementById('prog').style.width='100%';
+    updateDots(tot,tot);
+    document.getElementById('tb-step').textContent='Complete!';
+    return;
+  }
+  var nx=activeStep+dir;
+  if(nx<0||nx>=tot)return;
+  goToStep(nx);
+}
+
+function copyCode(btn){
+  var pre=btn.parentElement.querySelector('pre');
+  if(!pre)return;
+  var txt=pre.textContent;
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(txt).then(function(){
+      btn.textContent='copied!';
+      setTimeout(function(){btn.textContent='copy';},1600);
+    }).catch(function(){
+      btn.textContent='...';
+    });
+  }else{
+    var ta=document.createElement('textarea');
+    ta.value=txt;style.position='fixed';style.opacity='0';
+    document.body.appendChild(ta);ta.focus();ta.select();
+    try{document.execCommand('copy');btn.textContent='copied!';}catch(x){}
+    document.body.removeChild(ta);
+    setTimeout(function(){btn.textContent='copy';},1600);
+  }
+}
+
+window.onload=init;
+</script>
+</body>
+</html>
