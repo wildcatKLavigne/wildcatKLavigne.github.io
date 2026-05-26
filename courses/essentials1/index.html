@@ -145,6 +145,29 @@ code{font-family:'DM Mono',monospace;font-size:.84em;background:#e4e0d8;padding:
   .unit-grid{grid-template-columns:1fr}
 }
 @media(max-width:380px){.cmu-link{display:none}.topbar-sep{display:none}}
+
+/* ── Code modification badges ──────────────────────────────────────── */
+.mod-badge{display:inline-flex;align-items:center;gap:.35rem;font-family:'DM Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.04em;padding:.28rem .75rem .28rem .55rem;border-radius:4px 4px 0 0;margin-bottom:-1px;position:relative;z-index:1}
+.mod-badge-add{background:#166534;color:#fff}
+.mod-badge-replace{background:#991b1b;color:#fff}
+.mod-badge-change{background:#92400e;color:#fff}
+.mod-badge-icon{font-size:13px;line-height:1}
+/* Legend */
+.mod-legend{display:flex;flex-wrap:wrap;gap:.5rem;padding:.7rem 1rem;background:#faf8f3;border:1.5px solid #d8d4c8;border-radius:8px;margin-bottom:1.5rem;align-items:center}
+.mod-legend-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#6b6860;margin-right:.25rem;flex-shrink:0}
+.mod-legend-item{display:inline-flex;align-items:center;gap:.35rem;font-family:'DM Mono',monospace;font-size:11px;padding:.22rem .65rem;border-radius:4px;flex-shrink:0}
+.mod-legend-item.add{background:#166534;color:#fff}
+.mod-legend-item.replace{background:#991b1b;color:#fff}
+.mod-legend-item.change{background:#92400e;color:#fff}
+
+/* ── Mod examples block ─────────────────────────────────────────── */
+.mod-examples{background:#faf8f3;border:1.5px solid #d8d4c8;border-radius:8px;padding:.85rem 1rem;margin-top:.6rem}
+.mod-examples-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#6b6860;margin-bottom:.65rem}
+.mod-ex-row{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.6rem}
+.mod-ex-row:last-child{margin-bottom:0}
+.mod-ex-row .mod-badge{flex-shrink:0;border-radius:4px;white-space:nowrap;align-self:flex-start;margin-top:.1rem}
+.mod-ex-text{font-size:13px;line-height:1.6;color:#3a3a3a}
+.mod-ex-text code{font-family:'DM Mono',monospace;font-size:.82em;background:#e4e0d8;padding:1px 4px;border-radius:3px}
 </style>
 </head>
 <body>
@@ -234,18 +257,43 @@ var COURSE=[
   {title:'Adding Color with fill',content:[
     {t:'code',lines:["Circle(200, 200, 50)","Circle(200, 200, 25, fill='yellow')","Circle(200, 200, 10, fill='red')"]},
     {t:'callout',kind:'try',header:'Try This',items:["What happens when you write fill=yellow (no quotes)?","Try 'red', 'cornflowerblue', 'hotpink'."]},
+    {t:'callout',kind:'concept',header:'Concept — Strings and String Literals',items:[
+      'A string is a piece of text data in Python — a sequence of characters.',
+      "A string literal is a string value written directly in your code, surrounded by quotation marks: 'yellow', 'red', 'cornflowerblue'.",
+      'The quotation marks tell Python: this is text data, not a variable name.',
+      'Without quotation marks Python treats the word as a variable name and looks for a variable with that name.',
+      'Since no variable named yellow exists, Python raises a NameError.',
+      "This is why all color names must be written inside quotes: fill='yellow' not fill=yellow."
+    ]},
     {t:'q',label:'Q4',text:"What error message appears when you write fill=yellow without quotation marks? What does Python try to do with the word yellow when there are no quotes, and why does that cause an error?"}
   ]},
   {title:'Layering \u2014 Code Order Matters',content:[
     {t:'code',lines:["Circle(200, 200, 50)               # drawn first = bottom","Circle(200, 200, 25, fill='yellow')","Circle(200, 200, 10, fill='red')   # drawn last = top"]},
     {t:'callout',kind:'observe',header:'Observe & Predict',items:['Swap the order of the three lines. What happens?','Move Circle(200,200,50) to be last. What do you see, and why?']},
+    {t:'callout',kind:'concept',header:'Concept — How Layering Works',items:[
+      'When CMU CS Academy runs your program, it draws shapes in the order they appear in your code — top to bottom.',
+      'Each new shape is drawn on top of everything that was drawn before it.',
+      'Shapes added by code that appears earlier in the program appear underneath shapes whose code appears later.',
+      'To put something in front, write its code later. To send it behind, write its code earlier.',
+      'Think of it like painting: each new brushstroke covers what was painted before it.'
+    ]},
     {t:'q',label:'Q5',text:'A classmate wants to draw a white circle with a yellow star on top. Should the white circle code come before or after the yellow star code? Explain the rule you are applying.'}
   ]},
   {title:'Optional Properties \u2014 border, borderWidth, opacity',content:[
     {t:'code',lines:["Circle(200, 200, 80, fill='lightyellow', border='darkblue', borderWidth=5)","Circle(150, 200, 80, fill='red',   opacity=1.0)","Circle(250, 200, 80, fill='blue',  opacity=0.5)","Circle(200, 200, 80, fill='green', opacity=0.3)"]},
     {t:'callout',kind:'concept',header:'Concept \u2014 The Optional Arguments',items:["fill  string  'yellow'  Interior fill color","border  string  'black'  Outline color",'borderWidth  number  3  Thickness of outline in pixels','opacity  number  0.5  1=fully opaque, 0=invisible']},
-    {t:'callout',kind:'try',header:'Try This',items:['borderWidth: try 1, 5, 15, 30.','opacity: try 1.0, 0.5, 0.1, 0.','Combine overlapping circles with opacity < 1.']},
-    {t:'q',label:'Q6',text:'Write one Circle() command that creates a semi-transparent, blue-filled circle with a thick red outline. Include all four optional arguments from this step.'}
+    {t:'callout',kind:'concept',header:'Concept — Named Properties Are Optional and Can Appear in Any Order',items:[
+      'The first three arguments to Circle() are required and must appear in order: centerX, centerY, radius.',
+      'All other properties — fill, border, borderWidth, opacity — are named (keyword) arguments.',
+      'Named arguments are optional: only include the ones you want to use.',
+      'Named arguments can appear in any order after the required arguments.',
+      'These two calls produce identical results:',
+      "  Circle(200, 200, 50, fill='red', opacity=0.5)",
+      "  Circle(200, 200, 50, opacity=0.5, fill='red')",
+      'Named arguments cannot appear before the required arguments. Try it and see what error Python gives you.'
+    ]},
+    {t:'callout',kind:'try',header:'Try This',items:['borderWidth: try 1, 5, 15, 30.','opacity: try 1.0, 0.5, 0.1, 0.','Combine overlapping circles with opacity < 1.','Try putting a named argument before the required ones — for example: Circle(fill=\'red\', 200, 200, 50). What error message does Python give you?']},
+    {t:'q',label:'Q6',text:'Write a Circle() command that uses at least three named properties, then write the exact same circle with those named properties listed in a different order. What does this tell you about how Python handles named arguments? Then explain what error Python gave you when you tried putting a named argument before the required arguments, and why that error occurs.'}
   ]},
   {title:'Final Challenge \u2014 Draw a Flower',content:[
     {t:'callout',kind:'green-box',header:'Design Requirements',items:['A center circle','At least 8 petal circles arranged around the center','At least 3 different fill colors','At least one circle using border and borderWidth','At least one circle using opacity less than 1','Intentional layering']},
@@ -254,7 +302,7 @@ var COURSE=[
     {t:'callout',kind:'concept',header:'End of Lesson \u2014 Looking Ahead',items:['You can now place and style shapes on a canvas.','In the next lessons you will learn to move shapes and react to user input.','Answer the three reflection questions below in your Google Doc.']},
     {t:'q',label:'Reflect 1',text:'Imagine you wanted to create an animated version of your flower where the petals slowly change color over time. Which property of a Circle would you need to update each frame, and what would you need to change about how your program is structured to make that happen?'},
     {t:'q',label:'Reflect 2',text:'The fill, border, and opacity properties all control appearance. If you could add one new optional argument to Circle() that does not already exist, what would it do? Be specific about what value it would take and what it would change visually.'},
-    {t:'q',label:'Reflect 3',text:'Write a short function called makeFlower(x, y) that draws a simple three-circle flower centered at position (x, y). You do not need to write perfect code \u2014 focus on structure. After the function, explain: what arguments does it take, what does it do, and how would you call it to place two flowers side by side?'}
+    {t:'q',label:'Reflect 3',text:'Write code that draws a simple three-circle flower at a specific position on the canvas — one larger circle for the center and at least two smaller circles for petals. Show the coordinates and colors you chose. Then describe: what would you need to change in your code to move the entire flower to a different position on the canvas?'}
   ]}
  ]},
 
@@ -288,7 +336,7 @@ var COURSE=[
     {t:'callout',kind:'concept',header:'End of Lesson \u2014 Looking Ahead',items:['You can now compose complex scenes from multiple shape types.','In the next lesson you will make shapes move by updating their properties over time.','Answer the three reflection questions below in your Google Doc.']},
     {t:'q',label:'Reflect 1',text:'Your portrait is currently static. If you wanted to make one part of your portrait animate \u2014 blink, rotate, or change color \u2014 which part would you choose and why? What specific property would change, and what would control the timing?'},
     {t:'q',label:'Reflect 2',text:'You used layering to control depth in your portrait. Describe a real-world analogy for layering in code \u2014 something outside programming where "the last thing placed appears on top" is also true. How does that analogy help you remember the rule?'},
-    {t:'q',label:'Reflect 3',text:'Write a function called makeEye(x, y) that draws a simple eye (two or three overlapping shapes) centered at position (x, y). You do not need to write perfect code \u2014 focus on structure. After the function, explain: what does it draw, why are x and y useful as parameters, and how would you call it to place two eyes on a face?'}
+    {t:'q',label:'Reflect 3',text:'Write code that draws a simple eye using two or three overlapping shapes at specific coordinates. Show the shapes and properties you used. Then describe: what would you need to change in your code to draw a second identical eye to the right of the first one?'}
   ]}
  ]},
 
@@ -299,29 +347,80 @@ var COURSE=[
   {title:'Shapes as Variables',content:[
     {t:'code',lines:['my_circle_1 = Circle(200, 200, 50, fill="red")','myCircleTwo  = Circle(200, 200, 25, fill="yellow")','myCircleTwo.radius   = 15','my_circle_1.centerX += 25']},
     {t:'callout',kind:'try',header:'Try This',items:['Run the code. Why are two circles at the same position initially?','Change myCircleTwo.radius to 40. What happens?','Try my_circle_1.centerY -= 50. Which direction?']},
+    {t:'callout',kind:'concept',header:'Concept — Assigning a Shape to a Variable',items:[
+      'Up until now we draw shapes that appear on our canvas — but we have no way to modify them later.',
+      'When we assign a shape to a variable, we create a way to access and modify that shape at any point in our program.',
+      "my_circle_1 = Circle(200, 200, 50, fill='red') does two things: it draws the circle AND stores a reference to it in the variable my_circle_1.",
+      'Because the shape is stored in a variable, we can later write my_circle_1.centerX = 100 to move it, or change its fill to recolor it.',
+      'Without the variable, the shape is drawn once and we have no handle on it — we cannot reach back and change it.',
+      'This is what makes animation possible: create shapes once, then update their properties every frame.'
+    ]},
     {t:'q',label:'Q1',text:'What is the difference between creating a shape and storing it in a variable versus creating a shape without storing it? Give a specific example of something you can do with the variable form that you cannot do without it.'}
   ]},
   {title:'The App Object \u2014 Sharing Values',content:[
     {t:'code',lines:['app.speed = 5','app.color = (255, 5, 5)  # tuple: (red, green, blue)']},
+    {t:'callout',kind:'concept',header:'Concept — Scope — Who Can See What?',items:[
+      'Different parts of a computer program can be compared to different classrooms in a school.',
+      'When students and teachers are in different classrooms, they are usually unaware of what their peers are doing elsewhere. In programming, this is called scope.',
+      'A variable defined in one part of your program may not be visible to another part.',
+      'In CMU CS Academy, variables that start with the prefix app. are what programmers call global — available throughout the entire program, inside any function.',
+      "In our school analogy, it is like a teacher putting a sign on the classroom door: 'Testing in progress — please do not enter.' People outside the classroom can now see what is happening inside.",
+      'A plain variable like speed = 5 defined outside a function is NOT reliably accessible inside functions like onStep() in CMU CS Academy.',
+      'Storing it as app.speed = 5 makes it global — every part of your program can read and change it.'
+    ]},
+    ,
     {t:'callout',kind:'concept',header:'Concept \u2014 Why Use app.speed Instead of Just speed?',items:["Python functions (like onStep()) cannot easily read or change a regular variable defined outside them.",'Storing values on app is a simple way to share data between the main program and your functions.']},
     {t:'callout',kind:'concept',header:'Concept \u2014 What Does rgb(*app.color) Mean?',items:['rgb() creates a color from three numbers: rgb(red, green, blue).','The * before app.color is called unpacking \u2014 rgb(*app.color) is the same as rgb(app.color[0], app.color[1], app.color[2]).']},
     {t:'q',label:'Q2',text:'Explain why app.speed = 5 is preferable to a plain speed = 5 when the value needs to be read inside onStep(). What would happen to your animation if onStep() could not see the speed value?'}
   ]},
   {title:'The onStep() Function \u2014 Making Things Move',content:[
-    {t:'callout',kind:'concept',header:'Concept \u2014 Key Terms',items:['def \u2014 the Python keyword for defining a function.','indentation \u2014 Python uses spaces to show lines belong inside a function.','+= \u2014 add to the current value. x += 5 is the same as x = x + 5.']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Defining a Function with def',items:[
+      'A function is a named block of code that performs a specific task when it is called.',
+      'You have already used built-in functions like Circle() and Group(). Now you will define your own.',
+      'The def keyword begins a function definition, followed by the name, parentheses, and a colon: def onStep():',
+      'The colon : is essential \u2014 it tells Python that an indented block of code follows. Without it Python raises a SyntaxError.',
+      'Every line that belongs inside the function must be indented by the same amount.',
+      '+= is a compound operator: x += 5 is the same as x = x + 5.'
+    ]},
+    {t:'callout',kind:'warn',header:'\u26a0\ufe0f  Never Use the Spacebar for Indentation',items:[
+      'Python is strict about indentation \u2014 every line inside a function must be indented by the same amount.',
+      'CMU CS Academy adds indentation automatically when you press Enter after a colon. Always let the editor manage it.',
+      'Never press the spacebar to add indentation manually. This causes IndentationErrors.',
+      'If indentation ever looks wrong, undo your recent changes and let the editor re-create it.'
+    ]},
     {t:'code',lines:['app.speed = 5','def onStep():','    myCircleTwo.centerX += app.speed','    my_circle_1.radius  += app.speed']},
     {t:'callout',kind:'observe',header:'Observe & Predict',items:['Run the code. Describe in words what you see.','Change app.speed to 1. How does the animation change?','Change app.speed to 20. What do you notice?']},
-    {t:'q',label:'Q3',text:'If app.speed = 5 and onStep() runs 30 times per second, how far does myCircleTwo move in one second? What would you change to make the animation run at exactly half that speed without touching the speed value itself?'}
+    ,
+    {t:'callout',kind:'try',header:'Task \u2014 Comment Out onStep() and Try a Multi-Line Comment',items:[
+      'A comment is a line Python ignores. It lets you leave notes or temporarily disable code.',
+      'Single-line comment: place # at the start of the line.',
+      'Multi-line comment: wrap lines in triple quotes:',
+      "  '''",
+      '  This entire block',
+      '  is a comment',
+      "  '''",
+      'Task: comment out your entire def onStep() block. Run the program. What happens to the animation?',
+      'Then uncomment it before continuing.'
+    ]},
+    {t:'callout',kind:'try',header:'Task \u2014 The Missing Colon',items:[
+      'Now retype (do not copy and paste) your def onStep() function, but intentionally leave out the colon at the end of the first line.',
+      'Write: def onStep()   with no colon at the end.',
+      'Run the program and read the error message carefully.',
+      'The character : is called a colon. It signals that an indented block of code is about to begin.',
+      'Without the colon Python raises a SyntaxError.',
+      'Answer the question below, then fix the error.'
+    ]},
+    {t:'q',label:'Q3',text:'When you removed the colon from def onStep(), what exact error message did Python give you? What is the name of that error type? Explain in your own words what the colon does and why Python cannot continue without it. Then describe exactly what you changed to fix the error.'}
   ]},
   {title:'if Statements \u2014 Making Decisions',content:[
-    {t:'code',lines:['def onStep():','    if myCircleTwo.centerX > 400 or myCircleTwo.centerX < 200:','        app.speed *= -1','    myCircleTwo.centerX += app.speed','    my_circle_1.radius  += app.speed']},
+    {mod:'replace',t:'code',lines:['def onStep():','    if myCircleTwo.centerX > 400 or myCircleTwo.centerX < 200:','        app.speed *= -1','    myCircleTwo.centerX += app.speed','    my_circle_1.radius  += app.speed']},
     {t:'callout',kind:'observe',header:'Observe & Predict',items:['Run the code. Does the yellow circle now bounce?','Change 400 to 300. What happens to the bounce point?','What does *= -1 do to a negative number? Predict before testing.']},
     {t:'q',label:'Q4',text:'The condition checks centerX > 400 or centerX < 200. Explain in plain English what this condition means, and describe what would happen if you used and instead of or.'}
   ]},
   {title:'Animating Color with rgb()',content:[
-    {t:'code',lines:['app.color = (255, 5, 5)','def onStep():','    if myCircleTwo.centerX > 400 or myCircleTwo.centerX < 200:','        app.speed *= -1','    if app.color[2] > 0:','        app.color = (255, app.color[1] + app.speed, app.color[2] + app.speed)','    else:','        app.color = (255, 5, 5)','    my_circle_1.fill    = rgb(*app.color)','    myCircleTwo.centerX += app.speed','    my_circle_1.radius  += app.speed']},
+    {mod:'replace',t:'code',lines:['app.color = (255, 5, 5)','def onStep():','    if myCircleTwo.centerX > 400 or myCircleTwo.centerX < 200:','        app.speed *= -1','    if app.color[2] > 0:','        app.color = (255, app.color[1] + app.speed, app.color[2] + app.speed)','    else:','        app.color = (255, 5, 5)','    my_circle_1.fill    = rgb(*app.color)','    myCircleTwo.centerX += app.speed','    my_circle_1.radius  += app.speed']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Tracing the Color Logic',items:["Each step: 'Is the blue component greater than 0?'",'YES: increase green and blue \u2192 color shifts toward white/cyan','NO: reset to (255, 5, 5) \u2192 jumps back to bright red']},
-    {t:'q',label:'Q5',text:'Starting from app.color = (255, 5, 5) with app.speed = 5, trace through exactly 3 steps and write out the value of app.color after each step. Describe what color the circle is at each of those three moments.'}
+    {t:'q',label:'Q5',text:'The longer the program runs, what do you observe happening to my_circle_1? Identify the specific line or lines of code inside onStep() that are responsible for that change. Explain in your own words what those lines do each time onStep() runs, and why the effect grows larger over time.'}
   ]},
   {title:'Extension Challenges',content:[
     {t:'callout',kind:'try',header:'Choose one or more challenges',items:['a) Variable speed \u2014 add app.speed2 = 3 and give myCircleTwo a different speed','b) Add a third circle that moves in the opposite direction','c) Make my_circle_1 grow and shrink \u2014 reverse speed at extremes','d) Add vertical movement to myCircleTwo and bounce off top and bottom','e) Make myCircleTwo change color too']},
@@ -329,13 +428,20 @@ var COURSE=[
     {t:'callout',kind:'concept',header:'End of Lesson \u2014 Looking Ahead',items:['You can now animate shapes and respond to conditions.','In the next lessons you will organise multiple shapes into Groups and build more complex systems.','Answer the three reflection questions below in your Google Doc.']},
     {t:'q',label:'Reflect 1',text:'You used onStep() to move a circle continuously. Describe a different animation you could build using only the concepts from this lesson. What would move, what would it respond to, and what if condition would you need?'},
     {t:'q',label:'Reflect 2',text:'The color animation stores three related values in a tuple (255, 5, 5). What are the advantages of a tuple over three separate variables like app.red, app.green, app.blue? When might separate variables be better?'},
-    {t:'q',label:'Reflect 3',text:'Write a function called makeBouncingCircle(x, speed) that sets up a circle at position (x, 200) and stores the speed on app so that onStep() can use it. After the function, explain: what does it create, what does it store, and how would you call it to create two bouncing circles with different speeds?'}
+    {t:'q',label:'Reflect 3',text:'Write code that creates a circle at a specific position and makes it move and change size using onStep(). Show: the line that creates the circle, any app variable setup needed, and the lines inside onStep() that make it animate. Do not write a function \u2014 write the code directly as you have been doing throughout this lesson.'}
   ]}
  ]},
 
 {id:'sun',num:4,title:'The Sun Project',subtitle:'Groups \u00B7 Animation \u00B7 For Loops',
  icon:'\u2600\uFE0F',tag:'Groups \u00B7 Loops',download:'lesson_04_sun.docx',
- objectives:['Create a Group and add shapes to it manually','Use compound operators (+=, *=)','Animate a group using onStep()','Use a for loop with range() to draw repeated shapes efficiently','Use if statements in onStep() to reverse animation direction'],
+ objectives:[
+   'Draw a sun: a gold Circle at the center surrounded by Line rays extending outward, all added to a Group',
+   'Add shapes to a Group manually using .add() and understand why Groups are useful for animation',
+   'Use the *= compound operator to resize the entire Group in one statement',
+   'Animate the sun using onStep() so it rotates, grows, and shrinks continuously on screen',
+   'Use a for loop with range() to add 36 evenly-spaced rays with just a few lines of code',
+   'Use if statements inside onStep() to reverse the growth direction, creating a pulsing animation'
+  ],
  steps:[
   {title:'Building a Sun with Groups',content:[
     {t:'code',lines:["sun = Group()","sun.add(Line(125, 200, 275, 200, fill='orange'))","sun.add(Line(200, 125, 200, 275, fill='orange'))","sun.add(Line(163, 150, 237, 250, fill='orange'))","sun.add(Line(163, 250, 237, 150, fill='orange'))","sun.add(Circle(200, 200, 50, fill='gold'))"]},
@@ -343,22 +449,39 @@ var COURSE=[
     {t:'q',label:'Q1',text:'Why is the Circle added last, after all the Lines? What would the sun look like if you added the Circle first? Use the layering rule from Lesson 1 to explain.'}
   ]},
   {title:'Resizing the Group \u2014 Compound Operators',content:[
-    {t:'code',lines:['sun.width  *= 1.5','sun.height *= 1.5']},
+    {mod:'add',t:'code',lines:['sun.width  *= 1.5','sun.height *= 1.5']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Compound Operators',items:['sun.width *= 1.5  is the same as  sun.width = sun.width * 1.5','+=  x += 5 means x = x + 5','-=  x -= 3 means x = x - 3','*=  x *= 2 means x = x * 2','/=  x /= 4 means x = x / 4']},
-    {t:'q',label:'Q2',text:'What multiplier value would make the sun exactly half its current size? What value would leave it exactly unchanged? Explain your reasoning without running the code.'}
+    {t:'q',label:'Q2',text:'Write three compound operator statements: one that increases app.score by 10, one that multiplies app.speed by 1.5, and one that decreases app.health by 1. For each one, also write the equivalent longer form without the compound operator. Your answer should show all six statements.'}
   ]},
   {title:'Animating with onStep()',content:[
     {t:'code',lines:['def onStep():','    sun.rotateAngle += 5']},
-    {t:'callout',kind:'concept',header:'Concept \u2014 onStep() and Event-Driven Programming',items:['onStep() is an event handler \u2014 it runs automatically on each animation frame.','You never call it yourself; CMU CS Academy calls it for you.']},
+    {t:'callout',kind:'concept',header:'Concept \u2014 Event-Driven Programming',items:[
+      'Most programs you have written so far run from top to bottom and then stop.',
+      'Event-driven programming is different: the program waits for things to happen, then responds to them.',
+      'An event is something that occurs: the animation clock ticks, the user clicks, a key is pressed.',
+      'An event handler is a function that runs automatically when a specific event occurs. You define it; the program calls it.',
+      'onStep() is an event handler for the animation clock \u2014 it fires every time a new frame begins.',
+      'You never call onStep() yourself. CMU CS Academy calls it automatically, over and over.',
+      'Other event handlers you will use: onMousePress(), onMouseRelease(), onKeyPress() \u2014 each responds to a different event.',
+      'Key idea: instead of a sequence of steps, you write handlers that respond to events.'
+    ]},
     {t:'q',label:'Q3',text:'When you rotate the Group, all the Lines and the Circle rotate together. Explain why, using your understanding of what a Group is. What would you have to do instead if you had not used a Group?'}
   ]},
   {title:'For Loops \u2014 A Better Sun',content:[
-    {t:'code',lines:["sun = Group()","app.rotateAngle = 0","for i in range(36):","    sun.add(Line(200, 125, 200, 275, fill='orange', rotateAngle = app.rotateAngle))","    app.rotateAngle += 10","sun.add(Circle(200, 200, 50, fill='gold'))"]},
+    {t:'callout',kind:'concept',header:'Why We Are Switching to a For Loop',items:[
+      'In Step 1 you added each ray individually with a separate .add() line.',
+      'That works for 4 rays \u2014 but writing 36 nearly identical lines is tedious and error-prone.',
+      'Instead we will use a for loop to add one ray at a time and automatically change the angle for each new ray.',
+      'Each time through the loop: add a single Line at the current rotateAngle, then increase rotateAngle by 10 degrees so the next ray points slightly further around.',
+      'After 36 iterations (360 \u00F7 10 = 36) we have rays pointing in every direction, evenly spaced.',
+      'This is the power of loops: one small general rule produces many specific results.'
+    ]},
+    {mod:'replace',t:'code',lines:["sun = Group()","app.rotateAngle = 0","for i in range(36):","    sun.add(Line(200, 125, 200, 275, fill='orange', rotateAngle = app.rotateAngle))","    app.rotateAngle += 10","sun.add(Circle(200, 200, 50, fill='gold'))"]},
     {t:'callout',kind:'concept',header:'Concept \u2014 for Loops and range()',items:['for i in range(36): runs the block 36 times.','i takes values 0, 1, 2, \u2026 35 automatically.','range(n) produces 0, 1, 2, \u2026 n-1 (stops before n).']},
     {t:'q',label:'Q4',text:'If you changed app.rotateAngle += 10 to += 20, how many rays would the sun have? If you changed range(36) to range(18), how many rays? Predict both answers before running.'}
   ]},
   {title:'Pulsing Animation \u2014 Bounce Guards',content:[
-    {t:'code',lines:['app.growthRate = 0.98','def onStep():','    sun.rotateAngle += 5','    sun.width  *= app.growthRate','    sun.height *= app.growthRate','    if sun.width < 25:','        app.growthRate = 1.02','    if sun.width > 125:','        app.growthRate = 0.98']},
+    {mod:'replace',t:'code',lines:['app.growthRate = 0.98','def onStep():','    sun.rotateAngle += 5','    sun.width  *= app.growthRate','    sun.height *= app.growthRate','    if sun.width < 25:','        app.growthRate = 1.02','    if sun.width > 125:','        app.growthRate = 0.98']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Bounce Guards',items:['When growthRate < 1: the sun shrinks each step.','When growthRate > 1: the sun grows each step.','The if statements catch the extremes and reverse direction.']},
     {t:'q',label:'Q5',text:'What would happen if you changed the two separate if statements into an if/elif? Try it and describe the result. Then explain why the original two separate ifs produce different behavior than if/elif.'},
     {t:'callout',kind:'concept',header:'End of Lesson \u2014 Looking Ahead',items:['You can now organise shapes into Groups and automate repetition with for loops.','In the next lessons you will use loops with mathematical functions to create more complex patterns.','Answer the three reflection questions below in your Google Doc.']},
@@ -388,7 +511,7 @@ var COURSE=[
     {t:'q',label:'Q3',text:'Inside the loop, app.currentPoint = nextPoint appears after drawing the line. In plain English, explain what role this single line plays in the spiral. What would happen visually if this line were missing?'}
   ]},
   {title:'Part 3 \u2014 Color Cycling & Animation',content:[
-    {t:'code',lines:['app.red=0  ;  app.green=0  ;  app.blue=0','# Change fill to: rgb(app.red, app.green, app.blue)','# Add after length update:','    if app.red < 255 and app.blue != 255:','        app.red += 1','    if app.red == 255 and app.green < 255:','        app.green += 1','    if app.green == 255 and app.blue < 255:','        app.blue += 1','    if app.blue == 255 and app.red > 0:','        app.red -= 1','def onStep():','    golden.rotateAngle += 5']},
+    {mod:'add',t:'code',lines:['app.red=0  ;  app.green=0  ;  app.blue=0','# Change fill to: rgb(app.red, app.green, app.blue)','# Add after length update:','    if app.red < 255 and app.blue != 255:','        app.red += 1','    if app.red == 255 and app.green < 255:','        app.green += 1','    if app.green == 255 and app.blue < 255:','        app.blue += 1','    if app.blue == 255 and app.red > 0:','        app.red -= 1','def onStep():','    golden.rotateAngle += 5']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Independent if vs. if/elif Chains',items:['Four separate if statements are all checked independently every iteration.','In the color cycling code, multiple conditions can be simultaneously true.','If/elif would stop at the first true condition \u2014 that would break the color cycle.']},
     {t:'q',label:'Q4',text:'At the start red=0, green=0, blue=0. Which of the four if statements fires on the very first iteration, and which do not? Then describe a later point in the loop where two if statements would fire in the same iteration.'}
   ]},
@@ -420,7 +543,7 @@ var COURSE=[
   {title:'sin() and cos() \u2014 Placing Circles Around the Rim',content:[
     {t:'callout',kind:'concept',header:'Concept \u2014 sin() and cos()',items:['cos(angle) = how far LEFT or RIGHT from center.','sin(angle) = how far UP or DOWN from center.','0\u00B0: cos=1, sin=0 \u2192 right.  90\u00B0: cos=0, sin=1 \u2192 below.']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Degrees vs. Radians',items:["Python's math library expects radians, not degrees.",'math.radians(angle) converts degrees to radians.']},
-    {t:'code',lines:['import math','app.rotateAngle = 270  ;  app.rotateSpeed = 0','app.x = 180  ;  app.y = 200','for i in range(18):','    bubbleWand.add(Circle(app.x, app.y, 10, fill=None, border=\'red\'))','    app.rotateAngle += 20','    app.xDirection = math.cos(math.radians(app.rotateAngle))','    app.yDirection = math.sin(math.radians(app.rotateAngle))','    app.x += 20 * app.xDirection','    app.y += 20 * app.yDirection']},
+    {mod:'add',t:'code',lines:['import math','app.rotateAngle = 270  ;  app.rotateSpeed = 0','app.x = 180  ;  app.y = 200','for i in range(18):','    bubbleWand.add(Circle(app.x, app.y, 10, fill=None, border=\'red\'))','    app.rotateAngle += 20','    app.xDirection = math.cos(math.radians(app.rotateAngle))','    app.yDirection = math.sin(math.radians(app.rotateAngle))','    app.x += 20 * app.xDirection','    app.y += 20 * app.yDirection']},
     {t:'q',label:'Q3',text:'app.rotateAngle increases by 20 degrees each of 18 iterations. What total rotation does that cover? What does that tell you about how the circles are arranged? Then explain why app.x += 20 * app.xDirection uses a multiplier of 20 rather than just app.xDirection alone.'}
   ]},
   {title:'Mouse Events & Friction',content:[
@@ -429,7 +552,7 @@ var COURSE=[
     {t:'q',label:'Q4',text:'Starting from rotateSpeed = 10, calculate the value after 5 steps of *= 0.98. Does the speed ever reach exactly 0? Why does the if statement exist, and what would happen without it?'}
   ]},
   {title:'Step 2 \u2014 contains() as a Gate',content:[
-    {t:'code',lines:['def onMouseRelease(mouseX, mouseY):','    if bubbleWand.contains(mouseX, mouseY):','        app.rotateSpeed = 10']},
+    {mod:'replace',t:'code',lines:['def onMouseRelease(mouseX, mouseY):','    if bubbleWand.contains(mouseX, mouseY):','        app.rotateSpeed = 10']},
     {t:'callout',kind:'concept',header:'Concept \u2014 shape.contains(x, y)',items:['shape.contains(x, y) returns True if (x, y) is inside the shape.','Combined with an if statement, it makes the spin conditional on clicking the wand directly.']},
     {t:'q',label:'Q5',text:'Describe the behavioral difference between the version without contains() and the version with it. Why does adding contains() make the program more useful? Give a second real-world example where a click should only trigger an action if it lands on a specific target.'},
     {t:'callout',kind:'concept',header:'End of Lesson \u2014 Looking Ahead',items:['You can now respond to mouse events and use trigonometry to place shapes precisely.','In the next lessons you will create dynamic systems where objects are created, tracked, and removed.','Answer the three reflection questions below in your Google Doc.']},
@@ -444,7 +567,7 @@ var COURSE=[
  objectives:['Use a Python list to track multiple bubble objects','Write a factory function that builds one bubble from three shapes','Call that function from onMouseRelease on every click','Loop over the list in onStep() to move and grow every bubble','Remove bubbles from both the list and the canvas when they reach the edge'],
  steps:[
   {title:'The Bubble List \u2014 app.bubbles = []',content:[
-    {t:'code',lines:['app.bubbles = []']},
+    {mod:'add',t:'code',lines:['app.bubbles = []']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Python Lists vs. CS Academy Groups',items:['A Group holds shape objects and draws them on the canvas.','A list holds any Python objects and lets your program track them in memory.','Storing it on app makes it accessible everywhere.']},
     {t:'q',label:'Q1',text:'What would happen if you put app.bubbles = [] inside onMouseRelease() instead of at the top of the program? Walk through what would occur on the first click, the second click, and describe the bug.'}
   ]},
@@ -454,16 +577,16 @@ var COURSE=[
     {t:'q',label:'Q2',text:'makeBubble() both creates a shape on the canvas AND appends to app.bubbles. Why are both steps necessary? What would be broken if makeBubble() created the Group but never appended it to app.bubbles?'}
   ]},
   {title:'Calling makeBubble() on Every Click',content:[
-    {t:'code',lines:['def onMouseRelease(mouseX, mouseY):','    app.rotateSpeed = 10','    # what happens if you click the wand multiple times?','    makeBubble()']},
+    {mod:'replace',t:'code',lines:['def onMouseRelease(mouseX, mouseY):','    app.rotateSpeed = 10','    # what happens if you click the wand multiple times?','    makeBubble()']},
     {t:'callout',kind:'observe',header:'Observe & Predict',items:['The comment asks: "What happens if you click multiple times?"','Do bubbles follow your mouse, or always appear in the same spot? Why?']},
     {t:'q',label:'Q3',text:'Answer the comment\'s question: what happens when you click multiple times? Describe both what you see on the canvas and what is happening to app.bubbles. Then explain why all bubbles appear at the same position (240, 220) regardless of where you click.'}
   ]},
   {title:'Animating Bubbles \u2014 Looping Over the List',content:[
-    {t:'code',lines:['def onStep():','    bubbleWand.rotateAngle += app.rotateSpeed','    app.rotateSpeed *= 0.98','    if app.rotateSpeed < 1:','        app.rotateSpeed = 0','    for bubble in app.bubbles:','        # what happens to the bubble each time onStep runs?','        bubble.centerX += 3','        bubble.centerY += 3','        bubble.width   *= 1.05','        bubble.height  *= 1.05']},
+    {mod:'replace',t:'code',lines:['def onStep():','    bubbleWand.rotateAngle += app.rotateSpeed','    app.rotateSpeed *= 0.98','    if app.rotateSpeed < 1:','        app.rotateSpeed = 0','    for bubble in app.bubbles:','        # what happens to the bubble each time onStep runs?','        bubble.centerX += 3','        bubble.centerY += 3','        bubble.width   *= 1.05','        bubble.height  *= 1.05']},
     {t:'q',label:'Q4',text:'A bubble starts with width ~10. Using width *= 1.05, approximately what is its width after 10 steps? After 20? Explain why the growth feels slow at first and then accelerates.'}
   ]},
   {title:'Removing Bubbles \u2014 List and Canvas',content:[
-    {t:'code',lines:['    for bubble in app.bubbles:','        bubble.centerX += 3  ;  bubble.centerY += 3','        bubble.width *= 1.05  ;  bubble.height *= 1.05','        # what is the purpose of the following conditional statement?','        # what happens visibly on the canvas?  how do you know?','        if bubble.centerX >= 380:','            app.bubbles.remove(bubble)','            app.group.remove(bubble)']},
+    {mod:'add',t:'code',lines:['    for bubble in app.bubbles:','        bubble.centerX += 3  ;  bubble.centerY += 3','        bubble.width *= 1.05  ;  bubble.height *= 1.05','        # what is the purpose of the following conditional statement?','        # what happens visibly on the canvas?  how do you know?','        if bubble.centerX >= 380:','            app.bubbles.remove(bubble)','            app.group.remove(bubble)']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Two Removals: List and Canvas Are Separate',items:['app.bubbles.remove(bubble) \u2014 removes from the tracking list.','app.group.remove(bubble) \u2014 removes from the canvas.','Removing from only one place creates a ghost. Both removals are always needed.']},
     {t:'callout',kind:'warn',header:'Caution \u2014 Never Remove from a List While Iterating Over It',items:['Calling remove() inside the for loop modifies the list while reading it.','Safe pattern: collect items to remove in to_remove = [], then remove after the loop.']},
     {t:'q',label:'Q5',text:'Answer the three questions in the code\'s comments: a) what is the purpose of the if statement? b) what happens visibly? c) how do you know the bubble is truly gone? Then explain what would happen if you only called app.bubbles.remove(bubble) but forgot app.group.remove(bubble).'}
@@ -484,27 +607,27 @@ var COURSE=[
  objectives:['Use from random import randint \u2014 selective import syntax','Assign each bubble a random direction using randint(0, 360)','Use getPointInDir() to move each bubble in the direction it faces','Activate the wand only when the user clicks it using contains()','Explore custom object attributes to vary bubble growth per bubble','Write compound conditional statements using or and and'],
  steps:[
   {title:'A New Import Syntax \u2014 from random import randint',content:[
-    {t:'code',lines:['from random import randint']},
+    {mod:'add',t:'code',lines:['from random import randint']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Selective Import',items:['import math loads the entire math library. You use math.cos(), etc.','from random import randint imports only the randint function.','Call it directly as randint() \u2014 no random. prefix needed.','randint(a, b) returns a random whole number between a and b inclusive.']},
     {t:'q',label:'Q1',text:'What is the practical difference between import random and from random import randint in terms of how you call the function? If you used from random import randint, could you also call random.uniform() later in the same program without an additional import statement? Explain.'}
   ]},
   {title:'Random Direction \u2014 Each Bubble Faces a Different Way',content:[
-    {t:'code',lines:['def makeBubble():','    bubble = Group()','    bubble.add(Circle(240, 220, 5, fill=\'white\', border=\'silver\'))','    bubble.add(Circle(241, 221, 4, fill=None, border=rgb(0, 75, 0), opacity=15))','    bubble.add(Circle(241, 221, 2, fill=rgb(0, 75, 0), border=\'silver\', opacity=15))','    # assign a random direction','    bubble.rotateAngle = randint(0, 360)','    app.bubbles.append(bubble)']},
+    {mod:'replace',t:'code',lines:['def makeBubble():','    bubble = Group()','    bubble.add(Circle(240, 220, 5, fill=\'white\', border=\'silver\'))','    bubble.add(Circle(241, 221, 4, fill=None, border=rgb(0, 75, 0), opacity=15))','    bubble.add(Circle(241, 221, 2, fill=rgb(0, 75, 0), border=\'silver\', opacity=15))','    # assign a random direction','    bubble.rotateAngle = randint(0, 360)','    app.bubbles.append(bubble)']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Custom Object Attributes',items:['bubble.rotateAngle = randint(0, 360) attaches a property to this specific bubble Group.','Every bubble gets its own rotateAngle set to a different random number.']},
     {t:'q',label:'Q2',text:'In Lesson 2 all bubbles moved in the same direction: centerX += 3, centerY += 3. Explain how storing bubble.rotateAngle = randint(0, 360) on each bubble enables them to travel in different directions. Trace the chain from the randint call to the bubble\'s actual movement.'}
   ]},
   {title:'Step 2 Implemented \u2014 contains() Gates the Wand',content:[
-    {t:'code',lines:['def onMouseRelease(mouseX, mouseY):','    if bubbleWand.contains(mouseX, mouseY):','        app.rotateSpeed = 10','        makeBubble()']},
+    {mod:'replace',t:'code',lines:['def onMouseRelease(mouseX, mouseY):','    if bubbleWand.contains(mouseX, mouseY):','        app.rotateSpeed = 10','        makeBubble()']},
     {t:'q',label:'Q3',text:'Both actions \u2014 app.rotateSpeed = 10 and makeBubble() \u2014 are now nested inside the same if block. What would change in the program\'s behavior if makeBubble() were moved outside the if block but rotateSpeed stayed inside it?'}
   ]},
   {title:'Directional Movement \u2014 getPointInDir()',content:[
-    {t:'code',lines:['    for bubble in app.bubbles:','        bubble.centerX, bubble.centerY = getPointInDir(','            bubble.centerX, bubble.centerY, bubble.rotateAngle, 3)','        bubble.width  *= 1.05','        bubble.height *= 1.05']},
+    {mod:'replace',t:'code',lines:['    for bubble in app.bubbles:','        bubble.centerX, bubble.centerY = getPointInDir(','            bubble.centerX, bubble.centerY, bubble.rotateAngle, 3)','        bubble.width  *= 1.05','        bubble.height *= 1.05']},
     {t:'callout',kind:'concept',header:'Concept \u2014 getPointInDir()',items:['getPointInDir(x, y, direction, distance) returns the new (x, y) after moving.','bubble.rotateAngle is the direction. 3 is the distance per step.']},
     {t:'callout',kind:'warn',header:'Spot the Bug \u2014 A Teaching Moment',items:['The original code has a subtle bug:','  bubble.centerX, bubbleY = getPointInDir(...)','bubbleY instead of bubble.centerY \u2014 a local variable created and immediately lost.','Corrected: bubble.centerX, bubble.centerY = getPointInDir(...)']},
     {t:'q',label:'Q4',text:'Describe exactly what the buggy version \u2014 bubble.centerX, bubbleY = getPointInDir(...) \u2014 would look like on screen. Which part of the movement works and which does not? How would you diagnose this bug if you saw it without knowing its cause?'}
   ]},
   {title:'Compound Conditionals \u2014 Removing at Any Edge',content:[
-    {t:'code',lines:['        if bubble.centerX >= 380 or bubble.centerX < 20 or \\','           bubble.centerY < 20  or bubble.centerY > 380:','            app.bubbles.remove(bubble)','            app.group.remove(bubble)']},
+    {mod:'replace',t:'code',lines:['        if bubble.centerX >= 380 or bubble.centerX < 20 or \\','           bubble.centerY < 20  or bubble.centerY > 380:','            app.bubbles.remove(bubble)','            app.group.remove(bubble)']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Compound Conditional Statements',items:['or \u2014 the whole condition is True if ANY ONE part is True.','and \u2014 the whole condition is True only if ALL parts are True.']},
     {t:'q',label:'Q5',text:'In Lesson 2 the removal condition was a single check: bubble.centerX >= 380. In Lesson 3 it is four checks joined by or. Explain why a single-edge condition is no longer sufficient now that bubbles travel in random directions. Then explain why these four conditions are joined by or rather than and.'}
   ]},
@@ -529,16 +652,16 @@ var COURSE=[
     {t:'q',label:'Q1',text:'When the user clicks and releases on the wand, describe the exact sequence: which handler fires first, what does it do, then which fires second, what does that do? What would go wrong if you used onMouseRelease for popping instead of onMousePress?'}
   ]},
   {title:'Creating Score Labels with Label()',content:[
-    {t:'code',lines:['app.score  = 0  ;  app.missed = 0',"scoreLabel  = Label('Score: 0',  20, 15, size=16, bold=True, align='left')",'missedLabel = Label(\'Missed: 0\', 380, 15, size=16, bold=True, align=\'right\')']},
+    {mod:'add',t:'code',lines:['app.score  = 0  ;  app.missed = 0',"scoreLabel  = Label('Score: 0',  20, 15, size=16, bold=True, align='left')",'missedLabel = Label(\'Missed: 0\', 380, 15, size=16, bold=True, align=\'right\')']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Label() \u2014 Text on the Canvas',items:['Label(text, x, y) creates a text object on the canvas.',"Updating the text: scoreLabel.value = 'Score: ' + str(app.score)",'Always convert numbers to strings with str() before concatenating.']},
     {t:'q',label:'Q2',text:'scoreLabel is at x=20 with align=\'left\', and missedLabel at x=380 with align=\'right\'. Explain why these specific positions and alignments place the labels in the top corners. What would happen if you used align=\'center\' for both?'}
   ]},
   {title:'Connecting Popping to the Score',content:[
-    {t:'code',lines:['    for bubble in to_pop:','        app.bubbles.remove(bubble)','        app.group.remove(bubble)','        app.score += 1',"        scoreLabel.value = 'Score: ' + str(app.score)"]},
+    {mod:'add',t:'code',lines:['    for bubble in to_pop:','        app.bubbles.remove(bubble)','        app.group.remove(bubble)','        app.score += 1',"        scoreLabel.value = 'Score: ' + str(app.score)"]},
     {t:'q',label:'Q3',text:'If to_pop contains 3 bubbles after a single click, walk through the second for loop step by step: what is app.score after each iteration, and what does scoreLabel.value show after the loop completes? Why is str(app.score) necessary?'}
   ]},
   {title:'Tracking Missed Bubbles in onStep()',content:[
-    {t:'code',lines:['    to_remove = []','    for bubble in app.bubbles:','        bubble.centerX, bubble.centerY = getPointInDir(bubble.centerX, bubble.centerY, bubble.rotateAngle, 3)','        bubble.width *= 1.05  ;  bubble.height *= 1.05','        if bubble.centerX >= 380 or bubble.centerX < 20 or \\','           bubble.centerY < 20  or bubble.centerY > 380:','            to_remove.append(bubble)','    for bubble in to_remove:','        app.bubbles.remove(bubble)  ;  app.group.remove(bubble)','        app.missed += 1',"        missedLabel.value = 'Missed: ' + str(app.missed)"]},
+    {mod:'replace',t:'code',lines:['    to_remove = []','    for bubble in app.bubbles:','        bubble.centerX, bubble.centerY = getPointInDir(bubble.centerX, bubble.centerY, bubble.rotateAngle, 3)','        bubble.width *= 1.05  ;  bubble.height *= 1.05','        if bubble.centerX >= 380 or bubble.centerX < 20 or \\','           bubble.centerY < 20  or bubble.centerY > 380:','            to_remove.append(bubble)','    for bubble in to_remove:','        app.bubbles.remove(bubble)  ;  app.group.remove(bubble)','        app.missed += 1',"        missedLabel.value = 'Missed: ' + str(app.missed)"]},
     {t:'q',label:'Q4',text:'The missed count is updated in the second for loop (over to_remove), not inside the edge-detection if statement in the first loop. Why does it belong in the second loop? What would happen if you moved it to the first loop?'}
   ]},
   {title:'Synthesis \u2014 The Complete Game',content:[
@@ -556,13 +679,13 @@ var COURSE=[
  objectives:['Remove mouse-driven bubble creation and replace with automatic spawning','Use app.stepsPerSecond and probability to control the spawn rate','Add a game state flag to stop all activity when the game ends','End the game when the player reaches a score goal or misses too many bubbles','Display win and game-over messages with Label()','Explore difficulty selection, a leveling system, and bonus/bust bubbles'],
  steps:[
   {title:'Autonomous Spawning \u2014 Removing Mouse Control',content:[
-    {t:'code',lines:['app.stepsPerSecond = 30','def onStep():','    if randint(1, app.stepsPerSecond) == 1:','        bubbleWand.rotateAngle += randint(20, 60)','        makeBubble()','    # ... rest of onStep() ...']},
+    {mod:'add',t:'code',lines:['app.stepsPerSecond = 30','def onStep():','    if randint(1, app.stepsPerSecond) == 1:','        bubbleWand.rotateAngle += randint(20, 60)','        makeBubble()','    # ... rest of onStep() ...']},
     {t:'callout',kind:'concept',header:'Concept \u2014 app.stepsPerSecond',items:['app.stepsPerSecond controls how many times per second onStep() fires.','app.stepsPerSecond = 30 means onStep() fires 30 times every second.']},
     {t:'callout',kind:'concept',header:'Concept \u2014 Probability-Based Spawning',items:['randint(1, app.stepsPerSecond) == 1 gives a 1-in-30 chance per frame.','With 30 frames per second: 30 \u00D7 (1/30) = 1 bubble per second on average.','Using app.stepsPerSecond as the denominator ties probability to the frame rate.']},
     {t:'q',label:'Q1',text:'What goes wrong if you use randint(1, 30) == 1 and then change app.stepsPerSecond to 60? Explain the bug with specific numbers, and explain why using the variable prevents it.'}
   ]},
   {title:'Game State \u2014 Win & Loss Conditions',content:[
-    {t:'code',lines:['app.playing = True  ;  app.scoreGoal = 10  ;  app.maxMisses = 5',"gameLabel = Label('', 200, 200, size=24, bold=True, fill='white')",'def onStep():','    if not app.playing:','        return','    # ... spawning and movement ...','    for bubble in to_remove:','        app.bubbles.remove(bubble)  ;  app.group.remove(bubble)','        app.missed += 1','        if app.missed >= app.maxMisses:','            app.playing = False',"            gameLabel.value = 'Game Over!  Score: ' + str(app.score)",'    # In onMousePress, after app.score += 1:','    if app.score >= app.scoreGoal:','        app.playing = False',"        gameLabel.value = 'You Win!  Final misses: ' + str(app.missed)"]},
+    {mod:'add',t:'code',lines:['app.playing = True  ;  app.scoreGoal = 10  ;  app.maxMisses = 5',"gameLabel = Label('', 200, 200, size=24, bold=True, fill='white')",'def onStep():','    if not app.playing:','        return','    # ... spawning and movement ...','    for bubble in to_remove:','        app.bubbles.remove(bubble)  ;  app.group.remove(bubble)','        app.missed += 1','        if app.missed >= app.maxMisses:','            app.playing = False',"            gameLabel.value = 'Game Over!  Score: ' + str(app.score)",'    # In onMousePress, after app.score += 1:','    if app.score >= app.scoreGoal:','        app.playing = False',"        gameLabel.value = 'You Win!  Final misses: ' + str(app.missed)"]},
     {t:'q',label:'Q2',text:'The guard if not app.playing: return is placed at the very top of onStep(). Explain in plain English what this line does and what would happen without it. Why is it placed at the very top rather than wrapped around specific sections?'}
   ]},
   {title:'Enhancement A \u2014 Difficulty Selection',content:[
@@ -570,11 +693,11 @@ var COURSE=[
     {t:'q',label:'Q3',text:'Give two reasons why keyboard input is more appropriate than mouse input for a pre-game menu screen. Then specify exactly what Easy, Medium, and Hard should set for app.bubbleSpeed, app.maxMisses, and app.spawnRate \u2014 and justify each choice.'}
   ]},
   {title:'Enhancement B \u2014 Leveling System',content:[
-    {t:'code',lines:['app.level = 1  ;  app.pointsPerLevel = 5','app.spawnRate = app.stepsPerSecond  ;  app.bubbleSpeed = 3',"levelLabel = Label('Level 1', 200, 15, size=16, bold=True, align='center')",'# In onMousePress, after app.score += 1:','new_level = app.score // app.pointsPerLevel + 1','if new_level > app.level:','    app.level = new_level','    app.spawnRate = max(5, app.stepsPerSecond // app.level)','    app.bubbleSpeed = min(8, 2 + app.level)',"    levelLabel.value = 'Level ' + str(app.level)"]},
+    {mod:'add',t:'code',lines:['app.level = 1  ;  app.pointsPerLevel = 5','app.spawnRate = app.stepsPerSecond  ;  app.bubbleSpeed = 3',"levelLabel = Label('Level 1', 200, 15, size=16, bold=True, align='center')",'# In onMousePress, after app.score += 1:','new_level = app.score // app.pointsPerLevel + 1','if new_level > app.level:','    app.level = new_level','    app.spawnRate = max(5, app.stepsPerSecond // app.level)','    app.bubbleSpeed = min(8, 2 + app.level)',"    levelLabel.value = 'Level ' + str(app.level)"]},
     {t:'q',label:'Q4',text:'The spawn rate formula is max(5, app.stepsPerSecond // app.level) and the speed formula is min(8, 2 + app.level). For levels 1 through 6, calculate both values. At what level does each stop changing? What is the purpose of max() and min() in these formulas?'}
   ]},
   {title:'Enhancement C \u2014 Bonus & Bust Bubbles',content:[
-    {t:'code',lines:["def makeBubble(kind='normal'):",'    bubble = Group()',"    if kind == 'bonus': # gold fill","    elif kind == 'bust': # red fill","    else:               # white fill",'    bubble.kind = kind','    app.bubbles.append(bubble)','# Spawning:','    r = randint(1, 10)',"    if r == 1:   makeBubble('bonus')",'    elif r == 2: makeBubble(\'bust\')','    else:        makeBubble()','# In to_remove loop:','    if bubble.kind == \'bust\':','        app.playing = False',"        gameLabel.value = 'Busted!  Score: ' + str(app.score)",'    else:','        app.missed += 1']},
+    {mod:'replace',t:'code',lines:["def makeBubble(kind='normal'):",'    bubble = Group()',"    if kind == 'bonus': # gold fill","    elif kind == 'bust': # red fill","    else:               # white fill",'    bubble.kind = kind','    app.bubbles.append(bubble)','# Spawning:','    r = randint(1, 10)',"    if r == 1:   makeBubble('bonus')",'    elif r == 2: makeBubble(\'bust\')','    else:        makeBubble()','# In to_remove loop:','    if bubble.kind == \'bust\':','        app.playing = False',"        gameLabel.value = 'Busted!  Score: ' + str(app.score)",'    else:','        app.missed += 1']},
     {t:'q',label:'Q5',text:'A bust bubble that escapes ends the game immediately regardless of the player\'s missed count. Is this too punishing, not punishing enough, or well-balanced? Propose a specific alternative mechanic and explain how you would implement it \u2014 what code would change and where.'}
   ]},
   {title:'Final Reflection',content:[
@@ -1193,8 +1316,8 @@ function toggleMenu(){var b=document.getElementById('menu-btn'),dd=document.getE
 function closeMenu(){document.getElementById('dropdown').classList.remove('open');document.getElementById('menu-btn').classList.remove('open');document.getElementById('menu-btn').setAttribute('aria-expanded','false');}
 document.addEventListener('click',function(e){if(!e.target.closest('.menu-wrap'))closeMenu();});
 function goHome(){activeLessonIdx=-1;activeStep=0;document.getElementById('home-screen').classList.add('active');document.getElementById('lesson-screen').classList.remove('active');document.getElementById('menu-label').textContent='Course Home';document.getElementById('tb-step').textContent='';document.getElementById('prog').style.width='0%';buildDropdown();window.scrollTo({top:0,behavior:'smooth'});}
-function openLesson(i){activeLessonIdx=i;activeStep=0;var L=COURSE[i];document.getElementById('home-screen').classList.remove('active');document.getElementById('lesson-screen').classList.add('active');document.getElementById('menu-label').textContent=L.icon+' '+L.title;var hdr=document.getElementById('lesson-header');var obj='<div class="obj-box"><h3>In this lesson you will</h3><ul>';L.objectives.forEach(function(o){obj+='<li>'+o+'</li>';});obj+='</ul></div>';var dlBar=L.download?'<div class="dl-bar"><span>&#x1F4C4;</span><span>Google Doc worksheet:</span> <a href="../downloads/'+L.download+'" download>'+L.download+'</a></div>':'';hdr.innerHTML='<div class="kicker">Lesson '+L.num+' &middot; Python Graphics &amp; Animation</div><h2 class="lesson-title-h">'+L.title+'</h2><p class="lesson-sub">'+L.subtitle+'</p>'+obj+dlBar;buildSteps(L);buildDots(L.steps.length);goToStep(0);buildDropdown();window.scrollTo({top:0,behavior:'smooth'});}
-function buildSteps(L){var c=document.getElementById('steps-container');c.innerHTML='';var tot=L.steps.length;L.steps.forEach(function(step,i){var div=document.createElement('div');div.className='step-card';div.id='step-'+i;var html='<div class="step-lbl">Step '+(i+1)+' of '+tot+'</div><h3 class="step-h">'+step.title+'</h3>';step.content.forEach(function(item){if(item.t==='p'){html+='<p class="prose">'+item.html+'</p>';}else if(item.t==='code'){html+='<div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">copy</button><div class="code-block"><pre></pre></div></div>';}else if(item.t==='callout'){var k=item.kind==='try'?'try-box':item.kind;html+='<div class="callout '+k+'"><div class="ch">'+item.header+'</div><div class="cb"><ul>';item.items.forEach(function(li){html+='<li>'+li+'</li>';});html+='</ul></div></div>';}else if(item.t==='q'){html+='<div class="qbox"><div class="qlbl">'+item.label+'</div><div class="qtxt">'+item.text+'</div>';if(item.subItems)item.subItems.forEach(function(s){html+='<div class="sub-item">'+s+'</div>';});html+='<div class="qnote">Answer in your Google Doc.</div></div>';}else if(item.t==='mc'){html+='<div class="mc-box"><div class="qlbl">'+item.label+'</div><div class="qtxt">'+item.text+'</div><ul class="mc-opts">';item.opts.forEach(function(o){html+='<li>'+o+'</li>';});html+='</ul><div class="qnote">Answer in your Google Doc. Correct: '+item.answer+'</div></div>';}else if(item.t==='task'){
+function openLesson(i){activeLessonIdx=i;activeStep=0;var L=COURSE[i];document.getElementById('home-screen').classList.remove('active');document.getElementById('lesson-screen').classList.add('active');document.getElementById('menu-label').textContent=L.icon+' '+L.title;var hdr=document.getElementById('lesson-header');var obj='<div class="obj-box"><h3>In this lesson you will</h3><ul>';L.objectives.forEach(function(o){obj+='<li>'+o+'</li>';});obj+='</ul></div>';var dlBar=L.download?'<div class="dl-bar"><span>&#x1F4C4;</span><span>Google Doc worksheet:</span> <a href="../downloads/'+L.download+'" download>'+L.download+'</a></div>':'';hdr.innerHTML='<div class="kicker">Lesson '+L.num+' &middot; Python Graphics &amp; Animation</div><h2 class="lesson-title-h">'+L.title+'</h2><p class="lesson-sub">'+L.subtitle+'</p>'+obj+dlBar+'<div class="mod-legend"><span class="mod-legend-title">Code edits:</span><span class="mod-legend-item add">&#43; Add to existing</span><span class="mod-legend-item replace">&#8635; Remove &amp; replace</span><span class="mod-legend-item change">&#9998; Change here</span></div>'+'<div class=\"mod-examples\"><div class=\"mod-examples-title\">How to read code edit tags:</div><div class=\"mod-ex-row\"><div class=\"mod-badge mod-badge-add\"><span class=\"mod-badge-icon\">&#43;</span>Add to existing</div><div class=\"mod-ex-text\">Keep what you have and write new lines into it. For example: you already have <code>app.speed = 5</code> &mdash; now add <code>app.color = (255, 5, 5)</code> directly below it in the same block. Do <strong>not</strong> create a second separate block.</div></div><div class=\"mod-ex-row\"><div class=\"mod-badge mod-badge-replace\"><span class=\"mod-badge-icon\">&#8635;</span>Remove &amp; replace</div><div class=\"mod-ex-text\">Delete your previous version of this function or block entirely, then type the new version shown. For example: your <code>def onStep():</code> only has one line &mdash; delete the whole function and retype it with the new lines shown. Do <strong>not</strong> keep both versions.</div></div><div class=\"mod-ex-row\"><div class=\"mod-badge mod-badge-change\"><span class=\"mod-badge-icon\">&#9998;</span>Change here</div><div class=\"mod-ex-text\">Find the specific section shown inside a function you already have and update only that part. For example: your <code>onMousePress</code> has a loop &mdash; locate that loop and add one line inside it as shown. Leave the rest of the function untouched.</div></div></div>';buildSteps(L);buildDots(L.steps.length);goToStep(0);buildDropdown();window.scrollTo({top:0,behavior:'smooth'});}
+function buildSteps(L){var c=document.getElementById('steps-container');c.innerHTML='';var tot=L.steps.length;L.steps.forEach(function(step,i){var div=document.createElement('div');div.className='step-card';div.id='step-'+i;var html='<div class="step-lbl">Step '+(i+1)+' of '+tot+'</div><h3 class="step-h">'+step.title+'</h3>';step.content.forEach(function(item){if(item.t==='p'){html+='<p class="prose">'+item.html+'</p>';}else if(item.t==='code'){html+=modBadge(item.mod||'')+'<div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">copy</button><div class="code-block"><pre></pre></div></div>';}else if(item.t==='callout'){var k=item.kind==='try'?'try-box':item.kind;html+='<div class="callout '+k+'"><div class="ch">'+item.header+'</div><div class="cb"><ul>';item.items.forEach(function(li){html+='<li>'+li+'</li>';});html+='</ul></div></div>';}else if(item.t==='q'){html+='<div class="qbox"><div class="qlbl">'+item.label+'</div><div class="qtxt">'+item.text+'</div>';if(item.subItems)item.subItems.forEach(function(s){html+='<div class="sub-item">'+s+'</div>';});html+='<div class="qnote">Answer in your Google Doc.</div></div>';}else if(item.t==='mc'){html+='<div class="mc-box"><div class="qlbl">'+item.label+'</div><div class="qtxt">'+item.text+'</div><ul class="mc-opts">';item.opts.forEach(function(o){html+='<li>'+o+'</li>';});html+='</ul><div class="qnote">Answer in your Google Doc. Correct: '+item.answer+'</div></div>';}else if(item.t==='task'){
 var tid='hint-'+Math.random().toString(36).slice(2);
 html+='<div class="task-box">';
 html+='<div class="task-header"><div class="task-header-left"><span class="task-lbl">&#9997; Task '+item.num+'</span><span class="task-title">'+item.title+'</span></div>';
@@ -1220,6 +1343,13 @@ function toggleHint(id){
   var open=panel.classList.contains('open');
   if(open){panel.classList.remove('open');btn.classList.remove('open');}
   else{panel.classList.add('open');btn.classList.add('open');}
+}
+
+function modBadge(mod){
+  if(!mod) return '';
+  var icons={add:'&#43;',replace:'&#8635;',change:'&#9998;'};
+  var labels={add:'Add to existing',replace:'Remove &amp; replace',change:'Change here'};
+  return '<div class=\"mod-badge mod-badge-'+mod+'\"><span class=\"mod-badge-icon\">'+icons[mod]+'</span>'+labels[mod]+'</div>';
 }
 buildHome();buildDropdown();
 </script>
