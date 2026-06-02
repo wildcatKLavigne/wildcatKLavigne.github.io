@@ -216,7 +216,7 @@
     font-size: 10pt;
   }
   .analysis-table th {
-    background: var(--blue);
+    background: var(--green);
     color: #fff;
     padding: 8px 10px;
     text-align: left;
@@ -229,7 +229,7 @@
     padding: 6px 10px;
     vertical-align: top;
   }
-  .analysis-table tr:nth-child(even) td { background: var(--gray-light); }
+  .analysis-table tr:nth-child(even) td { background: var(--green-light); }
   .analysis-table .write-cell {
     height: 44px;
     vertical-align: top;
@@ -297,6 +297,154 @@
     margin-bottom: 6px;
   }
   .extension-box p { font-size: 10pt; color: #2a1a55; line-height: 1.6; }
+
+  /* --- I DO EXEMPLAR --- */
+  .ido-section {
+    border: 2px solid #8b1a1a;
+    border-radius: var(--radius);
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .ido-header {
+    background: #8b1a1a;
+    color: #fff;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ido-header .ido-badge {
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.18);
+    padding: 2px 8px;
+    border-radius: 100px;
+  }
+  .ido-header .ido-title {
+    font-size: 10.5pt;
+    font-weight: 600;
+  }
+  .ido-body {
+    padding: 14px 16px;
+    background: #fdf2f2;
+  }
+  .ido-intro {
+    font-size: 10pt;
+    color: #3a1a1a;
+    line-height: 1.6;
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .ido-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .ido-robot-box {
+    background: #fff;
+    border: 1px solid #e0b0b0;
+    border-radius: var(--radius);
+    padding: 10px;
+  }
+  .ido-robot-box .robot-caption {
+    font-size: 8.5pt;
+    color: #8b1a1a;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .ido-thinking {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .thought-bubble {
+    background: #fff;
+    border: 1px solid #e0b0b0;
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    position: relative;
+  }
+  .thought-bubble .obs-label {
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .thought-bubble .obs-label.observe { color: #1a4f82; }
+  .thought-bubble .obs-label.why { color: #8b1a1a; }
+  .thought-bubble .obs-label.tradeoff { color: #7d4e00; }
+  .thought-bubble p {
+    font-size: 9.5pt;
+    color: #333;
+    line-height: 1.55;
+  }
+  .thought-bubble .think-prefix {
+    font-style: italic;
+    color: #666;
+  }
+  .ido-table-wrap {
+    margin-top: 14px;
+  }
+  .ido-table-wrap .ido-table-label {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    color: #8b1a1a;
+    margin-bottom: 6px;
+  }
+  .exemplar-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+  }
+  .exemplar-table th {
+    background: #8b1a1a;
+    color: #fff;
+    padding: 6px 10px;
+    text-align: left;
+    font-size: 8.5pt;
+    font-weight: 600;
+  }
+  .exemplar-table td {
+    border: 1px solid #e0b0b0;
+    padding: 7px 10px;
+    vertical-align: top;
+    background: #fff;
+    line-height: 1.5;
+  }
+  .exemplar-table tr:nth-child(even) td { background: #fdf2f2; }
+
+  /* --- YOU DO HEADER --- */
+  .ydo-header {
+    background: var(--green);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 7px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ydo-header .ydo-badge {
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.18);
+    padding: 2px 8px;
+    border-radius: 100px;
+  }
+  .ydo-header .ydo-title {
+    font-size: 10.5pt;
+    font-weight: 600;
+  }
 
   /* --- DIVIDER --- */
   hr.section-rule {
@@ -392,8 +540,141 @@
     </div>
   </div>
 
-  <p style="font-size:10.5pt; font-weight:600; margin-bottom:8px;">Part 2A — Design Decisions Table</p>
-  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">For each design choice you observe, describe what you see, guess the reason for that choice, and identify any trade-off it might create.</p>
+  <!-- I DO EXEMPLAR -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model engineering thinking on this example robot</span>
+    </div>
+    <div class="ido-body">
+      <p class="ido-intro">Before you analyze your own robot photo, watch your teacher think out loud using the example below. Notice how each observation leads to a "why" question, and how every design choice has a trade-off.</p>
+
+      <div class="ido-columns">
+        <!-- Robot diagram -->
+        <div class="ido-robot-box">
+          <div class="robot-caption">Example robot — annotated for discussion</div>
+          <svg viewBox="0 0 300 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+            <!-- chassis frame -->
+            <rect x="40" y="110" width="220" height="100" rx="4" fill="#e8f0f9" stroke="#1a4f82" stroke-width="2"/>
+            <!-- frame rails -->
+            <rect x="40" y="110" width="220" height="12" rx="2" fill="#1a4f82" opacity="0.3"/>
+            <rect x="40" y="198" width="220" height="12" rx="2" fill="#1a4f82" opacity="0.3"/>
+            <rect x="40" y="110" width="12" height="100" rx="2" fill="#1a4f82" opacity="0.3"/>
+            <rect x="248" y="110" width="12" height="100" rx="2" fill="#1a4f82" opacity="0.3"/>
+            <!-- battery (low, centered) -->
+            <rect x="105" y="138" width="90" height="34" rx="3" fill="#fdf3e3" stroke="#c8860a" stroke-width="1.5"/>
+            <text x="150" y="149" text-anchor="middle" font-family="Arial" font-size="7" fill="#7d4e00" font-weight="bold">BATTERY</text>
+            <text x="150" y="160" text-anchor="middle" font-family="Arial" font-size="6" fill="#7d4e00">(mounted low)</text>
+            <!-- wheels (4x) -->
+            <ellipse cx="65" cy="220" rx="22" ry="22" fill="#ddd" stroke="#555" stroke-width="2"/>
+            <ellipse cx="65" cy="220" rx="10" ry="10" fill="#aaa" stroke="#555" stroke-width="1"/>
+            <ellipse cx="235" cy="220" rx="22" ry="22" fill="#ddd" stroke="#555" stroke-width="2"/>
+            <ellipse cx="235" cy="220" rx="10" ry="10" fill="#aaa" stroke="#555" stroke-width="1"/>
+            <ellipse cx="65" cy="100" rx="22" ry="22" fill="#ddd" stroke="#555" stroke-width="2"/>
+            <ellipse cx="65" cy="100" rx="10" ry="10" fill="#aaa" stroke="#555" stroke-width="1"/>
+            <ellipse cx="235" cy="100" rx="22" ry="22" fill="#ddd" stroke="#555" stroke-width="2"/>
+            <ellipse cx="235" cy="100" rx="10" ry="10" fill="#aaa" stroke="#555" stroke-width="1"/>
+            <!-- wheel size label -->
+            <line x1="43" y1="220" x2="5" y2="220" stroke="#999" stroke-width="0.8" stroke-dasharray="3,2"/>
+            <line x1="43" y1="100" x2="5" y2="100" stroke="#999" stroke-width="0.8" stroke-dasharray="3,2"/>
+            <line x1="6" y1="100" x2="6" y2="220" stroke="#999" stroke-width="0.8"/>
+            <text x="4" y="164" text-anchor="middle" font-family="Arial" font-size="6.5" fill="#555" transform="rotate(-90,4,164)">4" wheels</text>
+            <!-- arm pivot -->
+            <rect x="125" y="60" width="50" height="55" rx="3" fill="#e8f4ee" stroke="#2d6a4f" stroke-width="1.5"/>
+            <text x="150" y="82" text-anchor="middle" font-family="Arial" font-size="7" fill="#2d6a4f" font-weight="bold">ARM</text>
+            <text x="150" y="93" text-anchor="middle" font-family="Arial" font-size="6" fill="#2d6a4f">motor mount</text>
+            <!-- arm link -->
+            <line x1="150" y1="60" x2="150" y2="35" stroke="#2d6a4f" stroke-width="2.5"/>
+            <!-- gripper -->
+            <rect x="128" y="15" width="44" height="22" rx="3" fill="#e8f4ee" stroke="#2d6a4f" stroke-width="1.5"/>
+            <text x="150" y="30" text-anchor="middle" font-family="Arial" font-size="7" fill="#2d6a4f">gripper</text>
+            <!-- control hub -->
+            <rect x="170" y="125" width="52" height="38" rx="3" fill="#eeedfe" stroke="#534ab7" stroke-width="1.5"/>
+            <text x="196" y="140" text-anchor="middle" font-family="Arial" font-size="6.5" fill="#534ab7" font-weight="bold">CONTROL</text>
+            <text x="196" y="151" text-anchor="middle" font-family="Arial" font-size="6.5" fill="#534ab7" font-weight="bold">HUB</text>
+            <!-- cable run -->
+            <path d="M196,163 Q196,175 170,180 Q100,185 80,170" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="3,2"/>
+            <!-- annotation callouts -->
+            <!-- A: battery -->
+            <circle cx="196" cy="155" r="7" fill="#1a4f82"/>
+            <text x="196" y="158" text-anchor="middle" font-family="Arial" font-size="7" fill="#fff" font-weight="bold">A</text>
+            <!-- B: wheels -->
+            <circle cx="65" cy="72" r="7" fill="#2d6a4f"/>
+            <text x="65" y="75" text-anchor="middle" font-family="Arial" font-size="7" fill="#fff" font-weight="bold">B</text>
+            <!-- C: arm position -->
+            <circle cx="118" cy="63" r="7" fill="#7d4e00"/>
+            <text x="118" y="66" text-anchor="middle" font-family="Arial" font-size="7" fill="#fff" font-weight="bold">C</text>
+            <!-- legend -->
+            <rect x="30" y="268" width="240" height="38" rx="3" fill="#f5f5f3" stroke="#d0d0cc" stroke-width="0.8"/>
+            <circle cx="44" cy="280" r="5" fill="#1a4f82"/><text x="52" y="283" font-family="Arial" font-size="6.5" fill="#333">A — Battery mounted low &amp; centered</text>
+            <circle cx="44" cy="294" r="5" fill="#2d6a4f"/><text x="52" y="297" font-family="Arial" font-size="6.5" fill="#333">B — 4" diameter wheels (all 4 corners)</text>
+            <circle cx="160" cy="280" r="5" fill="#7d4e00"/><text x="168" y="283" font-family="Arial" font-size="6.5" fill="#333">C — Arm mounted at front-center</text>
+          </svg>
+        </div>
+
+        <!-- Teacher think-alouds -->
+        <div class="ido-thinking">
+          <div class="thought-bubble">
+            <div class="obs-label observe">Observation A — Battery placement</div>
+            <p><span class="think-prefix">I notice:</span> The battery is mounted low and centered on the frame — not up high, not off to one side.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">I ask "why?":</span> A heavy object mounted low lowers the robot's center of gravity. That makes it much harder to tip over when turning fast or climbing a ramp. Centering it left-to-right keeps the weight balanced so the robot doesn't pull to one side.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">Trade-off:</span> Mounting low takes up interior space that could have been used for wiring or a second mechanism.</p>
+          </div>
+
+          <div class="thought-bubble">
+            <div class="obs-label why">Observation B — Wheel size</div>
+            <p><span class="think-prefix">I notice:</span> The robot uses 4-inch diameter wheels at all four corners, evenly spaced.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">I ask "why?":</span> Larger wheels mean the robot travels farther per motor revolution — higher top speed. Four wheels (two per side) share the driving load and reduce the chance of getting stuck. Equal spacing keeps the turning center predictable.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">Trade-off:</span> Bigger wheels raise the chassis height, which raises the center of gravity slightly. They also take more torque to accelerate from a stop.</p>
+          </div>
+
+          <div class="thought-bubble">
+            <div class="obs-label tradeoff">Observation C — Arm position</div>
+            <p><span class="think-prefix">I notice:</span> The arm is mounted at the front-center of the robot, not to the side.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">I ask "why?":</span> Centering the arm keeps the robot balanced when the arm extends — if it were on one side, extending it would shift the center of mass sideways and the robot could tip or track crooked. Front-mounting means the driver just needs to point the robot at the target.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">Trade-off:</span> The arm now blocks the front camera's view when fully extended. The team would need to mount the camera higher or use a rear camera instead.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exemplar completed table -->
+      <div class="ido-table-wrap">
+        <div class="ido-table-label">What the completed table looks like — teacher's example</div>
+        <table class="exemplar-table">
+          <thead>
+            <tr>
+              <th style="width:28%">What I observe</th>
+              <th style="width:36%">Why the designer probably chose this</th>
+              <th style="width:36%">What might be traded off</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>A.</strong> Battery mounted low and centered on the frame</td>
+              <td>Lowers center of gravity to prevent tipping; centering keeps the robot balanced side-to-side</td>
+              <td>Uses interior space that could hold wiring or a second mechanism</td>
+            </tr>
+            <tr>
+              <td><strong>B.</strong> 4" wheels at all four corners, evenly spaced</td>
+              <td>Larger wheels = more distance per motor rotation (faster); four-wheel contact reduces getting stuck; equal spacing makes turning predictable</td>
+              <td>Bigger wheels raise chassis height (higher center of gravity); require more torque to accelerate</td>
+            </tr>
+            <tr>
+              <td><strong>C.</strong> Arm mounted at front-center of chassis</td>
+              <td>Keeps weight balanced front-to-back when arm extends; driver only needs to point robot at target</td>
+              <td>Arm blocks forward camera view when fully extended — camera must be repositioned</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2A — Design Decisions Table</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Now it's your turn. Using the robot photo your teacher displays, fill in the table below. For each design choice you observe, describe what you see, explain the likely reason for that choice, and identify any trade-off it might create.</p>
 
   <table class="analysis-table">
     <thead>
@@ -411,13 +692,125 @@
     </tbody>
   </table>
 
-  <p style="font-size:10.5pt; font-weight:600; margin-bottom:6px;">Part 2B — Comparison Paragraph <em style="font-weight:400; color:#777;">(Intermediate &amp; Proficient)</em></p>
-  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">If you have a second robot photo, compare the two designs. Which design choices are similar? Which are different? What does each difference tell you about what each team prioritized?</p>
-  <textarea class="write-area" rows="5" placeholder="Compare the two robots. Discuss at least 2 similarities and 2 differences..."></textarea>
+  <!-- I DO — 2B -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model a comparison paragraph using two example robots</span>
+    </div>
+    <div class="ido-body">
+      <p class="ido-intro">A strong comparison paragraph doesn't just list differences — it explains what each difference reveals about the team's priorities. Watch how the teacher structures this.</p>
 
-  <p style="font-size:10.5pt; font-weight:600; margin-bottom:6px;">Part 2C — Improvement Proposal <em style="font-weight:400; color:#777;">(Proficient)</em></p>
-  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Choose one design decision you observed that you think could be improved. Describe the current design, explain the problem, and propose a specific alternative. Use engineering vocabulary.</p>
-  <textarea class="write-area" rows="5" placeholder="Current design: ... Problem: ... My proposed change: ... Rationale: ..."></textarea>
+      <p style="font-size:9pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8b1a1a; margin-bottom:8px;">Two example robots being compared</p>
+
+      <div class="ido-columns" style="margin-bottom:14px;">
+        <div class="ido-robot-box">
+          <div class="robot-caption">Robot A — Speed-focused design</div>
+          <ul style="font-size:9.5pt; color:#333; line-height:1.7; padding-left:16px; margin:0;">
+            <li>6" diameter wheels (large)</li>
+            <li>Battery mounted high on frame</li>
+            <li>No arm — only a pusher bar</li>
+            <li>4-wheel drive, wide stance</li>
+          </ul>
+        </div>
+        <div class="ido-robot-box">
+          <div class="robot-caption">Robot B — Capability-focused design</div>
+          <ul style="font-size:9.5pt; color:#333; line-height:1.7; padding-left:16px; margin:0;">
+            <li>4" diameter wheels (smaller)</li>
+            <li>Battery mounted low and centered</li>
+            <li>Articulated arm with gripper</li>
+            <li>4-wheel drive, narrower frame</li>
+          </ul>
+        </div>
+      </div>
+
+      <p style="font-size:9pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8b1a1a; margin-bottom:6px;">Teacher's modeled comparison paragraph</p>
+      <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:12px 14px; font-size:10pt; color:#222; line-height:1.75;">
+        <p>Both robots use four-wheel drive, which tells us both teams prioritized reliable traction and stability over simplicity. However, their wheel size choices reveal very different priorities: Robot A's 6-inch wheels will travel farther per motor revolution, giving it a higher top speed — suggesting this team valued crossing the field quickly. Robot B's smaller 4-inch wheels sacrifice speed for more torque, which is better suited to climbing ramps or pushing against resistance.</p>
+        <p style="margin-top:8px;">The most significant structural difference is battery placement. Robot A mounts the battery high, which raises the center of gravity — a risk for a fast robot making sharp turns. This suggests the team either didn't anticipate tipping as a problem, or accepted the risk to keep their frame design simple. Robot B mounts the battery low and centered, a deliberate stability choice that shows awareness of the physics involved.</p>
+        <p style="margin-top:8px;">Finally, Robot A has no arm — just a pusher bar — while Robot B has a full articulated gripper. This tells us Robot A was designed for a strategy that doesn't require manipulating game elements precisely, while Robot B was built for a more complex task. The trade-off is that Robot B is heavier, slower, and harder to repair under time pressure.</p>
+      </div>
+
+      <p style="font-size:9pt; color:#8b1a1a; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin:10px 0 5px;">What made that paragraph effective?</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:9.5pt;">
+        <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:8px 10px; color:#333;">
+          <strong style="color:#8b1a1a;">✓</strong> Named specific features, not vague ones ("6-inch wheels" not "big wheels")
+        </div>
+        <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:8px 10px; color:#333;">
+          <strong style="color:#8b1a1a;">✓</strong> Explained what each difference reveals about team priorities
+        </div>
+        <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:8px 10px; color:#333;">
+          <strong style="color:#8b1a1a;">✓</strong> Named at least one similarity before diving into differences
+        </div>
+        <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:8px 10px; color:#333;">
+          <strong style="color:#8b1a1a;">✓</strong> Identified the trade-off each choice created
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2B — Comparison Paragraph <span style="font-weight:400; opacity:0.85;">(Intermediate &amp; Proficient)</span></span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Compare the two robot photos your teacher displays. Identify at least 2 similarities and 2 differences. For each difference, explain what it reveals about what each team prioritized. Use specific feature names and engineering vocabulary.</p>
+  <textarea class="write-area" rows="7" placeholder="Both robots share... However, Robot A differs from Robot B in that... This suggests that Team A prioritized... while Team B prioritized... The trade-off of Team A's choice is..."></textarea>
+
+  <!-- I DO — 2C -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model an improvement proposal with engineering rationale</span>
+    </div>
+    <div class="ido-body">
+      <p class="ido-intro">An improvement proposal isn't a complaint — it's a structured engineering argument. It names a specific problem, explains the root cause, proposes a concrete alternative, and predicts the trade-off of that alternative. Watch the structure.</p>
+
+      <p style="font-size:9pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8b1a1a; margin-bottom:8px;">Teacher's modeled improvement proposal — targeting Robot A's battery placement</p>
+
+      <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:0; overflow:hidden; margin-bottom:10px;">
+        <table style="width:100%; border-collapse:collapse; font-size:9.5pt;">
+          <tr>
+            <td style="background:#fdf2f2; border-bottom:1px solid #e0b0b0; padding:8px 12px; width:28%; font-weight:700; color:#8b1a1a; vertical-align:top;">Current design</td>
+            <td style="border-bottom:1px solid #e0b0b0; padding:8px 12px; color:#333; line-height:1.6;">Robot A mounts the battery in a bracket near the top of the frame, approximately 10 inches above the ground plane.</td>
+          </tr>
+          <tr>
+            <td style="background:#fdf2f2; border-bottom:1px solid #e0b0b0; padding:8px 12px; font-weight:700; color:#8b1a1a; vertical-align:top;">Problem identified</td>
+            <td style="border-bottom:1px solid #e0b0b0; padding:8px 12px; color:#333; line-height:1.6;">A high center of gravity increases the risk of tipping during fast turns or when the robot contacts a field element. At 6-inch wheel diameter and high drive speed, lateral forces during turning will be significant. A tipped robot cannot recover autonomously.</td>
+          </tr>
+          <tr>
+            <td style="background:#fdf2f2; border-bottom:1px solid #e0b0b0; padding:8px 12px; font-weight:700; color:#8b1a1a; vertical-align:top;">My proposed change</td>
+            <td style="border-bottom:1px solid #e0b0b0; padding:8px 12px; color:#333; line-height:1.6;">Relocate the battery to a low-mounted tray centered between the two drive rails, 2–3 inches above the ground plane. Use a REV battery strap and quick-release bracket so it can be swapped rapidly between matches.</td>
+          </tr>
+          <tr>
+            <td style="background:#fdf2f2; padding:8px 12px; font-weight:700; color:#8b1a1a; vertical-align:top;">Trade-off of my change</td>
+            <td style="padding:8px 12px; color:#333; line-height:1.6;">Low battery placement reduces interior frame space, which could interfere with wiring runs or a future mechanism. The team should plan cable routing before finalizing the tray position.</td>
+          </tr>
+        </table>
+      </div>
+
+      <p style="font-size:9pt; color:#8b1a1a; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 5px;">Notice the pattern: Current → Problem → Change → Trade-off. Every section is specific — no vague language.</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2C — Improvement Proposal <span style="font-weight:400; opacity:0.85;">(Proficient)</span></span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Choose one design decision from the robot photo that you think could be improved. Follow the four-part structure: Current design → Problem → My proposed change → Trade-off of my change. Be specific — name dimensions, component types, and engineering reasons.</p>
+  <table class="analysis-table" style="margin-bottom:14px;">
+    <thead>
+      <tr>
+        <th style="width:28%">Section</th>
+        <th>Your response</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="font-weight:600; color:#2d6a4f;">Current design</td><td class="write-cell" style="height:54px;"></td></tr>
+      <tr><td style="font-weight:600; color:#2d6a4f;">Problem identified</td><td class="write-cell" style="height:54px;"></td></tr>
+      <tr><td style="font-weight:600; color:#2d6a4f;">My proposed change</td><td class="write-cell" style="height:54px;"></td></tr>
+      <tr><td style="font-weight:600; color:#2d6a4f;">Trade-off of my change</td><td class="write-cell" style="height:54px;"></td></tr>
+    </tbody>
+  </table>
 </div>
 
 <hr class="section-rule">
@@ -488,4 +881,3 @@
 
 </body>
 </html>
-
