@@ -6,294 +6,664 @@
 <title>Unit 1: Engineering Foundations — Introductory Robotics</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
-  :root{--blue:#1a4f82;--blue-lt:#e8f0f9;--green:#2d6a4f;--green-lt:#e8f4ee;--amber:#7d4e00;--amber-lt:#fdf3e3;--purple:#3d2a99;--purple-lt:#f0ecff;--border:#d0d0cc;--r:8px;}
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Source Sans 3',Arial,sans-serif;font-size:15px;color:#222;background:#f7f6f3;min-height:100vh;}
 
-  /* NAV */
-  nav{background:var(--blue);padding:12px 32px;display:flex;align-items:center;gap:16px;}
-  nav a{color:#b8d0f0;text-decoration:none;font-size:13px;}
-  nav a:hover{color:#fff;}
-  nav .sep{color:#4a78b0;font-size:11px;}
-  nav .current{color:#fff;font-weight:600;}
+  :root {
+    --blue:#1a4f82;    --blue-lt:#e8f0f9;
+    --green:#2d6a4f;   --green-lt:#e8f4ee;
+    --amber:#7d4e00;   --amber-lt:#fdf3e3;
+    --purple:#3d2a99;  --purple-lt:#f0ecff;
+    --red:#8b1a1a;     --red-lt:#fdf2f2;
+    --border:#d0d0cc;  --r:8px;
+  }
 
-  /* HERO */
-  .hero{background:#fff;border-bottom:1px solid var(--border);padding:36px 32px 28px;}
-  .hero-inner{max-width:900px;margin:0 auto;}
-  .unit-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--blue);margin-bottom:8px;}
-  .hero h1{font-family:'Source Serif 4',Georgia,serif;font-size:32px;color:#111;line-height:1.2;margin-bottom:8px;}
-  .hero p{font-size:15px;color:#555;line-height:1.65;max-width:680px;margin-bottom:20px;}
-  .hero-meta{display:flex;gap:24px;flex-wrap:wrap;}
-  .hero-meta-item{display:flex;align-items:center;gap:6px;font-size:13px;color:#666;}
-  .hero-meta-item strong{color:#333;}
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Source Sans 3',Arial,sans-serif; font-size:15px; color:#222; background:#f7f6f3; min-height:100vh; }
 
-  /* MAIN LAYOUT */
-  .main{max-width:900px;margin:32px auto;padding:0 32px;}
+  /* ── TOP NAV ── */
+  .top-nav {
+    background:var(--blue);
+    padding:0 32px;
+    display:flex;
+    align-items:center;
+    gap:0;
+    height:44px;
+    border-bottom:1px solid #15406a;
+  }
+  .top-nav a {
+    color:#b8d0f0;
+    text-decoration:none;
+    font-size:13px;
+    padding:0 4px;
+    line-height:44px;
+  }
+  .top-nav a:hover { color:#fff; }
+  .top-nav .sep { color:#4a78b0; font-size:11px; padding:0 8px; }
+  .top-nav .current { color:#fff; font-weight:600; }
 
-  /* OVERVIEW CARDS */
-  .overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:32px;}
-  .ov-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;}
-  .ov-card .ov-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#888;margin-bottom:4px;}
-  .ov-card .ov-val{font-size:16px;font-weight:600;color:#111;}
+  /* ── SIDEBAR + CONTENT LAYOUT ── */
+  .page-body { display:grid; grid-template-columns:220px 1fr; min-height:calc(100vh - 44px); }
 
-  /* CLASS CARDS */
-  .section-heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--blue);margin-bottom:12px;padding-bottom:6px;border-bottom:1.5px solid var(--blue-lt);}
-  .class-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;transition:box-shadow .15s;}
-  .class-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.07);}
-  .class-top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:16px 20px;}
-  .class-num{font-size:11px;color:#aaa;font-weight:600;min-width:56px;}
-  .class-title{font-size:15px;font-weight:600;color:#111;margin-bottom:3px;}
-  .class-desc{font-size:13px;color:#666;line-height:1.5;}
-  .class-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
-  .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;transition:all .15s;}
-  .btn-primary{background:var(--blue);color:#fff;border:1.5px solid var(--blue);}
-  .btn-primary:hover{background:#15406a;border-color:#15406a;}
-  .btn-secondary{background:#fff;color:var(--blue);border:1.5px solid var(--blue);}
-  .btn-secondary:hover{background:var(--blue-lt);}
-  .btn svg{width:14px;height:14px;flex-shrink:0;}
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background:#fff;
+    border-right:1px solid var(--border);
+    padding:24px 0;
+    position:sticky;
+    top:44px;
+    height:calc(100vh - 44px);
+    overflow-y:auto;
+  }
+  .sidebar-section {
+    margin-bottom:4px;
+  }
+  .sidebar-section-label {
+    font-size:9px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:#aaa;
+    padding:10px 20px 4px;
+    display:block;
+  }
+  .sidebar a {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:7px 20px;
+    font-size:13px;
+    color:#444;
+    text-decoration:none;
+    border-left:3px solid transparent;
+    transition:all .12s;
+  }
+  .sidebar a:hover { background:#f5f5f3; color:var(--blue); border-left-color:#bcd3ee; }
+  .sidebar a.active { background:var(--blue-lt); color:var(--blue); font-weight:600; border-left-color:var(--blue); }
+  .sidebar a.active .snum { background:var(--blue); color:#fff; }
+  .snum {
+    font-size:10px;
+    font-weight:700;
+    min-width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#eee;
+    color:#666;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  .sicon { font-size:13px; flex-shrink:0; }
+  .sidebar-divider { border:none; border-top:1px solid var(--border); margin:12px 20px; }
 
-  /* OBJECTIVES STRIP */
-  .class-objectives{background:var(--blue-lt);padding:12px 20px;border-top:1px solid #d0dff0;}
-  .class-objectives h4{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);font-weight:700;margin-bottom:6px;}
-  .class-objectives ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px 16px;}
-  .class-objectives li{font-size:12px;color:#1a1a3a;display:flex;align-items:baseline;gap:5px;}
-  .class-objectives li::before{content:'→';color:var(--blue);font-size:10px;flex-shrink:0;}
+  /* ── MAIN CONTENT ── */
+  .main-content { padding:32px 40px 60px; max-width:900px; }
 
-  /* SCAFFOLD KEY */
-  .scaffold-key{display:flex;gap:10px;flex-wrap:wrap;padding:10px 20px;border-top:1px solid var(--border);background:#fafaf8;}
-  .sk-item{display:flex;align-items:center;gap:5px;font-size:11px;}
-  .sk-dot{width:10px;height:10px;border-radius:50%;}
+  /* ── HERO ── */
+  .hero-block {
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--r);
+    padding:28px 32px;
+    margin-bottom:28px;
+    border-left:5px solid var(--blue);
+  }
+  .unit-tag { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--blue); margin-bottom:6px; }
+  .hero-block h1 { font-family:'Source Serif 4',Georgia,serif; font-size:28px; color:#111; line-height:1.2; margin-bottom:8px; }
+  .hero-block .desc { font-size:14px; color:#555; line-height:1.65; margin-bottom:18px; max-width:680px; }
+  .hero-meta { display:flex; gap:20px; flex-wrap:wrap; }
+  .hero-meta-item { font-size:13px; color:#666; }
+  .hero-meta-item strong { color:#333; }
 
-  /* RESOURCES SECTION */
-  .resources-box{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin-top:32px;}
-  .resources-box h3{font-size:14px;font-weight:700;color:#111;margin-bottom:12px;}
-  .resource-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);}
-  .resource-row:last-child{border-bottom:none;}
-  .resource-info{font-size:13px;color:#444;}
-  .resource-info small{display:block;font-size:11px;color:#888;margin-top:2px;}
+  /* ── OVERVIEW PILLS ── */
+  .overview-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; margin-bottom:28px; }
+  .ov-card { background:#fff; border:1px solid var(--border); border-radius:var(--r); padding:12px 16px; }
+  .ov-label { font-size:9px; text-transform:uppercase; letter-spacing:.08em; color:#888; display:block; margin-bottom:3px; }
+  .ov-val { font-size:14px; font-weight:600; color:#111; }
 
-  /* FOOTER */
-  footer{text-align:center;padding:24px;font-size:12px;color:#aaa;border-top:1px solid var(--border);margin-top:40px;}
+  /* ── SECTION HEADING ── */
+  .section-heading {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.09em;
+    color:var(--blue); margin-bottom:12px; padding-bottom:6px; border-bottom:2px solid var(--blue-lt);
+    margin-top:32px;
+  }
+  .section-heading:first-of-type { margin-top:0; }
+
+  /* ── CLASS CARD ── */
+  .class-card {
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--r);
+    margin-bottom:12px;
+    overflow:hidden;
+    transition:box-shadow .15s;
+  }
+  .class-card:hover { box-shadow:0 2px 14px rgba(0,0,0,.07); }
+  .class-top { display:grid; grid-template-columns:auto 1fr auto; align-items:start; gap:16px; padding:16px 20px; }
+  .class-num-badge {
+    font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+    color:#fff; background:var(--blue); border-radius:4px; padding:3px 8px;
+    white-space:nowrap; margin-top:2px;
+  }
+  .class-num-badge.c2 { background:var(--green); }
+  .class-num-badge.c3 { background:#c8860a; }
+  .class-num-badge.c4 { background:var(--purple); }
+  .class-num-badge.c5 { background:var(--red); }
+  .class-title { font-size:15px; font-weight:600; color:#111; margin-bottom:3px; }
+  .class-desc  { font-size:13px; color:#666; line-height:1.5; }
+  .class-activity { font-size:12px; color:var(--amber); font-weight:600; margin-top:4px; }
+
+  .class-actions { display:flex; flex-direction:column; gap:6px; align-items:flex-end; min-width:150px; }
+  .btn {
+    display:inline-flex; align-items:center; gap:6px; padding:7px 14px;
+    border-radius:6px; font-size:12px; font-weight:600; text-decoration:none;
+    white-space:nowrap; transition:all .15s;
+  }
+  .btn-primary  { background:var(--blue);  color:#fff; border:1.5px solid var(--blue); }
+  .btn-primary:hover  { background:#15406a; border-color:#15406a; }
+  .btn-secondary { background:#fff; color:var(--blue); border:1.5px solid var(--blue); }
+  .btn-secondary:hover { background:var(--blue-lt); }
+  .btn-nb { background:#fff; color:var(--amber); border:1.5px solid var(--amber); }
+  .btn-nb:hover { background:var(--amber-lt); }
+  .btn svg { width:13px; height:13px; flex-shrink:0; }
+
+  .class-objectives { background:var(--blue-lt); padding:10px 20px; border-top:1px solid #d0dff0; }
+  .class-objectives h4 { font-size:9px; text-transform:uppercase; letter-spacing:.08em; color:var(--blue); font-weight:700; margin-bottom:5px; }
+  .class-objectives ul { list-style:none; display:flex; flex-wrap:wrap; gap:4px 16px; }
+  .class-objectives li { font-size:12px; color:#1a1a3a; display:flex; align-items:baseline; gap:5px; }
+  .class-objectives li::before { content:'→'; color:var(--blue); font-size:10px; flex-shrink:0; }
+
+  .scaffold-key { display:flex; gap:12px; flex-wrap:wrap; padding:8px 20px; border-top:1px solid var(--border); background:#fafaf8; }
+  .sk-item { display:flex; align-items:center; gap:5px; font-size:11px; }
+  .sk-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+
+  /* ── ASSESSMENT CARD ── */
+  .assessment-card {
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--r);
+    margin-bottom:12px;
+    overflow:hidden;
+  }
+  .assessment-header {
+    background:var(--purple);
+    color:#fff;
+    padding:12px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .assessment-header .a-title { font-size:15px; font-weight:600; }
+  .assessment-header .a-meta { font-size:12px; opacity:.8; }
+  .assessment-body { padding:14px 20px; }
+  .assessment-body .a-desc { font-size:13px; color:#555; line-height:1.55; margin-bottom:12px; }
+  .assessment-actions { display:flex; gap:8px; flex-wrap:wrap; }
+  .btn-purple { background:var(--purple); color:#fff; border:1.5px solid var(--purple); }
+  .btn-purple:hover { background:#2e1f7a; border-color:#2e1f7a; }
+  .btn-purple-outline { background:#fff; color:var(--purple); border:1.5px solid var(--purple); }
+  .btn-purple-outline:hover { background:var(--purple-lt); }
+
+  /* ── DOWNLOADS TABLE ── */
+  .downloads-box { background:#fff; border:1px solid var(--border); border-radius:var(--r); margin-top:32px; overflow:hidden; }
+  .downloads-box .dl-header { background:var(--blue); color:#fff; padding:10px 20px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+  .dl-group-label { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#aaa; padding:10px 20px 2px; display:block; }
+  .resource-row { display:flex; align-items:center; justify-content:space-between; padding:9px 20px; border-bottom:1px solid var(--border); gap:12px; }
+  .resource-row:last-child { border-bottom:none; }
+  .resource-info { font-size:13px; color:#444; }
+  .resource-info small { display:block; font-size:11px; color:#888; margin-top:1px; }
+
+  /* ── FOOTER ── */
+  footer { text-align:center; padding:24px; font-size:12px; color:#aaa; border-top:1px solid var(--border); margin-top:20px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:700px) {
+    .page-body { grid-template-columns:1fr; }
+    .sidebar { display:none; }
+    .main-content { padding:20px; }
+    .class-top { grid-template-columns:1fr; }
+    .class-actions { flex-direction:row; align-items:flex-start; }
+  }
 </style>
 </head>
 <body>
 
-<nav>
+<!-- TOP NAV -->
+<nav class="top-nav">
   <a href="../index.html">Robotics Curriculum</a>
   <span class="sep">›</span>
   <span class="current">Unit 1: Engineering Foundations</span>
 </nav>
 
-<div class="hero">
-  <div class="hero-inner">
-    <div class="unit-tag">Unit 1 of 9</div>
-    <h1>Engineering Foundations</h1>
-    <p>Students build the mental models and documentation habits that underpin all future engineering work: intentional design, the Engineering Design Process, sketching and multi-view drawing, and modular thinking. These concepts are reinforced throughout the course.</p>
-    <div class="hero-meta">
-      <div class="hero-meta-item"><strong>4 classes</strong> (Classes 1–4)</div>
-      <div class="hero-meta-item"><strong>74 min</strong> per class</div>
-      <div class="hero-meta-item"><strong>Groups of 4</strong></div>
-      <div class="hero-meta-item"><strong>Next:</strong> Unit 2 — Project Management</div>
+<div class="page-body">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Unit 1 Overview</span>
+      <a href="#overview" class="active">
+        <span class="sicon">◈</span> Unit overview
+      </a>
     </div>
-  </div>
-</div>
 
-<div class="main">
+    <hr class="sidebar-divider">
 
-  <div class="overview-grid">
-    <div class="ov-card"><div class="ov-label">Key deliverable</div><div class="ov-val">Engineering Notebook, Classes 1–4</div></div>
-    <div class="ov-card"><div class="ov-label">Design rule introduced</div><div class="ov-val">3 sketches before you build</div></div>
-    <div class="ov-card"><div class="ov-label">Frameworks</div><div class="ov-val">EDP, Decision Matrix, Modular Architecture</div></div>
-    <div class="ov-card"><div class="ov-label">Scaffolding levels</div><div class="ov-val">Novice · Intermediate · Proficient</div></div>
-  </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Class Lessons</span>
+      <a href="#class1">
+        <span class="snum">1</span> Intentional Design
+      </a>
+      <a href="#class2">
+        <span class="snum" style="background:#e8f4ee; color:#2d6a4f;">2</span> Engineering Design Process
+      </a>
+      <a href="#class3">
+        <span class="snum" style="background:#fdf3e3; color:#c8860a;">3</span> Sketching &amp; Documentation
+      </a>
+      <a href="#class4">
+        <span class="snum" style="background:#f0ecff; color:#3d2a99;">4</span> Servo Claw Design
+      </a>
+      <a href="#class5">
+        <span class="snum" style="background:#fdf2f2; color:#8b1a1a;">5</span> Modular Design
+      </a>
+    </div>
 
-  <div class="section-heading">Class Worksheets</div>
+    <hr class="sidebar-divider">
 
-  <!-- CLASS 1 -->
-  <div class="class-card">
-    <div class="class-top">
-      <div class="class-num">Class 1</div>
-      <div>
-        <div class="class-title">What is Engineering? Intentional Design</div>
-        <div class="class-desc">Discussion, robot photo analysis, and engineering notebook setup. Students examine visible design decisions in real robot photos and make their first notebook entry.</div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Assessment</span>
+      <a href="#assessment">
+        <span class="sicon">✎</span> Unit 1 Test
+      </a>
+    </div>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Notebook Templates</span>
+      <a href="#notebooks">
+        <span class="sicon">📓</span> All templates
+      </a>
+    </div>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Downloads</span>
+      <a href="#downloads">
+        <span class="sicon">↓</span> All files
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="main-content">
+
+    <!-- HERO -->
+    <div class="hero-block" id="overview">
+      <div class="unit-tag">Unit 1 of 9</div>
+      <h1>Engineering Foundations</h1>
+      <p class="desc">Students build the mental models and documentation habits that underpin all future engineering work: intentional design, the Engineering Design Process, multi-view sketching and documentation, weighted design evaluation, and modular thinking. Skills compound across all five lessons and are assessed in the unit test.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><strong>5 classes</strong> (Classes 1–5)</div>
+        <div class="hero-meta-item"><strong>74 min</strong> per class</div>
+        <div class="hero-meta-item"><strong>Groups of 4</strong></div>
+        <div class="hero-meta-item"><strong>Next:</strong> Unit 2 — Project Management</div>
       </div>
-      <div class="class-actions">
-        <a class="btn btn-primary" href="class1.html">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Open worksheet
+    </div>
+
+    <!-- OVERVIEW CARDS -->
+    <div class="overview-grid">
+      <div class="ov-card"><span class="ov-label">Key deliverable</span><div class="ov-val">Engineering Notebook, all 5 classes</div></div>
+      <div class="ov-card"><span class="ov-label">Core design rule</span><div class="ov-val">3 sketches before you build</div></div>
+      <div class="ov-card"><span class="ov-label">New in C4</span><div class="ov-val">Weighted decision matrix</div></div>
+      <div class="ov-card"><span class="ov-label">New in C5</span><div class="ov-val">Modular architecture + interfaces</div></div>
+      <div class="ov-card"><span class="ov-label">Scaffolding</span><div class="ov-val">Novice · Intermediate · Proficient</div></div>
+    </div>
+
+    <!-- ── CLASS LESSONS ── -->
+    <div class="section-heading" id="class1">Class Lessons</div>
+
+    <!-- CLASS 1 -->
+    <div class="class-card">
+      <div class="class-top">
+        <div>
+          <div class="class-num-badge">Class 1</div>
+        </div>
+        <div>
+          <div class="class-title">What is Engineering? Intentional Design</div>
+          <div class="class-desc">Discussion, robot photo analysis, and engineering notebook setup. Students examine visible design decisions in real robot photos using I Do / You Do modeling, then make their first formal notebook entry.</div>
+          <div class="class-activity">📋 Activity: Robot photo analysis · Notebook setup</div>
+        </div>
+        <div class="class-actions">
+          <a class="btn btn-primary" href="class1.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Open worksheet
+          </a>
+          <a class="btn btn-nb" href="../downloads/unit1_class1_notebook_template.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Notebook template
+          </a>
+          <a class="btn btn-secondary" href="../downloads/unit1_class1_intentional_design.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Worksheet .docx
+          </a>
+        </div>
+      </div>
+      <div class="class-objectives">
+        <h4>Learning objectives</h4>
+        <ul>
+          <li>Define intentional design and distinguish it from trial-and-error</li>
+          <li>Identify design decisions in a robot photo and explain the reasoning and trade-off</li>
+          <li>Set up an engineering notebook and make the first dated, signed entry</li>
+        </ul>
+      </div>
+      <div class="scaffold-key">
+        <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div><span><strong>Novice:</strong> Guided analysis of 3 design choices from a provided photo</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div><span><strong>Intermediate:</strong> Compare two robots; write a comparison paragraph</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div><span><strong>Proficient:</strong> Write a design critique; propose one improvement with full rationale</span></div>
+      </div>
+    </div>
+
+    <!-- CLASS 2 -->
+    <div class="class-card" id="class2">
+      <div class="class-top">
+        <div>
+          <div class="class-num-badge c2">Class 2</div>
+        </div>
+        <div>
+          <div class="class-title">The Engineering Design Process</div>
+          <div class="class-desc">Introduce the 6-stage EDP loop. Students apply the full process to a constrained physical challenge — three timed iterations with data collection and root-cause analysis between each attempt.</div>
+          <div class="class-activity">🏗️ Activity: Paper tower challenge — 3 sheets, 3 iterations</div>
+        </div>
+        <div class="class-actions">
+          <a class="btn btn-primary" href="class2_lesson.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Open worksheet
+          </a>
+          <a class="btn btn-nb" href="../downloads/unit1_class2_notebook_template.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Notebook template
+          </a>
+          <a class="btn btn-secondary" href="../downloads/unit1_class2_engineering_design_process.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Worksheet .docx
+          </a>
+        </div>
+      </div>
+      <div class="class-objectives">
+        <h4>Learning objectives</h4>
+        <ul>
+          <li>Name and describe all 6 EDP stages in order</li>
+          <li>Apply EDP to a physical challenge across 3 timed iterations with data-driven changes</li>
+          <li>Explain why iteration is a designed feature of engineering, not a sign of failure</li>
+        </ul>
+      </div>
+      <div class="scaffold-key">
+        <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div><span><strong>Novice:</strong> Fill in EDP organizer; document attempt results with guided prompts</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div><span><strong>Intermediate:</strong> Write root-cause analysis; calculate improvement percentage</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div><span><strong>Proficient:</strong> Predict Attempt 3 height from A1→A2 trend; write formal iteration log</span></div>
+      </div>
+    </div>
+
+    <!-- CLASS 3 -->
+    <div class="class-card" id="class3">
+      <div class="class-top">
+        <div>
+          <div class="class-num-badge c3">Class 3</div>
+        </div>
+        <div>
+          <div class="class-title">Engineering Documentation &amp; Sketching</div>
+          <div class="class-desc">Orthographic views, dimension labeling, title blocks, and revision boxes. Students sketch three designs for each of two objectives, evaluate with decision matrices, and iterate across three builds per objective.</div>
+          <div class="class-activity">✈️ Activity: Paper airplane challenge — distance &amp; accuracy, 3 iterations each</div>
+        </div>
+        <div class="class-actions">
+          <a class="btn btn-primary" href="class3_lesson.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Open worksheet
+          </a>
+          <a class="btn btn-nb" href="../downloads/unit1_class3_notebook_template.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Notebook template
+          </a>
+          <a class="btn btn-secondary" href="../downloads/unit1_class3_sketching_documentation.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Worksheet .docx
+          </a>
+        </div>
+      </div>
+      <div class="class-objectives">
+        <h4>Learning objectives</h4>
+        <ul>
+          <li>Sketch in orthographic views with dimension labels, title block, and revision box</li>
+          <li>Generate 3 designs per objective using sketching standards; evaluate with a decision matrix</li>
+          <li>Apply multi-objective design thinking: distance vs. accuracy trade-offs</li>
+        </ul>
+      </div>
+      <div class="scaffold-key">
+        <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div><span><strong>Novice:</strong> Sketch two views with templates; fill in decision matrix using provided criteria</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div><span><strong>Intermediate:</strong> Freehand all views; calculate improvement %; explain trade-off paragraph</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div><span><strong>Proficient:</strong> Full orthographic documentation; annotate force path; Challenge C combined-score analysis</span></div>
+      </div>
+    </div>
+
+    <!-- CLASS 4 -->
+    <div class="class-card" id="class4">
+      <div class="class-top">
+        <div>
+          <div class="class-num-badge c4">Class 4</div>
+        </div>
+        <div>
+          <div class="class-title">Engineering Documentation &amp; the REV Servo Claw</div>
+          <div class="class-desc">Introduces the weighted decision matrix. Students design a REV Smart Robot Servo-powered claw mechanism using the full EDP: define requirements, research mechanisms, sketch three designs, evaluate with weights, and produce a final engineering drawing with parts list.</div>
+          <div class="class-activity">🦾 Activity: REV servo claw design — full orthographic drawing + parts list</div>
+        </div>
+        <div class="class-actions">
+          <a class="btn btn-primary" href="class4_lesson.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Open worksheet
+          </a>
+          <a class="btn btn-nb" href="../downloads/unit1_class4_notebook_template.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Notebook template
+          </a>
+          <a class="btn btn-secondary" href="../downloads/unit1_class4_servo_claw.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Worksheet .docx
+          </a>
+        </div>
+      </div>
+      <div class="class-objectives">
+        <h4>Learning objectives</h4>
+        <ul>
+          <li>Use a weighted decision matrix: assign weights before sketching, multiply ratings, total scores</li>
+          <li>Sketch 3 claw mechanism designs in orthographic views; mark servo position and mounting interface</li>
+          <li>Produce a final 3-view engineering drawing with title block, revision box, and parts list</li>
+        </ul>
+      </div>
+      <div class="scaffold-key">
+        <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div><span><strong>Novice:</strong> Vary finger shapes across 3 designs; complete matrix with provided criteria</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div><span><strong>Intermediate:</strong> 3 genuinely different mechanism types; complete weighted matrix; write rationale</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div><span><strong>Proficient:</strong> Annotate force path; calculate torque at fingertip; GD&amp;T extension</span></div>
+      </div>
+    </div>
+
+    <!-- CLASS 5 -->
+    <div class="class-card" id="class5">
+      <div class="class-top">
+        <div>
+          <div class="class-num-badge c5">Class 5</div>
+        </div>
+        <div>
+          <div class="class-title">Modular Design Thinking</div>
+          <div class="class-desc">Introduces the five properties of modular design. Students build the LEGO® Technic™ 42197 Backhoe Loader, identify its four modules, document each with orthographic sketches, draw the architecture diagram, evaluate the model's modularity, and redesign one module with a weighted decision matrix.</div>
+          <div class="class-activity">🔩 Activity: LEGO® Technic™ 42197 Backhoe Loader — build, document, redesign</div>
+        </div>
+        <div class="class-actions">
+          <a class="btn btn-primary" href="class5_lesson.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Open worksheet
+          </a>
+          <a class="btn btn-nb" href="../downloads/unit1_class5_notebook_template.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Notebook template
+          </a>
+          <a class="btn btn-secondary" href="../downloads/unit1_class5_modular_design.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Worksheet .docx
+          </a>
+        </div>
+      </div>
+      <div class="class-objectives">
+        <h4>Learning objectives</h4>
+        <ul>
+          <li>Define modular design and name its five properties: functional independence, defined interfaces, replaceability, testability, parallel development</li>
+          <li>Identify modules and interfaces in the 42197; document each module with orthographic sketches</li>
+          <li>Evaluate a design's modularity with a scoring rubric; propose a redesign with 3 alternatives</li>
+        </ul>
+      </div>
+      <div class="scaffold-key">
+        <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div><span><strong>Novice:</strong> Label 4 modules; fill in module cards with teacher support</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div><span><strong>Intermediate:</strong> Draw architecture diagram; evaluate 2 modular properties with evidence</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div><span><strong>Proficient:</strong> Full interface map; knob-to-arm power transmission analysis; ISS modularity extension</span></div>
+      </div>
+    </div>
+
+    <!-- ── ASSESSMENT ── -->
+    <div class="section-heading" id="assessment">Assessment</div>
+
+    <div class="assessment-card">
+      <div class="assessment-header">
+        <div>
+          <div class="a-title">Unit 1 Test — Engineering Foundations</div>
+          <div class="a-meta">100 points · Answer bank (Section 1) · Free response · Two performance tasks</div>
+        </div>
+      </div>
+      <div class="assessment-body">
+        <p class="a-desc">Covers all five classes. Section 1 is an answer-bank format (10 questions, 2 pts each). Section 2 has three free-response questions on intentional design, EDP, and modular design. Section 3 has two performance tasks: a motor mount design with weighted evaluation and a modular robot architecture.</p>
+        <div class="assessment-actions">
+          <a class="btn btn-purple" href="unit1_test_answerbank.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Open test (HTML)
+          </a>
+          <a class="btn btn-purple-outline" href="../downloads/unit1_test.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download test .docx
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NOTEBOOK TEMPLATES ── -->
+    <div class="section-heading" id="notebooks">Engineering Notebook Templates</div>
+    <p style="font-size:13px; color:#666; margin-bottom:14px; line-height:1.6;">Each class has a structured Google Docs-compatible notebook entry template. Upload the .docx to Google Drive to open as a Google Doc. Templates mirror the lesson structure exactly — students document before, during, and after each activity.</p>
+
+    <div class="downloads-box" style="margin-top:0;">
+      <div class="dl-header">Notebook Entry Templates (Google Docs / .docx)</div>
+      <div class="resource-row">
+        <div class="resource-info">Class 1 — What is Engineering? Intentional Design<small>.docx · Google Docs compatible</small></div>
+        <a class="btn btn-nb" href="../downloads/unit1_class1_notebook_template.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
         </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Class 2 — The Engineering Design Process · Paper Tower<small>.docx · Google Docs compatible</small></div>
+        <a class="btn btn-nb" href="../downloads/unit1_class2_notebook_template.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Class 3 — Sketching &amp; Documentation · Paper Airplane<small>.docx · Google Docs compatible</small></div>
+        <a class="btn btn-nb" href="../downloads/unit1_class3_notebook_template.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Class 4 — Weighted Evaluation · REV Servo Claw Design<small>.docx · Google Docs compatible</small></div>
+        <a class="btn btn-nb" href="../downloads/unit1_class4_notebook_template.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Class 5 — Modular Design · LEGO® Technic™ 42197<small>.docx · Google Docs compatible</small></div>
+        <a class="btn btn-nb" href="../downloads/unit1_class5_notebook_template.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- ── ALL DOWNLOADS ── -->
+    <div class="downloads-box" id="downloads">
+      <div class="dl-header">All Unit 1 Downloads</div>
+
+      <span class="dl-group-label">Class Worksheets</span>
+      <div class="resource-row">
+        <div class="resource-info">Class 1 Worksheet — What is Engineering? Intentional Design<small>.docx · US Letter · Printable</small></div>
         <a class="btn btn-secondary" href="../downloads/unit1_class1_intentional_design.docx" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download .docx
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .docx
         </a>
       </div>
-    </div>
-    <div class="class-objectives">
-      <h4>Learning objectives</h4>
-      <ul>
-        <li>Define intentional design and distinguish it from trial-and-error</li>
-        <li>Identify design decisions in a robot photo with supporting rationale</li>
-        <li>Set up and make the first entry in an engineering notebook</li>
-      </ul>
-    </div>
-    <div class="scaffold-key">
-      <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div> <span><strong>Novice:</strong> Guided worksheet — analyze 3 design choices from a provided photo</span></div>
-      <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div> <span><strong>Intermediate:</strong> Compare two robots; write a comparison paragraph</span></div>
-      <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div> <span><strong>Proficient:</strong> Write a design critique; propose one improvement with rationale</span></div>
-    </div>
-  </div>
-
-  <!-- CLASS 2 -->
-  <div class="class-card">
-    <div class="class-top">
-      <div class="class-num">Class 2</div>
-      <div>
-        <div class="class-title">The Engineering Design Process</div>
-        <div class="class-desc">Introduce the 6-stage EDP loop. Students map a familiar product through all stages and practice generating multiple design alternatives using the "3 sketches" rule.</div>
-      </div>
-      <div class="class-actions">
-        <a class="btn btn-primary" href="class2.html">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Open worksheet
-        </a>
+      <div class="resource-row">
+        <div class="resource-info">Class 2 Worksheet — The Engineering Design Process · Paper Tower<small>.docx · US Letter · Printable</small></div>
         <a class="btn btn-secondary" href="../downloads/unit1_class2_engineering_design_process.docx" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download .docx
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .docx
         </a>
       </div>
-    </div>
-    <div class="class-objectives">
-      <h4>Learning objectives</h4>
-      <ul>
-        <li>Name and describe all 6 EDP stages</li>
-        <li>Apply the EDP to a familiar product by mapping each stage to real decisions</li>
-        <li>Explain why iteration is a planned feature of engineering, not a failure</li>
-      </ul>
-    </div>
-    <div class="scaffold-key">
-      <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div> <span><strong>Novice:</strong> Fill in an EDP graphic organizer for a provided scenario</span></div>
-      <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div> <span><strong>Intermediate:</strong> Create own EDP diagram with branching iteration paths</span></div>
-      <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div> <span><strong>Proficient:</strong> Reflect on FTC build season — what stages do teams skip and why?</span></div>
-    </div>
-  </div>
-
-  <!-- CLASS 3 -->
-  <div class="class-card">
-    <div class="class-top">
-      <div class="class-num">Class 3</div>
-      <div>
-        <div class="class-title">Engineering Documentation, Sketching & Multi-View Drawing</div>
-        <div class="class-desc">Orthographic views, dimension labeling, revision boxes, and the "3 sketches" rule applied to REV motor mount designs. Students select their preferred design using a decision matrix.</div>
-      </div>
-      <div class="class-actions">
-        <a class="btn btn-primary" href="class3.html">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Open worksheet
-        </a>
+      <div class="resource-row">
+        <div class="resource-info">Class 3 Worksheet — Engineering Documentation, Sketching &amp; Paper Airplane<small>.docx · US Letter · Printable</small></div>
         <a class="btn btn-secondary" href="../downloads/unit1_class3_sketching_documentation.docx" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download .docx
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .docx
+        </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Class 4 Worksheet — Weighted Decision Matrix &amp; REV Servo Claw<small>.docx · US Letter · Printable</small></div>
+        <a class="btn btn-secondary" href="../downloads/unit1_class4_servo_claw.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .docx
+        </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Class 5 Worksheet — Modular Design &amp; LEGO® Technic™ 42197<small>.docx · US Letter · Printable</small></div>
+        <a class="btn btn-secondary" href="../downloads/unit1_class5_modular_design.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .docx
+        </a>
+      </div>
+
+      <span class="dl-group-label">Notebook Entry Templates</span>
+      <div class="resource-row">
+        <div class="resource-info">Classes 1–5 Notebook Templates (all five)<small>.docx · Google Docs compatible</small></div>
+        <div style="display:flex; flex-direction:column; gap:5px; align-items:flex-end;">
+          <a class="btn btn-nb" href="../downloads/unit1_class1_notebook_template.docx" download style="font-size:11px; padding:5px 10px;">C1 template</a>
+          <a class="btn btn-nb" href="../downloads/unit1_class2_notebook_template.docx" download style="font-size:11px; padding:5px 10px;">C2 template</a>
+          <a class="btn btn-nb" href="../downloads/unit1_class3_notebook_template.docx" download style="font-size:11px; padding:5px 10px;">C3 template</a>
+          <a class="btn btn-nb" href="../downloads/unit1_class4_notebook_template.docx" download style="font-size:11px; padding:5px 10px;">C4 template</a>
+          <a class="btn btn-nb" href="../downloads/unit1_class5_notebook_template.docx" download style="font-size:11px; padding:5px 10px;">C5 template</a>
+        </div>
+      </div>
+
+      <span class="dl-group-label">Assessment</span>
+      <div class="resource-row">
+        <div class="resource-info">Unit 1 Test — Engineering Foundations (100 pts)<small>.docx · Answer bank + free response + performance tasks · Includes answer key</small></div>
+        <a class="btn btn-purple-outline" href="../downloads/unit1_test.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .docx
         </a>
       </div>
     </div>
-    <div class="class-objectives">
-      <h4>Learning objectives</h4>
-      <ul>
-        <li>Sketch an object in 2+ orthographic views with dimension labels</li>
-        <li>Generate 3 motor mount alternatives and evaluate with a decision matrix</li>
-        <li>Format notebook entries correctly: date, signature, page number, revision box</li>
-      </ul>
-    </div>
-    <div class="scaffold-key">
-      <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div> <span><strong>Novice:</strong> Trace bracket outline; add dimension labels using a template</span></div>
-      <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div> <span><strong>Intermediate:</strong> Freehand front and top views; complete decision matrix</span></div>
-      <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div> <span><strong>Proficient:</strong> Full 3-view sketch + isometric; weighted decision matrix + written justification</span></div>
-    </div>
-  </div>
 
-  <!-- CLASS 4 -->
-  <div class="class-card">
-    <div class="class-top">
-      <div class="class-num">Class 4</div>
-      <div>
-        <div class="class-title">Modular Design Thinking</div>
-        <div class="class-desc">REV's own modular system as a case study. Students reverse-engineer the modularity of a competition robot and design a 5-module architecture for their own robot — a blueprint used throughout the semester.</div>
-      </div>
-      <div class="class-actions">
-        <a class="btn btn-primary" href="class4.html">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Open worksheet
-        </a>
-        <a class="btn btn-secondary" href="../downloads/unit1_class4_modular_design.docx" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download .docx
-        </a>
-      </div>
-    </div>
-    <div class="class-objectives">
-      <h4>Learning objectives</h4>
-      <ul>
-        <li>Define modular design and identify interfaces between modules</li>
-        <li>Explain the benefits and costs of modularity</li>
-        <li>Propose a 5-module robot architecture defining inputs, outputs, and constraints</li>
-      </ul>
-    </div>
-    <div class="scaffold-key">
-      <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div> <span><strong>Novice:</strong> Label 4 modules on a robot diagram; describe what each does</span></div>
-      <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div> <span><strong>Intermediate:</strong> Identify interfaces; sketch one interface detail; draw the architecture diagram</span></div>
-      <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div> <span><strong>Proficient:</strong> Define inputs/outputs/constraints per module; identify parallel-buildable modules</span></div>
-    </div>
-  </div>
-
-  <!-- DOWNLOADS -->
-  <div class="resources-box">
-    <h3>All Unit 1 Downloads</h3>
-    <div class="resource-row">
-      <div class="resource-info">
-        Class 1 Worksheet — What is Engineering? Intentional Design
-        <small>Word document (.docx) · US Letter · Printable</small>
-      </div>
-      <a class="btn btn-secondary" href="../downloads/unit1_class1_intentional_design.docx" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download .docx
-      </a>
-    </div>
-    <div class="resource-row">
-      <div class="resource-info">
-        Class 2 Worksheet — The Engineering Design Process
-        <small>Word document (.docx) · US Letter · Printable</small>
-      </div>
-      <a class="btn btn-secondary" href="../downloads/unit1_class2_engineering_design_process.docx" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download .docx
-      </a>
-    </div>
-    <div class="resource-row">
-      <div class="resource-info">
-        Class 3 Worksheet — Engineering Documentation, Sketching & Multi-View Drawing
-        <small>Word document (.docx) · US Letter · Printable</small>
-      </div>
-      <a class="btn btn-secondary" href="../downloads/unit1_class3_sketching_documentation.docx" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download .docx
-      </a>
-    </div>
-    <div class="resource-row">
-      <div class="resource-info">
-        Class 4 Worksheet — Modular Design Thinking
-        <small>Word document (.docx) · US Letter · Printable</small>
-      </div>
-      <a class="btn btn-secondary" href="../downloads/unit1_class4_modular_design.docx" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download .docx
-      </a>
-    </div>
-  </div>
-
+  </main>
 </div>
 
-<footer>Introductory Robotics Curriculum &nbsp;·&nbsp; Unit 1: Engineering Foundations &nbsp;·&nbsp; REV Robotics</footer>
+<footer>Introductory Robotics Curriculum &nbsp;·&nbsp; Unit 1: Engineering Foundations &nbsp;·&nbsp; REV Robotics &nbsp;·&nbsp; LEGO® Technic™ 42197</footer>
 
 </body>
 </html>
-
