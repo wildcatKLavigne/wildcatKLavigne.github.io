@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 2: The Engineering Design Process</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue: #1a4f82;
+    --blue-light: #e8f0f9;
+    --green: #2d6a4f;
+    --green-light: #e8f4ee;
+    --amber: #7d4e00;
+    --amber-light: #fdf3e3;
+    --red: #8b1a1a;
+    --red-light: #fdf2f2;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 11pt; color: #222; background: #fff; max-width: 850px; margin: 0 auto; padding: 0.5in 0.75in; }
+
+  /* HEADER */
+  .ws-header { border-top: 5px solid var(--blue); padding-top: 14px; margin-bottom: 20px; }
+  .ws-header .course-label { font-size: 9pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); font-weight: 700; margin-bottom: 4px; }
+  .ws-header h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 22pt; color: #111; line-height: 1.2; margin-bottom: 4px; }
+  .ws-header .subtitle { font-size: 10pt; color: #666; margin-bottom: 14px; }
+  .ws-meta { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .ws-meta-item { padding: 8px 12px; border-right: 1px solid var(--border); }
+  .ws-meta-item:last-child { border-right: none; }
+  .ws-meta-item .meta-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 2px; }
+  .ws-meta-item .meta-value { font-size: 10pt; font-weight: 600; color: #222; }
+
+  /* OBJECTIVES */
+  .objectives-box { background: var(--blue-light); border-left: 4px solid var(--blue); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin: 18px 0; }
+  .objectives-box h3 { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.07em; color: var(--blue); font-weight: 700; margin-bottom: 8px; }
+  .objectives-box ol { padding-left: 18px; margin: 0; }
+  .objectives-box li { font-size: 10pt; margin-bottom: 4px; color: #1a1a3a; }
+
+  /* SECTION */
+  .section { margin-bottom: 22px; }
+  .section-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; color: var(--blue); margin-bottom: 6px; padding-bottom: 3px; border-bottom: 1.5px solid var(--blue-light); }
+  .section h2 { font-size: 13pt; font-weight: 700; color: #111; margin-bottom: 8px; }
+
+  /* READING */
+  .reading-block { background: var(--gray-light); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; font-size: 10.5pt; line-height: 1.7; color: #333; }
+  .reading-block p { margin-bottom: 10px; }
+  .reading-block p:last-child { margin-bottom: 0; }
+  .key-term { font-weight: 700; color: var(--blue); }
+
+  /* INPUTS */
+  .write-area { border: 1px solid var(--border); border-radius: var(--radius); width: 100%; min-height: 70px; display: block; background: transparent; resize: none; padding: 8px 10px; font-family: inherit; font-size: 10.5pt; color: #222; line-height: 1.6; margin-bottom: 14px; }
+  .sketch-box { border: 1.5px dashed #bbb; border-radius: var(--radius); width: 100%; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 9pt; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; }
+  .sketch-box.tall { height: 200px; }
+  .sketch-box.medium { height: 150px; }
+  .sketch-box.short { height: 100px; }
+
+  /* ANALYSIS TABLE */
+  .analysis-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 10pt; }
+  .analysis-table th { background: var(--green); color: #fff; padding: 8px 10px; text-align: left; font-size: 9pt; font-weight: 600; letter-spacing: 0.04em; }
+  .analysis-table td { border: 1px solid var(--border); padding: 6px 10px; vertical-align: top; }
+  .analysis-table tr:nth-child(even) td { background: var(--green-light); }
+  .analysis-table .write-cell { height: 50px; vertical-align: top; }
+
+  /* SCAFFOLD TABS */
+  .scaffold-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .scaffold-tab { border-radius: var(--radius); padding: 10px 12px; font-size: 9.5pt; }
+  .scaffold-tab .tab-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; margin-bottom: 5px; display: block; }
+  .scaffold-tab.novice { background: var(--green-light); }
+  .scaffold-tab.novice .tab-label { color: var(--green); }
+  .scaffold-tab.intermediate { background: var(--blue-light); }
+  .scaffold-tab.intermediate .tab-label { color: var(--blue); }
+  .scaffold-tab.proficient { background: #f0ecff; }
+  .scaffold-tab.proficient .tab-label { color: #3d2a99; }
+
+  /* NOTEBOOK */
+  .notebook-prompt { background: var(--amber-light); border-left: 4px solid #c8860a; border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 14px; }
+  .notebook-prompt .nb-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--amber); margin-bottom: 6px; }
+  .notebook-prompt p { font-size: 10.5pt; color: #3a2a00; line-height: 1.6; }
+
+  /* EXTENSION */
+  .extension-box { background: #f0ecff; border: 1px solid #c5b8f5; border-radius: var(--radius); padding: 12px 16px; margin-top: 6px; }
+  .extension-box .ext-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: #3d2a99; margin-bottom: 6px; }
+  .extension-box p { font-size: 10pt; color: #2a1a55; line-height: 1.6; }
+
+  /* I DO */
+  .ido-section { border: 2px solid var(--red); border-radius: var(--radius); margin-bottom: 18px; overflow: hidden; }
+  .ido-header { background: var(--red); color: #fff; padding: 8px 14px; display: flex; align-items: center; gap: 10px; }
+  .ido-header .ido-badge { font-size: 9pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .ido-header .ido-title { font-size: 10.5pt; font-weight: 600; }
+  .ido-body { padding: 14px 16px; background: var(--red-light); }
+  .ido-body p { font-size: 10.5pt; line-height: 1.7; color: #3a1a1a; margin-bottom: 8px; }
+  .ido-body p:last-child { margin-bottom: 0; }
+  .ido-body .think-prefix { font-style: italic; color: #666; }
+
+  /* YOU DO */
+  .ydo-header { background: var(--green); color: #fff; border-radius: var(--radius); padding: 7px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .ydo-header .ydo-badge { font-size: 9pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .ydo-header .ydo-title { font-size: 10.5pt; font-weight: 600; }
+
+  /* EDP DIAGRAM */
+  .edp-flow { display: flex; align-items: stretch; flex-wrap: wrap; gap: 0; margin: 14px 0; }
+  .edp-step { background: var(--blue); color: #fff; padding: 10px 12px; text-align: center; flex: 1; min-width: 80px; }
+  .edp-step .step-num { font-size: 8pt; opacity: 0.7; display: block; margin-bottom: 3px; }
+  .edp-step .step-name { font-size: 9.5pt; font-weight: 700; display: block; }
+  .edp-step .step-q { font-size: 7.5pt; opacity: 0.85; display: block; margin-top: 3px; font-style: italic; }
+  .edp-arrow { display: flex; align-items: center; padding: 0 4px; color: #aaa; font-size: 16pt; }
+
+  /* ITERATION CARD */
+  .iteration-card { border: 2px solid var(--blue); border-radius: var(--radius); margin-bottom: 20px; overflow: hidden; }
+  .iteration-header { background: var(--blue); color: #fff; padding: 8px 14px; display: flex; align-items: center; gap: 12px; }
+  .iteration-header .iter-num { font-size: 11pt; font-weight: 700; }
+  .iteration-header .iter-title { font-size: 10pt; }
+  .iteration-header .iter-badge { font-size: 8pt; padding: 2px 8px; border-radius: 100px; background: rgba(255,255,255,0.2); margin-left: auto; }
+  .iteration-body { padding: 14px 16px; background: var(--blue-light); }
+  .iteration-body.white { background: #fff; }
+  .iter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .iter-field label { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue); display: block; margin-bottom: 4px; }
+  .iter-field .iter-input { border: 1px solid var(--border); border-radius: 4px; background: #fff; padding: 6px 8px; width: 100%; min-height: 60px; resize: none; font-family: inherit; font-size: 10pt; color: #222; line-height: 1.5; display: block; }
+  .iter-field .iter-input.short { min-height: 34px; }
+  .iter-measurement { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 12px; }
+  .meas-box { border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 10px; background: #fff; text-align: center; }
+  .meas-box .meas-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.05em; color: #888; display: block; margin-bottom: 4px; }
+  .meas-box .meas-value { font-size: 18pt; font-weight: 700; color: var(--blue); display: block; line-height: 1; }
+  .meas-box .meas-unit { font-size: 8pt; color: #999; }
+
+  /* DIVIDER */
+  hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+
+  /* FOOTER */
+  .ws-footer { margin-top: 28px; padding-top: 10px; border-top: 2px solid var(--blue); display: flex; justify-content: space-between; font-size: 8.5pt; color: #888; }
+
+  @media print {
+    body { padding: 0.4in 0.6in; }
+    .write-area { border: 1px solid #aaa; }
+    .sketch-box { border: 1.5px dashed #999; }
+    .iter-input { border: 1px solid #aaa; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
+  <h1>The Engineering Design Process</h1>
+  <div class="subtitle">Class 2 of 4 &nbsp;·&nbsp; 74 minutes</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><span class="meta-value">_______________________</span></div>
+  </div>
+</div>
+
+<div class="objectives-box">
+  <h3>Learning Objectives</h3>
+  <ol>
+    <li>Name all six stages of the Engineering Design Process (EDP) and explain what happens at each.</li>
+    <li>Apply the EDP to a physical design challenge — building the tallest stable tower from one sheet of paper — across three timed iterations.</li>
+    <li>Explain why iteration is a designed feature of engineering, not a sign of failure, using data from your own builds.</li>
+    <li>Practice sketching, documentation, and evaluation skills from Class 1 in a real design context.</li>
+  </ol>
+</div>
+
+<!-- PART 1: READING -->
+<div class="section">
+  <div class="section-label">Part 1 &nbsp;·&nbsp; The Engineering Design Process (15 min)</div>
+  <h2>A Loop, Not a Line</h2>
+
+  <div class="reading-block">
+    <p>The <span class="key-term">Engineering Design Process (EDP)</span> is the structured approach engineers use to solve problems. It is not a recipe you follow once — it is a loop. When you test something and it doesn't perform the way you expected, that's not failure. That is data. You use the data to loop back, understand what went wrong, and improve.</p>
+    <p>The six stages are: <strong>Define</strong> the problem (what must the solution do, and what are the constraints?) → <strong>Research</strong> (what do others know? what materials and methods exist?) → <strong>Ideate</strong> (sketch at least 3 different solutions — never just one) → <strong>Prototype</strong> (build a testable version) → <strong>Test &amp; Measure</strong> (collect real data) → <strong>Iterate</strong> (use what you learned to improve the design and loop back).</p>
+    <p>Today you will run through the full EDP loop three times in a single class period using a constrained design challenge. Each loop gives you data. Each loop gives you a chance to improve. By the third attempt your tower should be meaningfully better than the first — not because you got lucky, but because you designed smarter.</p>
+  </div>
+
+  <div class="edp-flow">
+    <div class="edp-step"><span class="step-num">1</span><span class="step-name">Define</span><span class="step-q">What must it do?</span></div>
+    <div class="edp-arrow">→</div>
+    <div class="edp-step"><span class="step-num">2</span><span class="step-name">Research</span><span class="step-q">What do we know?</span></div>
+    <div class="edp-arrow">→</div>
+    <div class="edp-step"><span class="step-num">3</span><span class="step-name">Ideate</span><span class="step-q">3+ sketches</span></div>
+    <div class="edp-arrow">→</div>
+    <div class="edp-step"><span class="step-num">4</span><span class="step-name">Prototype</span><span class="step-q">Build it</span></div>
+    <div class="edp-arrow">→</div>
+    <div class="edp-step"><span class="step-num">5</span><span class="step-name">Test</span><span class="step-q">Measure it</span></div>
+    <div class="edp-arrow">→</div>
+    <div class="edp-step"><span class="step-num">6</span><span class="step-name">Iterate</span><span class="step-q">Improve &amp; repeat</span></div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> In your own words, describe what happens at each EDP stage (1–2 sentences each):</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:22%">Stage</th><th>What happens here — in your own words</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Define</strong></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Research</strong></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Ideate</strong></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Prototype</strong></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Test &amp; Measure</strong></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Iterate</strong></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Why is iteration a <em>planned</em> part of engineering rather than a sign that something went wrong?</p>
+  <textarea class="write-area" rows="3" placeholder="Think about what you learn from testing that you could not know before you tested..."></textarea>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Fill in the EDP table above using the reading. You can use short phrases.</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Complete the table and write Q2 in full sentences. Add one loop-back arrow on the diagram above where you think iteration is most common.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Complete all prompts. For Q2, reference a real product you know that went through multiple versions (a phone model, a car design, a game sequel).</div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 2: CHALLENGE SETUP -->
+<div class="section">
+  <div class="section-label">Part 2 &nbsp;·&nbsp; Challenge Setup: Define &amp; Research (8 min)</div>
+  <h2>Stage 1 &amp; 2 — Define the Problem &amp; Research</h2>
+
+  <div class="reading-block">
+    <p><strong>The Challenge:</strong> Using exactly one sheet of standard 8.5"×11" paper and up to 30 cm (about 12") of clear tape, build the tallest freestanding tower you can. The tower must stand on its own for at least 10 seconds to count. You will have three attempts — one sheet of paper per attempt, building time limited per round.</p>
+    <p><strong>Constraints:</strong> One sheet of paper per attempt. Up to 30 cm of tape total per attempt. No other materials. Tower must be freestanding (nothing touching it, no leaning against anything). Must survive a 10-second count after your hands leave it.</p>
+  </div>
+
+  <!-- I DO — Define stage -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model the Define and Research stages</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">Defining the problem:</span> "Build the tallest freestanding paper tower using one 8.5"×11" sheet and up to 30 cm of tape. Success = stands for 10 seconds unassisted. Key constraints: paper area is fixed, tape is limited, no external support."</p>
+      <p><span class="think-prefix">Researching what I know about structures:</span> "Tall structures stay up when their base is wider than their top (pyramidal geometry). Cylinders and tubes are stronger than flat sheets because the curved form resists buckling. Triangles in a structure resist deformation better than rectangles. The taller something gets, the heavier the top becomes relative to the base — weight at the top causes tipping."</p>
+      <p><span class="think-prefix">The key insight from research:</span> "Before I sketch any design, I know two things: (1) I need to transform the flat paper into a structural shape — a flat sheet has almost no strength. (2) The base needs to be as wide and stable as possible. These two insights will drive every sketch I produce."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2A — Your Define &amp; Research</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Before sketching anything, record what you already know about paper structures and what constraints will most limit your design.</p>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>What does success look like?</strong> Write the success criteria in your own words (not copied from above):</p>
+  <textarea class="write-area" rows="2" placeholder="A successful tower is one that..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>What do you already know</strong> about structures, materials, or shapes that will affect your design?</p>
+  <textarea class="write-area" rows="4" placeholder="I know that flat paper is weak in... Paper can be made stronger by... Tall things tend to fall when... The tape constraint means I should..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>What is the most critical constraint?</strong> Which limit do you think will be hardest to work around, and why?</p>
+  <textarea class="write-area" rows="3" placeholder="I think the hardest constraint is... because..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 3: IDEATION — 3 sketches -->
+<div class="section">
+  <div class="section-label">Part 3 &nbsp;·&nbsp; Stage 3 — Ideate: Three Designs (10 min)</div>
+  <h2>Generate Three Different Approaches</h2>
+
+  <p style="font-size:10.5pt; color:#555; margin-bottom:10px;">Before touching the paper, sketch three completely different tower architectures. Each sketch must show how the paper is shaped, where the base is, and how the tower stays upright. Label key features. Record one predicted advantage and one predicted weakness for each.</p>
+
+  <!-- I DO — Ideation -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model the Ideate stage — three different designs</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">How I generate three genuinely different ideas:</span> "I don't let my first idea block me. My first instinct might be 'roll it into a tube.' That's fine — I sketch it. But then I ask: what is a completely different structural approach? What if the base was the feature, not the height? What if I folded it accordion-style? What if I made a cone? Each sketch should use the paper differently."</p>
+      <p><span class="think-prefix">Design A — Cylinder (rolled tube):</span> Roll the full sheet into a vertical tube. Advantage: tubes resist vertical crushing (column strength). Weakness: the base is only as wide as the tube diameter — may tip easily.</p>
+      <p><span class="think-prefix">Design B — Fan-fold accordion:</span> Fold paper in tight accordion folds to create a stiff corrugated column. Advantage: multiple panels share the load; very resistant to buckling. Weakness: limited height because folding uses paper length.</p>
+      <p><span class="think-prefix">Design C — Wide tripod base with tall mast:</span> Cut/fold the lower third into three outward-spreading base legs; roll the remaining upper portion into a narrow tube for height. Advantage: very stable base; separates stability from height concerns. Weakness: the connection point between legs and mast is a single failure point.</p>
+      <p><span class="think-prefix">My selection and why:</span> "I'll try Design C first because the tripod base solves my biggest concern (tipping) and gives me the most height potential. But I keep A and B in mind — if C fails, I know exactly what to try next."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 3A — Your Three Design Sketches</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">Sketch three genuinely different tower designs. Each sketch should show how the paper is folded/shaped and where the base sits. Label key features. Then evaluate and select one to build first.</p>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+    <div>
+      <p style="font-size:9pt; text-align:center; color:#888; margin-bottom:4px;">Design A</p>
+      <div class="sketch-box tall">sketch here</div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Predicted advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:40px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:#8b1a1a; margin-bottom:2px;">Predicted weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:40px;"></textarea>
+    </div>
+    <div>
+      <p style="font-size:9pt; text-align:center; color:#888; margin-bottom:4px;">Design B</p>
+      <div class="sketch-box tall">sketch here</div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Predicted advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:40px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:#8b1a1a; margin-bottom:2px;">Predicted weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:40px;"></textarea>
+    </div>
+    <div>
+      <p style="font-size:9pt; text-align:center; color:#888; margin-bottom:4px;">Design C</p>
+      <div class="sketch-box tall">sketch here</div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Predicted advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:40px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:#8b1a1a; margin-bottom:2px;">Predicted weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:40px;"></textarea>
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Selected design for Attempt 1:</strong> Design _______ &nbsp;&nbsp; <strong>Reason:</strong></p>
+  <textarea class="write-area" rows="2" placeholder="I chose this design because..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 4: THREE ITERATIONS -->
+<div class="section">
+  <div class="section-label">Part 4 &nbsp;·&nbsp; Stages 4–6 — Build, Test &amp; Iterate × 3 (35 min total)</div>
+  <h2>Three Rounds: Prototype → Test → Iterate</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:14px;">Each round: build your tower (12 min) → test and measure (2 min) → record results and plan your next improvement (3 min). You have exactly one sheet of paper per round. Document everything as you go — don't wait until after.</p>
+
+  <!-- ATTEMPT 1 -->
+  <div class="iteration-card">
+    <div class="iteration-header">
+      <span class="iter-num">Attempt 1</span>
+      <span class="iter-title">Prototype &amp; Test your selected design</span>
+      <span class="iter-badge">12 min build · 2 min test · 3 min record</span>
+    </div>
+    <div class="iteration-body">
+
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Before you build</p>
+      <p style="font-size:10pt; margin-bottom:8px;"><strong>Design sketch (as-built plan):</strong> Sketch exactly how you plan to use the paper. Label which parts become the base vs. the mast.</p>
+      <div class="sketch-box medium">sketch your attempt 1 build plan here — label base, mast, and any folds</div>
+
+      <div class="iter-grid">
+        <div class="iter-field">
+          <label>Predicted height</label>
+          <textarea class="iter-input short" placeholder="____ cm or inches"></textarea>
+        </div>
+        <div class="iter-field">
+          <label>Biggest risk you're worried about</label>
+          <textarea class="iter-input short" placeholder="I think it might fail when..."></textarea>
+        </div>
+      </div>
+
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">After you test</p>
+
+      <div class="iter-measurement">
+        <div class="meas-box">
+          <span class="meas-label">Height achieved</span>
+          <span class="meas-value">____</span>
+          <span class="meas-unit">cm / inches</span>
+        </div>
+        <div class="meas-box">
+          <span class="meas-label">Stood for</span>
+          <span class="meas-value">____</span>
+          <span class="meas-unit">seconds</span>
+        </div>
+        <div class="meas-box">
+          <span class="meas-label">Result</span>
+          <span class="meas-value" style="font-size:12pt;">Pass / Fail</span>
+          <span class="meas-unit">(circle one)</span>
+        </div>
+      </div>
+
+      <div class="iter-grid">
+        <div class="iter-field">
+          <label>How did it actually fail (or succeed)?</label>
+          <textarea class="iter-input" placeholder="It tipped when... / The connection failed at... / It was stable because..."></textarea>
+        </div>
+        <div class="iter-field">
+          <label>Root cause — why did that happen?</label>
+          <textarea class="iter-input" placeholder="The root cause was... because..."></textarea>
+        </div>
+      </div>
+
+      <div class="iter-field" style="margin-bottom:0;">
+        <label>What specific change will you make for Attempt 2?</label>
+        <textarea class="iter-input" placeholder="In Attempt 2 I will change... specifically because the data shows that..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTEMPT 2 -->
+  <div class="iteration-card">
+    <div class="iteration-header">
+      <span class="iter-num">Attempt 2</span>
+      <span class="iter-title">Apply your first improvement</span>
+      <span class="iter-badge">12 min build · 2 min test · 3 min record</span>
+    </div>
+    <div class="iteration-body">
+
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Before you build</p>
+      <p style="font-size:10pt; margin-bottom:8px;"><strong>Updated design sketch:</strong> Show how Attempt 2 is different from Attempt 1. Highlight the change you're making.</p>
+      <div class="sketch-box medium">sketch your attempt 2 design — circle or annotate the change from attempt 1</div>
+
+      <div class="iter-grid">
+        <div class="iter-field">
+          <label>Specific change from Attempt 1</label>
+          <textarea class="iter-input short" placeholder="I changed... from... to..."></textarea>
+        </div>
+        <div class="iter-field">
+          <label>Why you expect this to help</label>
+          <textarea class="iter-input short" placeholder="This should improve performance because..."></textarea>
+        </div>
+      </div>
+
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">After you test</p>
+
+      <div class="iter-measurement">
+        <div class="meas-box">
+          <span class="meas-label">Height achieved</span>
+          <span class="meas-value">____</span>
+          <span class="meas-unit">cm / inches</span>
+        </div>
+        <div class="meas-box">
+          <span class="meas-label">vs. Attempt 1</span>
+          <span class="meas-value">+/− ____</span>
+          <span class="meas-unit">cm / inches</span>
+        </div>
+        <div class="meas-box">
+          <span class="meas-label">Result</span>
+          <span class="meas-value" style="font-size:12pt;">Pass / Fail</span>
+          <span class="meas-unit">(circle one)</span>
+        </div>
+      </div>
+
+      <div class="iter-grid">
+        <div class="iter-field">
+          <label>Did the change help? What happened?</label>
+          <textarea class="iter-input" placeholder="The change helped / didn't help / had no effect because..."></textarea>
+        </div>
+        <div class="iter-field">
+          <label>New failure mode (if any)</label>
+          <textarea class="iter-input" placeholder="The new problem that appeared was... This happened because..."></textarea>
+        </div>
+      </div>
+
+      <div class="iter-field" style="margin-bottom:0;">
+        <label>What specific change will you make for Attempt 3?</label>
+        <textarea class="iter-input" placeholder="In Attempt 3 I will change... The data from Attempt 2 tells me this is the right move because..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTEMPT 3 -->
+  <div class="iteration-card">
+    <div class="iteration-header">
+      <span class="iter-num">Attempt 3</span>
+      <span class="iter-title">Final build — best possible design</span>
+      <span class="iter-badge">12 min build · 2 min test · 3 min record</span>
+    </div>
+    <div class="iteration-body">
+
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Before you build</p>
+      <p style="font-size:10pt; margin-bottom:8px;"><strong>Final design sketch:</strong> This is your best version. Show all improvements made across attempts 1 and 2.</p>
+      <div class="sketch-box medium">sketch your attempt 3 design — annotate every deliberate change from earlier attempts</div>
+
+      <div class="iter-grid">
+        <div class="iter-field">
+          <label>Cumulative changes from Attempt 1</label>
+          <textarea class="iter-input" placeholder="From Attempt 1 I kept... I changed... From Attempt 2 I kept... I changed..."></textarea>
+        </div>
+        <div class="iter-field">
+          <label>Predicted final height</label>
+          <textarea class="iter-input" placeholder="I predict ____ cm because... (reference your improvement trend from A1→A2)"></textarea>
+        </div>
+      </div>
+
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">After you test</p>
+
+      <div class="iter-measurement">
+        <div class="meas-box">
+          <span class="meas-label">Height achieved</span>
+          <span class="meas-value">____</span>
+          <span class="meas-unit">cm / inches</span>
+        </div>
+        <div class="meas-box">
+          <span class="meas-label">vs. Attempt 1</span>
+          <span class="meas-value">+/− ____</span>
+          <span class="meas-unit">cm / inches</span>
+        </div>
+        <div class="meas-box">
+          <span class="meas-label">Result</span>
+          <span class="meas-value" style="font-size:12pt;">Pass / Fail</span>
+          <span class="meas-unit">(circle one)</span>
+        </div>
+      </div>
+
+      <div class="iter-grid">
+        <div class="iter-field">
+          <label>What worked best in this attempt?</label>
+          <textarea class="iter-input" placeholder="The most effective feature was... because..."></textarea>
+        </div>
+        <div class="iter-field">
+          <label>What would you change with a 4th attempt?</label>
+          <textarea class="iter-input" placeholder="If I had one more attempt I would... because the data shows..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 5: ANALYSIS -->
+<div class="section">
+  <div class="section-label">Part 5 &nbsp;·&nbsp; Analysis &amp; EDP Connection (6 min)</div>
+  <h2>Connect Your Experience to the EDP</h2>
+
+  <p style="font-size:10.5pt; margin-bottom:8px;"><strong>Results summary table:</strong></p>
+  <table class="analysis-table">
+    <thead>
+      <tr>
+        <th style="width:16%">Attempt</th>
+        <th style="width:18%">Height (cm)</th>
+        <th style="width:16%">Pass/Fail</th>
+        <th>Key design change made</th>
+        <th style="width:22%">EDP stage this change belongs to</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell">(baseline — no change yet)</td><td class="write-cell"></td></tr>
+      <tr><td>2</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>3</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Your tower improved (or didn't) across three attempts. Looking at your data: was the improvement the result of luck, or of intentional design decisions? Explain with specific evidence from your measurements.</p>
+  <textarea class="write-area" rows="4" placeholder="My improvement from Attempt 1 to Attempt 3 was ____ cm. This was / was not due to intentional design because..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Which EDP stage was hardest to do well in this challenge? Why?</p>
+  <textarea class="write-area" rows="3" placeholder="The hardest stage was... because..."></textarea>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Fill in the results table and answer Q1 using the phrase "intentional design" at least once.</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Answer both questions. For Q1, cite specific height numbers as evidence.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Answer both questions with engineering vocabulary. Calculate your improvement as a percentage: (A3 − A1) ÷ A1 × 100. Write what you'd do differently in a 4th attempt and why it would work.</div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 6: NOTEBOOK + REFLECTION -->
+<div class="section">
+  <div class="section-label">Part 6 &nbsp;·&nbsp; Notebook Entry &amp; Exit Reflection (5 min)</div>
+  <h2>Document and Reflect</h2>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry</div>
+    <p>In your engineering notebook: draw a clean EDP loop diagram with all 6 stages and arrows showing the loop-back paths. Below it, write 2–3 sentences connecting today's paper tower challenge to the EDP — specifically name which stage you found most valuable and which you would spend more time on. Record your three height measurements. Date and sign the entry.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Exit reflection — complete before handing in:</strong></p>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Finish this sentence: "Iteration is a planned part of engineering because __________."</p>
+  <textarea class="write-area" rows="2"></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Name one decision you made in this challenge that was <em>intentional</em> (from Class 1's vocabulary) — you had a reason, not just a guess.</p>
+  <textarea class="write-area" rows="3"></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Self-assessment — circle:</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:62%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr></thead>
+    <tbody>
+      <tr><td>I can name all 6 EDP stages in order</td><td></td><td></td><td></td></tr>
+      <tr><td>I made a design change between every attempt based on test data</td><td></td><td></td><td></td></tr>
+      <tr><td>I documented each attempt with a sketch and measurements</td><td></td><td></td><td></td></tr>
+      <tr><td>I can explain why iteration improves designs</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension / Exploration</div>
+    <p>Interview a parent, teacher, or neighbor who solves problems at work. Ask them to describe a time they had to try something more than once before it worked. In your engineering notebook, map what they describe to the EDP: which stages did they go through? What did they skip or rush? What would have helped?</p>
+  </div>
+</div>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 1, Class 2</span>
+  <span>The Engineering Design Process</span>
+  <span>Page 1 of 1</span>
+</div>
+
+</body>
+</html>
