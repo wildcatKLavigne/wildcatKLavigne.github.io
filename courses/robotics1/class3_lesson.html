@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 3: Engineering Documentation, Sketching & Multi-View Drawing</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue: #1a4f82;
+    --blue-light: #e8f0f9;
+    --green: #2d6a4f;
+    --green-light: #e8f4ee;
+    --amber: #7d4e00;
+    --amber-light: #fdf3e3;
+    --red: #8b1a1a;
+    --red-light: #fdf2f2;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 11pt; color: #222; background: #fff; max-width: 850px; margin: 0 auto; padding: 0.5in 0.75in; }
+
+  /* HEADER */
+  .ws-header { border-top: 5px solid var(--blue); padding-top: 14px; margin-bottom: 20px; }
+  .ws-header .course-label { font-size: 9pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); font-weight: 700; margin-bottom: 4px; }
+  .ws-header h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 22pt; color: #111; line-height: 1.2; margin-bottom: 4px; }
+  .ws-header .subtitle { font-size: 10pt; color: #666; margin-bottom: 14px; }
+  .ws-meta { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .ws-meta-item { padding: 8px 12px; border-right: 1px solid var(--border); }
+  .ws-meta-item:last-child { border-right: none; }
+  .ws-meta-item .meta-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 2px; }
+  .ws-meta-item .meta-value { font-size: 10pt; font-weight: 600; color: #222; }
+
+  /* OBJECTIVES */
+  .objectives-box { background: var(--blue-light); border-left: 4px solid var(--blue); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin: 18px 0; }
+  .objectives-box h3 { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.07em; color: var(--blue); font-weight: 700; margin-bottom: 8px; }
+  .objectives-box ol { padding-left: 18px; margin: 0; }
+  .objectives-box li { font-size: 10pt; margin-bottom: 4px; color: #1a1a3a; }
+
+  /* SECTION */
+  .section { margin-bottom: 22px; }
+  .section-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; color: var(--blue); margin-bottom: 6px; padding-bottom: 3px; border-bottom: 1.5px solid var(--blue-light); }
+  .section h2 { font-size: 13pt; font-weight: 700; color: #111; margin-bottom: 8px; }
+
+  /* READING */
+  .reading-block { background: var(--gray-light); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; font-size: 10.5pt; line-height: 1.7; color: #333; }
+  .reading-block p { margin-bottom: 10px; }
+  .reading-block p:last-child { margin-bottom: 0; }
+  .key-term { font-weight: 700; color: var(--blue); }
+
+  /* INPUTS */
+  .write-area { border: 1px solid var(--border); border-radius: var(--radius); width: 100%; min-height: 70px; display: block; background: transparent; resize: none; padding: 8px 10px; font-family: inherit; font-size: 10.5pt; color: #222; line-height: 1.6; margin-bottom: 14px; }
+  .sketch-box { border: 1.5px dashed #bbb; border-radius: var(--radius); width: 100%; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 9pt; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; }
+  .sketch-box.xl   { height: 260px; }
+  .sketch-box.tall { height: 200px; }
+  .sketch-box.medium { height: 150px; }
+  .sketch-box.short { height: 100px; }
+
+  /* ANALYSIS TABLE */
+  .analysis-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 10pt; }
+  .analysis-table th { background: var(--green); color: #fff; padding: 8px 10px; text-align: left; font-size: 9pt; font-weight: 600; letter-spacing: 0.04em; }
+  .analysis-table td { border: 1px solid var(--border); padding: 6px 10px; vertical-align: top; }
+  .analysis-table tr:nth-child(even) td { background: var(--green-light); }
+  .analysis-table .write-cell { height: 50px; vertical-align: top; }
+
+  /* SCAFFOLD TABS */
+  .scaffold-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .scaffold-tab { border-radius: var(--radius); padding: 10px 12px; font-size: 9.5pt; }
+  .scaffold-tab .tab-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; margin-bottom: 5px; display: block; }
+  .scaffold-tab.novice { background: var(--green-light); }
+  .scaffold-tab.novice .tab-label { color: var(--green); }
+  .scaffold-tab.intermediate { background: var(--blue-light); }
+  .scaffold-tab.intermediate .tab-label { color: var(--blue); }
+  .scaffold-tab.proficient { background: #f0ecff; }
+  .scaffold-tab.proficient .tab-label { color: #3d2a99; }
+
+  /* NOTEBOOK */
+  .notebook-prompt { background: var(--amber-light); border-left: 4px solid #c8860a; border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 14px; }
+  .notebook-prompt .nb-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--amber); margin-bottom: 6px; }
+  .notebook-prompt p { font-size: 10.5pt; color: #3a2a00; line-height: 1.6; }
+
+  /* EXTENSION */
+  .extension-box { background: #f0ecff; border: 1px solid #c5b8f5; border-radius: var(--radius); padding: 12px 16px; margin-top: 6px; }
+  .extension-box .ext-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: #3d2a99; margin-bottom: 6px; }
+  .extension-box p { font-size: 10pt; color: #2a1a55; line-height: 1.6; }
+
+  /* I DO */
+  .ido-section { border: 2px solid var(--red); border-radius: var(--radius); margin-bottom: 18px; overflow: hidden; }
+  .ido-header { background: var(--red); color: #fff; padding: 8px 14px; display: flex; align-items: center; gap: 10px; }
+  .ido-header .ido-badge { font-size: 9pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .ido-header .ido-title { font-size: 10.5pt; font-weight: 600; }
+  .ido-body { padding: 14px 16px; background: var(--red-light); }
+  .ido-body p { font-size: 10.5pt; line-height: 1.7; color: #3a1a1a; margin-bottom: 8px; }
+  .ido-body p:last-child { margin-bottom: 0; }
+  .ido-body .think-prefix { font-style: italic; color: #666; }
+
+  /* YOU DO */
+  .ydo-header { background: var(--green); color: #fff; border-radius: var(--radius); padding: 7px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .ydo-header .ydo-badge { font-size: 9pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .ydo-header .ydo-title { font-size: 10.5pt; font-weight: 600; }
+
+  /* SKETCHING SPECIFIC */
+  .sketch-standard-box {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--gray-light);
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-size: 10pt;
+    line-height: 1.65;
+    color: #333;
+  }
+  .sketch-standard-box .std-label {
+    font-size: 8.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--blue);
+    margin-bottom: 6px;
+  }
+  .sketch-standard-box ul { padding-left: 16px; }
+  .sketch-standard-box li { margin-bottom: 3px; }
+
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .col-label { font-size: 9pt; color: #888; font-weight: 600; text-align: center; margin-bottom: 4px; }
+
+  .view-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 4px;
+    margin-bottom: 6px;
+  }
+  .view-inner {
+    border: 1.5px dashed #ccc;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    font-size: 8pt;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .view-inner.v-tall { height: 160px; }
+  .view-inner.v-short { height: 80px; }
+  .dim-line { border-bottom: 1px solid #bbb; margin: 4px 0 8px; }
+  .dim-label { font-size: 8pt; color: #888; margin-bottom: 3px; }
+
+  /* ITERATION CARD */
+  .iteration-card { border: 2px solid var(--blue); border-radius: var(--radius); margin-bottom: 20px; overflow: hidden; }
+  .iteration-header { background: var(--blue); color: #fff; padding: 8px 14px; display: flex; align-items: center; gap: 12px; }
+  .iteration-header .iter-num { font-size: 11pt; font-weight: 700; }
+  .iteration-header .iter-title { font-size: 10pt; }
+  .iteration-header .iter-badge { font-size: 8pt; padding: 2px 8px; border-radius: 100px; background: rgba(255,255,255,0.2); margin-left: auto; }
+  .iteration-body { padding: 14px 16px; background: var(--blue-light); }
+  .iter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .iter-field label { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue); display: block; margin-bottom: 4px; }
+  .iter-field .iter-input { border: 1px solid var(--border); border-radius: 4px; background: #fff; padding: 6px 8px; width: 100%; min-height: 60px; resize: none; font-family: inherit; font-size: 10pt; color: #222; line-height: 1.5; display: block; }
+  .iter-field .iter-input.short { min-height: 34px; }
+  .iter-measurement { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0 12px; }
+  .meas-box { border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 10px; background: #fff; text-align: center; }
+  .meas-box .meas-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.05em; color: #888; display: block; margin-bottom: 4px; }
+  .meas-box .meas-value { font-size: 16pt; font-weight: 700; color: var(--blue); display: block; line-height: 1.1; }
+  .meas-box .meas-unit { font-size: 8pt; color: #999; }
+
+  /* REVISION BOX TABLE */
+  .revision-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 9.5pt; }
+  .revision-table th { background: var(--blue); color: #fff; padding: 6px 8px; text-align: left; font-size: 8.5pt; font-weight: 600; }
+  .revision-table td { border: 1px solid var(--border); padding: 6px 8px; vertical-align: top; height: 36px; }
+  .revision-table tr:nth-child(even) td { background: var(--blue-light); }
+
+  /* DIVIDER */
+  hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+
+  /* FOOTER */
+  .ws-footer { margin-top: 28px; padding-top: 10px; border-top: 2px solid var(--blue); display: flex; justify-content: space-between; font-size: 8.5pt; color: #888; }
+
+  @media print {
+    body { padding: 0.4in 0.6in; }
+    .write-area, .iter-input { border: 1px solid #aaa; }
+    .sketch-box, .view-inner { border: 1.5px dashed #999; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
+  <h1>Engineering Documentation,<br>Sketching &amp; the Paper Airplane Challenge</h1>
+  <div class="subtitle">Class 3 of 4 &nbsp;·&nbsp; 74 minutes</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><span class="meta-value">_______________________</span></div>
+  </div>
+</div>
+
+<div class="objectives-box">
+  <h3>Learning Objectives</h3>
+  <ol>
+    <li>Sketch an engineering object in at least two orthographic views with correct dimension labels, a title block, and a revision box.</li>
+    <li>Generate three design alternatives using proper engineering sketches, evaluate them with a decision matrix, and select one with documented rationale.</li>
+    <li>Apply the EDP (Class 2) and intentional design (Class 1) to a paper airplane design challenge — two objectives (distance and accuracy), three iterations each.</li>
+    <li>Document every design decision in notebook-quality entries: dated, signed, labeled, and reasoned.</li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 1 — SKETCHING STANDARDS
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 1 &nbsp;·&nbsp; Engineering Sketching Standards (15 min)</div>
+  <h2>How Engineers Draw: Orthographic Views, Dimensions &amp; Revision Boxes</h2>
+
+  <div class="reading-block">
+    <p>Engineering sketches are not art — they are communication. A sketch must be clear enough that someone who was not present could build exactly what you drew. Three standards make this possible:</p>
+    <p><span class="key-term">Orthographic views</span> show an object straight-on from one direction — no perspective, no foreshortening. You need at least a Front view and a Top view to describe a 3D object. Complex parts also need a Right Side view. Each view is a separate flat drawing, positioned in a standard arrangement.</p>
+    <p><span class="key-term">Dimension labels</span> show exact measurements. Every critical length, width, and height gets a dimension line with arrows and a number. Always write units (cm, mm, or inches). Never rotate dimension numbers — always write them horizontally so they can be read without turning the page.</p>
+    <p><span class="key-term">The title block and revision box</span> are your documentation record. The title block (bottom-right of a sketch) records: part name, designer name, date, and scale. The revision box (above the title block) tracks every change: Rev #, date, what changed, and initials. This is how engineers prove a design evolved intentionally — not accidentally.</p>
+  </div>
+
+  <div class="sketch-standard-box">
+    <div class="std-label">Sketching rules — memorize these</div>
+    <ul>
+      <li>Use a ruler for all dimension lines. Freehand sketch the part; rule the annotations.</li>
+      <li>Write dimension numbers horizontally — never rotate them 90°.</li>
+      <li>Always state units. "12" with no unit is not a valid dimension.</li>
+      <li>Every sketch must have a date, your name, and a title. No exceptions.</li>
+      <li>When you change a design, add a revision entry — do not erase the original.</li>
+      <li>The 3-sketches rule: always sketch at least 3 alternatives before choosing one.</li>
+    </ul>
+  </div>
+
+  <!-- I DO — Orthographic view modeling -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model multi-view sketching of an engineering object</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">Object:</span> A standard REV Robotics flat bracket — a rectangular metal plate with 4 holes, approximately 3 cm × 6 cm × 0.2 cm.</p>
+      <p><span class="think-prefix">Front view (what I draw first):</span> "I look straight at the flat face of the bracket. I see a rectangle, 6 cm wide and 3 cm tall. I sketch the outline, then add 4 small circles for the holes at the corners. I draw dimension lines: one horizontal arrow showing 6 cm across the top, one vertical arrow showing 3 cm on the left side. I label each dimension with the number and unit."</p>
+      <p><span class="think-prefix">Top view (looking straight down):</span> "Now I imagine looking straight down on the bracket from above. I see the same rectangle — but now I understand it's flat. The thickness (0.2 cm) shows as just a thin line. This view confirms the bracket is a plate, not a cube."</p>
+      <p><span class="think-prefix">Side view (looking at the thin edge):</span> "From the side, the bracket is just a thin line — 0.2 cm thick. This view communicates the thickness, which neither the front nor top view shows clearly."</p>
+      <p><span class="think-prefix">Title block and revision box:</span> "Bottom right: 'REV Flat Bracket · [my name] · [today's date] · Scale: 2:1'. Above it, the revision box. Rev 1: [date] — Initial sketch. If I later find the hole spacing was wrong, I'd add: Rev 2: [new date] — corrected hole spacing to 2.5 cm."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 1A — Sketch a REV bracket in at least two orthographic views</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">Your teacher will display a REV bracket. Sketch it below in at least Front and Top views. Label at least 3 dimensions on each view. Add a title block and revision box.</p>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Trace the bracket outline on the Front view template. Add 3 dimension labels with numbers and units.</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Freehand both Front and Top views. Add 3 dimensions per view. Include a complete title block.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>All three views (Front, Top, Side). Title block + revision box with one simulated revision entry. Add an isometric thumbnail sketch.</div>
+  </div>
+
+  <div class="three-col">
+    <div>
+      <div class="col-label">Front View</div>
+      <div class="view-box"><div class="view-inner v-tall">front view — sketch here</div></div>
+      <div class="dim-label">Dimension labels:</div>
+      <div class="dim-line"></div>
+      <div class="dim-line"></div>
+      <div class="dim-line"></div>
+    </div>
+    <div>
+      <div class="col-label">Top View</div>
+      <div class="view-box"><div class="view-inner v-tall">top view — sketch here</div></div>
+      <div class="dim-label">Dimension labels:</div>
+      <div class="dim-line"></div>
+      <div class="dim-line"></div>
+      <div class="dim-line"></div>
+    </div>
+    <div>
+      <div class="col-label">Side View / Isometric <span style="font-weight:400; color:#aaa;">(Proficient)</span></div>
+      <div class="view-box"><div class="view-inner v-tall">side view or isometric sketch</div></div>
+      <div class="dim-label">Thickness dimension:</div>
+      <div class="dim-line"></div>
+    </div>
+  </div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Title block (fill in below exactly as you would in a notebook):</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead>
+      <tr><th>Part name</th><th>Designer</th><th>Date</th><th>Scale</th><th>Sheet #</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Revision box (fill in Rev 1 as the initial sketch; simulate one change for Rev 2):</p>
+  <table class="revision-table">
+    <thead><tr><th style="width:10%">Rev #</th><th style="width:18%">Date</th><th>Description of change</th><th style="width:12%">Initials</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td></td><td>Initial sketch</td><td></td></tr>
+      <tr><td>2</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Why do engineers show an object in multiple views instead of just one perspective drawing?</p>
+  <textarea class="write-area" rows="2" placeholder="Each view reveals information that the other views cannot show. Specifically..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Why does changing a design require a new revision entry rather than just erasing and redrawing?</p>
+  <textarea class="write-area" rows="2" placeholder="Revision tracking matters because..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 2 — CHALLENGE SETUP
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 2 &nbsp;·&nbsp; Challenge Setup: Define, Research &amp; Multi-Objective Design (8 min)</div>
+  <h2>The Paper Airplane Challenge — Two Objectives, Three Iterations</h2>
+
+  <div class="reading-block">
+    <p><strong>The Challenge:</strong> Using one sheet of standard 8.5"×11" paper and no tape, no scissors, and no other materials, design and fold a paper airplane. You will run <strong>two separate sub-challenges</strong>, each with three iterations of one sheet of paper per attempt:</p>
+    <p><strong>Challenge A — Distance:</strong> Throw from a fixed launch line. Measure the distance from launch line to where the plane first touches the floor. Best of 3 throws per attempt counts.</p>
+    <p><strong>Challenge B — Accuracy:</strong> Throw at a target (a circle of 60 cm diameter on the floor, placed 4 meters from the launch line). Score = 3 pts if the plane lands inside, 1 pt if it hits the circle edge, 0 otherwise. Total score across 3 throws per attempt.</p>
+    <p>You will design separate planes for A and B — what makes a plane fly far is often different from what makes it fly accurately. This is your first encounter with <span class="key-term">multi-objective design</span>: optimizing for more than one goal simultaneously, or choosing which goal to prioritize.</p>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2A — Define both objectives and identify the design tension</span>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>What does success look like for each objective?</strong> Write success criteria in your own words:</p>
+  <div class="two-col">
+    <div>
+      <p style="font-size:9pt; font-weight:700; color:var(--blue); text-transform:uppercase; margin-bottom:4px;">Challenge A — Distance</p>
+      <textarea class="write-area" rows="3" placeholder="A successful distance plane is one that..."></textarea>
+    </div>
+    <div>
+      <p style="font-size:9pt; font-weight:700; color:var(--blue); text-transform:uppercase; margin-bottom:4px;">Challenge B — Accuracy</p>
+      <textarea class="write-area" rows="3" placeholder="A successful accuracy plane is one that..."></textarea>
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Design tension:</strong> Why might a design optimized for distance perform poorly on accuracy, and vice versa? Explain using at least one specific aerodynamic feature.</p>
+  <textarea class="write-area" rows="3" placeholder="A long-distance plane needs... while an accuracy plane needs... These features conflict because..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Research — what you know about paper airplane aerodynamics:</strong> Record at least 4 structural or aerodynamic insights that will affect your designs. (Think: wing shape, nose weight, aspect ratio, fold symmetry, dihedral angle, surface area.)</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:40%">What I know</th><th>How it affects distance</th><th>How it affects accuracy</th></tr></thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 3 — THREE DESIGN SKETCHES WITH FULL DOCUMENTATION
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 3 &nbsp;·&nbsp; Stage 3 — Ideate: Three Sketched Designs for Each Challenge (10 min)</div>
+  <h2>3 Designs × 2 Objectives = 6 Orthographic Sketches</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:10px;">For each challenge (distance, accuracy), sketch three different paper airplane designs using proper orthographic conventions: top view and front/side profile at minimum, labeled key features, and estimated dimensions. Then evaluate with a decision matrix and select one for each challenge.</p>
+
+  <!-- I DO — Design sketching -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model three distance-plane designs with engineering sketches</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">How I approach three genuinely different designs:</span> "I don't vary color or decoration — I vary the fundamental aerodynamic architecture. Three things I can fundamentally change: wing shape (aspect ratio — long/narrow vs. short/wide), nose weight distribution (heavy point vs. flat nose), and wing angle (flat vs. dihedral). Each combination gives a different plane character."</p>
+      <p><span class="think-prefix">Design D1 — Classic dart (distance):</span> Top view shows a long narrow triangle — high aspect ratio. Front view shows flat wings, sharply folded nose. Dimensions: total length ~27 cm, wingspan ~8 cm, nose angle ~20°. Advantage: cuts through air efficiently, fast and far. Weakness: sensitive to launch angle — small errors in throw angle cause large distance losses.</p>
+      <p><span class="think-prefix">Design D2 — Wide-wing glider (distance):</span> Top view shows broader delta wing — wingspan ~18 cm, length ~22 cm. Front view shows slight upward wing angle (dihedral ~15°). Advantage: more lift, glides longer even at lower speed. Weakness: needs a precise slow throw — a hard throw stalls it.</p>
+      <p><span class="think-prefix">Design D3 — Weighted nose dart (distance):</span> Top view is narrow like D1 but front multiple-fold nose concentrates weight at tip. Extra folds at the nose add ~3g of paper mass. Advantage: nose weight keeps trajectory flat, resists pitching up. Weakness: heavier, falls faster if not thrown hard enough to generate sufficient lift.</p>
+      <p><span class="think-prefix">My decision logic:</span> "I score D1=3, D2=2, D3=2 on distance potential; D1=1, D2=3, D3=2 on throw consistency; D1=2, D2=1, D3=3 on stability. D1 wins on raw potential but D3 wins on stability. For iteration 1 I choose D1 because I want to establish a performance baseline — I can always add nose weight later."</p>
+    </div>
+  </div>
+
+  <!-- DISTANCE PLANE DESIGNS -->
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 3A — Three distance plane designs with orthographic sketches</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">For each design: sketch a top view (showing wing shape from above) and a front/profile view (showing cross-section and wing angle). Label wingspan, length, and nose type. Record one predicted advantage and one predicted weakness.</p>
+
+  <div class="three-col">
+    <div>
+      <div class="col-label">Distance Design 1</div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Top view</p>
+      <div class="view-box"><div class="view-inner v-tall">top view — wing shape from above</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Profile / front view</p>
+      <div class="view-box"><div class="view-inner v-short">profile or front view</div></div>
+      <p style="font-size:8pt; color:#888; margin-bottom:2px;">Key dimensions:</p>
+      <div class="dim-line"></div>
+      <div class="dim-line"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin: 4px 0 2px;">Advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px;"></textarea>
+    </div>
+    <div>
+      <div class="col-label">Distance Design 2</div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Top view</p>
+      <div class="view-box"><div class="view-inner v-tall">top view — wing shape from above</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Profile / front view</p>
+      <div class="view-box"><div class="view-inner v-short">profile or front view</div></div>
+      <p style="font-size:8pt; color:#888; margin-bottom:2px;">Key dimensions:</p>
+      <div class="dim-line"></div>
+      <div class="dim-line"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin: 4px 0 2px;">Advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px;"></textarea>
+    </div>
+    <div>
+      <div class="col-label">Distance Design 3</div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Top view</p>
+      <div class="view-box"><div class="view-inner v-tall">top view — wing shape from above</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Profile / front view</p>
+      <div class="view-box"><div class="view-inner v-short">profile or front view</div></div>
+      <p style="font-size:8pt; color:#888; margin-bottom:2px;">Key dimensions:</p>
+      <div class="dim-line"></div>
+      <div class="dim-line"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin: 4px 0 2px;">Advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px;"></textarea>
+    </div>
+  </div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Distance plane — decision matrix <em style="font-weight:400; color:#777;">(rate 1–3: 1=poor, 2=ok, 3=good)</em></p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr><th style="width:36%">Criterion</th><th>Design 1</th><th>Design 2</th><th>Design 3</th></tr></thead>
+    <tbody>
+      <tr><td>Predicted distance potential</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Throw consistency (forgives bad throws)</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Structural stability in flight</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Ease of folding accurately</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-weight:600;">Total</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Selected distance design:</strong> Design _______ &nbsp;&nbsp; <strong>Reason:</strong></p>
+  <textarea class="write-area" rows="2" placeholder="I chose this design because... I expect its key advantage over the others to be..."></textarea>
+
+  <hr class="section-rule">
+
+  <!-- ACCURACY PLANE DESIGNS -->
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 3B — Three accuracy plane designs with orthographic sketches</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">For accuracy, you need predictability — the same throw should produce the same flight path every time. Sketch three designs that prioritize stability and repeatability, not maximum distance. Same conventions: top view + profile, labeled dimensions, advantage + weakness.</p>
+
+  <div class="three-col">
+    <div>
+      <div class="col-label">Accuracy Design 1</div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Top view</p>
+      <div class="view-box"><div class="view-inner v-tall">top view</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Profile / front view</p>
+      <div class="view-box"><div class="view-inner v-short">profile view</div></div>
+      <p style="font-size:8pt; color:#888; margin-bottom:2px;">Key dimensions:</p>
+      <div class="dim-line"></div>
+      <div class="dim-line"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin: 4px 0 2px;">Advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px;"></textarea>
+    </div>
+    <div>
+      <div class="col-label">Accuracy Design 2</div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Top view</p>
+      <div class="view-box"><div class="view-inner v-tall">top view</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Profile / front view</p>
+      <div class="view-box"><div class="view-inner v-short">profile view</div></div>
+      <p style="font-size:8pt; color:#888; margin-bottom:2px;">Key dimensions:</p>
+      <div class="dim-line"></div>
+      <div class="dim-line"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin: 4px 0 2px;">Advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px;"></textarea>
+    </div>
+    <div>
+      <div class="col-label">Accuracy Design 3</div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Top view</p>
+      <div class="view-box"><div class="view-inner v-tall">top view</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Profile / front view</p>
+      <div class="view-box"><div class="view-inner v-short">profile view</div></div>
+      <p style="font-size:8pt; color:#888; margin-bottom:2px;">Key dimensions:</p>
+      <div class="dim-line"></div>
+      <div class="dim-line"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin: 4px 0 2px;">Advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px;"></textarea>
+    </div>
+  </div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Accuracy plane — decision matrix</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr><th style="width:36%">Criterion</th><th>Design 1</th><th>Design 2</th><th>Design 3</th></tr></thead>
+    <tbody>
+      <tr><td>Flight path predictability / repeatability</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Resistance to drifting sideways</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Consistent glide angle (not too steep or flat)</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Ease of folding accurately and symmetrically</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-weight:600;">Total</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Selected accuracy design:</strong> Design _______ &nbsp;&nbsp; <strong>Reason:</strong></p>
+  <textarea class="write-area" rows="2" placeholder="I chose this design because... For accuracy, the most important feature is..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 4 — THREE ITERATIONS: CHALLENGE A — DISTANCE
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 4 &nbsp;·&nbsp; Challenge A — Distance: Build, Test &amp; Iterate × 3 (15 min)</div>
+  <h2>Three Rounds of Distance — Prototype → Test → Document → Iterate</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:14px;">Each round: fold your plane (4 min) → 3 throw attempts, record the best distance (2 min) → document results and revise your design sketch with the change you're making (1 min). One sheet of paper per round.</p>
+
+  <!-- DISTANCE ATTEMPT 1 -->
+  <div class="iteration-card">
+    <div class="iteration-header">
+      <span class="iter-num">Distance A1</span>
+      <span class="iter-title">Baseline — your selected design, built as sketched</span>
+      <span class="iter-badge">4 min fold · 2 min throw · 1 min record</span>
+    </div>
+    <div class="iteration-body">
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">As-built sketch — show how you folded it (top view + profile)</p>
+      <div class="two-col" style="margin-bottom:8px;">
+        <div>
+          <div class="col-label">Top view (as built)</div>
+          <div class="sketch-box medium">sketch here — label wingspan and length</div>
+        </div>
+        <div>
+          <div class="col-label">Profile / front view (as built)</div>
+          <div class="sketch-box medium">sketch here — label wing angle and nose type</div>
+        </div>
+      </div>
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Test results</p>
+      <div class="iter-measurement">
+        <div class="meas-box"><span class="meas-label">Throw 1 distance</span><span class="meas-value">____</span><span class="meas-unit">cm</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 2 distance</span><span class="meas-value">____</span><span class="meas-unit">cm</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 3 distance</span><span class="meas-value">____</span><span class="meas-unit">cm</span></div>
+        <div class="meas-box"><span class="meas-label">Best (A1)</span><span class="meas-value">____</span><span class="meas-unit">cm</span></div>
+      </div>
+      <div class="iter-grid">
+        <div class="iter-field"><label>How did it fly? Describe the flight path.</label><textarea class="iter-input" placeholder="It climbed then dove... It veered left... It was flat and straight..."></textarea></div>
+        <div class="iter-field"><label>What specific change will you make for A2?</label><textarea class="iter-input" placeholder="I will change... because the flight path showed that..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISTANCE ATTEMPT 2 -->
+  <div class="iteration-card">
+    <div class="iteration-header">
+      <span class="iter-num">Distance A2</span>
+      <span class="iter-title">Apply your first improvement</span>
+      <span class="iter-badge">4 min fold · 2 min throw · 1 min record</span>
+    </div>
+    <div class="iteration-body">
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Revised design sketch — annotate the change</p>
+      <div class="two-col" style="margin-bottom:8px;">
+        <div>
+          <div class="col-label">Top view (revised) — circle the change</div>
+          <div class="sketch-box medium">sketch here</div>
+        </div>
+        <div>
+          <div class="col-label">Profile view (revised)</div>
+          <div class="sketch-box medium">sketch here</div>
+        </div>
+      </div>
+      <div class="iter-grid">
+        <div class="iter-field"><label>What changed from A1?</label><textarea class="iter-input short" placeholder="I changed... from... to..."></textarea></div>
+        <div class="iter-field"><label>Why you expected this to help</label><textarea class="iter-input short" placeholder="This should improve distance because..."></textarea></div>
+      </div>
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Test results</p>
+      <div class="iter-measurement">
+        <div class="meas-box"><span class="meas-label">Throw 1</span><span class="meas-value">____</span><span class="meas-unit">cm</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 2</span><span class="meas-value">____</span><span class="meas-unit">cm</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 3</span><span class="meas-value">____</span><span class="meas-unit">cm</span></div>
+        <div class="meas-box"><span class="meas-label">Best (A2) vs A1</span><span class="meas-value">+/− ____</span><span class="meas-unit">cm</span></div>
+      </div>
+      <div class="iter-grid">
+        <div class="iter-field"><label>Did the change help? What happened?</label><textarea class="iter-input" placeholder="The change helped / didn't help because..."></textarea></div>
+        <div class="iter-field"><label>Change for A3</label><textarea class="iter-input" placeholder="For A3 I will change... because the data shows..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISTANCE ATTEMPT 3 -->
+  <div class="iteration-card">
+    <div class="iteration-header">
+      <span class="iter-num">Distance A3</span>
+      <span class="iter-title">Final distance build — best possible design</span>
+      <span class="iter-badge">4 min fold · 2 min throw · 1 min record</span>
+    </div>
+    <div class="iteration-body">
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Final design sketch — annotate all improvements</p>
+      <div class="two-col" style="margin-bottom:8px;">
+        <div>
+          <div class="col-label">Top view (final) — label all changes</div>
+          <div class="sketch-box medium">sketch here</div>
+        </div>
+        <div>
+          <div class="col-label">Profile view (final)</div>
+          <div class="sketch-box medium">sketch here</div>
+        </div>
+      </div>
+      <p style="font-size:9.5pt; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Test results</p>
+      <div class="iter-measurement">
+        <div class="meas-box"><span class="meas-label">Throw 1</span><span class="meas-value">____</span><span class="meas-unit">cm</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 2</span><span class="meas-value">____</span><span class="meas-unit">cm</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 3</span><span class="meas-value">____</span><span class="meas-unit">cm</span></div>
+        <div class="meas-box"><span class="meas-label">Best (A3) vs A1</span><span class="meas-value">+/− ____</span><span class="meas-unit">cm</span></div>
+      </div>
+      <div class="iter-grid">
+        <div class="iter-field"><label>What worked best in this attempt?</label><textarea class="iter-input" placeholder="The most effective feature was..."></textarea></div>
+        <div class="iter-field"><label>What would A4 change?</label><textarea class="iter-input" placeholder="If I had another attempt I would..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 5 — THREE ITERATIONS: CHALLENGE B — ACCURACY
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 5 &nbsp;·&nbsp; Challenge B — Accuracy: Build, Test &amp; Iterate × 3 (15 min)</div>
+  <h2>Three Rounds of Accuracy — Target: 60 cm circle at 4 m</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:14px;">Scoring: 3 pts = inside circle, 1 pt = on edge, 0 = miss. Record points for each of 3 throws per attempt. Max 9 pts per attempt.</p>
+
+  <!-- ACCURACY ATTEMPT 1 -->
+  <div class="iteration-card">
+    <div class="iteration-header">
+      <span class="iter-num">Accuracy B1</span>
+      <span class="iter-title">Baseline — your selected accuracy design, built as sketched</span>
+      <span class="iter-badge">4 min fold · 2 min throw · 1 min record</span>
+    </div>
+    <div class="iteration-body">
+      <div class="two-col" style="margin-bottom:8px;">
+        <div>
+          <div class="col-label">As-built top view — label wingspan and length</div>
+          <div class="sketch-box medium">sketch here</div>
+        </div>
+        <div>
+          <div class="col-label">Profile view — label wing angle</div>
+          <div class="sketch-box medium">sketch here</div>
+        </div>
+      </div>
+      <div class="iter-measurement">
+        <div class="meas-box"><span class="meas-label">Throw 1 pts</span><span class="meas-value">____</span><span class="meas-unit">/ 3</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 2 pts</span><span class="meas-value">____</span><span class="meas-unit">/ 3</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 3 pts</span><span class="meas-value">____</span><span class="meas-unit">/ 3</span></div>
+        <div class="meas-box"><span class="meas-label">Total (B1)</span><span class="meas-value">____</span><span class="meas-unit">/ 9</span></div>
+      </div>
+      <div class="iter-grid">
+        <div class="iter-field"><label>Where did the plane land? Describe the miss pattern.</label><textarea class="iter-input" placeholder="It consistently landed short / long / left / right because..."></textarea></div>
+        <div class="iter-field"><label>What specific change for B2?</label><textarea class="iter-input" placeholder="I will change... because the miss pattern suggests..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCURACY ATTEMPT 2 -->
+  <div class="iteration-card">
+    <div class="iteration-header">
+      <span class="iter-num">Accuracy B2</span>
+      <span class="iter-title">Apply your first accuracy improvement</span>
+      <span class="iter-badge">4 min fold · 2 min throw · 1 min record</span>
+    </div>
+    <div class="iteration-body">
+      <div class="two-col" style="margin-bottom:8px;">
+        <div>
+          <div class="col-label">Revised top view — circle the change</div>
+          <div class="sketch-box medium">sketch here</div>
+        </div>
+        <div>
+          <div class="col-label">Profile view (revised)</div>
+          <div class="sketch-box medium">sketch here</div>
+        </div>
+      </div>
+      <div class="iter-grid">
+        <div class="iter-field"><label>What changed from B1?</label><textarea class="iter-input short" placeholder="I changed... specifically to address the miss pattern of..."></textarea></div>
+        <div class="iter-field"><label>Why this should improve accuracy</label><textarea class="iter-input short" placeholder="This change should make the flight path more repeatable because..."></textarea></div>
+      </div>
+      <div class="iter-measurement">
+        <div class="meas-box"><span class="meas-label">Throw 1 pts</span><span class="meas-value">____</span><span class="meas-unit">/ 3</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 2 pts</span><span class="meas-value">____</span><span class="meas-unit">/ 3</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 3 pts</span><span class="meas-value">____</span><span class="meas-unit">/ 3</span></div>
+        <div class="meas-box"><span class="meas-label">Total (B2) vs B1</span><span class="meas-value">+/− ____</span><span class="meas-unit">pts</span></div>
+      </div>
+      <div class="iter-grid">
+        <div class="iter-field"><label>Did the change improve accuracy?</label><textarea class="iter-input" placeholder="The change helped / didn't help because..."></textarea></div>
+        <div class="iter-field"><label>Change for B3</label><textarea class="iter-input" placeholder="For B3 I will..."></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCURACY ATTEMPT 3 -->
+  <div class="iteration-card">
+    <div class="iteration-header">
+      <span class="iter-num">Accuracy B3</span>
+      <span class="iter-title">Final accuracy build — most predictable design</span>
+      <span class="iter-badge">4 min fold · 2 min throw · 1 min record</span>
+    </div>
+    <div class="iteration-body">
+      <div class="two-col" style="margin-bottom:8px;">
+        <div>
+          <div class="col-label">Final top view — label all changes</div>
+          <div class="sketch-box medium">sketch here</div>
+        </div>
+        <div>
+          <div class="col-label">Final profile view</div>
+          <div class="sketch-box medium">sketch here</div>
+        </div>
+      </div>
+      <div class="iter-measurement">
+        <div class="meas-box"><span class="meas-label">Throw 1 pts</span><span class="meas-value">____</span><span class="meas-unit">/ 3</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 2 pts</span><span class="meas-value">____</span><span class="meas-unit">/ 3</span></div>
+        <div class="meas-box"><span class="meas-label">Throw 3 pts</span><span class="meas-value">____</span><span class="meas-unit">/ 3</span></div>
+        <div class="meas-box"><span class="meas-label">Total (B3) vs B1</span><span class="meas-value">+/− ____</span><span class="meas-unit">pts</span></div>
+      </div>
+      <div class="iter-grid">
+        <div class="iter-field"><label>What feature most improved accuracy?</label><textarea class="iter-input" placeholder="The change that made the biggest difference was..."></textarea></div>
+        <div class="iter-field"><label>What would B4 change?</label><textarea class="iter-input" placeholder="If I had another attempt I would..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 6 — ANALYSIS, DOCUMENTATION & REFLECTION
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 6 &nbsp;·&nbsp; Analysis, Notebook Documentation &amp; Exit Reflection (6 min)</div>
+  <h2>Connect All Three Lessons</h2>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Results summary — both challenges:</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead>
+      <tr>
+        <th>Attempt</th>
+        <th>Distance best (cm)</th>
+        <th>Accuracy score (/9)</th>
+        <th>Key design change</th>
+        <th>Class 1/2 skill used</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>A1 / B1</td><td class="write-cell"></td><td class="write-cell"></td><td style="font-size:8.5pt; color:#aaa; font-style:italic;">Baseline</td><td class="write-cell"></td></tr>
+      <tr><td>A2 / B2</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>A3 / B3</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> In this challenge, engineering sketches weren't just homework — they were tools. How did sketching three designs before building change what you built compared to how you might have approached it without a sketch?</p>
+  <textarea class="write-area" rows="4" placeholder="Sketching first changed my approach because... A specific decision the sketch helped me make was..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> The distance and accuracy objectives required different designs. Name one design feature that helped distance but hurt accuracy, or vice versa. Explain the engineering trade-off.</p>
+  <textarea class="write-area" rows="3" placeholder="The feature that helped distance but hurt accuracy was... The trade-off is that..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Did your sketches accurately predict how the planes would perform? Name one prediction that was correct and one that was wrong. What does that tell you about the role of testing?</p>
+  <textarea class="write-area" rows="3" placeholder="I correctly predicted... I was wrong about... This shows that testing matters because..."></textarea>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Complete the results table and answer Q1 only. Use the word "sketch" and "intentional" in your answer.</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Answer all three questions. Calculate your improvement percentage for distance: (A3−A1)÷A1×100.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Answer all three questions with engineering vocabulary. Write one paragraph proposing a design for a theoretical Challenge C: combined score = distance ÷ 100 + accuracy points. How would you balance the objectives?</div>
+  </div>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry</div>
+    <p>Transfer your best-performing distance plane sketch (A3) and your best-performing accuracy plane sketch (B3) into your engineering notebook. Each sketch must have: (1) two orthographic views (top + profile) with labeled dimensions, (2) a complete title block (part name, your name, date, scale), (3) a revision box showing at least 2 revision entries tracking your design evolution, and (4) a 2–3 sentence caption explaining what design decisions most improved performance. Date and sign the entry.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>4.</strong> Self-assessment:</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:62%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr></thead>
+    <tbody>
+      <tr><td>I can sketch an object in two orthographic views with dimension labels</td><td></td><td></td><td></td></tr>
+      <tr><td>I evaluated three designs with a decision matrix before building</td><td></td><td></td><td></td></tr>
+      <tr><td>Every iteration has a sketch, measurements, and a documented change reason</td><td></td><td></td><td></td></tr>
+      <tr><td>My notebook sketches include a title block and revision box</td><td></td><td></td><td></td></tr>
+      <tr><td>I can connect today's work to intentional design (Class 1) and the EDP (Class 2)</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension / Exploration</div>
+    <p>Research GD&amp;T — Geometric Dimensioning &amp; Tolerancing — the system professional engineers use to specify not just a dimension but the acceptable variation (tolerance) around it. Find one GD&amp;T symbol and draw it in your notebook. Then consider: if your paper airplane wingspan was specified as "18 cm ±2 mm," how would that tolerance affect flight performance? Write 3 sentences in your notebook connecting tolerances to repeatable performance.</p>
+  </div>
+</div>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 1, Class 3</span>
+  <span>Engineering Documentation, Sketching &amp; Paper Airplane Challenge</span>
+  <span>Page 1 of 1</span>
+</div>
+
+</body>
+</html>
