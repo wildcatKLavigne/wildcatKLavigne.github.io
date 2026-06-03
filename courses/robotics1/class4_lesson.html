@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 4: Engineering Sketching & the REV Servo Claw Design Challenge</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue: #1a4f82;     --blue-light: #e8f0f9;
+    --green: #2d6a4f;    --green-light: #e8f4ee;
+    --amber: #7d4e00;    --amber-light: #fdf3e3;
+    --red: #8b1a1a;      --red-light: #fdf2f2;
+    --purple: #3d2a99;   --purple-light: #f0ecff;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 11pt; color: #222; background: #fff; max-width: 850px; margin: 0 auto; padding: 0.5in 0.75in; }
+
+  /* HEADER */
+  .ws-header { border-top: 5px solid var(--blue); padding-top: 14px; margin-bottom: 20px; }
+  .ws-header .course-label { font-size: 9pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); font-weight: 700; margin-bottom: 4px; }
+  .ws-header h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 22pt; color: #111; line-height: 1.2; margin-bottom: 4px; }
+  .ws-header .subtitle { font-size: 10pt; color: #666; margin-bottom: 14px; }
+  .ws-meta { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .ws-meta-item { padding: 8px 12px; border-right: 1px solid var(--border); }
+  .ws-meta-item:last-child { border-right: none; }
+  .ws-meta-item .meta-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 2px; }
+  .ws-meta-item .meta-value { font-size: 10pt; font-weight: 600; }
+
+  /* OBJECTIVES */
+  .objectives-box { background: var(--blue-light); border-left: 4px solid var(--blue); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin: 18px 0; }
+  .objectives-box h3 { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.07em; color: var(--blue); font-weight: 700; margin-bottom: 8px; }
+  .objectives-box ol { padding-left: 18px; margin: 0; }
+  .objectives-box li { font-size: 10pt; margin-bottom: 4px; color: #1a1a3a; }
+
+  /* REVIEW BADGES */
+  .review-badge { display: inline-block; font-size: 8pt; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue); border-radius: 100px; padding: 1px 8px; margin-left: 5px; vertical-align: middle; }
+  .review-callout { background: var(--blue-light); border: 1px solid #aac5e5; border-radius: var(--radius); padding: 8px 12px; margin-bottom: 12px; font-size: 9.5pt; color: #1a3055; line-height: 1.6; }
+  .review-callout strong { font-weight: 700; }
+
+  /* SECTION */
+  .section { margin-bottom: 22px; }
+  .section-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; color: var(--blue); margin-bottom: 6px; padding-bottom: 3px; border-bottom: 1.5px solid var(--blue-light); }
+  .section h2 { font-size: 13pt; font-weight: 700; color: #111; margin-bottom: 8px; }
+
+  /* READING */
+  .reading-block { background: var(--gray-light); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; font-size: 10.5pt; line-height: 1.7; color: #333; }
+  .reading-block p { margin-bottom: 10px; }
+  .reading-block p:last-child { margin-bottom: 0; }
+  .key-term { font-weight: 700; color: var(--blue); }
+
+  /* INPUTS */
+  .write-area { border: 1px solid var(--border); border-radius: var(--radius); width: 100%; min-height: 70px; display: block; background: transparent; resize: none; padding: 8px 10px; font-family: inherit; font-size: 10.5pt; color: #222; line-height: 1.6; margin-bottom: 14px; }
+
+  .sketch-box { border: 1.5px dashed #bbb; border-radius: var(--radius); width: 100%; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 9pt; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; }
+  .sketch-box.xl   { height: 280px; }
+  .sketch-box.tall { height: 200px; }
+  .sketch-box.medium { height: 150px; }
+  .sketch-box.short { height: 100px; }
+
+  /* TABLES */
+  .analysis-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 10pt; }
+  .analysis-table th { background: var(--green); color: #fff; padding: 8px 10px; text-align: left; font-size: 9pt; font-weight: 600; letter-spacing: 0.04em; }
+  .analysis-table td { border: 1px solid var(--border); padding: 6px 10px; vertical-align: top; }
+  .analysis-table tr:nth-child(even) td { background: var(--green-light); }
+  .analysis-table .write-cell { height: 50px; vertical-align: top; }
+
+  /* SCAFFOLD TABS */
+  .scaffold-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .scaffold-tab { border-radius: var(--radius); padding: 10px 12px; font-size: 9.5pt; }
+  .scaffold-tab .tab-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; margin-bottom: 5px; display: block; }
+  .scaffold-tab.novice { background: var(--green-light); }
+  .scaffold-tab.novice .tab-label { color: var(--green); }
+  .scaffold-tab.intermediate { background: var(--blue-light); }
+  .scaffold-tab.intermediate .tab-label { color: var(--blue); }
+  .scaffold-tab.proficient { background: var(--purple-light); }
+  .scaffold-tab.proficient .tab-label { color: var(--purple); }
+
+  /* NOTEBOOK */
+  .notebook-prompt { background: var(--amber-light); border-left: 4px solid #c8860a; border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 14px; }
+  .notebook-prompt .nb-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--amber); margin-bottom: 6px; }
+  .notebook-prompt p { font-size: 10.5pt; color: #3a2a00; line-height: 1.6; }
+
+  /* EXTENSION */
+  .extension-box { background: var(--purple-light); border: 1px solid #c5b8f5; border-radius: var(--radius); padding: 12px 16px; margin-top: 6px; }
+  .extension-box .ext-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--purple); margin-bottom: 6px; }
+  .extension-box p { font-size: 10pt; color: #2a1a55; line-height: 1.6; }
+
+  /* I DO / YOU DO */
+  .ido-section { border: 2px solid var(--red); border-radius: var(--radius); margin-bottom: 18px; overflow: hidden; }
+  .ido-header { background: var(--red); color: #fff; padding: 8px 14px; display: flex; align-items: center; gap: 10px; }
+  .ido-header .ido-badge { font-size: 9pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .ido-header .ido-title { font-size: 10.5pt; font-weight: 600; }
+  .ido-body { padding: 14px 16px; background: var(--red-light); }
+  .ido-body p { font-size: 10.5pt; line-height: 1.7; color: #3a1a1a; margin-bottom: 8px; }
+  .ido-body p:last-child { margin-bottom: 0; }
+  .ido-body .think-prefix { font-style: italic; color: #666; }
+
+  .ydo-header { background: var(--green); color: #fff; border-radius: var(--radius); padding: 7px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .ydo-header .ydo-badge { font-size: 9pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .ydo-header .ydo-title { font-size: 10.5pt; font-weight: 600; }
+
+  /* SKETCHING SPECIFIC */
+  .sketch-standard-box { border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--gray-light); padding: 10px 14px; margin-bottom: 14px; font-size: 10pt; line-height: 1.65; color: #333; }
+  .sketch-standard-box .std-label { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--blue); margin-bottom: 6px; }
+  .sketch-standard-box ul { padding-left: 16px; }
+  .sketch-standard-box li { margin-bottom: 3px; }
+
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .col-label { font-size: 9pt; color: #888; font-weight: 600; text-align: center; margin-bottom: 4px; }
+
+  .view-box { border: 1px solid var(--border); border-radius: var(--radius); background: #fff; padding: 4px; margin-bottom: 6px; }
+  .view-inner { border: 1.5px dashed #ccc; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 8pt; letter-spacing: 0.04em; text-transform: uppercase; }
+  .view-inner.v-tall   { height: 160px; }
+  .view-inner.v-medium { height: 120px; }
+  .view-inner.v-short  { height: 80px;  }
+
+  .dim-line  { border-bottom: 1px solid #bbb; margin: 4px 0 8px; }
+  .dim-label { font-size: 8pt; color: #888; margin-bottom: 3px; }
+
+  /* REVISION TABLE */
+  .revision-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 9.5pt; }
+  .revision-table th { background: var(--blue); color: #fff; padding: 6px 8px; text-align: left; font-size: 8.5pt; font-weight: 600; }
+  .revision-table td { border: 1px solid var(--border); padding: 6px 8px; vertical-align: top; height: 36px; }
+  .revision-table tr:nth-child(even) td { background: var(--blue-light); }
+
+  /* SERVO SPEC BOX */
+  .spec-box { border: 2px solid var(--blue); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; }
+  .spec-header { background: var(--blue); color: #fff; padding: 6px 12px; font-size: 9pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .spec-body { background: var(--blue-light); padding: 10px 12px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px 20px; font-size: 9.5pt; }
+  .spec-item .spec-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.05em; color: #555; display: block; }
+  .spec-item .spec-value { font-weight: 700; color: var(--blue); }
+
+  /* WEIGHTED MATRIX */
+  .weighted-badge { display: inline-block; font-size: 8pt; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple); border-radius: 100px; padding: 1px 8px; margin-left: 5px; vertical-align: middle; }
+
+  /* CHECKLIST */
+  .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 20px; margin-bottom: 14px; font-size: 10.5pt; }
+  .checklist label { display: flex; align-items: flex-start; gap: 8px; }
+  .checklist input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; }
+
+  /* DIVIDER */
+  hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+
+  /* FOOTER */
+  .ws-footer { margin-top: 28px; padding-top: 10px; border-top: 2px solid var(--blue); display: flex; justify-content: space-between; font-size: 8.5pt; color: #888; }
+
+  @media print {
+    body { padding: 0.4in 0.6in; }
+    .write-area, .iter-input { border: 1px solid #aaa; }
+    .sketch-box, .view-inner { border: 1.5px dashed #999; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
+  <h1>Engineering Documentation &amp; Sketching:<br>REV Servo Claw Design Challenge</h1>
+  <div class="subtitle">Class 4 of 5 &nbsp;·&nbsp; 74 minutes &nbsp;·&nbsp; Materials: REV Smart Robot Servo + available REV hardware</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><span class="meta-value">_______________________</span></div>
+  </div>
+</div>
+
+<div class="objectives-box">
+  <h3>Learning Objectives</h3>
+  <ol>
+    <li>Produce engineering drawings of a real mechanism using multi-view orthographic sketches, dimension labels, a title block, and a revision box — applying the sketching skills introduced in Class 3.</li>
+    <li>Generate three design alternatives for a REV servo-powered claw mechanism, evaluate them with a <em>weighted</em> decision matrix, and select one with fully documented rationale. <span class="review-badge">Reviews C1 trade-offs</span></li>
+    <li>Apply the Engineering Design Process — Define, Research, Ideate, Prototype sketch, Evaluate — to a constrained real-world engineering problem. <span class="review-badge">Reviews C2 EDP</span></li>
+    <li>Document the complete design journey in a notebook-quality entry: dated, signed, labeled, reasoned, and revision-tracked. <span class="review-badge">Reviews C1–C3</span></li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 1 — SKILLS REVIEW & THE WEIGHTED DECISION MATRIX
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 1 &nbsp;·&nbsp; Skills Review &amp; New Tool: The Weighted Decision Matrix (10 min)</div>
+  <h2>From Simple to Weighted Evaluation</h2>
+
+  <div class="reading-block">
+    <p>In Class 3, you used a simple decision matrix: rate each design 1–3 on each criterion and total the scores. This works — but it treats all criteria as equally important. In real engineering, some requirements matter more than others. A robot claw that is lightweight but can barely grip anything is worthless. A claw that grips perfectly but can't be attached to the robot is also worthless. These requirements don't have equal weight.</p>
+    <p>The <span class="key-term">weighted decision matrix</span> adds a multiplier to each criterion: the <strong>weight</strong>. You assign each criterion a weight (1–3, where 3 = most important). You still rate each design 1–3 on that criterion. Then you multiply: rating × weight = weighted score. Total all weighted scores to get the design's overall score. The design with the highest total wins — but only if the highest-weighted requirements are truly met.</p>
+    <p>This is a direct application of <span class="key-term">intentional design</span> (Class 1): a weighted matrix forces you to decide <em>what matters most before you pick a design</em> — rather than letting the numbers accidentally decide for you.</p>
+  </div>
+
+  <!-- I DO — Weighted matrix modeling -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model a weighted decision matrix on a simple example</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">Example problem:</span> "I need to choose a material for a robot bracket: aluminum, 3D-printed PLA, or thick cardboard. Three criteria matter: strength, weight, and ease of modification."</p>
+      <p><span class="think-prefix">Step 1 — Assign weights before rating:</span> "I weight strength = 3 (most critical — if it breaks we fail), weight = 2 (lighter is better but not critical), ease of modification = 1 (nice to have but least important). I must assign weights before I rate designs — if I rate first, I'll unconsciously bias the weights toward the design I already like."</p>
+      <p><span class="think-prefix">Step 2 — Rate each design:</span> "Aluminum: strength=3, weight=1, modification=1. PLA: strength=2, weight=2, modification=2. Cardboard: strength=1, weight=3, modification=3."</p>
+      <p><span class="think-prefix">Step 3 — Calculate weighted scores:</span> "Aluminum: (3×3)+(1×2)+(1×1) = 9+2+1 = 12. PLA: (2×3)+(2×2)+(2×1) = 6+4+2 = 12. Cardboard: (1×3)+(3×2)+(3×1) = 3+6+3 = 12. A tie — which means my weights and ratings are saying all three are equivalent. That's data: I need to re-examine whether my weight assignment reflects what actually matters."</p>
+      <p><span class="think-prefix">The key insight:</span> "The matrix is a tool to make your reasoning explicit and check it for consistency — not a magic answer generator. A tie means I need to think harder, not just pick randomly."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 1A — Practice: assign weights before you rate</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Complete this mini matrix for choosing between three methods of attaching a sensor to a robot frame: zip tie, velcro, and machine screw. Assign weights first (column 2), then rate each option.</p>
+
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead>
+      <tr>
+        <th style="width:28%">Criterion</th>
+        <th style="width:10%">Weight (1–3)</th>
+        <th>Zip tie<br><span style="font-weight:400; font-size:8pt;">rating × weight</span></th>
+        <th>Velcro<br><span style="font-weight:400; font-size:8pt;">rating × weight</span></th>
+        <th>Machine screw<br><span style="font-weight:400; font-size:8pt;">rating × weight</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Ease of installation</td><td></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Vibration resistance</td><td></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Ease of repositioning</td><td></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-weight:600;">Weighted Total</td><td></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Did the weighted matrix choose the same winner as a simple (unweighted) matrix would? If different, what does that tell you about which criterion was most influential?</p>
+  <textarea class="write-area" rows="3" placeholder="If I had used equal weights, the winner would have been... With weights, the winner is... The most influential criterion was... because..."></textarea>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Fill in the weight column using the sentence: "The most important criterion is ___ because if you get this wrong, ___."</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Complete the full matrix. For Q1, explain what it would mean if the weighted and unweighted matrices gave opposite answers.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Complete the matrix and Q1. Then write 2 sentences describing a scenario in which the "wrong" design wins a weighted matrix — and what that tells you about how to set weights carefully.</div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 2 — MEET THE REV SMART ROBOT SERVO
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 2 &nbsp;·&nbsp; Meet the Actuator: REV Smart Robot Servo (5 min)</div>
+  <h2>Your One Moving Part</h2>
+
+  <div class="reading-block">
+    <p>A <span class="key-term">servo motor</span> is different from a DC motor: it moves to a specific <em>position</em> and holds it, rather than spinning continuously. You command a servo with a position value (0°–270° for the REV Smart Robot Servo) and it drives to that angle and holds. This makes it ideal for a claw: command it to 0° to open, 90° to half-open, and 180° to closed. The servo provides the force; your mechanism converts that angular motion into the gripping action you need.</p>
+    <p>Your design must use exactly one REV Smart Robot Servo as the actuating force. You may use any REV structural components — extrusions, brackets, flat plates, servo blocks, motion hardware (gears, sprockets, chain, axles, pins) — from the class inventory to build the claw mechanism itself. You must also design a <em>mounting interface</em>: how the claw assembly attaches to a robot arm or structure. You are not designing the arm — only the claw and its mount point.</p>
+  </div>
+
+  <div class="spec-box">
+    <div class="spec-header">REV Smart Robot Servo — Key Specifications</div>
+    <div class="spec-body">
+      <div class="spec-item"><span class="spec-label">Range of motion</span><span class="spec-value">0° – 270°</span></div>
+      <div class="spec-item"><span class="spec-label">Stall torque</span><span class="spec-value">13.5 kg·cm</span></div>
+      <div class="spec-item"><span class="spec-label">No-load speed</span><span class="spec-value">0.14 sec / 60°</span></div>
+      <div class="spec-item"><span class="spec-label">Servo horn type</span><span class="spec-value">REV 5.5mm hex</span></div>
+      <div class="spec-item"><span class="spec-label">Control signal</span><span class="spec-value">PWM via Control Hub</span></div>
+      <div class="spec-item"><span class="spec-label">Operating voltage</span><span class="spec-value">5V (Control Hub powered)</span></div>
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> A servo has 13.5 kg·cm of stall torque. If your claw fingers are 6 cm long (measured from the servo horn to the fingertip), what is the maximum gripping force at the fingertip? Show your calculation.</p>
+  <textarea class="write-area" rows="3" placeholder="Torque = Force × distance, so Force = Torque ÷ distance = 13.5 kg·cm ÷ 6 cm = ___ kg = approximately ___ N. This means the claw can exert..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> If you need more gripping force but can't change the servo, what is the only mechanical option available to you? Explain the trade-off.</p>
+  <textarea class="write-area" rows="2" placeholder="To increase force I would need to... The trade-off is that..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 3 — DEFINE & RESEARCH
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 3 &nbsp;·&nbsp; EDP Stage 1 &amp; 2 — Define &amp; Research (8 min) <span class="review-badge">Reviews C2</span></div>
+  <h2>What Does a Good Claw Actually Need to Do?</h2>
+
+  <div class="review-callout"><strong>Class 2 connection — EDP Stage 1:</strong> Before sketching anything, define the problem precisely. What are the requirements? What are the constraints? What does success look like? Students who skip this step build the wrong thing correctly.</div>
+
+  <div class="reading-block">
+    <p>The claw will be used in an FTC-style game environment. It must be able to pick up and securely hold a foam cube (approximately 4 inches / ~10 cm on each side, weighing approximately 80 g). It must release the cube reliably on command. It must fit within a robot that starts inside an 18"×18" footprint and cannot extend beyond 42" height at start. It will be mounted to a robot arm (which you will design later) through a defined interface point.</p>
+    <p><strong>Non-negotiable requirements:</strong> Uses exactly one REV Smart Robot Servo. Grips a 10 cm foam cube reliably. Releases on command. Can be removed and reattached to the arm with basic tools. Total mechanism weight should be minimized — every gram on the end of an arm multiplies the load on the arm motor.</p>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 3A — Define: write the requirements and constraints formally</span>
+  </div>
+
+  <table class="analysis-table">
+    <thead><tr><th style="width:32%">Requirement / Constraint</th><th style="width:18%">Type</th><th>Specific value or description</th><th style="width:24%">Why it matters</th></tr></thead>
+    <tbody>
+      <tr><td>Actuator</td><td style="font-style:italic; color:#aaa;">constraint</td><td style="font-style:italic; color:#aaa;">1× REV Smart Robot Servo</td><td style="font-style:italic; color:#aaa;">class requirement</td></tr>
+      <tr><td>Target object size</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Grip reliability</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Release reliability</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Weight (minimize)</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Mounting interface</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Repairability</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><em>Add your own:</em></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 3B — Research: what you know about servo mechanisms and grasping</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Record at least four mechanical insights that will shape your designs. Think about claw types (parallel, scissor, finger), linkage types (direct-drive, 4-bar, rack-and-pinion), and material grip considerations (rigid, compliant fingertips).</p>
+
+  <table class="analysis-table">
+    <thead><tr><th style="width:40%">Mechanical insight</th><th>How it helps grip a foam cube</th><th style="width:28%">Potential downside to consider</th></tr></thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 4 — SET THE WEIGHTS BEFORE YOU SKETCH
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 4 &nbsp;·&nbsp; Set Your Evaluation Weights — Before Sketching (4 min)</div>
+  <h2>Decide What Matters Most Before You Design</h2>
+
+  <div class="review-callout"><strong>Class 1 connection — intentional design:</strong> Setting weights before sketching forces you to define success before you start designing. Engineers who skip this step unconsciously design for what's easiest to build — not what's most important to achieve.</div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 4A — Assign weights to your evaluation criteria now, before you sketch</span>
+  </div>
+
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">You will evaluate your three designs using these criteria. Assign a weight to each (1 = nice to have, 2 = important, 3 = critical). Your weights must total to at least 12. Justify each weight in the right column.</p>
+
+  <table class="analysis-table">
+    <thead><tr><th style="width:38%">Criterion</th><th style="width:12%">Weight (1–3)</th><th>Justification — why this weight?</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Grip reliability on a 10 cm foam cube</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Release reliability (clean release, no sticking)</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Minimal weight / mass at end of arm</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Simplicity / number of parts</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Mounting interface quality</strong><br><span style="font-size:8.5pt; color:#888;">(how cleanly it attaches to a robot arm)</span></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Repairability under time pressure</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-weight:600;">Weight total <span style="font-weight:400; font-size:9pt;">(minimum 12)</span></td><td class="write-cell"></td><td style="font-size:8.5pt; color:#888; font-style:italic;">If your total is below 12, raise at least one criterion's weight.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 5 — IDEATE: THREE ORTHOGRAPHIC DESIGN SKETCHES
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 5 &nbsp;·&nbsp; EDP Stage 3 — Ideate: Three Claw Designs with Full Orthographic Documentation (20 min)</div>
+  <h2>Three Genuinely Different Mechanisms — Drawn Like an Engineer</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:12px;">Each design must use the REV Smart Robot Servo as the sole actuator and must fit a 10 cm foam cube. Each sketch must include: (a) a top view and a front/side profile view, (b) labeled key dimensions (finger length, max open width, max closed width, overall height), (c) the servo location and orientation marked, and (d) the mounting interface point clearly labeled. <span class="review-badge">Class 3 sketching standards</span></p>
+
+  <!-- I DO — Claw design ideation -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model three genuinely different claw architectures</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">How I think about three DIFFERENT designs:</span> "Different means different mechanisms — not just different shapes of the same idea. Three fundamentally different ways a servo can drive a claw: (1) direct-drive: servo horn directly connects to one jaw, the other jaw is a mirror that moves via a linkage. (2) Rack-and-pinion: servo rotates a gear that drives two opposing racks, which push the fingers inward. (3) Single-actuated passive: servo drives one active finger; the other finger is spring-loaded (passive) and is pushed open by the servo — when servo releases, spring closes it."</p>
+      <p><span class="think-prefix">Design C1 — Direct-drive parallel jaw:</span> "Front view: two flat fingers, each 8 cm long, connected at a central pivot. Top view shows fingers are 1 cm wide, spread 12 cm open at max travel. Servo mounts at the top center. The horn attaches to one finger; a link rod connects that finger to the mirror finger so they open and close symmetrically. Mounting: a flat REV plate with 4 bolt holes on the back of the servo block — any arm can bolt to this. Advantage: simple, few parts, symmetric grip. Weakness: parallel-jaw design means the fingers touch the cube only at two points — the cube can rotate/slip sideways."</p>
+      <p><span class="think-prefix">Design C2 — 4-bar scissor linkage:</span> "A crossed 4-bar linkage converts the servo's rotation into the finger closing motion. The fingers approach the cube at an angle, wrapping around it rather than squeezing from two sides. Front view shows an X-shaped linkage. Servo mounts to one pivot. Advantage: wrap-around grip is far more secure, especially for foam which compresses. Weakness: 4-bar requires precise fabrication of the link lengths — if any link is off, the mechanism binds."</p>
+      <p><span class="think-prefix">Design C3 — Three-finger compliant claw:</span> "Three fingers arranged 120° apart. Servo drives all three simultaneously through a central disk-to-finger linkage. Each finger has a rubber-tipped end for friction. Top view shows a Y-shape. When servo rotates, the disk pushes all three fingers inward. Advantage: three contact points distribute the load — the cube can't escape. Weakness: 3× the linkage complexity. Much heavier than C1 or C2."</p>
+      <p><span class="think-prefix">Why I sketch before evaluating:</span> "Notice that I don't compare these while sketching. I sketch first, then evaluate. The moment I start comparing, I stop generating new ideas — I anchor on the first design I liked."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 5A — Three claw design sketches with full orthographic documentation</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">Produce three genuinely different claw architectures. Different mechanism type, not just different shapes. For each design include both a top view and a front/side profile. Label all critical dimensions and mark the servo location, the mounting interface point, and the target object (draw the 10 cm cube lightly in dashed lines to show how the claw would grip it).</p>
+
+  <!-- DESIGN C1 -->
+  <div style="border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 16px; background: var(--gray-light);">
+    <p style="font-size:10pt; font-weight:700; color:var(--blue); margin-bottom: 10px;">Design C1 — Claw Architecture:</p>
+    <div class="two-col">
+      <div>
+        <div class="col-label">Top view — label finger spread (open & closed) and servo position</div>
+        <div class="view-box"><div class="view-inner v-tall">top view: show fingers from above, label max open width, max closed width, servo location</div></div>
+      </div>
+      <div>
+        <div class="col-label">Front / profile view — label height, finger length, and mount point</div>
+        <div class="view-box"><div class="view-inner v-tall">front or side view: show profile, label overall height, finger length, mounting interface (⊠)</div></div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:8px;">
+      <div><div class="dim-label">Mechanism type:</div><div class="dim-line"></div></div>
+      <div><div class="dim-label">REV parts needed (list):</div><div class="dim-line"></div></div>
+      <div><div class="dim-label">Est. total mass:</div><div class="dim-line"></div></div>
+    </div>
+    <div class="two-col" style="margin-bottom:0;">
+      <div><p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:3px;">Predicted advantage:</p><textarea class="write-area" rows="2" style="min-height:40px;"></textarea></div>
+      <div><p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:3px;">Predicted weakness:</p><textarea class="write-area" rows="2" style="min-height:40px;"></textarea></div>
+    </div>
+  </div>
+
+  <!-- DESIGN C2 -->
+  <div style="border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 16px; background: var(--gray-light);">
+    <p style="font-size:10pt; font-weight:700; color:var(--blue); margin-bottom: 10px;">Design C2 — Claw Architecture:</p>
+    <div class="two-col">
+      <div>
+        <div class="col-label">Top view</div>
+        <div class="view-box"><div class="view-inner v-tall">top view</div></div>
+      </div>
+      <div>
+        <div class="col-label">Front / profile view</div>
+        <div class="view-box"><div class="view-inner v-tall">front or side view</div></div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:8px;">
+      <div><div class="dim-label">Mechanism type:</div><div class="dim-line"></div></div>
+      <div><div class="dim-label">REV parts needed (list):</div><div class="dim-line"></div></div>
+      <div><div class="dim-label">Est. total mass:</div><div class="dim-line"></div></div>
+    </div>
+    <div class="two-col" style="margin-bottom:0;">
+      <div><p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:3px;">Predicted advantage:</p><textarea class="write-area" rows="2" style="min-height:40px;"></textarea></div>
+      <div><p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:3px;">Predicted weakness:</p><textarea class="write-area" rows="2" style="min-height:40px;"></textarea></div>
+    </div>
+  </div>
+
+  <!-- DESIGN C3 -->
+  <div style="border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 16px; background: var(--gray-light);">
+    <p style="font-size:10pt; font-weight:700; color:var(--blue); margin-bottom: 10px;">Design C3 — Claw Architecture:</p>
+    <div class="two-col">
+      <div>
+        <div class="col-label">Top view</div>
+        <div class="view-box"><div class="view-inner v-tall">top view</div></div>
+      </div>
+      <div>
+        <div class="col-label">Front / profile view</div>
+        <div class="view-box"><div class="view-inner v-tall">front or side view</div></div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:8px;">
+      <div><div class="dim-label">Mechanism type:</div><div class="dim-line"></div></div>
+      <div><div class="dim-label">REV parts needed (list):</div><div class="dim-line"></div></div>
+      <div><div class="dim-label">Est. total mass:</div><div class="dim-line"></div></div>
+    </div>
+    <div class="two-col" style="margin-bottom:0;">
+      <div><p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:3px;">Predicted advantage:</p><textarea class="write-area" rows="2" style="min-height:40px;"></textarea></div>
+      <div><p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:3px;">Predicted weakness:</p><textarea class="write-area" rows="2" style="min-height:40px;"></textarea></div>
+    </div>
+  </div>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Your three designs may be different claw shapes (e.g., wide vs. narrow fingers). Focus on getting two views and labeled dimensions for each. Your designs don't need to include a linkage detail.</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Three genuinely different mechanism types. Both views with all labeled dimensions. Mark servo and mounting interface clearly on every sketch.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Three mechanism types. Full orthographic documentation. Show the target object (dashed 10 cm cube) in each sketch to confirm the claw would actually fit. Annotate the force path: which direction does the servo torque travel through the mechanism to become grip force?</div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 6 — EVALUATE: WEIGHTED DECISION MATRIX
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 6 &nbsp;·&nbsp; EDP Stage 3 Continued — Evaluate &amp; Select with the Weighted Matrix (8 min)</div>
+  <h2>Let Your Pre-Set Weights Do the Work</h2>
+
+  <div class="review-callout"><strong>Class 1 &amp; 3 connection:</strong> You are applying intentional design (every choice has a reason) and the decision matrix from Class 3 — now with weights. The weights you set in Part 4 before sketching are non-negotiable here. Don't change them now that you have designs in front of you.</div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 6A — Complete the weighted decision matrix using your Part 4 weights</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Transfer your weights from Part 4. Rate each design 1–3 on each criterion. Calculate: rating × weight = weighted score. Total each column.</p>
+
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead>
+      <tr>
+        <th style="width:32%">Criterion</th>
+        <th style="width:8%">Weight<br><span style="font-weight:400; font-size:8pt;">(from P4)</span></th>
+        <th>Design C1<br><span style="font-weight:400; font-size:8pt;">rating × wt</span></th>
+        <th>Design C2<br><span style="font-weight:400; font-size:8pt;">rating × wt</span></th>
+        <th>Design C3<br><span style="font-weight:400; font-size:8pt;">rating × wt</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Grip reliability on 10 cm foam cube</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Release reliability</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Minimal weight / mass at end of arm</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Simplicity / number of parts</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Mounting interface quality</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Repairability under time pressure</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-weight:600;">Weighted Total</td><td></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Selected design: C___</strong> &nbsp;&nbsp; <strong>Matrix score: ___</strong></p>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Selection rationale</strong> — write 3–4 sentences explaining your choice. Reference your highest-weighted criterion and explain how your selected design best meets it. Acknowledge the trade-off your selected design accepts.</p>
+  <textarea class="write-area" rows="5" placeholder="I selected Design C__ with a weighted score of ___. My highest-weighted criterion was [criterion] with a weight of ___. Design C__ earned the highest score on this criterion because... The trade-off I am accepting with this choice is... I judged this acceptable because..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Did the matrix winner match your intuitive preference before running the numbers? If they differed, which one do you trust more — and why?</p>
+  <textarea class="write-area" rows="3" placeholder="Before running the matrix I intuitively preferred Design C__ because... The matrix chose Design C__. They (agreed / disagreed) because..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 7 — FINAL DESIGN DRAWING: FULL DOCUMENTATION
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 7 &nbsp;·&nbsp; Final Design Drawing — Notebook-Quality Entry (12 min)</div>
+  <h2>Produce the Engineering Drawing for Your Selected Design</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:12px;">Your selected design now gets a complete, clean engineering drawing. This is the drawing someone else would use to build your claw. It must meet all Class 3 documentation standards: multiple orthographic views, labeled dimensions, title block, and revision box.</p>
+
+  <!-- I DO — Final drawing standards -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model a complete final engineering drawing of the claw</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">What a final drawing must include that a sketch doesn't:</span> "The ideation sketches from Part 5 were rough — fast, focused on concept, with approximate dimensions. The final drawing is precise: dimensions come from actual REV part measurements, not estimates. I look up the servo horn diameter (5.5 mm hex), the bracket hole spacing (8 mm), and the extrusion width (15 mm) before drawing. Every critical dimension is a real number."</p>
+      <p><span class="think-prefix">Three views minimum for a mechanism:</span> "For the claw I draw: (1) Top view — shows finger spread from above, servo orientation, overall width. (2) Front view — shows height, finger length, how servo connects to linkage. (3) Side view — shows depth, mounting interface profile. Each view shows different information. No single view shows the whole mechanism."</p>
+      <p><span class="think-prefix">Mounting interface detail:</span> "I draw a separate, enlarged detail view of the mounting interface — how the claw assembly attaches to the arm. I label: bolt pattern (e.g., 4× M3 × 8 mm screws in an REV bracket pattern), the interface plane (the flat surface that mates against the arm), and a note: 'INTERFACE: standard REV flat bracket, 48 mm × 48 mm hole pattern.'"</p>
+      <p><span class="think-prefix">Revision box — starting from scratch:</span> "Rev 1 is today's date. The description is 'Initial design — direct-drive parallel jaw claw for 10 cm foam cube target. Three views. Interface: REV flat bracket.' My initials. If next week I change the finger length, that's Rev 2."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 7A — Complete engineering drawing of your selected claw design</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">Draw your selected design below with full engineering documentation. This drawing should be clear enough that a teammate who wasn't present today could build it from these drawings alone.</p>
+
+  <!-- Three-view drawing area -->
+  <div class="three-col" style="margin-bottom: 8px;">
+    <div>
+      <div class="col-label">Top View — label all widths</div>
+      <div class="view-box"><div class="view-inner v-tall">top view: fingers from above, servo position, max open/closed widths, overall dimensions</div></div>
+      <div class="dim-label">Key dimensions labeled:</div>
+      <div class="dim-line"></div><div class="dim-line"></div>
+    </div>
+    <div>
+      <div class="col-label">Front View — label all heights &amp; lengths</div>
+      <div class="view-box"><div class="view-inner v-tall">front view: finger length, mechanism height, servo mount location, overall envelope</div></div>
+      <div class="dim-label">Key dimensions labeled:</div>
+      <div class="dim-line"></div><div class="dim-line"></div>
+    </div>
+    <div>
+      <div class="col-label">Side View — label depth &amp; interface</div>
+      <div class="view-box"><div class="view-inner v-tall">side view: depth, mounting interface (⊠ mark), bolt pattern or attachment method</div></div>
+      <div class="dim-label">Key dimensions labeled:</div>
+      <div class="dim-line"></div><div class="dim-line"></div>
+    </div>
+  </div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Mounting interface detail — enlarged view:</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Draw an enlarged view of the interface between your claw assembly and the robot arm. Label: bolt pattern, interface dimensions, and the type of REV hardware used (bracket type, extrusion size, etc.).</p>
+  <div class="view-box" style="margin-bottom:10px;"><div class="view-inner" style="height:130px;">enlarged mounting interface detail — label bolt pattern, interface dimensions, REV hardware type</div></div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Title block:</p>
+  <table class="analysis-table" style="font-size:9.5pt; margin-bottom:10px;">
+    <thead><tr><th>Drawing title</th><th>Designer</th><th>Date</th><th>Scale</th><th>Sheet #</th><th>Checked by</th></tr></thead>
+    <tbody><tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr></tbody>
+  </table>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Revision box:</p>
+  <table class="revision-table">
+    <thead><tr><th style="width:9%">Rev</th><th style="width:16%">Date</th><th>Description of change or initial entry</th><th style="width:10%">Initials</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td></td><td style="font-size:9pt; color:#aaa; font-style:italic;">Initial design — [brief description of your mechanism and target object]</td><td></td></tr>
+      <tr><td>2</td><td></td><td></td><td></td></tr>
+      <tr><td>3</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Parts list — what you would need to build this design:</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr><th style="width:8%">Qty</th><th>REV part name / description</th><th style="width:20%">Part # (if known)</th><th style="width:20%">Role in the mechanism</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td style="font-style:italic; color:#aaa;">REV Smart Robot Servo</td><td style="font-style:italic; color:#aaa;">REV-41-1097</td><td style="font-style:italic; color:#aaa;">Primary actuator</td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 8 — NOTEBOOK ENTRY, ANALYSIS & REFLECTION
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 8 &nbsp;·&nbsp; Notebook Entry, Cross-Lesson Analysis &amp; Exit Reflection (7 min)</div>
+  <h2>Document the Full Design Journey</h2>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry Requirements</div>
+    <p>Transfer your final claw drawing into your engineering notebook — the three-view drawing, the mounting interface detail, the title block, the revision box (Rev 1 = initial entry), and the parts list. Below the drawing, write a 2–3 sentence <em>design rationale</em>: which criterion drove your decision, what trade-off you accepted, and what you would change if you could redesign it tomorrow. Date and sign the entry.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:8px;"><strong>Notebook entry checklist:</strong></p>
+  <div class="checklist">
+    <label><input type="checkbox"> Three-view drawing with all dimensions labeled</label>
+    <label><input type="checkbox"> Mounting interface detail view with bolt pattern</label>
+    <label><input type="checkbox"> Title block (title, designer, date, scale)</label>
+    <label><input type="checkbox"> Revision box with Rev 1 entry</label>
+    <label><input type="checkbox"> Parts list with quantities</label>
+    <label><input type="checkbox"> Design rationale paragraph (2–3 sentences)</label>
+    <label><input type="checkbox"> Date and full name signed at top of entry</label>
+    <label><input type="checkbox"> Page number at bottom of entry</label>
+    <label><input type="checkbox"> Table of contents updated</label>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> You used a weighted decision matrix today instead of a simple one from Class 3. Name one specific instance where the weighting changed the outcome — or, if the winner was the same, explain why you think the weights didn't change the outcome in this particular case.</p>
+  <textarea class="write-area" rows="4" placeholder="The weighting (did / did not) change the winner compared to a simple matrix because... The criterion with the biggest impact was [criterion] with weight [w]. If I had weighted [different criterion] higher, the winner would have been..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Look at your final claw drawing. Name one dimension or design decision that was <em>intentional</em> (from Class 1 vocabulary) — you had a specific engineering reason for it. Explain that reason.</p>
+  <textarea class="write-area" rows="3" placeholder="One intentional design decision in my claw is... The engineering reason for this choice is... I rejected the alternative approach of... because..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Self-assessment:</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:62%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr></thead>
+    <tbody>
+      <tr><td>I produced three genuinely different claw designs with full orthographic sketches</td><td></td><td></td><td></td></tr>
+      <tr><td>Every sketch has labeled dimensions, servo position, and mounting interface marked</td><td></td><td></td><td></td></tr>
+      <tr><td>I set weights before sketching and used them without changing them after</td><td></td><td></td><td></td></tr>
+      <tr><td>My final drawing has three views, a title block, revision box, and parts list</td><td></td><td></td><td></td></tr>
+      <tr><td>I can explain my selection using the matrix score and engineering trade-off language</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension / Exploration</div>
+    <p>Research GD&amp;T (Geometric Dimensioning &amp; Tolerancing) — the formal standard professional engineers use to specify not just dimensions but allowable variation (tolerances). Find one GD&amp;T symbol and draw it in your notebook. Then apply it to your claw design: pick one critical dimension (e.g., the gap between fingers when "closed") and write a GD&amp;T-style tolerance specification for it. Explain in 2 sentences what would go wrong if that dimension were off by more than your stated tolerance.</p>
+  </div>
+</div>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 1, Class 4</span>
+  <span>Engineering Documentation &amp; REV Servo Claw Design</span>
+  <span>Page 1 of 1</span>
+</div>
+
+</body>
+</html>
