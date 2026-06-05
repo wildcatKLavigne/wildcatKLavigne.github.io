@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 6: Roles, Responsibilities & Team Norms</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue:#1a4f82;     --blue-light:#e8f0f9;
+    --green:#2d6a4f;    --green-light:#e8f4ee;
+    --amber:#7d4e00;    --amber-light:#fdf3e3;
+    --red:#8b1a1a;      --red-light:#fdf2f2;
+    --orange:#8c3a00;   --orange-light:#fef0e7;
+    --purple:#3d2a99;   --purple-light:#f0ecff;
+    --gray-light:#f5f5f3;
+    --border:#d0d0cc;
+    --radius:6px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#222;background:#fff;max-width:850px;margin:0 auto;padding:0.5in 0.75in;}
+
+  .ws-header{border-top:5px solid var(--orange);padding-top:14px;margin-bottom:20px;}
+  .ws-header .course-label{font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:4px;}
+  .ws-header h1{font-family:'Source Serif 4',Georgia,serif;font-size:22pt;color:#111;line-height:1.2;margin-bottom:4px;}
+  .ws-header .subtitle{font-size:10pt;color:#666;margin-bottom:14px;}
+  .ws-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .ws-meta-item{padding:8px 12px;border-right:1px solid var(--border);}
+  .ws-meta-item:last-child{border-right:none;}
+  .ws-meta-item .meta-label{font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:2px;}
+  .ws-meta-item .meta-value{font-size:10pt;font-weight:600;}
+
+  .objectives-box{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin:18px 0;}
+  .objectives-box h3{font-size:9pt;text-transform:uppercase;letter-spacing:.07em;color:var(--orange);font-weight:700;margin-bottom:8px;}
+  .objectives-box ol{padding-left:18px;margin:0;}
+  .objectives-box li{font-size:10pt;margin-bottom:4px;color:#3a1a00;}
+
+  .review-callout{background:var(--blue-light);border:1px solid #aac5e5;border-radius:var(--radius);padding:8px 12px;margin-bottom:12px;font-size:9.5pt;color:#1a3055;line-height:1.6;}
+  .review-callout strong{font-weight:700;}
+  .review-badge{display:inline-block;font-size:8pt;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:var(--blue-light);color:var(--blue);border:1px solid var(--blue);border-radius:100px;padding:1px 8px;margin-left:5px;vertical-align:middle;}
+
+  .section{margin-bottom:22px;}
+  .section-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--orange);margin-bottom:6px;padding-bottom:3px;border-bottom:1.5px solid var(--orange-light);}
+  .section h2{font-size:13pt;font-weight:700;color:#111;margin-bottom:8px;}
+
+  .reading-block{background:var(--gray-light);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.7;color:#333;}
+  .reading-block p{margin-bottom:10px;}
+  .reading-block p:last-child{margin-bottom:0;}
+  .key-term{font-weight:700;color:var(--orange);}
+
+  .write-area{border:1px solid var(--border);border-radius:var(--radius);width:100%;min-height:70px;display:block;background:transparent;resize:none;padding:8px 10px;font-family:inherit;font-size:10.5pt;color:#222;line-height:1.6;margin-bottom:14px;}
+
+  .analysis-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:10pt;}
+  .analysis-table th{background:var(--orange);color:#fff;padding:8px 10px;text-align:left;font-size:9pt;font-weight:600;letter-spacing:.04em;}
+  .analysis-table td{border:1px solid var(--border);padding:6px 10px;vertical-align:top;}
+  .analysis-table tr:nth-child(even) td{background:var(--orange-light);}
+  .analysis-table .write-cell{height:50px;vertical-align:top;}
+
+  .scaffold-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+  .scaffold-tab{border-radius:var(--radius);padding:10px 12px;font-size:9.5pt;}
+  .scaffold-tab .tab-label{font-size:8pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:5px;display:block;}
+  .scaffold-tab.novice{background:var(--green-light);}
+  .scaffold-tab.novice .tab-label{color:var(--green);}
+  .scaffold-tab.intermediate{background:var(--blue-light);}
+  .scaffold-tab.intermediate .tab-label{color:var(--blue);}
+  .scaffold-tab.proficient{background:var(--purple-light);}
+  .scaffold-tab.proficient .tab-label{color:var(--purple);}
+
+  .notebook-prompt{background:var(--amber-light);border-left:4px solid #c8860a;border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:14px;}
+  .notebook-prompt .nb-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--amber);margin-bottom:6px;}
+  .notebook-prompt p{font-size:10.5pt;color:#3a2a00;line-height:1.6;}
+
+  .extension-box{background:var(--purple-light);border:1px solid #c5b8f5;border-radius:var(--radius);padding:12px 16px;margin-top:6px;}
+  .extension-box .ext-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--purple);margin-bottom:6px;}
+  .extension-box p{font-size:10pt;color:#2a1a55;line-height:1.6;}
+
+  .ido-section{border:2px solid var(--red);border-radius:var(--radius);margin-bottom:18px;overflow:hidden;}
+  .ido-header{background:var(--red);color:#fff;padding:8px 14px;display:flex;align-items:center;gap:10px;}
+  .ido-header .ido-badge{font-size:9pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:100px;}
+  .ido-header .ido-title{font-size:10.5pt;font-weight:600;}
+  .ido-body{padding:14px 16px;background:var(--red-light);}
+  .ido-body p{font-size:10.5pt;line-height:1.7;color:#3a1a1a;margin-bottom:8px;}
+  .ido-body p:last-child{margin-bottom:0;}
+  .ido-body .think-prefix{font-style:italic;color:#666;}
+
+  .ydo-header{background:var(--green);color:#fff;border-radius:var(--radius);padding:7px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+  .ydo-header .ydo-badge{font-size:9pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:100px;}
+  .ydo-header .ydo-title{font-size:10.5pt;font-weight:600;}
+
+  /* ROLE CARDS */
+  .role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+  .role-card{border-radius:var(--radius);border:2px solid var(--orange);overflow:hidden;}
+  .role-card-header{background:var(--orange);color:#fff;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+  .role-icon{font-size:14pt;}
+  .role-name{font-size:11pt;font-weight:700;}
+  .role-card-body{padding:10px 12px;background:var(--orange-light);}
+  .role-card-body .responsibility-list{list-style:none;font-size:10pt;line-height:1.7;color:#3a1a00;}
+  .role-card-body .responsibility-list li{display:flex;align-items:baseline;gap:5px;}
+  .role-card-body .responsibility-list li::before{content:'→';color:var(--orange);font-size:9pt;flex-shrink:0;}
+  .role-card-body .flapper-note{font-size:9.5pt;color:var(--orange);font-weight:600;margin-top:8px;border-top:1px solid #d9946b;padding-top:6px;}
+
+  /* SKETCH AREAS */
+  .sketch-box{border:1.5px dashed #bbb;border-radius:var(--radius);width:100%;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:9pt;letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px;}
+  .sketch-box.xl{height:280px;}
+  .sketch-box.tall{height:200px;}
+  .sketch-box.medium{height:150px;}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+  .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+  .col-label{font-size:9pt;color:#888;font-weight:600;text-align:center;margin-bottom:4px;}
+  .view-box{border:1px solid var(--border);border-radius:var(--radius);background:#fff;padding:4px;margin-bottom:6px;}
+  .view-inner{border:1.5px dashed #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:8pt;letter-spacing:.04em;text-transform:uppercase;}
+  .view-inner.v-tall{height:160px;}
+  .view-inner.v-medium{height:110px;}
+
+  /* CHARTER */
+  .charter-box{border:2px solid var(--orange);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;}
+  .charter-header{background:var(--orange);color:#fff;padding:10px 16px;font-size:11pt;font-weight:700;}
+  .charter-body{padding:14px 16px;background:#fffaf7;}
+  .charter-field{margin-bottom:12px;}
+  .charter-field label{font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--orange);display:block;margin-bottom:4px;}
+  .charter-field .field-input{border:1px solid var(--border);border-radius:4px;width:100%;min-height:40px;background:#fff;padding:6px 8px;font-family:inherit;font-size:10pt;line-height:1.5;display:block;resize:none;}
+  .charter-field .field-input.tall{min-height:60px;}
+  .charter-sig{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;}
+  .sig-block{border:1px solid var(--border);border-radius:4px;padding:8px;background:#fff;text-align:center;}
+  .sig-block .sig-label{font-size:8pt;color:#888;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:4px;}
+  .sig-block .sig-line{border-bottom:1px solid #aaa;height:28px;}
+
+  hr.section-rule{border:none;border-top:1px solid var(--border);margin:22px 0;}
+  .ws-footer{margin-top:28px;padding-top:10px;border-top:2px solid var(--orange);display:flex;justify-content:space-between;font-size:8.5pt;color:#888;}
+  @media print{body{padding:.4in .6in;}.write-area,.field-input{border:1px solid #aaa;}.sketch-box,.view-inner{border:1.5px dashed #999;}}
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management</div>
+  <h1>Roles, Responsibilities &amp; Team Norms</h1>
+  <div class="subtitle">Class 6 of 40 &nbsp;·&nbsp; Unit 2, Class 1 of 3 &nbsp;·&nbsp; 74 minutes &nbsp;·&nbsp; Activity: Rotary Intake Flapper Design Challenge</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><span class="meta-value">_______________________</span></div>
+  </div>
+</div>
+
+<div class="objectives-box">
+  <h3>Learning Objectives</h3>
+  <ol>
+    <li>Name and describe the four team roles used throughout this course; explain what each role owns and why it matters.</li>
+    <li>Write a signed team charter that defines norms, decision-making, and conflict resolution for your team.</li>
+    <li>Apply all Unit 1 skills — intentional design, EDP, orthographic sketching, weighted evaluation, and modular thinking — to a real engineering design challenge run by the team.</li>
+    <li>Divide design responsibilities according to team roles and produce a coordinated, documented design package for a rotary intake flapper mechanism.</li>
+  </ol>
+</div>
+
+<div class="review-callout"><strong>Unit 1 Review:</strong> Everything you practiced in Unit 1 — intentional design, the EDP, orthographic sketching, decision matrices, and modular design — gets applied today. This is the first time those skills are used in a real team engineering task. Your team charter and role assignments will carry through every remaining unit in this course.</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 1 — TEAM ROLES
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 1 &nbsp;·&nbsp; The Four Engineering Team Roles (10 min)</div>
+  <h2>How Engineering Teams Organize Work</h2>
+
+  <div class="reading-block">
+    <p>In a real engineering team — and in FTC robotics competitions — no single person can do everything well at once. Teams that try to have everyone do everything end up with duplicated effort, missing documentation, and parts that don't fit together. Teams that assign clear ownership succeed more consistently.</p>
+    <p>This course uses four roles that rotate across units so every student practices every skill. The roles aren't rigid boxes — a Build Lead still takes notes, a Documentation Lead still helps assemble — but each role has a clear primary responsibility that only they are accountable for. When something goes wrong, the role owner is the first person asked: "What does your documentation say? What was the test result? What does the part count show?"</p>
+  </div>
+
+  <div class="role-grid">
+    <div class="role-card">
+      <div class="role-card-header"><span class="role-icon">🔧</span><span class="role-name">Build Lead</span></div>
+      <div class="role-card-body">
+        <ul class="responsibility-list">
+          <li>Owns the physical construction — sets build sequence, assigns sub-tasks</li>
+          <li>Makes real-time build decisions and records the reason for each</li>
+          <li>Ensures the built product matches the approved design sketch</li>
+          <li>Calls team reviews when a deviation from the plan is needed</li>
+          <li>Verifies squareness, alignment, and fastener torque before sign-off</li>
+        </ul>
+        <div class="flapper-note">Today: leads the physical prototyping of the chosen flapper design</div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-card-header"><span class="role-icon">📓</span><span class="role-name">Documentation Lead</span></div>
+      <div class="role-card-body">
+        <ul class="responsibility-list">
+          <li>Owns the engineering notebook — keeps it current throughout class</li>
+          <li>Records every design decision with rationale, not just outcomes</li>
+          <li>Ensures all sketches have labels, dimensions, title blocks, and dates</li>
+          <li>Manages revision boxes — nothing gets erased, everything gets tracked</li>
+          <li>Prepares the notebook for teacher review at the end of each class</li>
+        </ul>
+        <div class="flapper-note">Today: records all three design sketches, the decision matrix, and the build log</div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-card-header"><span class="role-icon">📦</span><span class="role-name">Parts &amp; Inventory Manager</span></div>
+      <div class="role-card-body">
+        <ul class="responsibility-list">
+          <li>Owns the parts inventory — knows what the team has, what it needs, what it used</li>
+          <li>Sources materials from the class stockpile; tracks quantities consumed</li>
+          <li>Maintains the parts list in the engineering notebook</li>
+          <li>Flags shortages before they become build blockers</li>
+          <li>Returns unused materials and tools; keeps the workspace clean</li>
+        </ul>
+        <div class="flapper-note">Today: sources flapper materials from REV stockpile and fabrication supplies; maintains parts list</div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-card-header"><span class="role-icon">🔬</span><span class="role-name">Quality &amp; Test Lead</span></div>
+      <div class="role-card-body">
+        <ul class="responsibility-list">
+          <li>Owns the test plan — defines what "passing" looks like before building starts</li>
+          <li>Writes success criteria for every build or design task</li>
+          <li>Runs structured tests and records quantitative results</li>
+          <li>Identifies root causes of failures — never just "it didn't work"</li>
+          <li>Drives the iteration loop: test data → root cause → design change → retest</li>
+        </ul>
+        <div class="flapper-note">Today: defines pass/fail criteria for flappers; runs the intake test and records data</div>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> In your own words: why does assigning one person as Documentation Lead produce better notebooks than having everyone contribute to the notebook whenever they feel like it?</p>
+  <textarea class="write-area" rows="3" placeholder="A single Documentation Lead produces better notebooks because... If everyone contributes without one owner, the result is..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> A team's Build Lead realizes mid-build that the design sketch doesn't work as drawn — a bracket won't fit where planned. Which roles need to be involved in the decision, and what does each role contribute?</p>
+  <textarea class="write-area" rows="3" placeholder="The Build Lead would... The Documentation Lead would... The Quality Lead would..."></textarea>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Complete Q1 only. Use the sentence: "The Documentation Lead is the single owner because..."</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Answer both questions. For Q2, explain what would go wrong if the Build Lead made the change silently without involving other roles.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Answer both questions. Then describe how the team charter (Part 2) should specify a protocol for exactly this situation — a mid-build design deviation.</div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 2 — TEAM CHARTER
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 2 &nbsp;·&nbsp; Write Your Team Charter (15 min)</div>
+  <h2>The Agreement That Governs Your Team</h2>
+
+  <div class="reading-block">
+    <p>A <span class="key-term">team charter</span> is a written agreement that defines how your team works — not what you're building, but how you make decisions, resolve disagreements, divide responsibilities, and hold each other accountable. It is signed by every team member and referenced whenever there is a disagreement about process.</p>
+    <p>The most important moment for a team charter is not when everything is going well. It's when a teammate isn't pulling their weight, or when two people disagree about which design to build, or when the team is behind schedule and tempted to skip documentation. A charter doesn't prevent those moments — it gives the team a pre-agreed procedure for handling them without drama.</p>
+  </div>
+
+  <!-- I DO — Teacher models charter negotiation -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model facilitating a charter negotiation for one section</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">The decision-making norm — the hardest one to get right:</span> "The question is: who decides when the team disagrees? There are three options. (1) Majority vote — fastest, but can leave one person feeling steamrolled. (2) The role owner decides in their domain — Build Lead decides build sequence, Documentation Lead decides notebook format, but design selection requires consensus. (3) Teacher arbitrates — a last resort, not a first resort. I recommend option 2 as the default with a 'bring it to the table' requirement: if any team member calls a 'table it,' the team stops and discusses before the owner decides. This respects both role authority and team buy-in."</p>
+      <p><span class="think-prefix">The accountability norm — be specific:</span> "Vague norms like 'everyone tries their best' are useless. Specific norms work: 'If a team member doesn't complete their role responsibility for a class, they owe the Documentation Lead a one-paragraph written explanation of what happened by the next class, added to the notebook.' That's enforceable. That's a real norm."</p>
+      <p><span class="think-prefix">Role rotation — plan it now:</span> "Decide now when roles rotate so no one is surprised. I suggest rotating every unit. That way everyone builds, everyone documents, everyone manages parts, and everyone runs tests by the end of the course. Write the rotation schedule into the charter."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2A — Complete your team charter together</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">Fill in every field as a team. Every team member must agree to every norm before it is written in. Sign at the bottom. This charter lives in your engineering notebook and is referenced throughout the course.</p>
+
+  <div class="charter-box">
+    <div class="charter-header">Team Charter — Introductory Robotics, Unit 2 through Capstone</div>
+    <div class="charter-body">
+
+      <div class="charter-field">
+        <label>Team name</label>
+        <textarea class="field-input" rows="1" placeholder="Our team name is..."></textarea>
+      </div>
+
+      <div class="charter-field">
+        <label>Team members &amp; Unit 2 role assignments</label>
+        <table style="width:100%; border-collapse:collapse; font-size:10pt; margin-top:4px;">
+          <thead><tr>
+            <th style="background:var(--orange); color:#fff; padding:6px 10px; text-align:left;">Member name</th>
+            <th style="background:var(--orange); color:#fff; padding:6px 10px; text-align:left;">Unit 2 role</th>
+            <th style="background:var(--orange); color:#fff; padding:6px 10px; text-align:left;">Strengths they bring to this role</th>
+          </tr></thead>
+          <tbody>
+            <tr><td style="border:1px solid var(--border); padding:6px 10px; height:38px;"></td><td style="border:1px solid var(--border); padding:6px 10px;"></td><td style="border:1px solid var(--border); padding:6px 10px;"></td></tr>
+            <tr><td style="border:1px solid var(--border); padding:6px 10px; height:38px; background:var(--orange-light);"></td><td style="border:1px solid var(--border); padding:6px 10px; background:var(--orange-light);"></td><td style="border:1px solid var(--border); padding:6px 10px; background:var(--orange-light);"></td></tr>
+            <tr><td style="border:1px solid var(--border); padding:6px 10px; height:38px;"></td><td style="border:1px solid var(--border); padding:6px 10px;"></td><td style="border:1px solid var(--border); padding:6px 10px;"></td></tr>
+            <tr><td style="border:1px solid var(--border); padding:6px 10px; height:38px; background:var(--orange-light);"></td><td style="border:1px solid var(--border); padding:6px 10px; background:var(--orange-light);"></td><td style="border:1px solid var(--border); padding:6px 10px; background:var(--orange-light);"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="charter-field">
+        <label>Role rotation schedule (which unit does each person do which role?)</label>
+        <textarea class="field-input tall" placeholder="Unit 2: [name] = Build Lead, [name] = Documentation Lead, [name] = Parts Manager, [name] = Quality Lead&#10;Unit 3: ...&#10;Unit 4: ..."></textarea>
+      </div>
+
+      <div class="charter-field">
+        <label>Meeting norms (how do we run our team meetings? what time does everyone show up? who facilitates?)</label>
+        <textarea class="field-input tall" placeholder="We will start working within ___ minutes of class starting. The facilitator for team discussions is ___. We communicate by..."></textarea>
+      </div>
+
+      <div class="charter-field">
+        <label>Decision-making norm (how do we decide between two competing designs or approaches?)</label>
+        <textarea class="field-input tall" placeholder="For design decisions, we will... For role-specific decisions (e.g. the Build Lead's build sequence), we will... If we are truly stuck, we will..."></textarea>
+      </div>
+
+      <div class="charter-field">
+        <label>Documentation standard (what does an acceptable notebook entry look like? what gets recorded?)</label>
+        <textarea class="field-input tall" placeholder="Every class, the Documentation Lead records... Every sketch must have... Before submitting for teacher review, the Documentation Lead checks that..."></textarea>
+      </div>
+
+      <div class="charter-field">
+        <label>Accountability norm (what happens when a team member doesn't fulfill their role responsibility?)</label>
+        <textarea class="field-input tall" placeholder="If a team member does not complete their role responsibility for a class, they will... The team will address it by..."></textarea>
+      </div>
+
+      <div class="charter-field">
+        <label>Conflict resolution (what do we do when we genuinely disagree and can't reach consensus?)</label>
+        <textarea class="field-input" placeholder="Step 1: ... Step 2: ... Step 3 (if needed): bring it to the teacher"></textarea>
+      </div>
+
+      <div class="charter-field">
+        <label>Team member signatures — signing means you agree to uphold these norms</label>
+        <div class="charter-sig">
+          <div class="sig-block"><span class="sig-label">Member 1</span><div class="sig-line"></div></div>
+          <div class="sig-block"><span class="sig-label">Member 2</span><div class="sig-line"></div></div>
+          <div class="sig-block"><span class="sig-label">Member 3</span><div class="sig-line"></div></div>
+          <div class="sig-block"><span class="sig-label">Member 4</span><div class="sig-line"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 3 — THE FLAPPER DESIGN CHALLENGE
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 3 &nbsp;·&nbsp; The Engineering Challenge: Rotary Intake Flapper Design (40 min) <span class="review-badge">All Unit 1 Skills</span></div>
+  <h2>Design a Flapper Module for the REV Starter Bot Rotary Intake</h2>
+
+  <div class="reading-block">
+    <p>Later in this course your team will build a rotary intake mechanism similar to the one used on the REV DUO FTC Starter Bot. A rotary intake uses a motor-driven axle that spins continuously. Flexible "flapper" elements attached to the axle sweep game elements — in your case, 10 cm foam cubes — into the robot as the axle rotates.</p>
+    <p>The flapper is a <em>module</em> in the modular sense you studied in Unit 1, Class 5. It attaches to the axle through a defined interface (the axle diameter and mounting pattern), can be removed and replaced without redesigning the axle or frame, and must be testable on its own before full robot integration. Your team will design, fabricate, and test at least one prototype flapper today.</p>
+    <p><strong>Interface constraint:</strong> Your flappers must mount on a 5mm hex REV axle. The mounting mechanism (how the flapper attaches to the axle) is part of your design — use whatever REV hardware, custom fabrication, or available materials you can justify. The flapper body can be any material: REV structural parts, cardboard, foam, rubber, fabric, zip ties, pool noodle foam, or anything else readily available.</p>
+    <p><strong>Performance objective:</strong> The flapper sweeps a 10 cm foam cube into a collection zone as the axle rotates. It must be able to do this consistently across 3 consecutive throws of the cube toward the intake. Softer, more compliant materials tend to grab game elements better; stiffer materials tend to be more durable. Both are valid trade-offs.</p>
+  </div>
+
+  <p style="font-size:10.5pt; font-weight:700; color:var(--orange); margin-bottom:6px;">Before any material is touched: run your Stand-Up Meeting (3 min)</p>
+  <div style="background:var(--orange-light); border-left:4px solid var(--orange); border-radius:0 var(--radius) var(--radius) 0; padding:10px 14px; margin-bottom:14px; font-size:10pt; color:#3a1a00;">
+    <strong>Stand-Up format (each person answers three questions, one sentence each):</strong><br>
+    (1) What is my role today? (2) What am I responsible for producing by end of class? (3) What do I need from my teammates?<br>
+    Record this in the notebook before starting. The Documentation Lead facilitates.
+  </div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Stand-Up notes — complete before starting the design work:</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:22%">Team member</th><th style="width:22%">Role today</th><th style="width:28%">My deliverable by end of class</th><th>What I need from teammates</th></tr></thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Part 3A: Define & Research -->
+<div class="section">
+  <div class="section-label">Part 3A &nbsp;·&nbsp; EDP Stages 1–2: Define &amp; Research <span class="review-badge">C2 EDP</span></div>
+  <h2>What Does a Good Flapper Need to Do?</h2>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">Quality Lead</span>
+    <span class="ydo-title">Owner: write success criteria before any design work begins</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">The Quality &amp; Test Lead defines what "passing" looks like for the flapper design. These criteria will be used to evaluate all three design alternatives. Write them before looking at any materials.</p>
+
+  <table class="analysis-table">
+    <thead><tr><th style="width:38%">Success criterion</th><th style="width:14%">Measurable target</th><th>How it will be tested</th></tr></thead>
+    <tbody>
+      <tr><td>Sweeps a 10 cm foam cube into the collection zone</td><td class="write-cell">___ / 3 consecutive</td><td class="write-cell"></td></tr>
+      <tr><td>Survives 10 intake cycles without structural failure</td><td class="write-cell">Pass / Fail</td><td class="write-cell"></td></tr>
+      <tr><td>Mounts to a 5mm hex axle (interface compatible)</td><td class="write-cell">Pass / Fail</td><td class="write-cell"></td></tr>
+      <tr><td style="font-style:italic; color:#aaa;">Add your own criterion:</td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-style:italic; color:#aaa;">Add your own criterion:</td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">Parts Manager</span>
+    <span class="ydo-title">Owner: survey available materials and record them before designs are drawn</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">The Parts &amp; Inventory Manager surveys available materials and records what the team has to work with. Designs should be constrained to available materials.</p>
+
+  <table class="analysis-table">
+    <thead><tr><th style="width:36%">Material / component</th><th style="width:16%">Quantity available</th><th>Potential use as flapper material or mount</th></tr></thead>
+    <tbody>
+      <tr><td style="font-style:italic; color:#aaa;">REV structural (extrusion, brackets, plates)</td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Part 3B: Ideate -->
+<div class="section">
+  <div class="section-label">Part 3B &nbsp;·&nbsp; EDP Stage 3: Ideate — Three Design Sketches <span class="review-badge">C3 Sketching · C4 Weighted Matrix</span></div>
+  <h2>Sketch Three Genuinely Different Flapper Designs</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:10px;">Each team member should contribute at least one design. Designs must be genuinely different — different materials, different shapes, or different mounting approaches. Every sketch must follow Unit 1 Class 3 standards: top view + profile/front view, labeled dimensions, material called out, axle interface marked (⊠). The Documentation Lead ensures all sketches are recorded in the notebook with title blocks.</p>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">Documentation Lead</span>
+    <span class="ydo-title">Owner: ensure every design sketch meets Class 3 documentation standards</span>
+  </div>
+
+  <!-- Three Design Sketches -->
+  <div class="three-col">
+    <div>
+      <div class="col-label">Design F1</div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Top view — label material, dimensions, axle interface (⊠)</p>
+      <div class="view-box"><div class="view-inner v-tall">top view of F1 — draw here</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Profile / front view</p>
+      <div class="view-box"><div class="view-inner" style="height:90px;">profile view</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Material &amp; mounting:</p>
+      <div style="border-bottom:1px solid #ccc; height:20px; margin-bottom:4px;"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Predicted advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Predicted weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px;"></textarea>
+    </div>
+    <div>
+      <div class="col-label">Design F2</div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Top view</p>
+      <div class="view-box"><div class="view-inner v-tall">top view of F2</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Profile / front view</p>
+      <div class="view-box"><div class="view-inner" style="height:90px;">profile view</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Material &amp; mounting:</p>
+      <div style="border-bottom:1px solid #ccc; height:20px; margin-bottom:4px;"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Predicted advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Predicted weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px;"></textarea>
+    </div>
+    <div>
+      <div class="col-label">Design F3</div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Top view</p>
+      <div class="view-box"><div class="view-inner v-tall">top view of F3</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Profile / front view</p>
+      <div class="view-box"><div class="view-inner" style="height:90px;">profile view</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Material &amp; mounting:</p>
+      <div style="border-bottom:1px solid #ccc; height:20px; margin-bottom:4px;"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Predicted advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Predicted weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:36px;"></textarea>
+    </div>
+  </div>
+
+  <!-- Weighted Matrix -->
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Weighted decision matrix — set weights before rating <span class="review-badge">C4 Weighted Matrix</span></p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Quality Lead: assign weights (1–3) before any rating. Team rates each design 1–3. Calculate rating × weight. Select the winner.</p>
+
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead>
+      <tr>
+        <th style="width:34%">Criterion</th>
+        <th style="width:9%">Weight<br>(1–3)</th>
+        <th>F1<br>rating × wt</th>
+        <th>F2<br>rating × wt</th>
+        <th>F3<br>rating × wt</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Sweep effectiveness on foam cube</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Durability over 10+ cycles</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Interface compatibility (5mm hex axle)</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Build time / fabrication feasibility</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-weight:600;">Weighted Total</td><td></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Selected design: F___</strong> &nbsp;&nbsp; <strong>Reason (Build Lead records):</strong></p>
+  <textarea class="write-area" rows="2" placeholder="We selected F__ because... The most important criterion was... The trade-off we are accepting is..."></textarea>
+</div>
+
+<!-- Part 3C: Build, Test & Iterate -->
+<div class="section">
+  <div class="section-label">Part 3C &nbsp;·&nbsp; EDP Stages 4–6: Build, Test &amp; Iterate <span class="review-badge">C2 EDP · C3 Documentation</span></div>
+  <h2>Prototype Your Selected Flapper Design</h2>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">Build Lead</span>
+    <span class="ydo-title">Owner: directs fabrication; all others assist; Documentation Lead records decisions</span>
+  </div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Build log — record every significant decision during fabrication:</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:40%">Build decision made</th><th>Reason (intentional design rationale)</th></tr></thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">Quality Lead</span>
+    <span class="ydo-title">Owner: runs the test; records results; drives the iterate decision</span>
+  </div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Test results:</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr><th style="width:22%">Test</th><th style="width:18%">Target</th><th style="width:20%">Result</th><th style="width:10%">Pass?</th><th>Root cause if fail</th></tr></thead>
+    <tbody>
+      <tr><td>Cube sweep — 3 consecutive</td><td>___ / 3</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Durability — 10 cycles</td><td>0 failures</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Axle interface (5mm hex)</td><td>Secure, no wobble</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-style:italic; color:#aaa;">Your criterion:</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Would the team iterate if time allowed? What specific change would you make?</strong></p>
+  <textarea class="write-area" rows="3" placeholder="If we had one more attempt, we would change... because our test data showed that... This is an intentional design change, not a guess, because..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 4 — NOTEBOOK ENTRY & REFLECTION
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 4 &nbsp;·&nbsp; Notebook Entry, Reflection &amp; Exit (9 min)</div>
+  <h2>Document, Reflect, and Connect</h2>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry Requirements</div>
+    <p>Documentation Lead: ensure the following are in the notebook before the end of class — (1) Stand-up meeting notes, (2) success criteria from Quality Lead, (3) materials inventory from Parts Manager, (4) all three design sketches with title blocks and dimensions, (5) weighted decision matrix with selection rationale, (6) build log with decisions and reasons, (7) test results table, (8) iteration recommendation. Date and sign the entry. All four members must sign.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Name one moment today where having defined roles made your team more effective. Be specific — describe the situation and explain how the role structure helped.</p>
+  <textarea class="write-area" rows="3" placeholder="An example was when... Without defined roles, what would likely have happened is... The role that made the biggest difference today was..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> The flapper is designed as a module (Unit 1, Class 5). Name two modular design properties it demonstrates — or intentionally compromises — and explain each with evidence from today's design.</p>
+  <textarea class="write-area" rows="3" placeholder="The flapper demonstrates [property] because... It compromises [property] because... In the full robot context, this trade-off is acceptable because..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Self-assessment:</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:62%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr></thead>
+    <tbody>
+      <tr><td>I can name all four team roles and describe their primary responsibility</td><td></td><td></td><td></td></tr>
+      <tr><td>Our team charter has specific, enforceable norms (not vague aspirations)</td><td></td><td></td><td></td></tr>
+      <tr><td>I applied EDP stages correctly: criteria set before design, weights set before rating</td><td></td><td></td><td></td></tr>
+      <tr><td>My role responsibility was fulfilled and documented</td><td></td><td></td><td></td></tr>
+      <tr><td>I can connect the flapper design to modular design principles from Unit 1</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension / Exploration</div>
+    <p>Research Agile software development team roles: Scrum Master, Product Owner, and Development Team member. Write a 1-page comparison in your notebook: how do Agile roles correspond to the four engineering roles used in this course? What does a Scrum Master do that no single role in our system does? What would you add to the team charter if your team were building software instead of a robot?</p>
+  </div>
+</div>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 2, Class 1 (Class 6)</span>
+  <span>Roles, Responsibilities &amp; Team Norms · Rotary Intake Flapper Design</span>
+  <span>Page 1 of 1</span>
+</div>
+
+</body>
+</html>

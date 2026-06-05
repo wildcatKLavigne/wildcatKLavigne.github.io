@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robot Build Planning Session — WBS, Course Gantt &amp; Milestones</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue:#1a4f82;    --blue-light:#e8f0f9;
+    --green:#2d6a4f;   --green-light:#e8f4ee;
+    --amber:#7d4e00;   --amber-light:#fdf3e3;
+    --red:#8b1a1a;     --red-light:#fdf2f2;
+    --orange:#8c3a00;  --orange-light:#fef0e7;
+    --purple:#3d2a99;  --purple-light:#f0ecff;
+    --gray-light:#f5f5f3;
+    --border:#d0d0cc;  --radius:6px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#222;background:#fff;max-width:850px;margin:0 auto;padding:.5in .75in;}
+
+  .ws-header{border-top:5px solid var(--orange);padding-top:14px;margin-bottom:20px;}
+  .ws-header .course-label{font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:4px;}
+  .ws-header h1{font-family:'Source Serif 4',Georgia,serif;font-size:22pt;color:#111;line-height:1.2;margin-bottom:4px;}
+  .ws-header .subtitle{font-size:10pt;color:#666;margin-bottom:14px;}
+  .ws-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .ws-meta-item{padding:8px 12px;border-right:1px solid var(--border);}
+  .ws-meta-item:last-child{border-right:none;}
+  .ws-meta-item .meta-label{font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:2px;}
+  .ws-meta-item .meta-value{font-size:10pt;font-weight:600;}
+
+  .objectives-box{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin:18px 0;}
+  .objectives-box h3{font-size:9pt;text-transform:uppercase;letter-spacing:.07em;color:var(--orange);font-weight:700;margin-bottom:8px;}
+  .objectives-box ol{padding-left:18px;margin:0;}
+  .objectives-box li{font-size:10pt;margin-bottom:4px;color:#3a1a00;}
+
+  .placement-callout{background:var(--blue-light);border:1px solid #aac5e5;border-radius:var(--radius);padding:12px 16px;margin-bottom:18px;font-size:10pt;color:#1a3055;line-height:1.65;}
+  .placement-callout strong{font-weight:700;}
+
+  .section{margin-bottom:22px;}
+  .section-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--orange);margin-bottom:6px;padding-bottom:3px;border-bottom:1.5px solid var(--orange-light);}
+  .section h2{font-size:13pt;font-weight:700;color:#111;margin-bottom:8px;}
+
+  .reading-block{background:var(--gray-light);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.7;color:#333;}
+  .reading-block p{margin-bottom:10px;}
+  .reading-block p:last-child{margin-bottom:0;}
+  .key-term{font-weight:700;color:var(--orange);}
+
+  .write-area{border:1px solid var(--border);border-radius:var(--radius);width:100%;min-height:70px;display:block;background:transparent;resize:none;padding:8px 10px;font-family:inherit;font-size:10.5pt;color:#222;line-height:1.6;margin-bottom:14px;}
+
+  .analysis-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:10pt;}
+  .analysis-table th{background:var(--orange);color:#fff;padding:8px 10px;text-align:left;font-size:9pt;font-weight:600;letter-spacing:.04em;}
+  .analysis-table td{border:1px solid var(--border);padding:6px 10px;vertical-align:top;}
+  .analysis-table tr:nth-child(even) td{background:var(--orange-light);}
+  .analysis-table .write-cell{height:50px;vertical-align:top;}
+
+  .scaffold-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+  .scaffold-tab{border-radius:var(--radius);padding:10px 12px;font-size:9.5pt;}
+  .scaffold-tab .tab-label{font-size:8pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:5px;display:block;}
+  .scaffold-tab.novice{background:var(--green-light);}
+  .scaffold-tab.novice .tab-label{color:var(--green);}
+  .scaffold-tab.intermediate{background:var(--blue-light);}
+  .scaffold-tab.intermediate .tab-label{color:var(--blue);}
+  .scaffold-tab.proficient{background:var(--purple-light);}
+  .scaffold-tab.proficient .tab-label{color:var(--purple);}
+
+  .notebook-prompt{background:var(--amber-light);border-left:4px solid #c8860a;border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:14px;}
+  .notebook-prompt .nb-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--amber);margin-bottom:6px;}
+  .notebook-prompt p{font-size:10.5pt;color:#3a2a00;line-height:1.6;}
+
+  .extension-box{background:var(--purple-light);border:1px solid #c5b8f5;border-radius:var(--radius);padding:12px 16px;margin-top:6px;}
+  .extension-box .ext-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--purple);margin-bottom:6px;}
+  .extension-box p{font-size:10pt;color:#2a1a55;line-height:1.6;}
+
+  .ydo-header{background:var(--green);color:#fff;border-radius:var(--radius);padding:7px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+  .ydo-header .ydo-badge{font-size:9pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:100px;}
+  .ydo-header .ydo-title{font-size:10.5pt;font-weight:600;}
+
+  /* WBS TABLE */
+  .wbs-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:10pt;}
+  .wbs-table th{background:var(--orange);color:#fff;padding:7px 10px;text-align:left;font-size:9pt;font-weight:600;}
+  .wbs-table td{border:1px solid var(--border);padding:6px 10px;vertical-align:top;}
+  .wbs-table .phase-row td{background:#fde8d8;font-weight:700;color:var(--orange);font-size:10pt;}
+  .wbs-table .task-row td{height:42px;}
+  .wbs-table .task-row:nth-child(even) td{background:var(--orange-light);}
+  .wbs-table .subtask-row td{padding-left:24px;font-size:9.5pt;color:#555;height:38px;}
+  .wbs-table .subtask-row:nth-child(even) td{background:var(--orange-light);}
+
+  /* GANTT */
+  .gantt-wrapper{overflow-x:auto;margin-bottom:14px;}
+  .gantt-table{border-collapse:collapse;font-size:9pt;min-width:700px;}
+  .gantt-table th{background:var(--orange);color:#fff;padding:5px 8px;text-align:center;white-space:nowrap;}
+  .gantt-table th.task-col{text-align:left;min-width:190px;}
+  .gantt-table th.owner-col{min-width:80px;}
+  .gantt-table td{border:1px solid var(--border);padding:5px 8px;vertical-align:middle;height:36px;}
+  .gantt-table .phase-label td{background:#fde8d8;font-weight:700;color:var(--orange);}
+  .gantt-table .week-cell{background:#f9f9f7;text-align:center;}
+
+  /* experience callout */
+  .experience-box{border:2px solid var(--orange);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;}
+  .experience-box-header{background:var(--orange);color:#fff;padding:7px 14px;font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;}
+  .experience-box-body{background:var(--orange-light);padding:12px 16px;font-size:10pt;color:#3a1a00;line-height:1.7;}
+  .experience-box-body p{margin-bottom:8px;}
+  .experience-box-body p:last-child{margin-bottom:0;}
+
+  hr.section-rule{border:none;border-top:1px solid var(--border);margin:22px 0;}
+  .ws-footer{margin-top:28px;padding-top:10px;border-top:2px solid var(--orange);display:flex;justify-content:space-between;font-size:8.5pt;color:#888;}
+  @media print{body{padding:.4in .6in;}.write-area{border:1px solid #aaa;}}
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management</div>
+  <h1>Robot Build Planning Session</h1>
+  <div class="subtitle">WBS, Course Gantt &amp; Milestones &nbsp;·&nbsp; Standalone activity following Class 9 &nbsp;·&nbsp; 74 minutes</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><span class="meta-value">_______________________</span></div>
+  </div>
+</div>
+
+<div class="objectives-box">
+  <h3>Learning Objectives</h3>
+  <ol>
+    <li>Decompose the full robot build into phases, tasks, subtasks, owners, and time estimates using a Work Breakdown Structure — using your real experience from earlier deliverables to calibrate estimates.</li>
+    <li>Build a course-level Gantt chart that spans Units 3–9, shows task dependencies, identifies the critical path, and assigns role owners to every task group.</li>
+    <li>Define milestones for each phase: specific, verifiable conditions that tell the team a phase is truly complete — not "mostly done."</li>
+    <li>Identify at least one task on the critical path and explain what the team should do if that task slips by one class period.</li>
+  </ol>
+</div>
+
+<div class="placement-callout">
+  <strong>Why this session comes after Class 9:</strong> You have now practised WBS and Gantt tools on two real deliverables — the flapper design (Class 6) and the chassis build (Classes 7–8) — and you have completed your first hardware inventory and structural design work in Class 9. You know what it actually takes to define a problem, research materials, sketch designs, and build something. That experience makes your estimates here grounded in reality, not guesswork. A robot build plan written before you've built anything is a wish list. A plan written now is a project plan.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 1 — CALIBRATE YOUR ESTIMATES
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 1 &nbsp;·&nbsp; Calibrate Your Estimates Before You Plan (10 min)</div>
+  <h2>What Your Earlier Work Tells You About Your Estimates</h2>
+
+  <div class="reading-block">
+    <p>The most dangerous project plan is one where every task is estimated by people who have never done anything like it before. The second most dangerous is one where the team ignores what they learned from practice. You have data from two real builds. Before writing a single cell in the WBS, use that data to set realistic expectations for the tasks ahead.</p>
+    <p>The three anchors that should shape every estimate in this session: (1) how long Define and Research took on the chassis build relative to how much time you planned for them; (2) how long Prototype took relative to plan — this is almost always the most underestimated stage; and (3) how long Iterate took — which you could not predict in advance at all. Carry those patterns into every phase of the plan you build today.</p>
+  </div>
+
+  <div class="experience-box">
+    <div class="experience-box-header">Your calibration data — fill this in from your Class 7–8 chassis build records before starting the WBS</div>
+    <div class="experience-box-body">
+      <p>Look up your chassis Gantt (planned vs. actual variance table) from Classes 7–8.</p>
+    </div>
+  </div>
+
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead>
+      <tr>
+        <th style="width:22%">EDP Stage</th>
+        <th style="width:18%">Chassis build<br>planned (min)</th>
+        <th style="width:18%">Chassis build<br>actual (min)</th>
+        <th style="width:16%">Variance ratio<br>(actual ÷ planned)</th>
+        <th>Implication for the robot build plan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Define</td><td style="height:44px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>Research</td><td style="height:44px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>Ideate</td><td style="height:44px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>Prototype</td><td style="height:44px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>Test &amp; Measure</td><td style="height:44px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>Analyse</td><td style="height:44px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>Iterate</td><td style="height:44px;"></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Which stage had the highest variance ratio (actual ÷ planned) in your chassis build? How will you adjust the estimate for that same stage in the robot build plan?</p>
+  <textarea class="write-area" rows="3" placeholder="The highest variance ratio was Stage ___ (___× actual vs. planned). For the robot build plan, I will adjust estimates for this stage by... because..."></textarea>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Fill in only the Chassis planned and actual columns. For the implication column, write one sentence per row: "This means we should plan [more / less / the same] time for this stage in the robot build."</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Calculate the variance ratio for all 7 stages. Identify the top 2 highest ratios and write a specific adjustment strategy for each in the WBS estimates.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Calculate the variance ratio and derive a "planning risk multiplier" (e.g., if Prototype ran 1.8× over plan, apply ×1.8 to all Prototype estimates in the WBS). Apply it consistently and show your calculation for at least one phase.</div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 2 — WORK BREAKDOWN STRUCTURE
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 2 &nbsp;·&nbsp; Work Breakdown Structure (25 min)</div>
+  <h2>Decomposing the Robot Build into Ownable Tasks</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:12px;">Every task must have an owner (one of your four team roles), a time estimate in class periods, at least one dependency, and a definition of done that is specific enough that a teammate can verify it without asking you. Use your calibration data from Part 1 to adjust estimates — do not use round numbers unless your data supports them.</p>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2A — Complete the full WBS for your robot build</span>
+  </div>
+
+  <table class="wbs-table">
+    <thead>
+      <tr>
+        <th style="width:36%">Task / Subtask</th>
+        <th style="width:15%">Owner (role)</th>
+        <th style="width:13%">Est. classes<br>(adjusted)</th>
+        <th style="width:13%">Depends on</th>
+        <th>Definition of "done" — specific &amp; verifiable</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- PHASE 1 -->
+      <tr class="phase-row"><td colspan="5">Phase 1: Hardware Research &amp; Design (Unit 3)</td></tr>
+      <tr class="task-row"><td>REV hardware inventory &amp; documentation</td><td class="write-cell"></td><td class="write-cell"></td><td>—</td><td class="write-cell"></td></tr>
+      <tr class="subtask-row"><td>Inventory all REV parts by category</td><td class="write-cell"></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+      <tr class="subtask-row"><td>Record parts list in notebook</td><td class="write-cell"></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Chassis frame design (3 sketches + weighted matrix)</td><td class="write-cell"></td><td class="write-cell"></td><td>Inventory done</td><td class="write-cell"></td></tr>
+      <tr class="subtask-row"><td>3 frame sketches — top + front view, labeled dimensions</td><td class="write-cell"></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+      <tr class="subtask-row"><td>Weighted decision matrix — weights set before rating</td><td class="write-cell"></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Transmission / gear ratio design</td><td class="write-cell"></td><td class="write-cell"></td><td>Chassis design done</td><td class="write-cell"></td></tr>
+
+      <!-- PHASE 2 -->
+      <tr class="phase-row"><td colspan="5">Phase 2: Electronics &amp; Control System (Unit 4)</td></tr>
+      <tr class="task-row"><td>Control system block diagram</td><td class="write-cell"></td><td class="write-cell"></td><td>—</td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Wiring plan &amp; cable routing diagram</td><td class="write-cell"></td><td class="write-cell"></td><td>Block diagram done</td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Driver Station setup &amp; Op Mode test</td><td class="write-cell"></td><td class="write-cell"></td><td>Wiring plan done</td><td class="write-cell"></td></tr>
+
+      <!-- PHASE 3 -->
+      <tr class="phase-row"><td colspan="5">Phase 3: Drivetrain Design &amp; Build (Unit 5)</td></tr>
+      <tr class="task-row"><td>Drivetrain type research + selection</td><td class="write-cell"></td><td class="write-cell"></td><td>Phase 1 done</td><td class="write-cell"></td></tr>
+      <tr class="subtask-row"><td>Research drivetrain architectures (tank, mecanum, other)</td><td class="write-cell"></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+      <tr class="subtask-row"><td>4 team sketches + weighted evaluation + selection</td><td class="write-cell"></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Drivetrain build (Days 1–2)</td><td class="write-cell"></td><td class="write-cell"></td><td>Design selected</td><td class="write-cell"></td></tr>
+      <tr class="subtask-row"><td>Chassis assembly — squareness verified before motors</td><td class="write-cell"></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+      <tr class="subtask-row"><td>Motor mount + wiring to Control Hub</td><td class="write-cell"></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>First drive test + data collection</td><td class="write-cell"></td><td class="write-cell"></td><td>Drivetrain built</td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Drivetrain Iterate — diagnose root cause + implement one fix + retest</td><td class="write-cell"></td><td class="write-cell"></td><td>First drive test</td><td class="write-cell"></td></tr>
+
+      <!-- PHASE 4 -->
+      <tr class="phase-row"><td colspan="5">Phase 4: Mechanism Design &amp; Build (Unit 6)</td></tr>
+      <tr class="task-row"><td>Mechanism type research + selection</td><td class="write-cell"></td><td class="write-cell"></td><td>Phase 3 started</td><td class="write-cell"></td></tr>
+      <tr class="subtask-row"><td>Research mechanism architectures (arm, intake, slide)</td><td class="write-cell"></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+      <tr class="subtask-row"><td>3 sketches + weighted evaluation + selection</td><td class="write-cell"></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Mechanism build (Days 1–2)</td><td class="write-cell"></td><td class="write-cell"></td><td>Design selected</td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Robot integration — mechanism mounted to drivetrain</td><td class="write-cell"></td><td class="write-cell"></td><td>Mechanism built + drivetrain built</td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Performance test + Analyse + Iterate</td><td class="write-cell"></td><td class="write-cell"></td><td>Integration done</td><td class="write-cell"></td></tr>
+
+      <!-- PHASE 5 -->
+      <tr class="phase-row"><td colspan="5">Phase 5: Autonomous Programming (Unit 7)</td></tr>
+      <tr class="task-row"><td>Autonomous routine planning + field map annotation</td><td class="write-cell"></td><td class="write-cell"></td><td>Phase 4 done</td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Encoder-based drive + sensor-driven branching</td><td class="write-cell"></td><td class="write-cell"></td><td>Routine planned</td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Autonomous reliability test — 10 trials + analysis</td><td class="write-cell"></td><td class="write-cell"></td><td>Auto written</td><td class="write-cell"></td></tr>
+
+      <!-- PHASE 6 -->
+      <tr class="phase-row"><td colspan="5">Phase 6: Integration, Assessment &amp; Capstone (Units 8–9)</td></tr>
+      <tr class="task-row"><td>Full system documentation update + peer review</td><td class="write-cell"></td><td class="write-cell"></td><td>All phases done</td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Timed challenge + improvement sprint</td><td class="write-cell"></td><td class="write-cell"></td><td>Documentation done</td><td class="write-cell"></td></tr>
+      <tr class="task-row"><td>Engineering notebook final review + walk-through prep</td><td class="write-cell"></td><td class="write-cell"></td><td>Challenge done</td><td class="write-cell"></td></tr>
+
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Look at the dependency column. Which task, if it slips by one class period, affects the most downstream tasks? Name it and explain the knock-on effects.</p>
+  <textarea class="write-area" rows="3" placeholder="The task that would cause the most downstream impact is... If it slips by one class period, the following tasks are affected:... The total delay to the project would be..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 3 — COURSE GANTT CHART
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 3 &nbsp;·&nbsp; Course Gantt Chart (20 min)</div>
+  <h2>Mapping Every Task to a Timeline</h2>
+
+  <div class="reading-block">
+    <p>The Gantt chart turns your WBS into a schedule. Each row is a task group from the WBS. Each column pair represents a unit. You shade the cells where that task is active. Where one task must finish before another starts, leave a gap — that gap is a dependency arrow. The critical path is the longest unbroken chain of shaded, dependent cells from left to right. Every task on the critical path gets a bold border.</p>
+    <p>The documentation row spans the entire chart because the Documentation Lead has continuous responsibility throughout the build — but it is not on the critical path because it doesn't gate any build task. Showing it as parallel reinforces the lesson from Class 6: the Documentation Lead role is always active, never in a sprint at the end.</p>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 3A — Complete the course Gantt chart</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Shade the cells where each task group is active. Use a solid shade for executing and a lighter shade or diagonal hatch for planning/designing. Draw a → where one task must end before the next starts. Circle the critical path. Mark any task you expect to run in parallel with another task using a ∥ symbol in the owner cell.</p>
+
+  <div class="gantt-wrapper">
+    <table class="gantt-table">
+      <thead>
+        <tr>
+          <th class="task-col">Task group</th>
+          <th class="owner-col">Owner role</th>
+          <th colspan="2">Unit 3<br><small>C9–12</small></th>
+          <th colspan="2">Unit 4<br><small>C13–16</small></th>
+          <th colspan="3">Unit 5<br><small>C17–22</small></th>
+          <th colspan="3">Unit 6<br><small>C23–28</small></th>
+          <th colspan="2">Unit 7<br><small>C29–32</small></th>
+          <th colspan="3">Units 8–9<br><small>C33–40</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="phase-label"><td colspan="18">Phase 1 &amp; 2: Hardware Research + Control System</td></tr>
+        <tr><td>Hardware inventory &amp; documentation</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+        <tr><td>Chassis &amp; drivetrain frame design</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+        <tr><td>Control system + wiring plan</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+
+        <tr class="phase-label"><td colspan="18">Phase 3: Drivetrain Design, Build &amp; Test</td></tr>
+        <tr><td>Drivetrain research + design selection</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+        <tr><td>Drivetrain build (Days 1–2)</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+        <tr><td>Drive test + Analyse + Iterate</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+
+        <tr class="phase-label"><td colspan="18">Phase 4: Mechanism Design, Build &amp; Integration</td></tr>
+        <tr><td>Mechanism research + design selection</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+        <tr><td>Mechanism build (Days 1–2)</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+        <tr><td>Robot integration + performance test + Iterate</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+
+        <tr class="phase-label"><td colspan="18">Phase 5: Autonomous &amp; Phase 6: Integration</td></tr>
+        <tr><td>Autonomous programming + reliability test</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+        <tr><td>Full robot assessment + sprint + notebook review</td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+        <tr><td><strong>Documentation (entire course — parallel)</strong></td><td class="write-cell"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+        <!-- Buffer row -->
+        <tr><td style="font-style:italic; font-size:9pt; color:#aaa;">Buffer row (leave unshaded — absorbs overruns)</td><td></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="3"></td><td class="week-cell" colspan="2"></td><td class="week-cell" colspan="3"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Identify the critical path on your Gantt chart. Which task group, if delayed by one class period, pushes back your final completion date the most? Does the plan fit within Class 40?</p>
+  <textarea class="write-area" rows="3" placeholder="The critical path runs through... The task group with the most impact if delayed is... because it is a dependency for... The plan (does / does not) fit within Class 40 because..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> During which phase could two team members be working on genuinely different tasks in parallel? Name both tasks and explain why one doesn't block the other.</p>
+  <textarea class="write-area" rows="3" placeholder="During Phase ___, [person A] could work on ___ while [person B] works on ___. These are parallel because... Neither blocks the other because..."></textarea>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Shade cells for all 13 task group rows — even if only approximately. Answer Q1 with teacher support. The critical path is the longest chain where one row's shading depends on another finishing first.</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Complete the full Gantt with all owner roles filled in. Mark at least 3 dependency arrows (→). Answer both questions. Verify your plan fits within Class 40 by counting shaded cells on the critical path.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Complete the Gantt. Circle the critical path with a continuous border. Apply your Part 1 variance ratio as a risk factor to the most uncertain phase. Recalculate whether the plan still fits within Class 40 with that adjustment. Show the calculation.</div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 4 — MILESTONES
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 4 &nbsp;·&nbsp; Milestone Definitions (12 min)</div>
+  <h2>How the Team Knows a Phase Is Truly Complete</h2>
+
+  <div class="reading-block">
+    <p>A milestone is a gate. You do not start Phase 4 before Phase 3's milestone is confirmed. "Chassis built" is not a milestone — it is a description of activity. "Chassis passes squareness test (diagonals within 2mm); Quality Lead signed off; all motors respond to driver input; drive test completed and build log updated — Class 20" is a milestone. Notice: it has a measurable test, a named owner, and a target class number. If the team arrives at Class 21 and the milestone isn't met, they know exactly what is blocking them and who owns the fix.</p>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 4A — Define a milestone for each phase. Specific enough that any team member can verify it without asking the owner.</span>
+  </div>
+
+  <table class="analysis-table">
+    <thead>
+      <tr>
+        <th style="width:20%">Phase</th>
+        <th style="width:38%">Milestone — the specific, verifiable condition that confirms this phase is done</th>
+        <th style="width:18%">Owner (role)</th>
+        <th style="width:12%">Target class #</th>
+        <th>What happens if milestone is missed?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Hardware research &amp; chassis design</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Control system &amp; wiring</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Drivetrain</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Mechanism</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Robot integration</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Autonomous</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Final assessment</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Pick the milestone that is hardest to write a specific, verifiable condition for. Explain why it is hard and describe what the team will accept as evidence that it is met.</p>
+  <textarea class="write-area" rows="3" placeholder="The hardest milestone to define specifically is Phase ___ because... We will accept the following as evidence it is met: ..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 5 — NOTEBOOK, STAND-UP & REFLECTION
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 5 &nbsp;·&nbsp; Notebook Entry, Stand-Up &amp; Exit Reflection (7 min)</div>
+  <h2>Record, Reflect, and Connect</h2>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry Requirements</div>
+    <p>Documentation Lead: the notebook for this session must contain — (1) the calibration table with variance ratios (Part 1), (2) the full WBS with owners, adjusted estimates, and definitions of done (Part 2), (3) the completed Gantt chart with dependency arrows and critical path identified (Part 3), (4) the milestone table with "what if missed" column completed (Part 4), (5) the stand-up notes, and (6) the exit reflection answers below. Date and sign the entry. All four team members sign. Add a revision box entry — this is Rev 1 of the plan. It will be updated as the project progresses.</p>
+  </div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Stand-Up meeting — Class 9 / planning session format:</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr><th style="width:22%">Member (role)</th><th>Completed since last class</th><th>Working on next</th><th style="width:28%">Any blockers?</th></tr></thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Compare this plan to the one you would have written at the start of Class 7, before the chassis build. Name at least two specific estimates or decisions that are different because of what you learned in Classes 7–9.</p>
+  <textarea class="write-area" rows="4" placeholder="In the plan I would have written before Class 7, I would have estimated [task] at ___ class periods. After the chassis build, I estimate it at ___ class periods because... A second decision I changed is..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Self-assessment:</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:62%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr></thead>
+    <tbody>
+      <tr><td>Our WBS has an owner, an adjusted estimate, a dependency, and a "done when" for every row</td><td></td><td></td><td></td></tr>
+      <tr><td>Our Gantt has dependency arrows and the critical path is clearly identified</td><td></td><td></td><td></td></tr>
+      <tr><td>Our milestones are specific enough that any team member can verify them without asking</td><td></td><td></td><td></td></tr>
+      <tr><td>Our estimates are calibrated from real chassis build data, not guesses</td><td></td><td></td><td></td></tr>
+      <tr><td>I can identify which task is the critical path bottleneck and explain what happens if it slips</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension / Exploration</div>
+    <p>Research PERT (Program Evaluation Review Technique) — the probabilistic scheduling tool used on the Apollo program and the Polaris missile project. Apply a full PERT analysis to the two tasks in your WBS with the highest variance ratios from Part 1: for each, estimate O (optimistic), M (most likely), and P (pessimistic) class periods, and calculate E = (O + 4M + P) ÷ 6. Then calculate the PERT standard deviation: σ = (P − O) ÷ 6. Write 3 sentences explaining: (1) what a high σ tells you about a task, (2) how you would use σ to decide how much buffer to allocate, and (3) which of your six phases has the highest total uncertainty and why.</p>
+  </div>
+</div>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 2 — Insert after Class 9</span>
+  <span>Robot Build Planning Session &nbsp;·&nbsp; WBS, Gantt &amp; Milestones</span>
+  <span>Page 1 of 1</span>
+</div>
+
+</body>
+</html>

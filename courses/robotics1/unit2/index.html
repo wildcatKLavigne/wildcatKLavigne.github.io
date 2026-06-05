@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2: Project Management — Introductory Robotics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue:#1a4f82;    --blue-lt:#e8f0f9;
+    --green:#2d6a4f;   --green-lt:#e8f4ee;
+    --amber:#7d4e00;   --amber-lt:#fdf3e3;
+    --orange:#8c3a00;  --orange-lt:#fef0e7;
+    --orange-mid:#d85a30;
+    --purple:#3d2a99;  --purple-lt:#f0ecff;
+    --border:#d0d0cc;  --r:8px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Sans 3',Arial,sans-serif;font-size:15px;color:#222;background:#f7f6f3;min-height:100vh;}
+
+  /* TOP NAV */
+  .top-nav{background:var(--orange);padding:0 32px;display:flex;align-items:center;gap:0;height:44px;border-bottom:1px solid #6b2900;}
+  .top-nav a{color:#f5c9a8;text-decoration:none;font-size:13px;padding:0 4px;line-height:44px;}
+  .top-nav a:hover{color:#fff;}
+  .top-nav .sep{color:#c07040;font-size:11px;padding:0 8px;}
+  .top-nav .current{color:#fff;font-weight:600;}
+
+  /* SIDEBAR + CONTENT */
+  .page-body{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 44px);}
+
+  .sidebar{background:#fff;border-right:1px solid var(--border);padding:24px 0;position:sticky;top:44px;height:calc(100vh - 44px);overflow-y:auto;}
+  .sidebar-section-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#aaa;padding:10px 20px 4px;display:block;}
+  .sidebar a{display:flex;align-items:center;gap:10px;padding:7px 20px;font-size:13px;color:#444;text-decoration:none;border-left:3px solid transparent;transition:all .12s;}
+  .sidebar a:hover{background:#f5f5f3;color:var(--orange);border-left-color:#f0c0a0;}
+  .sidebar a.active{background:var(--orange-lt);color:var(--orange);font-weight:600;border-left-color:var(--orange);}
+  .sidebar a.active .snum{background:var(--orange);color:#fff;}
+  .snum{font-size:10px;font-weight:700;min-width:22px;height:22px;border-radius:50%;background:#eee;color:#666;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sicon{font-size:13px;flex-shrink:0;}
+  .sidebar-divider{border:none;border-top:1px solid var(--border);margin:12px 20px;}
+
+  /* MAIN */
+  .main-content{padding:32px 40px 60px;max-width:900px;}
+
+  /* HERO */
+  .hero-block{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:28px 32px;margin-bottom:28px;border-left:5px solid var(--orange);}
+  .unit-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:6px;}
+  .hero-block h1{font-family:'Source Serif 4',Georgia,serif;font-size:28px;color:#111;line-height:1.2;margin-bottom:8px;}
+  .hero-block .desc{font-size:14px;color:#555;line-height:1.65;margin-bottom:18px;max-width:680px;}
+  .hero-meta{display:flex;gap:20px;flex-wrap:wrap;}
+  .hero-meta-item{font-size:13px;color:#666;}
+  .hero-meta-item strong{color:#333;}
+
+  /* OVERVIEW */
+  .overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px;margin-bottom:28px;}
+  .ov-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;}
+  .ov-label{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#888;display:block;margin-bottom:3px;}
+  .ov-val{font-size:14px;font-weight:600;color:#111;}
+
+  /* THREAD TAGS */
+  .thread-banner{background:var(--orange-lt);border:1px solid #f0c0a0;border-radius:var(--r);padding:12px 16px;margin-bottom:24px;}
+  .thread-banner h3{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);font-weight:700;margin-bottom:8px;}
+  .thread-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .thread-item{font-size:12px;color:#3a1a00;display:flex;align-items:baseline;gap:5px;}
+  .thread-item::before{content:'→';color:var(--orange);font-size:10px;flex-shrink:0;}
+
+  /* SECTION HEADING */
+  .section-heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--orange);margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--orange-lt);margin-top:32px;}
+  .section-heading:first-of-type{margin-top:0;}
+
+  /* CLASS CARDS */
+  .class-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;transition:box-shadow .15s;}
+  .class-card:hover{box-shadow:0 2px 14px rgba(0,0,0,.07);}
+  .class-top{display:grid;grid-template-columns:auto 1fr auto;align-items:start;gap:16px;padding:16px 20px;}
+  .class-num-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#fff;background:var(--orange);border-radius:4px;padding:3px 8px;white-space:nowrap;margin-top:2px;}
+  .class-title{font-size:15px;font-weight:600;color:#111;margin-bottom:3px;}
+  .class-desc{font-size:13px;color:#666;line-height:1.5;}
+  .class-activity{font-size:12px;color:var(--orange);font-weight:600;margin-top:4px;}
+
+  .class-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;min-width:150px;}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;transition:all .15s;}
+  .btn-primary{background:var(--orange);color:#fff;border:1.5px solid var(--orange);}
+  .btn-primary:hover{background:#6b2900;border-color:#6b2900;}
+  .btn-secondary{background:#fff;color:var(--orange);border:1.5px solid var(--orange);}
+  .btn-secondary:hover{background:var(--orange-lt);}
+  .btn-nb{background:#fff;color:var(--amber);border:1.5px solid var(--amber);}
+  .btn-nb:hover{background:var(--amber-lt);}
+  .btn svg{width:13px;height:13px;flex-shrink:0;}
+
+  .class-objectives{background:var(--orange-lt);padding:10px 20px;border-top:1px solid #f0c0a0;}
+  .class-objectives h4{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);font-weight:700;margin-bottom:5px;}
+  .class-objectives ul{list-style:none;display:flex;flex-wrap:wrap;gap:4px 16px;}
+  .class-objectives li{font-size:12px;color:#3a1a00;display:flex;align-items:baseline;gap:5px;}
+  .class-objectives li::before{content:'→';color:var(--orange);font-size:10px;flex-shrink:0;}
+
+  .scaffold-key{display:flex;gap:12px;flex-wrap:wrap;padding:8px 20px;border-top:1px solid var(--border);background:#fafaf8;}
+  .sk-item{display:flex;align-items:center;gap:5px;font-size:11px;}
+  .sk-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+
+  /* ROLE CARDS */
+  .roles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px;}
+  .role-ref-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+  .role-ref-header{background:var(--orange);color:#fff;padding:8px 12px;font-size:11pt;font-weight:700;}
+  .role-ref-body{padding:8px 12px;font-size:13px;color:#555;line-height:1.55;}
+
+  /* DOWNLOADS */
+  .downloads-box{background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-top:32px;overflow:hidden;}
+  .downloads-box .dl-header{background:var(--orange);color:#fff;padding:10px 20px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+  .dl-group-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#aaa;padding:10px 20px 2px;display:block;}
+  .resource-row{display:flex;align-items:center;justify-content:space-between;padding:9px 20px;border-bottom:1px solid var(--border);gap:12px;}
+  .resource-row:last-child{border-bottom:none;}
+  .resource-info{font-size:13px;color:#444;}
+  .resource-info small{display:block;font-size:11px;color:#888;margin-top:1px;}
+
+  footer{text-align:center;padding:24px;font-size:12px;color:#aaa;border-top:1px solid var(--border);margin-top:20px;}
+
+  @media(max-width:700px){.page-body{grid-template-columns:1fr;}.sidebar{display:none;}.main-content{padding:20px;}.class-top{grid-template-columns:1fr;}.class-actions{flex-direction:row;}.thread-grid{grid-template-columns:1fr;}.roles-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="../index.html">Robotics Curriculum</a>
+  <span class="sep">›</span>
+  <a href="../unit1/index.html">Unit 1</a>
+  <span class="sep">›</span>
+  <span class="current">Unit 2: Project Management</span>
+</nav>
+
+<div class="page-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <span class="sidebar-section-label">Unit 2 Overview</span>
+      <a href="#overview" class="active"><span class="sicon">◈</span> Unit overview</a>
+    </div>
+    <hr class="sidebar-divider">
+    <div>
+      <span class="sidebar-section-label">Class Lessons</span>
+      <a href="#class6"><span class="snum">6</span> Roles &amp; Team Norms</a>
+      <a href="#class7"><span class="snum">7</span> Planning &amp; Timelines</a>
+      <a href="#class8"><span class="snum">8</span> Risk &amp; Communication</a>
+    </div>
+    <hr class="sidebar-divider">
+    <div>
+      <span class="sidebar-section-label">Reference</span>
+      <a href="#roles"><span class="sicon">👥</span> Team roles guide</a>
+      <a href="#tools"><span class="sicon">🗂</span> PM tools summary</a>
+    </div>
+    <hr class="sidebar-divider">
+    <div>
+      <span class="sidebar-section-label">Downloads</span>
+      <a href="#downloads"><span class="sicon">↓</span> All files</a>
+    </div>
+    <hr class="sidebar-divider">
+    <div>
+      <span class="sidebar-section-label">Navigation</span>
+      <a href="../unit1/index.html"><span class="sicon">←</span> Unit 1</a>
+      <a href="../unit3/index.html"><span class="sicon">→</span> Unit 3</a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- HERO -->
+    <div class="hero-block" id="overview">
+      <div class="unit-tag">Unit 2 of 9 &nbsp;·&nbsp; Classes 6–8</div>
+      <h1>Project Management for Engineering Teams</h1>
+      <p class="desc">Students learn how engineering teams organize work, communicate progress, and anticipate failure before it happens. Unit 2 establishes the team charter, project plan, and risk register that govern every subsequent unit. All three Project Management tools are then actively used — not just studied — throughout the rest of the course.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><strong>3 classes</strong> (Classes 6–8)</div>
+        <div class="hero-meta-item"><strong>74 min</strong> per class</div>
+        <div class="hero-meta-item"><strong>Groups of 4</strong></div>
+        <div class="hero-meta-item"><strong>Prev:</strong> Unit 1 — Engineering Foundations</div>
+        <div class="hero-meta-item"><strong>Next:</strong> Unit 3 — REV Hardware</div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW PILLS -->
+    <div class="overview-grid">
+      <div class="ov-card"><span class="ov-label">Key deliverable</span><div class="ov-val">Signed team charter + WBS + Gantt + risk register</div></div>
+      <div class="ov-card"><span class="ov-label">New tool: C6</span><div class="ov-val">Team charter &amp; 4 role system</div></div>
+      <div class="ov-card"><span class="ov-label">New tool: C7</span><div class="ov-val">WBS + Gantt + critical path</div></div>
+      <div class="ov-card"><span class="ov-label">New tool: C8</span><div class="ov-val">Risk register + status update</div></div>
+      <div class="ov-card"><span class="ov-label">Activity (C6)</span><div class="ov-val">REV rotary intake flapper design</div></div>
+    </div>
+
+    <!-- THREAD TAGS -->
+    <div class="thread-banner">
+      <h3>How Unit 2 tools thread through the rest of the course</h3>
+      <div class="thread-grid">
+        <div class="thread-item">Team charter governs every build class from Unit 3 onward</div>
+        <div class="thread-item">WBS + Gantt updated at the start of Units 5, 6, and 8</div>
+        <div class="thread-item">Risk register reviewed before every major build phase</div>
+        <div class="thread-item">Stand-up meeting run at the start of every class from C6</div>
+        <div class="thread-item">Status update written at the end of each unit</div>
+        <div class="thread-item">Gantt actual vs. planned compared in Unit 8 review</div>
+      </div>
+    </div>
+
+    <!-- CLASS LESSONS -->
+    <div class="section-heading" id="class6">Class Lessons</div>
+
+    <!-- CLASS 6 -->
+    <div class="class-card">
+      <div class="class-top">
+        <div><div class="class-num-badge">Class 6</div></div>
+        <div>
+          <div class="class-title">Roles, Responsibilities &amp; Team Norms</div>
+          <div class="class-desc">Introduces the four engineering team roles (Build Lead, Documentation Lead, Parts Manager, Quality Lead) and the team charter. Teams negotiate role assignments, write and sign their charter, then immediately apply all Unit 1 skills to a real engineering challenge.</div>
+          <div class="class-activity">🔩 Activity: REV Starter Bot rotary intake — design, build &amp; test a flapper module (all Unit 1 skills applied)</div>
+        </div>
+        <div class="class-actions">
+          <a class="btn btn-primary" href="class6_lesson.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Open worksheet
+          </a>
+          <a class="btn btn-nb" href="../downloads/unit2_class6_notebook_template.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Notebook template
+          </a>
+          <a class="btn btn-secondary" href="../downloads/unit2_class6_roles_norms.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Worksheet .docx
+          </a>
+        </div>
+      </div>
+      <div class="class-objectives">
+        <h4>Learning objectives</h4>
+        <ul>
+          <li>Name and describe the four team roles and explain what each role owns</li>
+          <li>Write a signed team charter with specific, enforceable norms</li>
+          <li>Apply EDP, sketching, weighted matrix, and modular design to the flapper challenge using team roles</li>
+        </ul>
+      </div>
+      <div class="scaffold-key">
+        <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div><span><strong>Novice:</strong> Fill in charter template; analyze 2 pre-drawn flapper designs; complete matrix with provided criteria</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div><span><strong>Intermediate:</strong> Write charter from scratch; sketch 3 different flappers; complete weighted matrix with own criteria</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div><span><strong>Proficient:</strong> Design a mid-build deviation protocol for the charter; connect flapper to modular design properties from Unit 1</span></div>
+      </div>
+    </div>
+
+    <!-- CLASS 7 -->
+    <div class="class-card" id="class7">
+      <div class="class-top">
+        <div><div class="class-num-badge">Class 7</div></div>
+        <div>
+          <div class="class-title">Project Planning: Milestones, Timelines &amp; Task Breakdown</div>
+          <div class="class-desc">Introduces Work Breakdown Structure (WBS), Gantt charts, task dependencies, and the critical path concept. Teams decompose the entire remaining course into a concrete project plan — phases, tasks, owners, and time estimates — and build a Gantt timeline that they will update in every subsequent unit.</div>
+          <div class="class-activity">📅 Activity: Build a full-course WBS and Gantt chart for Classes 9–40</div>
+        </div>
+        <div class="class-actions">
+          <a class="btn btn-primary" href="class7_lesson.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Open worksheet
+          </a>
+          <a class="btn btn-nb" href="../downloads/unit2_class7_notebook_template.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Notebook template
+          </a>
+          <a class="btn btn-secondary" href="../downloads/unit2_class7_project_planning.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Worksheet .docx
+          </a>
+        </div>
+      </div>
+      <div class="class-objectives">
+        <h4>Learning objectives</h4>
+        <ul>
+          <li>Decompose a project into tasks, subtasks, owners, and time estimates using a WBS</li>
+          <li>Build a Gantt chart showing task duration, dependencies, and the critical path</li>
+          <li>Define milestones with specific, verifiable completion criteria and owner assignments</li>
+        </ul>
+      </div>
+      <div class="scaffold-key">
+        <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div><span><strong>Novice:</strong> Fill in WBS subtasks and owners; shade 10+ Gantt cells; answer Q1 with teacher support</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div><span><strong>Intermediate:</strong> Complete full WBS with definitions of done; complete Gantt with dependency arrows</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div><span><strong>Proficient:</strong> Identify critical path; calculate buffer-adjusted completion date; PERT analysis on most uncertain task</span></div>
+      </div>
+    </div>
+
+    <!-- CLASS 8 -->
+    <div class="class-card" id="class8">
+      <div class="class-top">
+        <div><div class="class-num-badge">Class 8</div></div>
+        <div>
+          <div class="class-title">Risk Management, Progress Tracking &amp; Team Communication</div>
+          <div class="class-desc">Introduces the risk register: identify, score (likelihood × impact), and mitigate project risks before they happen. Teams practice writing a specific status update (traffic light + facts + action items) and run a structured stand-up meeting. Closes Unit 2 with a Gantt update and first written status report.</div>
+          <div class="class-activity">⚠️ Activity: Build an 8-risk register + write the Unit 2 status update</div>
+        </div>
+        <div class="class-actions">
+          <a class="btn btn-primary" href="class8_lesson.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Open worksheet
+          </a>
+          <a class="btn btn-nb" href="../downloads/unit2_class8_notebook_template.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Notebook template
+          </a>
+          <a class="btn btn-secondary" href="../downloads/unit2_class8_risk_communication.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Worksheet .docx
+          </a>
+        </div>
+      </div>
+      <div class="class-objectives">
+        <h4>Learning objectives</h4>
+        <ul>
+          <li>Build a risk register: identify 8+ risks, score each L×I, assign mitigations and owners</li>
+          <li>Write a specific status update: traffic light + facts + owner + action items</li>
+          <li>Run a structured stand-up in under 3 minutes; park blockers without derailing the meeting</li>
+        </ul>
+      </div>
+      <div class="scaffold-key">
+        <div class="sk-item"><div class="sk-dot" style="background:#2d6a4f"></div><span><strong>Novice:</strong> Identify 5 risks using the provided example row; write one mitigation per risk</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div><span><strong>Intermediate:</strong> 8 risks across 4 categories; detailed mitigation for all Critical (score 7–9) risks</span></div>
+        <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div><span><strong>Proficient:</strong> Preventive + contingency mitigation for top 2 risks; FMEA extension on one robot subsystem</span></div>
+      </div>
+    </div>
+
+    <!-- TEAM ROLES REFERENCE -->
+    <div class="section-heading" id="roles">Team Roles Reference</div>
+    <p style="font-size:13px; color:#666; margin-bottom:14px; line-height:1.6;">The four team roles are introduced in Class 6 and rotate each unit so every student practices every skill by the end of the course. Keep this reference in your notebook.</p>
+
+    <div class="roles-grid">
+      <div class="role-ref-card">
+        <div class="role-ref-header">🔧 Build Lead</div>
+        <div class="role-ref-body">Owns physical construction: build sequence, sub-task assignment, real-time build decisions, deviation recording, squareness verification, build sign-off.</div>
+      </div>
+      <div class="role-ref-card">
+        <div class="role-ref-header">📓 Documentation Lead</div>
+        <div class="role-ref-body">Owns the engineering notebook: current entries, sketch standards (dimensions, labels, title blocks, dates), revision tracking, stand-up notes, teacher review preparation.</div>
+      </div>
+      <div class="role-ref-card">
+        <div class="role-ref-header">📦 Parts &amp; Inventory Manager</div>
+        <div class="role-ref-body">Owns parts: inventory tracking, material sourcing from stockpile, parts list maintenance, shortage flagging before build blockers occur, workspace management.</div>
+      </div>
+      <div class="role-ref-card">
+        <div class="role-ref-header">🔬 Quality &amp; Test Lead</div>
+        <div class="role-ref-body">Owns test plans: success criteria written before building, structured test execution, quantitative result recording, root-cause identification, iteration decision driving.</div>
+      </div>
+    </div>
+
+    <!-- PM TOOLS REFERENCE -->
+    <div class="section-heading" id="tools">Project Management Tools Summary</div>
+    <p style="font-size:13px; color:#666; margin-bottom:14px; line-height:1.6;">Three tools from Unit 2 are used throughout the course. Refer to this summary whenever you update these documents in later units.</p>
+
+    <div style="background:#fff; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px;">
+      <table style="width:100%; border-collapse:collapse; font-size:13px;">
+        <thead>
+          <tr>
+            <th style="background:var(--orange); color:#fff; padding:9px 14px; text-align:left; width:20%;">Tool</th>
+            <th style="background:var(--orange); color:#fff; padding:9px 14px; text-align:left; width:30%;">What it answers</th>
+            <th style="background:var(--orange); color:#fff; padding:9px 14px; text-align:left; width:25%;">Updated when</th>
+            <th style="background:var(--orange); color:#fff; padding:9px 14px; text-align:left;">Owner role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="border:1px solid var(--border); padding:8px 14px; font-weight:600;">Team charter</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">How do we make decisions and resolve conflict?</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">Reviewed at role rotation; amended by consensus</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">Documentation Lead</td>
+          </tr>
+          <tr style="background:#fef5ee;">
+            <td style="border:1px solid var(--border); padding:8px 14px; font-weight:600;">WBS + Gantt chart</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">What needs to happen, when, and who owns it?</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">Start of Units 5, 6, 8; whenever milestone targets change</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">Documentation Lead (records); all roles (input)</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid var(--border); padding:8px 14px; font-weight:600;">Risk register</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">What might go wrong, and how do we prevent it?</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">Before every major build phase; when a risk materializes</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">Quality Lead (owns); all roles identify risks</td>
+          </tr>
+          <tr style="background:#fef5ee;">
+            <td style="border:1px solid var(--border); padding:8px 14px; font-weight:600;">Stand-up meeting</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">What did I do, what am I doing, what is blocking me?</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">Every class, first 3 minutes</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">Documentation Lead (facilitates + records)</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid var(--border); padding:8px 14px; font-weight:600;">Status update</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">Are we on track? What is the current blocker?</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">End of every unit</td>
+            <td style="border:1px solid var(--border); padding:8px 14px;">Documentation Lead (writes); all roles provide facts</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DOWNLOADS -->
+    <div class="downloads-box" id="downloads">
+      <div class="dl-header">All Unit 2 Downloads</div>
+
+      <span class="dl-group-label">Class Worksheets</span>
+      <div class="resource-row">
+        <div class="resource-info">Class 6 Worksheet — Roles, Responsibilities &amp; Rotary Intake Flapper Design<small>.docx · US Letter · Printable</small></div>
+        <a class="btn btn-secondary" href="../downloads/unit2_class6_roles_norms.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>.docx
+        </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Class 7 Worksheet — Project Planning: WBS, Milestones &amp; Gantt Chart<small>.docx · US Letter · Printable</small></div>
+        <a class="btn btn-secondary" href="../downloads/unit2_class7_project_planning.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>.docx
+        </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Class 8 Worksheet — Risk Management, Progress Tracking &amp; Team Communication<small>.docx · US Letter · Printable</small></div>
+        <a class="btn btn-secondary" href="../downloads/unit2_class8_risk_communication.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>.docx
+        </a>
+      </div>
+
+      <span class="dl-group-label">Notebook Entry Templates</span>
+      <div class="resource-row">
+        <div class="resource-info">Class 6 Notebook Template — Roles, Team Charter &amp; Flapper Design<small>.docx · Google Docs compatible</small></div>
+        <a class="btn btn-nb" href="../downloads/unit2_class6_notebook_template.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download
+        </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Class 7 Notebook Template — WBS, Gantt &amp; Milestones<small>.docx · Google Docs compatible</small></div>
+        <a class="btn btn-nb" href="../downloads/unit2_class7_notebook_template.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download
+        </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Class 8 Notebook Template — Risk Register, Status Update &amp; Stand-Up<small>.docx · Google Docs compatible</small></div>
+        <a class="btn btn-nb" href="../downloads/unit2_class8_notebook_template.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download
+        </a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>Introductory Robotics Curriculum &nbsp;·&nbsp; Unit 2: Project Management &nbsp;·&nbsp; REV Robotics &nbsp;·&nbsp; Classes 6–8</footer>
+
+</body>
+</html>
