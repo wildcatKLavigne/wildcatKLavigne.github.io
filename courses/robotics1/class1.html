@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Class 1: What is Engineering? Intentional Design</title>
+<title>Class 1: What is Engineering? Purposeful Design</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
 
@@ -476,7 +476,7 @@
 
 <div class="ws-header">
   <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
-  <h1>What is Engineering?<br>Intentional Design</h1>
+  <h1>What is Engineering?<br>Purposeful Design</h1>
   <div class="subtitle">Class 1 of 4 &nbsp;·&nbsp; 74 minutes</div>
   <div class="ws-meta">
     <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
@@ -490,7 +490,7 @@
 <div class="objectives-box">
   <h3>Learning Objectives</h3>
   <ol>
-    <li>Define <em>intentional design</em> and explain what makes it different from trial-and-error.</li>
+    <li>Define <em>purposeful design</em> and explain what makes it different from trial-and-error.</li>
     <li>Identify design decisions visible in a robot photo and explain their likely purpose.</li>
     <li>Set up and make your first entry in your engineering notebook.</li>
   </ol>
@@ -499,21 +499,85 @@
 <!-- PART 1 -->
 <div class="section">
   <div class="section-label">Part 1 &nbsp;·&nbsp; Reading &amp; Discussion (15 min)</div>
-  <h2>What Makes a Design Intentional?</h2>
+  <h2>What Makes a Design Purposeful?</h2>
 
   <div class="reading-block">
     <p>Engineering is the practice of solving problems with <span class="key-term">constraints</span>. A constraint is a limit you must work within — weight, cost, size, time, available materials. Engineers don't just build whatever they imagine; they make decisions that balance competing demands.</p>
-    <p><span class="key-term">Intentional design</span> means every choice in your robot has a reason. You chose that wheel size because it gives the right ground clearance. You placed the battery low because it lowers the center of gravity. You used a modular bracket so you can swap it later. When someone asks "why did you build it that way?" you should have an answer.</p>
+    <p><span class="key-term">Purposeful design</span> means every choice in your robot has a reason. You chose that wheel size because it gives the right ground clearance. You placed the battery low because it lowers the center of gravity. You used a modular bracket so you can swap it later. When someone asks "why did you build it that way?" you should have an answer.</p>
     <p>Trial-and-error means trying things until something works — without understanding why it works. It can get you a functioning robot, but you won't be able to improve it reliably or explain it to a judge, a teammate, or next year's team.</p>
   </div>
 
   <p style="font-size:10pt; color:#555; margin-bottom:12px;">After the class discussion, answer these questions in the space below.</p>
 
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> In your own words, what is the difference between intentional design and trial-and-error?</p>
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> In your own words, what is the difference between purposeful design and trial-and-error?</p>
   <textarea class="write-area" rows="3" placeholder="Write your answer here..."></textarea>
 
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Give one example from everyday life (not a robot) where someone used intentional design. What was the constraint they were working within?</p>
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Give one example from everyday life (not a robot) where someone used purposeful design. What was the constraint they were working within?</p>
   <textarea class="write-area" rows="3" placeholder="Example and constraint..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- STABILITY EXPERIMENT -->
+<div class="section">
+  <div class="section-label">Quick Experiment &nbsp;·&nbsp; Stability &amp; Weight Placement (5 min)</div>
+  <h2>Where Weight Lives Changes Everything</h2>
+
+  <div class="reading-block">
+    <p>Before analyzing robots, you need one concept in your hands: <span class="key-term">stability</span> — how easily something tips over. This 5-minute experiment gives you the idea physically so you can apply it when analyzing robot photos.</p>
+  </div>
+
+  <div style="background:#e8f4ee; border-left:4px solid #2d6a4f; border-radius:0 6px 6px 0; padding:12px 16px; margin-bottom:14px;">
+    <div style="font-size:8.5pt; text-transform:uppercase; letter-spacing:0.07em; font-weight:700; color:#2d6a4f; margin-bottom:8px;">Materials (per group)</div>
+    <div style="font-size:10pt; color:#1a3a1a; line-height:1.7;">
+      1 empty plastic water bottle with cap &nbsp;·&nbsp; 1 heavy book or a few textbooks &nbsp;·&nbsp; 1 small flat object to place on top (eraser or phone)
+    </div>
+  </div>
+
+  <div style="border:1.5px solid #d0d0cc; border-radius:6px; overflow:hidden; margin-bottom:14px;">
+    <div style="background:#2d6a4f; color:#fff; padding:7px 14px; font-size:9.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">Procedure</div>
+    <div style="padding:12px 16px; font-size:10.5pt; line-height:1.8; color:#222;">
+      <p style="margin-bottom:8px;"><strong>Step 1 — Baseline.</strong> Stand the empty water bottle upright on the table. Gently push it from the side with one finger. Note how much force it takes to tip it.</p>
+      <p style="margin-bottom:8px;"><strong>Step 2 — Weight on top.</strong> Balance the heavy book on top of the water bottle. Gently push from the side with the same force. What happens?</p>
+      <p style="margin-bottom:8px;"><strong>Step 3 — Weight on bottom.</strong> Now place the book flat on the table and stand the water bottle on top of it (book is the base). Push the bottle again. Compare to Step 2.</p>
+      <p style="margin-bottom:0;"><strong>Step 4 — Predict.</strong> Before you look at any robot photos: if a robot's battery is the heaviest single part, where would you want to mount it — high or low? Why?</p>
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Record your observations:</strong></p>
+  <table class="analysis-table" style="font-size:10pt;">
+    <thead>
+      <tr>
+        <th style="width:28%">Setup</th>
+        <th style="width:36%">What happened when you pushed?</th>
+        <th>How much force did it take to tip?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Step 1</strong> — Bottle alone</td>
+        <td class="write-cell"></td>
+        <td class="write-cell"></td>
+      </tr>
+      <tr>
+        <td><strong>Step 2</strong> — Book on top</td>
+        <td class="write-cell"></td>
+        <td class="write-cell"></td>
+      </tr>
+      <tr>
+        <td><strong>Step 3</strong> — Book on bottom</td>
+        <td class="write-cell"></td>
+        <td class="write-cell"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Write a rule in your own words: where should the heaviest part of a robot be mounted, and why?</p>
+  <textarea class="write-area" rows="2" placeholder="The heaviest part should be mounted... because when it is high, the robot..."></textarea>
+
+  <div style="background:#fdf3e3; border-left:4px solid #c8860a; border-radius:0 6px 6px 0; padding:10px 14px; margin-bottom:6px; font-size:10pt; color:#3a2a00; line-height:1.6;">
+    <strong style="color:#7d4e00;">Key term:</strong> The point where an object's weight is balanced is called its <strong>center of gravity</strong>. When the center of gravity is low (close to the ground), the object is stable and hard to tip. When it is high, small pushes can tip it easily. In your Step 2 experiment, the book raised the center of gravity — in Step 3, the book lowered it. You will see this reasoning again when analyzing robot photos.
+  </div>
 </div>
 
 <hr class="section-rule">
@@ -822,7 +886,7 @@
 
   <div class="reading-block">
     <p>Your engineering notebook is a legal record of your design process. In competitions like FIRST Tech Challenge, judges read notebooks to understand how your team thinks — not just what you built. Every entry must be dated and signed. Every sketch must be labeled. Every decision must have a reason.</p>
-    <p>Today you will set up your notebook and make your first entry: a title page and a definition entry for <em>intentional design</em>.</p>
+    <p>Today you will set up your notebook and make your first entry: a title page and a definition entry for <em>purposeful design</em>.</p>
   </div>
 
   <p style="font-size:10.5pt; margin-bottom:8px;"><strong>Notebook setup checklist</strong> — check each box as you complete it in your physical notebook:</p>
@@ -831,14 +895,14 @@
     <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Title page with team name, year, and member names</label>
     <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Table of contents page (leave 2 pages blank)</label>
     <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> First entry dated and signed by all members</label>
-    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Definition of "intentional design" in your own words</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Definition of "purposeful design" in your own words</label>
     <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> One design decision from the robot photo, with rationale</label>
     <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Page number written at the bottom of the entry page</label>
   </div>
 
   <div class="notebook-prompt">
     <div class="nb-label">Notebook Entry Prompt</div>
-    <p>Write today's full date at the top right. Then write: <em>"Today I learned that intentional design means..."</em> — finish this sentence in at least 3 sentences. Then sketch or describe one design choice from the robot photo and explain the engineering reason behind it.</p>
+    <p>Write today's full date at the top right. Then write: <em>"Today I learned that purposeful design means..."</em> — finish this sentence in at least 3 sentences. Then sketch or describe one design choice from the robot photo and explain the engineering reason behind it.</p>
   </div>
 </div>
 
@@ -849,7 +913,7 @@
   <div class="section-label">Part 4 &nbsp;·&nbsp; Exit Reflection (10 min)</div>
   <h2>Checking Your Understanding</h2>
 
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Write one sentence that defines intentional design without using the word "intentional."</p>
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Write one sentence that defines purposeful design without using the word "purposeful."</p>
   <textarea class="write-area" rows="2"></textarea>
 
   <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> What is one question you still have after today's class?</p>
@@ -861,21 +925,113 @@
       <tr><th style="width:60%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr>
     </thead>
     <tbody>
-      <tr><td>I can define intentional design</td><td></td><td></td><td></td></tr>
+      <tr><td>I can define purposeful design</td><td></td><td></td><td></td></tr>
       <tr><td>I can identify design decisions in a robot photo</td><td></td><td></td><td></td></tr>
       <tr><td>I set up my engineering notebook correctly</td><td></td><td></td><td></td></tr>
     </tbody>
   </table>
 
   <div class="extension-box">
-    <div class="ext-label">Extension / Exploration</div>
-    <p>Research a real-world engineering failure — good starting points include the Tacoma Narrows Bridge (1940), the Gimli Glider (1983), or the Therac-25 radiation machine (1985–1987). Write a 1-page analysis in your engineering notebook: What was the design intent? What constraint was underestimated or ignored? What would intentional design have caught?</p>
+    <div class="ext-label">Extension / Exploration — Purposeful Failure</div>
+    <p><strong>Build it wrong on purpose.</strong> Using materials from today's class (paper, tape, or anything on your desk), build a small tower or structure that you deliberately design to fail in a specific way — for example, one that will definitely tip to the left, or one whose middle will buckle before the base. Before you build it: write down exactly how and where you predict it will fail. Then build it, test it, and record what actually happened.</p>
+    <p style="margin-top:8px;">In your engineering notebook, write 3 sentences: (1) where you predicted the failure, (2) where the failure actually occurred, and (3) what this tells you about where engineers need to look hardest for problems. Then choose one of the two real engineering failures at the bottom of this box and apply the same three questions to it.</p>
+
+    <!-- STEP 1: Tacoma Narrows intro -->
+    <div style="margin-top:16px; margin-bottom:4px; font-size:8.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#7d4e00;">Step 1 — Watch this first: an introduction to engineering failure</div>
+    <div style="background:#1a1a2e; border-radius:8px; overflow:hidden; border:1.5px solid #3d3d5c; margin-bottom:16px;">
+      <div style="background:#2a2a4a; padding:8px 14px; display:flex; align-items:center; gap:10px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.498 6.186a2.999 2.999 0 0 0-2.112-2.12C19.502 3.5 12 3.5 12 3.5s-7.502 0-9.386.566A2.999 2.999 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a2.999 2.999 0 0 0 2.11 2.12C4.498 20.5 12 20.5 12 20.5s7.502 0 9.386-.566a2.999 2.999 0 0 0 2.112-2.12C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span style="font-size:10pt; font-weight:700; color:#e0e0ff; letter-spacing:0.02em;">Intro — The Tacoma Narrows Bridge Collapse (1940)</span>
+      </div>
+      <div style="padding:12px 16px; display:flex; align-items:center; gap:16px;">
+        <a href="https://youtu.be/mXTSnZgrfxM?si=PwB_tBea4XWtZfkj" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; background:#ff4444; color:#fff; font-size:10pt; font-weight:700; text-decoration:none; padding:8px 16px; border-radius:6px; flex-shrink:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+          Watch on YouTube
+        </a>
+        <div>
+          <div style="font-size:10pt; color:#c0c0e0; line-height:1.55;">A suspension bridge designed by a team of experienced engineers collapsed just four months after opening. Watch this short clip to see what engineering failure looks like — and start thinking about <em>where</em> the failure actually came from, and <em>why</em> it wasn't caught.</div>
+          <div style="font-size:9pt; color:#8888aa; margin-top:5px;">youtu.be/mXTSnZgrfxM &nbsp;·&nbsp; watch before continuing</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Exemplar -->
+    <div style="margin-top:24px; margin-bottom:4px; font-size:8.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#7d4e00;">Step 2 — Read this exemplar before you write your own analysis</div>
+    <div style="background:#fff; border:1.5px solid #c8860a; border-radius:8px; overflow:hidden; margin-bottom:16px;">
+      <div style="background:#c8860a; padding:8px 14px;">
+        <span style="font-size:9.5pt; font-weight:700; color:#fff; letter-spacing:0.03em;">EXEMPLAR — Tacoma Narrows Bridge analysis</span>
+        <span style="font-size:9pt; color:rgba(255,255,255,0.75); margin-left:10px;">This is what a strong response looks like. Yours should match this depth and structure.</span>
+      </div>
+      <div style="padding:14px 16px;">
+
+        <div style="margin-bottom:12px;">
+          <div style="font-size:8.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:#1a4f82; margin-bottom:4px;">1 &nbsp;·&nbsp; Design intent</div>
+          <p style="font-size:10pt; color:#222; line-height:1.65; margin:0;">The Tacoma Narrows Bridge was designed to carry vehicle traffic across the Puget Sound in Washington State. The engineering team prioritized a sleek, narrow profile — the bridge deck was only 39 feet wide relative to its 2,800-foot span, making it far more slender than any bridge built before it. The intent was an elegant, economical structure that demonstrated how far modern suspension bridge engineering had advanced.</p>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <div style="font-size:8.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:#2d6a4f; margin-bottom:4px;">2 &nbsp;·&nbsp; Constraint that was underestimated</div>
+          <p style="font-size:10pt; color:#222; line-height:1.65; margin:0;">The engineers calculated that the bridge could withstand winds far stronger than anything recorded in the area — so wind load was treated as a solved problem. What they underestimated was <em>aerodynamic resonance</em>: the way steady moderate winds (not extreme gusts) could cause the deck to twist and oscillate at its natural frequency, like a guitar string vibrating. The deck's solid plate girder sides acted like a sail, catching the wind instead of letting it pass through. This was a known phenomenon in other structures but had not been systematically applied to suspension bridge design at the time. The constraint was not "how strong is the wind?" but "how does the bridge <em>interact</em> with the wind?" — and that second question was never asked.</p>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <div style="font-size:8.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:#7d4e00; margin-bottom:4px;">3 &nbsp;·&nbsp; What purposeful design would have caught</div>
+          <p style="font-size:10pt; color:#222; line-height:1.65; margin:0;">An purposeful design process would have included a constraint check on dynamic behavior, not just static load. Engineers who tested the <em>interaction</em> between structure and airflow — rather than just the maximum force the wind could exert — would have discovered the resonance problem before construction. After Tacoma Narrows collapsed, suspension bridge design changed permanently: decks were stiffened with open trusses or aerodynamic profiles to break up oscillation. The failure generated a constraint that every bridge designer since has had to satisfy. That constraint existed before 1940 — it just wasn't part of anyone's checklist.</p>
+        </div>
+
+        <div style="background:#f5f5f3; border-radius:5px; padding:10px 12px; margin-top:4px;">
+          <div style="font-size:8.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:#555; margin-bottom:5px;">What makes this a strong response</div>
+          <ul style="font-size:9.5pt; color:#444; line-height:1.7; padding-left:16px; margin:0;">
+            <li>The <em>design intent</em> section names a specific decision (the narrow deck ratio) and the reasoning behind it — not just "they built a bridge."</li>
+            <li>The <em>constraint</em> section distinguishes between the constraint the engineers <em>thought</em> they were managing (maximum wind force) and the one they actually missed (aerodynamic resonance). It explains the mechanism in plain language.</li>
+            <li>The <em>purposeful design</em> section names a concrete test or check that would have caught the problem — and explains what changed in the field afterward as evidence that the missed constraint was real.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Choose one -->
+    <div style="margin-top:24px; margin-bottom:4px; font-size:8.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#7d4e00;">Step 3 — Now choose one and write your own</div>
+
+    <div style="background:#1a1a2e; border-radius:8px; overflow:hidden; border:1.5px solid #3d3d5c; margin-bottom:10px;">
+      <div style="background:#2a2a4a; padding:8px 14px; display:flex; align-items:center; gap:10px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.498 6.186a2.999 2.999 0 0 0-2.112-2.12C19.502 3.5 12 3.5 12 3.5s-7.502 0-9.386.566A2.999 2.999 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a2.999 2.999 0 0 0 2.11 2.12C4.498 20.5 12 20.5 12 20.5s7.502 0 9.386-.566a2.999 2.999 0 0 0 2.112-2.12C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span style="font-size:10pt; font-weight:700; color:#e0e0ff; letter-spacing:0.02em;">Option 1 &nbsp;·&nbsp; The Gimli Glider — Air Canada Flight 143 (1983)</span>
+      </div>
+      <div style="padding:12px 16px; display:flex; align-items:center; gap:16px;">
+        <a href="https://youtu.be/4fGibq7OV6E?si=IS7MUff21FCCCcxU" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; background:#ff4444; color:#fff; font-size:10pt; font-weight:700; text-decoration:none; padding:8px 16px; border-radius:6px; flex-shrink:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+          Watch on YouTube
+        </a>
+        <div>
+          <div style="font-size:10pt; color:#c0c0e0; line-height:1.55;">A unit conversion error caused a fully loaded Boeing 767 to run out of fuel at 41,000 feet. The crew landed it safely — but the failure chain that got them there is a textbook case in what happens when engineers don't catch their own mistakes.</div>
+          <div style="font-size:9pt; color:#8888aa; margin-top:5px;">youtu.be/4fGibq7OV6E &nbsp;·&nbsp; ~15 minutes</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#1a1a2e; border-radius:8px; overflow:hidden; border:1.5px solid #3d3d5c;">
+      <div style="background:#2a2a4a; padding:8px 14px; display:flex; align-items:center; gap:10px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.498 6.186a2.999 2.999 0 0 0-2.112-2.12C19.502 3.5 12 3.5 12 3.5s-7.502 0-9.386.566A2.999 2.999 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a2.999 2.999 0 0 0 2.11 2.12C4.498 20.5 12 20.5 12 20.5s7.502 0 9.386-.566a2.999 2.999 0 0 0 2.112-2.12C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span style="font-size:10pt; font-weight:700; color:#e0e0ff; letter-spacing:0.02em;">Option 2 &nbsp;·&nbsp; The Mars Polar Lander — NASA (1999)</span>
+      </div>
+      <div style="padding:12px 16px; display:flex; align-items:center; gap:16px;">
+        <a href="https://youtu.be/9p1amOAn38M?si=0vilL8VaGZXn5Gjw" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; background:#ff4444; color:#fff; font-size:10pt; font-weight:700; text-decoration:none; padding:8px 16px; border-radius:6px; flex-shrink:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+          Watch on YouTube
+        </a>
+        <div>
+          <div style="font-size:10pt; color:#c0c0e0; line-height:1.55;">A $327 million spacecraft was lost because a software team and a hardware team made the same wrong assumption — and nobody checked. The Mars Polar Lander crashed silently because a signal was misread as "landed" when the legs deployed during descent.</div>
+          <div style="font-size:9pt; color:#8888aa; margin-top:5px;">youtu.be/9p1amOAn38M &nbsp;·&nbsp; ~10 minutes</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="ws-footer">
   <span>Introductory Robotics &nbsp;·&nbsp; Unit 1, Class 1</span>
-  <span>What is Engineering? Intentional Design</span>
+  <span>What is Engineering? Purposeful Design</span>
   <span>Page 1 of 1</span>
 </div>
 

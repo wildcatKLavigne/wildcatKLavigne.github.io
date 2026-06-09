@@ -192,7 +192,7 @@
   <div class="reading-block">
     <p>In Class 3, you used a simple decision matrix: rate each design 1–3 on each criterion and total the scores. This works — but it treats all criteria as equally important. In real engineering, some requirements matter more than others. A robot claw that is lightweight but can barely grip anything is worthless. A claw that grips perfectly but can't be attached to the robot is also worthless. These requirements don't have equal weight.</p>
     <p>The <span class="key-term">weighted decision matrix</span> adds a multiplier to each criterion: the <strong>weight</strong>. You assign each criterion a weight (1–3, where 3 = most important). You still rate each design 1–3 on that criterion. Then you multiply: rating × weight = weighted score. Total all weighted scores to get the design's overall score. The design with the highest total wins — but only if the highest-weighted requirements are truly met.</p>
-    <p>This is a direct application of <span class="key-term">intentional design</span> (Class 1): a weighted matrix forces you to decide <em>what matters most before you pick a design</em> — rather than letting the numbers accidentally decide for you.</p>
+    <p>This is a direct application of <span class="key-term">purposeful design</span> (Class 1): a weighted matrix forces you to decide <em>what matters most before you pick a design</em> — rather than letting the numbers accidentally decide for you.</p>
   </div>
 
   <!-- I DO — Weighted matrix modeling -->
@@ -270,11 +270,53 @@
     </div>
   </div>
 
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> A servo has 13.5 kg·cm of stall torque. If your claw fingers are 6 cm long (measured from the servo horn to the fingertip), what is the maximum gripping force at the fingertip? Show your calculation.</p>
-  <textarea class="write-area" rows="3" placeholder="Torque = Force × distance, so Force = Torque ÷ distance = 13.5 kg·cm ÷ 6 cm = ___ kg = approximately ___ N. This means the claw can exert..."></textarea>
+  <!-- SERVO ARM EXPERIMENT -->
+  <div style="background:#e8f4ee; border-left:4px solid #2d6a4f; border-radius:0 6px 6px 0; padding:12px 16px; margin-bottom:14px;">
+    <div style="font-size:8.5pt; text-transform:uppercase; letter-spacing:0.07em; font-weight:700; color:#2d6a4f; margin-bottom:8px;">Materials (per group)</div>
+    <div style="font-size:10pt; color:#1a3a1a; line-height:1.7;">
+      1 REV Smart Robot Servo connected to a Control Hub &nbsp;·&nbsp; 1 popsicle stick or cardboard strip &nbsp;·&nbsp; tape &nbsp;·&nbsp; small zip-lock bag &nbsp;·&nbsp; pennies or coins &nbsp;·&nbsp; ruler
+    </div>
+  </div>
 
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> If you need more gripping force but can't change the servo, what is the only mechanical option available to you? Explain the trade-off.</p>
-  <textarea class="write-area" rows="2" placeholder="To increase force I would need to... The trade-off is that..."></textarea>
+  <div style="border:1.5px solid #d0d0cc; border-radius:6px; overflow:hidden; margin-bottom:14px;">
+    <div style="background:#2d6a4f; color:#fff; padding:7px 14px; font-size:9.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">Procedure — How Does Arm Length Change What a Servo Can Lift?</div>
+    <div style="padding:12px 16px; font-size:10.5pt; line-height:1.8; color:#222;">
+      <p style="margin-bottom:8px;"><strong>Step 1 — Short arm (3 cm).</strong> Tape the popsicle stick to the servo horn so it extends 3 cm from the center. Command the servo to hold position. Hang the coin bag from the tip. Add coins one at a time until the servo visibly strains or stalls (you'll hear it buzzing or feel it give). Count the coins and record the total mass.</p>
+      <p style="margin-bottom:8px;"><strong>Step 2 — Medium arm (6 cm).</strong> Reposition the stick to extend 6 cm. Repeat the same test with an empty bag. Add coins until the servo stalls. Record the total mass.</p>
+      <p style="margin-bottom:8px;"><strong>Step 3 — Long arm (9 cm).</strong> Extend to 9 cm and repeat. Record.</p>
+      <p style="margin-bottom:0;"><strong>Step 4 — Predict before you analyze.</strong> Before writing anything: what pattern did you observe? What do you think will happen at 12 cm?</p>
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Record your results:</strong></p>
+  <table class="analysis-table">
+    <thead>
+      <tr>
+        <th style="width:22%">Arm length</th>
+        <th style="width:28%">Approx. mass held before stall</th>
+        <th>Compared to 3 cm arm — more or less?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>3 cm</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>6 cm</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>9 cm</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>12 cm (predict)</strong></td><td class="write-cell" style="font-style:italic; color:#aaa;">Prediction: ___</td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> What happened to the weight the servo could hold as the arm got longer? Write a rule in your own words.</p>
+  <textarea class="write-area" rows="2" placeholder="As the arm got longer, the servo could hold... This means that a shorter arm gives you... while a longer arm gives you..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Your claw fingers are the arm in this experiment. If your claw isn't gripping hard enough but you can't swap the servo, what is the one change you could make to the finger length — and what would you give up by making that change? Base your answer on what you observed.</p>
+  <textarea class="write-area" rows="3" placeholder="Based on my experiment, to get more gripping force I would... The trade-off is that the fingers would then... which means the claw could no longer..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Look at the stall torque spec on the REV servo: 13.5 kg·cm. The "cm" part is a length. Based on what you observed in the experiment, what do you think the "cm" refers to — and why does arm length appear in a force rating?</p>
+  <textarea class="write-area" rows="3" placeholder="I think the 'cm' in the torque rating refers to... Based on my experiment, I think this matters because..."></textarea>
+
+  <div style="background:#fdf3e3; border-left:4px solid #c8860a; border-radius:0 6px 6px 0; padding:10px 14px; margin-bottom:6px; font-size:10pt; color:#3a2a00; line-height:1.6;">
+    <strong style="color:#7d4e00;">What you discovered:</strong> The longer the arm, the less force you can apply at the tip — the servo's strength is spread over more distance. This relationship (force × distance = a constant) is called <strong>torque</strong>, and it's why the servo spec lists its strength in kg·cm rather than just kg. You just measured torque without knowing the formula — now you have the intuition behind it.
+  </div>
 </div>
 
 <hr class="section-rule">
@@ -314,9 +356,49 @@
 
   <div class="ydo-header">
     <span class="ydo-badge">You Do</span>
-    <span class="ydo-title">Part 3B — Research: what you know about servo mechanisms and grasping</span>
+    <span class="ydo-title">Part 3B — Linkage Experiment, then Research</span>
   </div>
-  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Record at least four mechanical insights that will shape your designs. Think about claw types (parallel, scissor, finger), linkage types (direct-drive, 4-bar, rack-and-pinion), and material grip considerations (rigid, compliant fingertips).</p>
+
+  <!-- LINKAGE EXPERIMENT -->
+  <div style="background:#e8f4ee; border-left:4px solid #2d6a4f; border-radius:0 6px 6px 0; padding:12px 16px; margin-bottom:14px;">
+    <div style="font-size:8.5pt; text-transform:uppercase; letter-spacing:0.07em; font-weight:700; color:#2d6a4f; margin-bottom:8px;">Materials (per group) — 5 minutes</div>
+    <div style="font-size:10pt; color:#1a3a1a; line-height:1.7;">
+      4 cardboard strips (~15 cm each) &nbsp;·&nbsp; 4 brass paper fasteners &nbsp;·&nbsp; 1 single cardboard strip for comparison
+    </div>
+  </div>
+
+  <div style="border:1.5px solid #d0d0cc; border-radius:6px; overflow:hidden; margin-bottom:14px;">
+    <div style="background:#2d6a4f; color:#fff; padding:7px 14px; font-size:9.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">Procedure — How Does a Linkage Transfer Motion?</div>
+    <div style="padding:12px 16px; font-size:10.5pt; line-height:1.8; color:#222;">
+      <p style="margin-bottom:8px;"><strong>Step 1 — Single pivot (simple).</strong> Connect two strips end-to-end with one brass fastener. Hold one strip still and rotate the other. Watch the tip of the moving strip. Sketch what it does.</p>
+      <p style="margin-bottom:8px;"><strong>Step 2 — Four-strip linkage.</strong> Connect all four strips in a loop using all four fasteners (one at each corner) to make a four-sided shape. Hold one side still. Push one of the adjacent sides. Watch what the opposite side does. Sketch what you observe.</p>
+      <p style="margin-bottom:0;"><strong>Step 3 — Compare.</strong> With the single pivot, when you push one side in, the other side does what? With the four-strip linkage, when you push one side, the opposite side does what? Which one keeps both ends more parallel to each other?</p>
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Linkage observations:</strong></p>
+  <table class="analysis-table">
+    <thead>
+      <tr>
+        <th style="width:28%">Linkage type</th>
+        <th>What did the opposite end do when you pushed one side?</th>
+        <th style="width:28%">How parallel were the two ends throughout the motion?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Single pivot</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Four-strip linkage</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>4.</strong> If one side of the four-strip linkage were a claw finger and the other side were the opposite finger, which type of linkage would grip a cube more evenly? Why?</p>
+  <textarea class="write-area" rows="3" placeholder="The ___ linkage would grip more evenly because... The single pivot would cause the fingers to... which would mean the cube might..."></textarea>
+
+  <div style="background:#fdf3e3; border-left:4px solid #c8860a; border-radius:0 6px 6px 0; padding:10px 14px; margin-bottom:14px; font-size:10pt; color:#3a2a00; line-height:1.6;">
+    <strong style="color:#7d4e00;">What you just used:</strong> The four-strip linkage is the basis of a mechanism called a <strong>4-bar linkage</strong> — one of the most common mechanisms in engineering. You don't need to know the math to use it. What matters is what you observed: it keeps the opposite side moving in a controlled, predictable way. In your claw sketches, you can now make an informed choice about whether to use a simple single-pivot design or a more controlled 4-bar approach — because you've felt both work with your hands.
+  </div>
+
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Now fill in your research table. Use your experiments from today (servo arm and linkage) as two of your four insights.</p>
 
   <table class="analysis-table">
     <thead><tr><th style="width:40%">Mechanical insight</th><th>How it helps grip a foam cube</th><th style="width:28%">Potential downside to consider</th></tr></thead>
@@ -338,7 +420,7 @@
   <div class="section-label">Part 4 &nbsp;·&nbsp; Set Your Evaluation Weights — Before Sketching (4 min)</div>
   <h2>Decide What Matters Most Before You Design</h2>
 
-  <div class="review-callout"><strong>Class 1 connection — intentional design:</strong> Setting weights before sketching forces you to define success before you start designing. Engineers who skip this step unconsciously design for what's easiest to build — not what's most important to achieve.</div>
+  <div class="review-callout"><strong>Class 1 connection — purposeful design:</strong> Setting weights before sketching forces you to define success before you start designing. Engineers who skip this step unconsciously design for what's easiest to build — not what's most important to achieve.</div>
 
   <div class="ydo-header">
     <span class="ydo-badge">You Do</span>
@@ -468,7 +550,11 @@
   <div class="scaffold-tabs">
     <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Your three designs may be different claw shapes (e.g., wide vs. narrow fingers). Focus on getting two views and labeled dimensions for each. Your designs don't need to include a linkage detail.</div>
     <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Three genuinely different mechanism types. Both views with all labeled dimensions. Mark servo and mounting interface clearly on every sketch.</div>
-    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Three mechanism types. Full orthographic documentation. Show the target object (dashed 10 cm cube) in each sketch to confirm the claw would actually fit. Annotate the force path: which direction does the servo torque travel through the mechanism to become grip force?</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Three mechanism types. Full orthographic documentation. Show the target object (dashed 10 cm cube) in each sketch to confirm the claw would actually fit. On your sketch, draw arrows showing how the servo's rotation causes each finger to move — start at the servo horn and end at the fingertip, labeling each part the motion passes through.</div>
+  </div>
+
+  <div style="background:#fdf3e3; border-left:4px solid #c8860a; border-radius:0 6px 6px 0; padding:10px 14px; margin-bottom:14px; font-size:10pt; color:#3a2a00; line-height:1.6;">
+    <strong style="color:#7d4e00;">Teacher note — 4-bar linkage:</strong> The I Do section above demonstrates a 4-bar scissor linkage (Design C2) as an example of a complex mechanism. This is shown for teacher modeling only. Students should not feel expected to sketch or build a 4-bar linkage — understanding the concept requires kinematics background most intro students don't yet have. Intermediate and Novice students should design around direct-drive, single-pivot, or spring-return mechanisms. Proficient students who are curious about the 4-bar can attempt it, but should note in their sketch that it is an advanced concept they are exploring.
   </div>
 </div>
 
@@ -481,7 +567,7 @@
   <div class="section-label">Part 6 &nbsp;·&nbsp; EDP Stage 3 Continued — Evaluate &amp; Select with the Weighted Matrix (8 min)</div>
   <h2>Let Your Pre-Set Weights Do the Work</h2>
 
-  <div class="review-callout"><strong>Class 1 &amp; 3 connection:</strong> You are applying intentional design (every choice has a reason) and the decision matrix from Class 3 — now with weights. The weights you set in Part 4 before sketching are non-negotiable here. Don't change them now that you have designs in front of you.</div>
+  <div class="review-callout"><strong>Class 1 &amp; 3 connection:</strong> You are applying purposeful design (every choice has a reason) and the decision matrix from Class 3 — now with weights. The weights you set in Part 4 before sketching are non-negotiable here. Don't change them now that you have designs in front of you.</div>
 
   <div class="ydo-header">
     <span class="ydo-badge">You Do</span>
@@ -636,8 +722,8 @@
   <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> You used a weighted decision matrix today instead of a simple one from Class 3. Name one specific instance where the weighting changed the outcome — or, if the winner was the same, explain why you think the weights didn't change the outcome in this particular case.</p>
   <textarea class="write-area" rows="4" placeholder="The weighting (did / did not) change the winner compared to a simple matrix because... The criterion with the biggest impact was [criterion] with weight [w]. If I had weighted [different criterion] higher, the winner would have been..."></textarea>
 
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Look at your final claw drawing. Name one dimension or design decision that was <em>intentional</em> (from Class 1 vocabulary) — you had a specific engineering reason for it. Explain that reason.</p>
-  <textarea class="write-area" rows="3" placeholder="One intentional design decision in my claw is... The engineering reason for this choice is... I rejected the alternative approach of... because..."></textarea>
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Look at your final claw drawing. Name one dimension or design decision that was <em>purposeful</em> (from Class 1 vocabulary) — you had a specific engineering reason for it. Explain that reason.</p>
+  <textarea class="write-area" rows="3" placeholder="One purposeful design decision in my claw is... The engineering reason for this choice is... I rejected the alternative approach of... because..."></textarea>
 
   <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Self-assessment:</p>
   <table class="analysis-table">
@@ -652,8 +738,9 @@
   </table>
 
   <div class="extension-box">
-    <div class="ext-label">Extension / Exploration</div>
-    <p>Research GD&amp;T (Geometric Dimensioning &amp; Tolerancing) — the formal standard professional engineers use to specify not just dimensions but allowable variation (tolerances). Find one GD&amp;T symbol and draw it in your notebook. Then apply it to your claw design: pick one critical dimension (e.g., the gap between fingers when "closed") and write a GD&amp;T-style tolerance specification for it. Explain in 2 sentences what would go wrong if that dimension were off by more than your stated tolerance.</p>
+    <div class="ext-label">Extension / Exploration — How Precise Does Your Claw Need to Be?</div>
+    <p><strong>Try this with your group:</strong> Everyone cuts a strip of paper that is supposed to be exactly 10 cm long — freehand, no ruler. Measure each strip. Record the shortest and longest. The difference is your group's natural variation.</p>
+    <p style="margin-top:8px;">Now apply that to your claw design. Look at your final drawing and pick one critical dimension — the gap between the fingers when fully closed is a good choice. Ask yourself: what is the ideal measurement? Now write: <em>"If this dimension is [ideal] ± [your acceptable range], the claw will work. If it goes outside that range, it will fail because [reason]."</em> Try closing your fingers on the 10 cm foam cube and measuring the actual gap — does your as-built claw match your drawing? The difference between what you drew and what you built is called <strong>manufacturing variation</strong>, and understanding it is the first step toward building robots that work reliably every time.</p>
   </div>
 </div>
 
