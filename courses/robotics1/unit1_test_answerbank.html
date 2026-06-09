@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 Test: Engineering Foundations</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue: #1a4f82;    --blue-light: #e8f0f9;
+    --green: #2d6a4f;   --green-light: #e8f4ee;
+    --amber: #7d4e00;   --amber-light: #fdf3e3;
+    --red: #8b1a1a;     --red-light: #fdf2f2;
+    --purple: #3d2a99;  --purple-light: #f0ecff;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 11pt; color: #222; background: #fff; max-width: 850px; margin: 0 auto; padding: 0.5in 0.75in; }
+
+  /* ── HEADER ── */
+  .test-header { border-top: 6px solid var(--blue); padding-top: 16px; margin-bottom: 22px; }
+  .test-header .course-label { font-size: 9pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); font-weight: 700; margin-bottom: 4px; }
+  .test-header h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 24pt; color: #111; line-height: 1.2; margin-bottom: 6px; }
+  .test-header .subtitle { font-size: 10pt; color: #666; margin-bottom: 16px; }
+
+  .student-info { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; }
+  .info-cell { padding: 8px 12px; border-right: 1px solid var(--border); }
+  .info-cell:last-child { border-right: none; }
+  .info-cell .info-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 3px; }
+  .info-cell .info-line { border-bottom: 1px solid #aaa; height: 22px; display: block; }
+
+  .score-box { background: var(--gray-light); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; font-size: 9.5pt; }
+  .score-cell { text-align: center; }
+  .score-cell .s-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.05em; color: #888; display: block; margin-bottom: 4px; }
+  .score-cell .s-box { border: 1px solid var(--border); border-radius: 4px; height: 30px; background: #fff; }
+
+  .instructions-box { background: var(--amber-light); border-left: 4px solid #c8860a; border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 22px; }
+  .instructions-box h3 { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--amber); margin-bottom: 8px; }
+  .instructions-box ul { padding-left: 18px; font-size: 10pt; color: #3a2a00; line-height: 1.7; }
+  .instructions-box li { margin-bottom: 3px; }
+
+  /* ── SECTION HEADERS ── */
+  .section-banner { padding: 8px 14px; border-radius: var(--radius); margin-bottom: 14px; margin-top: 24px; }
+  .section-banner.mc   { background: var(--blue);   color: #fff; }
+  .section-banner.fr   { background: var(--green);  color: #fff; }
+  .section-banner.task { background: var(--purple);  color: #fff; }
+  .section-banner .sec-title { font-size: 11pt; font-weight: 700; }
+  .section-banner .sec-points { font-size: 9pt; opacity: 0.8; margin-left: 8px; }
+
+  /* ── MULTIPLE CHOICE ── */
+  .mc-question { margin-bottom: 22px; }
+  .mc-question .q-stem { font-size: 10.5pt; line-height: 1.65; margin-bottom: 10px; }
+  .mc-question .q-stem .q-num { font-weight: 700; color: var(--blue); margin-right: 4px; }
+  .mc-options { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; padding-left: 20px; }
+  .mc-option { display: flex; align-items: flex-start; gap: 8px; font-size: 10.5pt; line-height: 1.5; padding: 3px 0; }
+  .mc-option input[type="radio"] { margin-top: 3px; flex-shrink: 0; }
+  .mc-option.full-width { grid-column: 1 / -1; }
+  .mc-stimulus { background: var(--gray-light); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 10px; font-size: 10pt; line-height: 1.6; }
+  .mc-stimulus.sketch { padding: 0; overflow: hidden; }
+  .mc-figure { border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; background: var(--gray-light); }
+  .mc-figure .fig-label { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #666; margin-bottom: 8px; }
+
+  /* ── FREE RESPONSE ── */
+  .fr-question { margin-bottom: 28px; }
+  .fr-question .q-stem { font-size: 10.5pt; line-height: 1.65; margin-bottom: 10px; }
+  .fr-question .q-stem .q-num { font-weight: 700; color: var(--green); margin-right: 4px; }
+  .fr-question .points { font-size: 9pt; color: #888; font-style: italic; margin-left: 6px; }
+  .fr-lines { margin-bottom: 0; }
+  .fr-line { border-bottom: 1px solid #ccc; height: 30px; margin-bottom: 2px; }
+  .fr-sub { margin-left: 20px; margin-bottom: 14px; }
+  .fr-sub .sub-label { font-size: 10pt; font-weight: 600; color: var(--green); margin-bottom: 6px; }
+
+  /* ── TASK ── */
+  .task-question { margin-bottom: 28px; }
+  .task-question .q-stem { font-size: 10.5pt; line-height: 1.65; margin-bottom: 10px; }
+  .task-question .q-stem .q-num { font-weight: 700; color: var(--purple); margin-right: 4px; }
+  .task-question .points { font-size: 9pt; color: #888; font-style: italic; margin-left: 6px; }
+  .task-context { background: var(--gray-light); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 14px; font-size: 10pt; line-height: 1.7; }
+  .task-context p { margin-bottom: 8px; }
+  .task-context p:last-child { margin-bottom: 0; }
+  .task-context strong { color: var(--blue); }
+
+  .sketch-area { border: 1.5px dashed #bbb; border-radius: var(--radius); width: 100%; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 9pt; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
+  .sketch-area.xl     { height: 280px; }
+  .sketch-area.tall   { height: 220px; }
+  .sketch-area.medium { height: 160px; }
+  .sketch-area.short  { height: 100px; }
+
+  .task-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 10pt; }
+  .task-table th { background: var(--purple); color: #fff; padding: 7px 10px; text-align: left; font-size: 9pt; font-weight: 600; }
+  .task-table td { border: 1px solid var(--border); padding: 6px 10px; vertical-align: top; }
+  .task-table tr:nth-child(even) td { background: var(--purple-light); }
+  .task-table .write-cell { height: 50px; }
+
+  .write-area { border: 1px solid var(--border); border-radius: var(--radius); width: 100%; min-height: 70px; display: block; background: transparent; resize: none; padding: 8px 10px; font-family: inherit; font-size: 10.5pt; color: #222; line-height: 1.6; margin-bottom: 12px; }
+
+  /* checklist */
+  .grading-checklist { background: var(--purple-light); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; font-size: 9.5pt; }
+  .grading-checklist .gc-label { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--purple); margin-bottom: 6px; }
+  .grading-checklist ul { padding-left: 16px; color: #2a1a55; line-height: 1.8; }
+
+  /* scoring strip at end of question */
+  .score-strip { display: flex; align-items: center; gap: 8px; justify-content: flex-end; margin-top: 6px; font-size: 9pt; color: #888; }
+  .score-strip .pts-box { border: 1px solid var(--border); border-radius: 4px; min-width: 50px; height: 24px; background: #fff; display: inline-block; }
+
+  /* ── DIVIDERS ── */
+  hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* ── FOOTER ── */
+  .test-footer { margin-top: 30px; padding-top: 10px; border-top: 2px solid var(--blue); display: flex; justify-content: space-between; font-size: 8.5pt; color: #888; }
+
+  /* ── TWO COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 12px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .col-label { font-size: 9pt; color: #888; font-weight: 600; text-align: center; margin-bottom: 4px; }
+  .view-box { border: 1px solid var(--border); border-radius: 4px; background: #fff; padding: 4px; margin-bottom: 4px; }
+  .view-inner { border: 1.5px dashed #ccc; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 8pt; letter-spacing: 0.04em; text-transform: uppercase; }
+  .view-inner.v-tall { height: 150px; }
+  .view-inner.v-short { height: 90px; }
+  .dim-line { border-bottom: 1px solid #ccc; margin: 3px 0 6px; }
+
+  @media print {
+    body { padding: 0.4in 0.6in; }
+    .write-area, .fr-line { border: 1px solid #aaa; }
+    .sketch-area, .view-inner { border: 1.5px dashed #999; }
+    .section-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     TEST HEADER
+     ══════════════════════════════════════════════════════════════════════ -->
+<div class="test-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
+  <h1>Unit 1 Assessment</h1>
+  <div class="subtitle">Engineering Foundations: Purposeful Design · EDP · Documentation & Sketching · Weighted Evaluation · Modular Design</div>
+</div>
+
+<div class="student-info">
+  <div class="info-cell"><span class="info-label">Name</span><span class="info-line"></span></div>
+  <div class="info-cell"><span class="info-label">Team</span><span class="info-line"></span></div>
+  <div class="info-cell"><span class="info-label">Date</span><span class="info-line"></span></div>
+  <div class="info-cell"><span class="info-label">Period</span><span class="info-line"></span></div>
+</div>
+
+<div class="score-box">
+  <div class="score-cell"><span class="s-label">Section 1: MC (20 pts)</span><div class="s-box"></div></div>
+  <div class="score-cell"><span class="s-label">Section 2: FR (30 pts)</span><div class="s-box"></div></div>
+  <div class="score-cell"><span class="s-label">Section 3: Tasks (50 pts)</span><div class="s-box"></div></div>
+  <div class="score-cell"><span class="s-label">Total (100 pts)</span><div class="s-box"></div></div>
+  <div class="score-cell"><span class="s-label">Grade</span><div class="s-box"></div></div>
+</div>
+
+<div class="instructions-box">
+  <h3>Instructions</h3>
+  <ul>
+    <li><strong>Section 1 — Answer Bank (20 pts):</strong> Write the letter of the best answer on the line next to each question number. Each answer may be used only once. Two answers in the bank will not be used.</li>
+    <li><strong>Section 2 — Free Response (30 pts):</strong> Answer in complete sentences. Points are shown next to each question.</li>
+    <li><strong>Section 3 — Performance Tasks (50 pts):</strong> Complete both tasks fully. Partial credit is awarded. All sketches must be labeled to receive full credit.</li>
+    <li>You may use your engineering notebook as a reference.</li>
+    <li>Show all calculations in Section 3.</li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 1 — MULTIPLE CHOICE
+     ══════════════════════════════════════════════════════════════════════ -->
+<div class="section-banner mc">
+  <span class="sec-title">Section 1 — Answer Bank</span>
+  <span class="sec-points">10 questions · 2 points each · 20 points total</span>
+</div>
+
+<p style="font-size:10pt; color:#555; margin-bottom:14px;"><em>Directions: Choose the best answer for each question from the Answer Bank below. Write the letter of your answer on the line provided. Each answer may be used only once. Two answers in the bank will not be used.</em></p>
+
+<!-- ANSWER BANK -->
+<div style="border: 2px solid var(--blue); border-radius: var(--radius); margin-bottom: 22px; overflow: hidden;">
+  <div style="background: var(--blue); color: #fff; padding: 7px 14px; font-size: 9pt; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;">Answer Bank</div>
+  <div style="padding: 12px 16px; background: var(--blue-light);">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px 16px; font-size: 10pt;">
+      <div><strong style="color:var(--blue);">A.</strong> &nbsp;Purposeful design</div>
+      <div><strong style="color:var(--blue);">B.</strong> &nbsp;Trial-and-error</div>
+      <div><strong style="color:var(--blue);">C.</strong> &nbsp;Test &amp; Measure</div>
+      <div><strong style="color:var(--blue);">D.</strong> &nbsp;Iterate</div>
+      <div><strong style="color:var(--blue);">E.</strong> &nbsp;Right-side view</div>
+      <div><strong style="color:var(--blue);">F.</strong> &nbsp;Add a revision box entry with date and description</div>
+      <div><strong style="color:var(--blue);">G.</strong> &nbsp;Design X, because it has the highest weighted total score (15)</div>
+      <div><strong style="color:var(--blue);">H.</strong> &nbsp;The standardized connection point between two modules that defines how they attach and interact</div>
+      <div><strong style="color:var(--blue);">I.</strong> &nbsp;1.5 kg</div>
+      <div><strong style="color:var(--blue);">J.</strong> &nbsp;Identify the root cause and make one targeted change</div>
+      <div><strong style="color:var(--blue);">K.</strong> &nbsp;Functionally independent modules, defined interfaces, replaceability, testability, and parallel development</div>
+      <div><strong style="color:var(--blue);">L.</strong> &nbsp;Erase the original dimension and write the new one</div>
+    </div>
+  </div>
+</div>
+
+<!-- Exhibits (stimuli for Q4 and Q6) -->
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px;">
+  <div class="mc-figure" style="margin-bottom:0;">
+    <div class="fig-label">Exhibit A — partial bracket drawing (for Question 4)</div>
+    <div class="two-col" style="margin-bottom:0; gap:8px;">
+      <div>
+        <div class="col-label" style="font-size:8pt;">Front View ✓</div>
+        <div class="view-box"><div class="view-inner v-short" style="background:#f9f9f9; height:90px;">
+          <svg viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <rect x="20" y="15" width="120" height="60" fill="#e8f0f9" stroke="#1a4f82" stroke-width="1.5"/>
+            <circle cx="40" cy="30" r="5" fill="none" stroke="#1a4f82" stroke-width="1"/>
+            <circle cx="120" cy="30" r="5" fill="none" stroke="#1a4f82" stroke-width="1"/>
+            <circle cx="40" cy="60" r="5" fill="none" stroke="#1a4f82" stroke-width="1"/>
+            <circle cx="120" cy="60" r="5" fill="none" stroke="#1a4f82" stroke-width="1"/>
+            <line x1="20" y1="85" x2="140" y2="85" stroke="#555" stroke-width="0.8"/>
+            <line x1="20" y1="83" x2="20" y2="87" stroke="#555" stroke-width="0.8"/>
+            <line x1="140" y1="83" x2="140" y2="87" stroke="#555" stroke-width="0.8"/>
+            <text x="80" y="92" text-anchor="middle" font-family="Arial" font-size="7" fill="#555">60 mm</text>
+            <line x1="5" y1="15" x2="5" y2="75" stroke="#555" stroke-width="0.8"/>
+            <line x1="3" y1="15" x2="7" y2="15" stroke="#555" stroke-width="0.8"/>
+            <line x1="3" y1="75" x2="7" y2="75" stroke="#555" stroke-width="0.8"/>
+            <text x="1" y="48" text-anchor="middle" font-family="Arial" font-size="7" fill="#555" transform="rotate(-90,1,48)">30 mm</text>
+          </svg>
+        </div></div>
+      </div>
+      <div>
+        <div class="col-label" style="font-size:8pt;">Top View ✓</div>
+        <div class="view-box"><div class="view-inner v-short" style="background:#f9f9f9; height:90px;">
+          <svg viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <rect x="20" y="30" width="120" height="30" fill="#e8f0f9" stroke="#1a4f82" stroke-width="1.5"/>
+            <text x="80" y="52" text-anchor="middle" font-family="Arial" font-size="7" fill="#888" font-style="italic">depth not shown</text>
+          </svg>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mc-figure" style="margin-bottom:0;">
+    <div class="fig-label">Exhibit B — weighted decision matrix (for Question 6)</div>
+    <table style="width:100%; border-collapse:collapse; font-size:9pt;">
+      <thead>
+        <tr>
+          <th style="background:#2d6a4f; color:#fff; padding:4px 6px; text-align:left;">Criterion</th>
+          <th style="background:#2d6a4f; color:#fff; padding:4px 6px; text-align:center;">Wt</th>
+          <th style="background:#2d6a4f; color:#fff; padding:4px 6px; text-align:center;">X<br><small>r</small></th>
+          <th style="background:#2d6a4f; color:#fff; padding:4px 6px; text-align:center;">X<br><small>wt×r</small></th>
+          <th style="background:#2d6a4f; color:#fff; padding:4px 6px; text-align:center;">Y<br><small>r</small></th>
+          <th style="background:#2d6a4f; color:#fff; padding:4px 6px; text-align:center;">Y<br><small>wt×r</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="border:1px solid #d0d0cc; padding:3px 6px;">Grip reliability</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;"><strong>3</strong></td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">2</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">6</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">3</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">9</td></tr>
+        <tr style="background:#e8f4ee;"><td style="border:1px solid #d0d0cc; padding:3px 6px;">Min. weight</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;"><strong>1</strong></td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">3</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">3</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">1</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">1</td></tr>
+        <tr><td style="border:1px solid #d0d0cc; padding:3px 6px;">Simplicity</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;"><strong>2</strong></td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">3</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">6</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">1</td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center;">2</td></tr>
+        <tr style="background:#f5f5f3;"><td style="border:1px solid #d0d0cc; padding:3px 6px; font-weight:600;">Total</td><td></td><td></td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center; font-weight:700;">15</td><td></td><td style="border:1px solid #d0d0cc; padding:3px 6px; text-align:center; font-weight:700;">12</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0 28px;">
+
+  <!-- Q1 -->
+  <div class="mc-question">
+    <p class="q-stem"><span class="q-num">1. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--blue); vertical-align:bottom;">&nbsp;</span></span> A student builds a robot chassis by trying different bracket arrangements until one "feels sturdy." A second student sketches three frame designs, evaluates each for rigidity and weight, and selects the highest-scoring design. Which best describes the second student's approach?</p>
+  </div>
+
+  <!-- Q2 -->
+  <div class="mc-question">
+    <p class="q-stem"><span class="q-num">2. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--blue); vertical-align:bottom;">&nbsp;</span></span> In the Engineering Design Process, which stage comes immediately after <em>Prototype</em>?</p>
+  </div>
+
+  <!-- Q3 -->
+  <div class="mc-question">
+    <p class="q-stem"><span class="q-num">3. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--blue); vertical-align:bottom;">&nbsp;</span></span> A team builds a paper tower, tests it, and finds it tips over due to a narrow base. They widen the base for their next attempt. Which EDP stage does this action represent?</p>
+  </div>
+
+  <!-- Q4 -->
+  <div class="mc-question">
+    <p class="q-stem"><span class="q-num">4. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--blue); vertical-align:bottom;">&nbsp;</span></span> Refer to <strong>Exhibit A</strong>. The bracket is shown in Front View and Top View. Which view is missing that would allow a builder to determine the bracket's <em>thickness</em>?</p>
+  </div>
+
+  <!-- Q5 -->
+  <div class="mc-question">
+    <p class="q-stem"><span class="q-num">5. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--blue); vertical-align:bottom;">&nbsp;</span></span> An engineer changes the hole spacing on a bracket. According to proper engineering documentation standards, what should she do?</p>
+  </div>
+
+  <!-- Q6 -->
+  <div class="mc-question">
+    <p class="q-stem"><span class="q-num">6. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--blue); vertical-align:bottom;">&nbsp;</span></span> Refer to <strong>Exhibit B</strong>. Which design should the team select, and why?</p>
+  </div>
+
+  <!-- Q7 -->
+  <div class="mc-question">
+    <p class="q-stem"><span class="q-num">7. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--blue); vertical-align:bottom;">&nbsp;</span></span> What is the best definition of an <em>interface</em> in a modular design system?</p>
+  </div>
+
+  <!-- Q8 -->
+  <div class="mc-question">
+    <p class="q-stem"><span class="q-num">8. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--blue); vertical-align:bottom;">&nbsp;</span></span> A REV Smart Robot Servo has a stall torque of 13.5 kg·cm. A claw's fingers are 9 cm long (servo horn to fingertip). What is the maximum gripping force at the fingertip?</p>
+  </div>
+
+  <!-- Q9 -->
+  <div class="mc-question">
+    <p class="q-stem"><span class="q-num">9. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--blue); vertical-align:bottom;">&nbsp;</span></span> A team's paper airplane consistently lands 40 cm to the left of the target across all three throws. Using the EDP, what is the most appropriate next step?</p>
+  </div>
+
+  <!-- Q10 -->
+  <div class="mc-question">
+    <p class="q-stem"><span class="q-num">10. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--blue); vertical-align:bottom;">&nbsp;</span></span> Which combination of properties best defines a <em>truly modular</em> system?</p>
+  </div>
+
+</div>
+
+<div class="score-strip">Section 1 score: <span class="pts-box"></span> / 20</div>
+
+<hr class="section-rule">
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 2 — FREE RESPONSE
+     ══════════════════════════════════════════════════════════════════════ -->
+<div class="section-banner fr">
+  <span class="sec-title">Section 2 — Free Response</span>
+  <span class="sec-points">3 questions · 30 points total</span>
+</div>
+
+<!-- FR1 -->
+<div class="fr-question">
+  <p class="q-stem">
+    <span class="q-num">11.</span> <strong>Purposeful Design vs. Trial-and-Error</strong> <span class="points">(8 pts)</span>
+  </p>
+
+  <div class="fr-sub">
+    <div class="sub-label">(a) Define "purposeful design" in your own words. Your definition must be different from the phrase "doing it on purpose." <em>(2 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(b) Describe one specific design decision from any activity in this unit (paper tower, paper airplane, claw, or LEGO backhoe) that you made purposefully. Name the decision, the engineering reason behind it, and the trade-off it created. <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(c) Explain why purposeful design produces more reliable improvements across iterations than trial-and-error. Use specific evidence from your test data in this unit. <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+  <div class="score-strip">Q11 score: <span class="pts-box"></span> / 8</div>
+</div>
+
+<!-- FR2 -->
+<div class="fr-question">
+  <p class="q-stem">
+    <span class="q-num">12.</span> <strong>The Engineering Design Process and Iteration</strong> <span class="points">(10 pts)</span>
+  </p>
+
+  <div class="fr-sub">
+    <div class="sub-label">(a) List the six stages of the Engineering Design Process in order. <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(b) A student says: "I had to iterate three times, so my design failed." Explain why this statement misunderstands what iteration means in engineering. Use at least one specific example from this unit to support your explanation. <em>(4 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(c) In your paper tower or paper airplane activity, you collected data across three attempts. Describe how your data from Attempt 1 informed a specific change you made for Attempt 2. Use numbers if possible. <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+  <div class="score-strip">Q12 score: <span class="pts-box"></span> / 10</div>
+</div>
+
+<!-- FR3 -->
+<div class="fr-question">
+  <p class="q-stem">
+    <span class="q-num">13.</span> <strong>Modular Design</strong> <span class="points">(12 pts)</span>
+  </p>
+
+  <div class="fr-sub">
+    <div class="sub-label">(a) Name and briefly explain three of the five properties of a modular design system. <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(b) Using the LEGO® Technic™ 42197 Backhoe Loader as your reference, explain what the <em>chassis</em> module's role is in the system's modular architecture. Why do all three attachment modules connect to the chassis rather than to each other? <em>(4 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(c) Your claw design from Class 4 must attach to a robot arm through a "mounting interface." Explain what makes this interface a modular design feature — name at least two modular design properties it demonstrates. <em>(5 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+  <div class="score-strip">Q13 score: <span class="pts-box"></span> / 12</div>
+</div>
+
+<div class="score-strip">Section 2 score: <span class="pts-box"></span> / 30</div>
+
+<hr class="section-rule">
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 3 — PERFORMANCE TASKS
+     ══════════════════════════════════════════════════════════════════════ -->
+<div class="section-banner task">
+  <span class="sec-title">Section 3 — Performance Tasks</span>
+  <span class="sec-points">2 tasks · 25 points each · 50 points total</span>
+</div>
+
+<!-- TASK 1 -->
+<div class="task-question">
+  <p class="q-stem">
+    <span class="q-num">Task 1.</span> <strong>Engineering Sketching &amp; Design Evaluation</strong> <span class="points">(25 pts)</span>
+  </p>
+
+  <div class="task-context">
+    <p><strong>Scenario:</strong> Your team needs to mount a REV Core Hex Motor to a REV 15mm extrusion frame. The motor must be positioned so its output shaft points toward the front of the robot. You have access to any standard REV Robotics structural hardware.</p>
+    <p><strong>Your task:</strong> Sketch two different mounting configurations. Then evaluate both and select one using a weighted decision matrix. Finally, produce a final engineering drawing of your selected design.</p>
+  </div>
+
+  <div class="grading-checklist">
+    <div class="gc-label">Grading criteria — Task 1</div>
+    <ul>
+      <li>Design A: top view + front view, both with labeled dimensions (min 2 per view) — <strong>6 pts</strong></li>
+      <li>Design B: top view + front view, both with labeled dimensions (min 2 per view) — <strong>6 pts</strong></li>
+      <li>Weighted decision matrix: weights set, ratings calculated, totals correct — <strong>6 pts</strong></li>
+      <li>Selection rationale: references highest-weighted criterion and names the trade-off — <strong>3 pts</strong></li>
+      <li>Final drawing: title block + revision box (Rev 1) completed — <strong>4 pts</strong></li>
+    </ul>
+  </div>
+
+  <!-- Part A: Two design sketches -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--purple); margin-bottom:8px;">Part A — Two Motor Mount Designs</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Sketch each design in at least two orthographic views (top and front). Label at least 2 dimensions per view. Mark the motor shaft direction with an arrow (→) and label the motor position.</p>
+
+  <div class="two-col">
+    <div>
+      <div class="col-label">Design A — Top View</div>
+      <div class="view-box"><div class="view-inner v-tall">top view — label at least 2 dimensions</div></div>
+      <div class="col-label">Design A — Front View</div>
+      <div class="view-box"><div class="view-inner" style="height:110px;">front view — label at least 2 dimensions</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Mechanism / bracket approach:</p>
+      <div style="border-bottom:1px solid #ccc; height:22px; margin-bottom:4px;"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Predicted advantage:</p>
+      <div style="border-bottom:1px solid #ccc; height:22px; margin-bottom:4px;"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Predicted weakness:</p>
+      <div style="border-bottom:1px solid #ccc; height:22px;"></div>
+    </div>
+    <div>
+      <div class="col-label">Design B — Top View</div>
+      <div class="view-box"><div class="view-inner v-tall">top view — label at least 2 dimensions</div></div>
+      <div class="col-label">Design B — Front View</div>
+      <div class="view-box"><div class="view-inner" style="height:110px;">front view — label at least 2 dimensions</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Mechanism / bracket approach:</p>
+      <div style="border-bottom:1px solid #ccc; height:22px; margin-bottom:4px;"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Predicted advantage:</p>
+      <div style="border-bottom:1px solid #ccc; height:22px; margin-bottom:4px;"></div>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Predicted weakness:</p>
+      <div style="border-bottom:1px solid #ccc; height:22px;"></div>
+    </div>
+  </div>
+
+  <!-- Part B: Weighted matrix -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--purple); margin-bottom:8px; margin-top:14px;">Part B — Weighted Decision Matrix</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;"><strong>Step 1:</strong> Assign weights (1–3) to each criterion in the Weight column <em>before</em> rating the designs. <strong>Step 2:</strong> Rate each design 1–3. <strong>Step 3:</strong> Calculate rating × weight. <strong>Step 4:</strong> Total each column.</p>
+
+  <table class="task-table" style="font-size:9.5pt;">
+    <thead>
+      <tr>
+        <th style="width:36%">Criterion</th>
+        <th style="width:10%">Weight (1–3)</th>
+        <th>Design A<br><small>rating</small></th>
+        <th>Design A<br><small>rating × wt</small></th>
+        <th>Design B<br><small>rating</small></th>
+        <th>Design B<br><small>rating × wt</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Structural rigidity of mount</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Ease of removal / reinstallation</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Parts count (fewer = better)</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Correct shaft orientation maintained</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-weight:600;">Weighted Total</td><td></td><td></td><td class="write-cell"></td><td></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Selected design: _____ &nbsp;&nbsp; Matrix score: _____</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:6px;">Selection rationale — reference your highest-weighted criterion and name the trade-off you are accepting:</p>
+  <div class="fr-lines">
+    <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+  </div>
+
+  <!-- Part C: Final drawing -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--purple); margin-bottom:8px; margin-top:14px;">Part C — Final Engineering Drawing of Selected Design</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Draw your selected design with at least two orthographic views, all critical dimensions labeled, a complete title block, and a completed revision box (Rev 1).</p>
+
+  <div class="three-col">
+    <div>
+      <div class="col-label">Top View</div>
+      <div class="view-box"><div class="view-inner v-tall">top view — label all dimensions</div></div>
+    </div>
+    <div>
+      <div class="col-label">Front View</div>
+      <div class="view-box"><div class="view-inner v-tall">front view — label all dimensions</div></div>
+    </div>
+    <div>
+      <div class="col-label">Side View (optional)</div>
+      <div class="view-box"><div class="view-inner v-tall">side view</div></div>
+    </div>
+  </div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:5px;">Title block:</p>
+  <table class="task-table" style="font-size:9.5pt; margin-bottom:10px;">
+    <thead><tr><th>Drawing title</th><th>Designer name</th><th>Date</th><th>Scale</th><th>Sheet #</th></tr></thead>
+    <tbody><tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr></tbody>
+  </table>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:5px;">Revision box:</p>
+  <table style="width:100%; border-collapse:collapse; font-size:9.5pt; margin-bottom:14px;">
+    <thead>
+      <tr>
+        <th style="background:var(--blue); color:#fff; padding:5px 8px; text-align:left; width:10%;">Rev</th>
+        <th style="background:var(--blue); color:#fff; padding:5px 8px; text-align:left; width:18%;">Date</th>
+        <th style="background:var(--blue); color:#fff; padding:5px 8px; text-align:left;">Description of change / initial entry</th>
+        <th style="background:var(--blue); color:#fff; padding:5px 8px; text-align:left; width:12%;">Initials</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="border:1px solid var(--border); padding:5px 8px; height:30px;">1</td><td style="border:1px solid var(--border); padding:5px 8px;"></td><td style="border:1px solid var(--border); padding:5px 8px;"></td><td style="border:1px solid var(--border); padding:5px 8px;"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="score-strip">Task 1 score: <span class="pts-box"></span> / 25</div>
+</div>
+
+<hr class="section-rule">
+
+<!-- TASK 2 -->
+<div class="task-question">
+  <p class="q-stem">
+    <span class="q-num">Task 2.</span> <strong>Modular Architecture Design</strong> <span class="points">(25 pts)</span>
+  </p>
+
+  <div class="task-context">
+    <p><strong>Scenario:</strong> Your team is designing a robot for an FTC-style game. The robot must: (1) drive across a field, (2) pick up 10 cm foam cubes from the floor, (3) deposit cubes on a shelf 18 inches high, and (4) deploy a flag at the end of the match. The robot starts within an 18"×18"×18" box.</p>
+    <p><strong>Your task:</strong> Design a modular architecture for this robot — identify at least five modules, define each module's job, specify how it interfaces with the rest of the system, and draw the architecture diagram. Then evaluate your architecture against two modular design properties.</p>
+  </div>
+
+  <div class="grading-checklist">
+    <div class="gc-label">Grading criteria — Task 2</div>
+    <ul>
+      <li>Five modules identified, each with a clearly stated job — <strong>5 pts</strong></li>
+      <li>Interface table: connection type and physical mechanism for each module pair — <strong>6 pts</strong></li>
+      <li>Architecture diagram: all modules as labeled boxes, all interfaces as labeled lines, central integration module clearly identified — <strong>8 pts</strong></li>
+      <li>Modular property evaluation: two properties cited with specific evidence from this design — <strong>4 pts</strong></li>
+      <li>Trade-off analysis: one limitation of the proposed architecture explained — <strong>2 pts</strong></li>
+    </ul>
+  </div>
+
+  <!-- Part A: Module definitions -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--purple); margin-bottom:8px;">Part A — Identify and Define Your Five Modules</p>
+
+  <table class="task-table">
+    <thead>
+      <tr>
+        <th style="width:22%">Module name</th>
+        <th style="width:30%">What this module does</th>
+        <th style="width:24%">What it connects to</th>
+        <th>Interface type &amp; mechanism</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Part B: Architecture diagram -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--purple); margin-bottom:8px; margin-top:14px;">Part B — Architecture Diagram</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Draw all five modules as labeled boxes. Draw lines between modules that interface with each other. Label each line with the interface type (mechanical / electrical / data). Identify the central integration module (the hub everything else connects to) by drawing a double border around it.</p>
+
+  <div class="sketch-area xl">architecture diagram — 5 module boxes, labeled interface lines, double-border on central integration module</div>
+
+  <!-- Part C: Property evaluation -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--purple); margin-bottom:8px;">Part C — Evaluate Your Architecture</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Choose two of the five modular design properties. For each, explain how your architecture demonstrates (or fails to fully demonstrate) that property, using specific evidence from your module definitions.</p>
+
+  <div class="fr-sub" style="margin-top:8px;">
+    <div class="sub-label">Property 1: <span style="border-bottom:1px solid #aaa; display:inline-block; min-width:180px;">&nbsp;</span></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">Property 2: <span style="border-bottom:1px solid #aaa; display:inline-block; min-width:180px;">&nbsp;</span></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <!-- Part D: Trade-off analysis -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--purple); margin-bottom:8px;">Part D — Trade-Off Analysis</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Describe one limitation or weakness in your proposed modular architecture. What engineering problem does this weakness create, and what would you change if you had more time to redesign it?</p>
+  <div class="fr-lines">
+    <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+  </div>
+
+  <div class="score-strip">Task 2 score: <span class="pts-box"></span> / 25</div>
+</div>
+
+<div class="score-strip" style="font-size:10pt;">
+  <strong>Section 3 total: <span class="pts-box" style="min-width:60px;"></span> / 50</strong>
+</div>
+
+<hr class="section-rule">
+
+<div style="background:var(--gray-light); border-radius:var(--radius); padding:12px 16px; font-size:9.5pt; color:#555; margin-bottom:20px;">
+  <strong style="color:#333;">Answer Key &amp; Scoring Notes (Teacher Copy)</strong><br>
+  <strong>Section 1 Answer Bank:</strong> 1-A, 2-C, 3-D, 4-E, 5-F, 6-G, 7-H, 8-I, 9-J, 10-K &nbsp;·&nbsp; Unused answers: B (Trial-and-error) and L (Erase the original dimension)</br>
+  <strong>Section 2:</strong> See rubric. FR11c: full credit requires specific data (measurements, attempt numbers). FR12a: Define → Research → Ideate → Prototype → Test → Iterate. FR13b: chassis = integration layer; modules cannot depend on each other because a change in one would force redesign of others.<br>
+  <strong>Section 3:</strong> Task 1 Part B — weights must be set before any rating appears. Deduct 2 pts if weights and ratings appear to have been filled in simultaneously. Task 2 — any five coherent modules acceptable; award full credit if definitions are specific and the diagram is internally consistent.
+</div>
+
+<div class="test-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 1 Assessment</span>
+  <span>Engineering Foundations</span>
+  <span>Page 1 of 1 &nbsp;·&nbsp; 100 points total</span>
+</div>
+
+</body>
+</html>
