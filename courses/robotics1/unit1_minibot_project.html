@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 Capstone Project: REV MiniBot Build & Analysis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue:#1a4f82;   --blue-lt:#e8f0f9;
+    --green:#2d6a4f;  --green-lt:#e8f4ee;
+    --amber:#7d4e00;  --amber-lt:#fdf3e3;
+    --purple:#3d2a99; --purple-lt:#f0ecff;
+    --red:#8b1a1a;    --red-lt:#fdf2f2;
+    --orange:#8c3a00; --orange-lt:#fef0e7;
+    --teal:#0f5f5f;   --teal-lt:#e0f4f4;
+    --border:#d0d0cc; --r:8px;
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Source Sans 3',Arial,sans-serif; font-size:11pt; color:#222; background:#fff; max-width:860px; margin:0 auto; padding:0.5in 0.75in; }
+
+  /* ── HEADER ── */
+  .proj-header { border-top:5px solid var(--blue); padding-top:14px; margin-bottom:20px; }
+  .proj-header .course-label { font-size:9pt; letter-spacing:0.08em; text-transform:uppercase; color:var(--blue); font-weight:700; margin-bottom:4px; }
+  .proj-header h1 { font-family:'Source Serif 4',Georgia,serif; font-size:24pt; color:#111; line-height:1.2; margin-bottom:4px; }
+  .proj-header .subtitle { font-size:10pt; color:#666; margin-bottom:14px; }
+  .proj-meta { display:grid; grid-template-columns:repeat(5,1fr); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
+  .proj-meta-item { padding:8px 10px; border-right:1px solid var(--border); }
+  .proj-meta-item:last-child { border-right:none; }
+  .meta-label { font-size:8pt; text-transform:uppercase; letter-spacing:0.06em; color:#888; display:block; margin-bottom:2px; }
+  .meta-value { font-size:10pt; font-weight:600; color:#222; }
+
+  /* ── CALLOUT BOXES ── */
+  .objectives-box { background:var(--blue-lt); border-left:4px solid var(--blue); border-radius:0 var(--r) var(--r) 0; padding:12px 16px; margin:18px 0; }
+  .objectives-box h3 { font-size:9pt; text-transform:uppercase; letter-spacing:0.07em; color:var(--blue); font-weight:700; margin-bottom:8px; }
+  .objectives-box ol { padding-left:18px; margin:0; }
+  .objectives-box li { font-size:10pt; margin-bottom:5px; color:#1a1a3a; line-height:1.5; }
+
+  .overview-box { background:var(--amber-lt); border-left:4px solid #c8860a; border-radius:0 var(--r) var(--r) 0; padding:12px 16px; margin-bottom:16px; }
+  .overview-box .ov-label { font-size:8.5pt; text-transform:uppercase; letter-spacing:0.07em; font-weight:700; color:var(--amber); margin-bottom:6px; }
+  .overview-box p { font-size:10.5pt; color:#3a2a00; line-height:1.65; }
+  .overview-box p + p { margin-top:8px; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom:26px; }
+  .section-label { font-size:8.5pt; text-transform:uppercase; letter-spacing:0.09em; font-weight:700; color:var(--blue); margin-bottom:6px; padding-bottom:3px; border-bottom:1.5px solid var(--blue-lt); }
+  .section h2 { font-size:13pt; font-weight:700; color:#111; margin-bottom:10px; }
+
+  /* ── READING ── */
+  .reading-block { background:#f5f5f3; border-radius:var(--r); padding:14px 16px; margin-bottom:14px; font-size:10.5pt; line-height:1.7; color:#333; }
+  .reading-block p { margin-bottom:10px; }
+  .reading-block p:last-child { margin-bottom:0; }
+  .key-term { font-weight:700; color:var(--blue); }
+
+  /* ── PHASE CARDS ── */
+  .phase-card { border:2px solid var(--border); border-radius:var(--r); margin-bottom:16px; overflow:hidden; }
+  .phase-header { padding:10px 16px; display:flex; align-items:center; gap:12px; }
+  .phase-badge { font-size:9pt; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#fff; padding:3px 10px; border-radius:100px; white-space:nowrap; flex-shrink:0; }
+  .phase-title { font-size:11pt; font-weight:700; color:#fff; }
+  .phase-time { font-size:9pt; color:rgba(255,255,255,0.75); margin-left:auto; }
+  .phase-body { padding:14px 16px; }
+  .phase-body p { font-size:10.5pt; line-height:1.65; color:#333; margin-bottom:10px; }
+  .phase-body p:last-child { margin-bottom:0; }
+
+  /* Phase colors */
+  .ph1 .phase-header { background:var(--blue); }
+  .ph1 { border-color:var(--blue); }
+  .ph2 .phase-header { background:var(--green); }
+  .ph2 { border-color:var(--green); }
+  .ph3 .phase-header { background:var(--amber); }
+  .ph3 { border-color:#c8860a; }
+  .ph4 .phase-header { background:var(--red); }
+  .ph4 { border-color:var(--red); }
+  .ph5 .phase-header { background:var(--purple); }
+  .ph5 { border-color:var(--purple); }
+  .ph6 .phase-header { background:var(--teal); }
+  .ph6 { border-color:var(--teal); }
+
+  .phase-body .bg-blue { background:var(--blue-lt); }
+  .phase-body .bg-green { background:var(--green-lt); }
+  .phase-body .bg-amber { background:var(--amber-lt); }
+  .phase-body .bg-red { background:var(--red-lt); }
+  .phase-body .bg-purple { background:var(--purple-lt); }
+  .phase-body .bg-teal { background:var(--teal-lt); }
+
+  /* ── DELIVERABLES TABLE ── */
+  .del-table { width:100%; border-collapse:collapse; margin-bottom:14px; font-size:10pt; }
+  .del-table th { background:var(--green); color:#fff; padding:7px 10px; text-align:left; font-size:9pt; font-weight:600; }
+  .del-table td { border:1px solid var(--border); padding:7px 10px; vertical-align:top; line-height:1.55; }
+  .del-table tr:nth-child(even) td { background:var(--green-lt); }
+  .del-table .pts { font-weight:700; color:var(--blue); text-align:center; }
+  .del-table .tag { display:inline-block; font-size:8pt; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:1px 7px; border-radius:100px; margin-left:5px; vertical-align:middle; }
+  .tag-c1 { background:var(--blue-lt); color:var(--blue); }
+  .tag-c2 { background:var(--green-lt); color:var(--green); }
+  .tag-c3 { background:var(--amber-lt); color:var(--amber); }
+  .tag-c4 { background:var(--purple-lt); color:var(--purple); }
+  .tag-c5 { background:var(--red-lt); color:var(--red); }
+
+  /* ── ANALYSIS PROMPTS ── */
+  .prompt-group { margin-bottom:18px; }
+  .prompt-number { display:inline-block; font-size:9pt; font-weight:700; color:#fff; background:var(--blue); width:22px; height:22px; border-radius:50%; text-align:center; line-height:22px; margin-right:8px; flex-shrink:0; }
+  .prompt-item { display:flex; align-items:flex-start; gap:0; margin-bottom:10px; }
+  .prompt-text { font-size:10.5pt; color:#222; line-height:1.65; }
+  .prompt-sub { font-size:10pt; color:#555; font-style:italic; margin-top:4px; margin-left:30px; line-height:1.55; }
+
+  .analysis-category { border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:16px; overflow:hidden; }
+  .analysis-cat-header { padding:8px 14px; font-size:10.5pt; font-weight:700; color:#fff; }
+  .analysis-cat-body { padding:12px 14px; }
+
+  /* ── RUBRIC ── */
+  .rubric-table { width:100%; border-collapse:collapse; margin-bottom:14px; font-size:9.5pt; }
+  .rubric-table th { background:var(--purple); color:#fff; padding:7px 10px; text-align:left; font-size:9pt; font-weight:600; }
+  .rubric-table td { border:1px solid var(--border); padding:7px 10px; vertical-align:top; line-height:1.5; }
+  .rubric-table tr:nth-child(even) td { background:var(--purple-lt); }
+  .rubric-table .score { font-weight:700; text-align:center; }
+
+  /* ── NOTEBOOK CHECKLIST ── */
+  .nb-checklist { background:var(--amber-lt); border-left:4px solid #c8860a; border-radius:0 var(--r) var(--r) 0; padding:12px 16px; margin-bottom:14px; }
+  .nb-checklist .nbc-label { font-size:8.5pt; text-transform:uppercase; letter-spacing:0.07em; font-weight:700; color:var(--amber); margin-bottom:8px; }
+  .nb-items { display:grid; grid-template-columns:1fr 1fr; gap:5px 20px; font-size:10pt; color:#3a2a00; }
+  .nb-items label { display:flex; align-items:flex-start; gap:8px; }
+  .nb-items input { margin-top:3px; flex-shrink:0; }
+
+  /* ── SKILL TAGS ── */
+  .skill-map { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .skill-pill { font-size:9pt; font-weight:600; padding:4px 12px; border-radius:100px; display:inline-flex; align-items:center; gap:5px; }
+
+  /* ── SCAFFOLD TABS ── */
+  .scaffold-tabs { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:14px; }
+  .scaffold-tab { border-radius:var(--r); padding:10px 12px; font-size:9.5pt; }
+  .scaffold-tab .tab-label { font-size:8pt; text-transform:uppercase; letter-spacing:0.07em; font-weight:700; margin-bottom:5px; display:block; }
+  .scaffold-tab.novice { background:var(--green-lt); }
+  .scaffold-tab.novice .tab-label { color:var(--green); }
+  .scaffold-tab.intermediate { background:var(--blue-lt); }
+  .scaffold-tab.intermediate .tab-label { color:var(--blue); }
+  .scaffold-tab.proficient { background:var(--purple-lt); }
+  .scaffold-tab.proficient .tab-label { color:var(--purple); }
+
+  /* ── EXTENSION ── */
+  .extension-box { background:var(--purple-lt); border:1px solid #c5b8f5; border-radius:var(--r); padding:12px 16px; margin-top:6px; }
+  .extension-box .ext-label { font-size:8.5pt; text-transform:uppercase; letter-spacing:0.07em; font-weight:700; color:var(--purple); margin-bottom:6px; }
+  .extension-box p { font-size:10pt; color:#2a1a55; line-height:1.6; }
+
+  /* ── MATERIALS BOX ── */
+  .materials-box { background:var(--teal-lt); border-left:4px solid var(--teal); border-radius:0 var(--r) var(--r) 0; padding:12px 16px; margin-bottom:14px; }
+  .materials-box .mat-label { font-size:8.5pt; text-transform:uppercase; letter-spacing:0.07em; font-weight:700; color:var(--teal); margin-bottom:8px; }
+  .mat-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px 20px; font-size:10pt; color:#0a2e2e; line-height:1.6; }
+
+  /* ── DIVIDER ── */
+  hr.section-rule { border:none; border-top:1px solid var(--border); margin:24px 0; }
+
+  /* ── FOOTER ── */
+  .proj-footer { margin-top:28px; padding-top:10px; border-top:2px solid var(--blue); display:flex; justify-content:space-between; font-size:8.5pt; color:#888; }
+
+  /* ── WRITE AREAS ── */
+  .write-area { border:1px solid var(--border); border-radius:var(--r); width:100%; min-height:70px; display:block; background:transparent; resize:none; padding:8px 10px; font-family:inherit; font-size:10.5pt; color:#222; line-height:1.6; margin-bottom:14px; }
+  .sketch-box { border:1.5px dashed #bbb; border-radius:var(--r); width:100%; display:flex; align-items:center; justify-content:center; color:#bbb; font-size:9pt; letter-spacing:0.04em; text-transform:uppercase; margin-bottom:14px; }
+  .sketch-box.tall { height:220px; }
+  .sketch-box.medium { height:160px; }
+
+  @media print {
+    body { padding:0.4in 0.6in; }
+    .write-area { border:1px solid #aaa; }
+    .sketch-box { border:1.5px dashed #999; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="proj-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
+  <h1>Unit 1 Capstone Project<br>Build &amp; Analyze the REV MiniBot</h1>
+  <div class="subtitle">REV-45-1171 MiniBot Hardware Kit &nbsp;·&nbsp; Multi-session project &nbsp;·&nbsp; Full engineering notebook required</div>
+  <div class="proj-meta">
+    <div class="proj-meta-item"><span class="meta-label">Project type</span><span class="meta-value">Team (groups of 2–4)</span></div>
+    <div class="proj-meta-item"><span class="meta-label">Total time</span><span class="meta-value">4–5 class periods</span></div>
+    <div class="proj-meta-item"><span class="meta-label">Total points</span><span class="meta-value">200 pts</span></div>
+    <div class="proj-meta-item"><span class="meta-label">Skills covered</span><span class="meta-value">All of Unit 1 (C1–C5)</span></div>
+    <div class="proj-meta-item"><span class="meta-label">Key deliverable</span><span class="meta-value">Engineering notebook</span></div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="overview-box">
+  <div class="ov-label">What this project is</div>
+  <p>You and your team will build the REV MiniBot Hardware Kit (REV-45-1171) from scratch, treating the assembly process as a real engineering project — not just a set of instructions to follow. From your first sketch to your final analysis, every step is documented in an engineering notebook.</p>
+  <p>Once built, you will analyze the MiniBot as an engineer: identify its modules and interfaces, evaluate its design decisions and trade-offs, assess what it can and cannot do, and propose one improvement using the Engineering Design Process. This project synthesizes every skill from Unit 1 — design thinking, EDP, sketching, documentation, weighted evaluation, and modular design — applied to a real robot.</p>
+</div>
+
+<!-- OBJECTIVES -->
+<div class="objectives-box">
+  <h3>Project Objectives — what you will demonstrate</h3>
+  <ol>
+    <li><strong>Build</strong> the REV MiniBot from the assembly guide, documenting key decisions and observations in your notebook before, during, and after assembly.</li>
+    <li><strong>Sketch</strong> the completed MiniBot in at least three orthographic views with labeled dimensions, title block, and revision box — applying Class 3 standards to a real robot.</li>
+    <li><strong>Identify and map</strong> the MiniBot's modules, interfaces, and architecture diagram — applying Class 5 modular design analysis to a real build.</li>
+    <li><strong>Evaluate</strong> three key design decisions the REV engineers made, using purposeful design reasoning and trade-off language from Class 1.</li>
+    <li><strong>Assess capabilities and limitations</strong>: what tasks can this robot perform? What can't it do? What would need to change to make it competition-ready?</li>
+    <li><strong>Propose one improvement</strong> using the full EDP: define the problem, generate three design alternatives with orthographic sketches, evaluate with a weighted decision matrix, and document your selected design.</li>
+  </ol>
+</div>
+
+<!-- SKILL MAP -->
+<div class="section">
+  <div class="section-label">Skills synthesized from Unit 1</div>
+  <div class="skill-map">
+    <span class="skill-pill" style="background:var(--blue-lt);color:var(--blue);">C1 · Purposeful design &amp; trade-offs</span>
+    <span class="skill-pill" style="background:var(--blue-lt);color:var(--blue);">C1 · Design observation</span>
+    <span class="skill-pill" style="background:var(--green-lt);color:var(--green);">C2 · Engineering Design Process</span>
+    <span class="skill-pill" style="background:var(--green-lt);color:var(--green);">C2 · Root cause &amp; iteration</span>
+    <span class="skill-pill" style="background:var(--amber-lt);color:var(--amber);">C3 · Orthographic sketching</span>
+    <span class="skill-pill" style="background:var(--amber-lt);color:var(--amber);">C3 · Title block &amp; revision box</span>
+    <span class="skill-pill" style="background:var(--purple-lt);color:var(--purple);">C4 · Weighted decision matrix</span>
+    <span class="skill-pill" style="background:var(--purple-lt);color:var(--purple);">C4 · Parts list &amp; engineering drawing</span>
+    <span class="skill-pill" style="background:var(--red-lt);color:var(--red);">C5 · Modular design analysis</span>
+    <span class="skill-pill" style="background:var(--red-lt);color:var(--red);">C5 · Architecture diagram</span>
+    <span class="skill-pill" style="background:var(--teal-lt);color:var(--teal);">All · Engineering notebook</span>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- MATERIALS -->
+<div class="section">
+  <div class="section-label">Materials</div>
+  <h2>What You Need</h2>
+  <div class="materials-box">
+    <div class="mat-label">Required (provided by teacher)</div>
+    <div class="mat-grid">
+      <span>REV MiniBot Hardware Kit (REV-45-1171)</span>
+      <span>REV Control Hub (REV-31-1595)</span>
+      <span>REV 12V Slim Battery (REV-31-1302)</span>
+      <span>Android phone/tablet (driver's station)</span>
+      <span>Logitech F310 gamepad</span>
+      <span>REV MiniBot Assembly Guide (printed or digital)</span>
+      <span>5.5mm nut driver (included in kit)</span>
+      <span>Engineering notebook (physical, bound)</span>
+      <span>Ruler &amp; pencil for sketching</span>
+      <span>Unit 1 Vocabulary reference page</span>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- PROJECT PHASES -->
+<div class="section">
+  <div class="section-label">Project Structure — 6 phases</div>
+  <h2>How the Project Unfolds</h2>
+
+  <p style="font-size:10pt;color:#555;margin-bottom:14px;">Each phase has a notebook entry requirement. You cannot skip ahead — the notebook documents your thinking <em>as the project progresses</em>, not reconstructed from memory at the end. Your teacher will check notebook progress at the end of each phase.</p>
+
+  <!-- PHASE 1 -->
+  <div class="phase-card ph1">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 1</span>
+      <span class="phase-title">Pre-Build: Define, Research &amp; First Impressions</span>
+      <span class="phase-time">~25 min &nbsp;·&nbsp; Notebook Entry 1</span>
+    </div>
+    <div class="phase-body">
+      <p><strong>Before touching a single part,</strong> your team will examine the kit contents, study the assembly guide overview, and complete Entry 1 in your engineering notebook. This is your Define and Research stage (EDP Steps 1 &amp; 2).</p>
+
+      <div style="background:var(--blue-lt);border-radius:6px;padding:12px 14px;margin-bottom:12px;">
+        <div style="font-size:8.5pt;text-transform:uppercase;letter-spacing:0.07em;font-weight:700;color:var(--blue);margin-bottom:8px;">Notebook Entry 1 — required before assembly begins</div>
+        <ol style="padding-left:18px;font-size:10pt;line-height:1.8;color:#1a1a3a;">
+          <li><strong>Parts inventory:</strong> Lay out all parts and verify against the kit manifest. Sketch any 3 parts you don't recognize and label them with the part number. Note any parts that seem missing or damaged.</li>
+          <li><strong>First impressions:</strong> Before reading the assembly guide, look at the finished MiniBot image. Write 3 observations using the "I notice / I ask why / trade-off" structure from Class 1.</li>
+          <li><strong>Define the build:</strong> In one paragraph, describe what the MiniBot is designed to do, what its constraints are (size, component count, required control hardware), and what "successful assembly" looks like in measurable terms.</li>
+          <li><strong>Predict one build challenge:</strong> Based on what you can see from the parts and guide, predict one thing that will be technically difficult. Explain your reasoning.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-card ph2">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 2</span>
+      <span class="phase-title">Guided Build: Assemble the MiniBot</span>
+      <span class="phase-time">~60 min &nbsp;·&nbsp; Notebook Entries 2–4</span>
+    </div>
+    <div class="phase-body">
+      <p>Follow the REV MiniBot Assembly Guide. Your team works together — one person can build while the others document, then rotate. <strong>You must stop at each of the three checkpoints below and complete the corresponding notebook entry before continuing.</strong></p>
+
+      <div style="background:var(--green-lt);border-radius:6px;padding:12px 14px;margin-bottom:12px;">
+        <div style="font-size:8.5pt;text-transform:uppercase;letter-spacing:0.07em;font-weight:700;color:var(--green);margin-bottom:8px;">Checkpoint A — After completing the axle assemblies (before attaching to frame)</div>
+        <p style="font-size:10pt;color:#1a3a1a;line-height:1.7;"><strong>Notebook Entry 2:</strong> Sketch one axle assembly in two orthographic views (front and side). Label the hex shaft, through-bore bearing, shaft collar, spacers, and gear. Note actual dimensions wherever possible. Explain in 2 sentences why a hex shaft is used instead of a round shaft.</p>
+      </div>
+
+      <div style="background:var(--green-lt);border-radius:6px;padding:12px 14px;margin-bottom:12px;">
+        <div style="font-size:8.5pt;text-transform:uppercase;letter-spacing:0.07em;font-weight:700;color:var(--green);margin-bottom:8px;">Checkpoint B — After completing the left and right side assemblies (before final assembly)</div>
+        <p style="font-size:10pt;color:#1a3a1a;line-height:1.7;"><strong>Notebook Entry 3:</strong> Sketch one side assembly (left or right) as a standalone module — front view and top view. Label the motor, motor bracket, pillow block, gear mesh, wheel. Record any build problems you encountered and how you solved them. Note whether your predicted challenge (Phase 1) was correct.</p>
+      </div>
+
+      <div style="background:var(--green-lt);border-radius:6px;padding:12px 14px;margin-bottom:0;">
+        <div style="font-size:8.5pt;text-transform:uppercase;letter-spacing:0.07em;font-weight:700;color:var(--green);margin-bottom:8px;">Checkpoint C — Completed MiniBot (hardware only, before adding control system)</div>
+        <p style="font-size:10pt;color:#1a3a1a;line-height:1.7;"><strong>Notebook Entry 4:</strong> Sketch the complete MiniBot in three orthographic views (front, top, side) with full dimension labels, title block, and revision box. This is your formal engineering drawing of the completed chassis. Estimate overall dimensions: length, width, height, wheelbase.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase-card ph3">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 3</span>
+      <span class="phase-title">Control System Integration &amp; Drive Test</span>
+      <span class="phase-time">~20 min &nbsp;·&nbsp; Notebook Entry 5</span>
+    </div>
+    <div class="phase-body">
+      <p>Add the Control Hub, battery, and driver station to complete the MiniBot. Your teacher will assist with the basic OpMode to drive the robot. Once moving, conduct a structured drive test and document your observations.</p>
+
+      <div style="background:var(--amber-lt);border-radius:6px;padding:12px 14px;margin-bottom:0;">
+        <div style="font-size:8.5pt;text-transform:uppercase;letter-spacing:0.07em;font-weight:700;color:var(--amber);margin-bottom:8px;">Drive Test Protocol — run these and record results</div>
+        <ol style="padding-left:18px;font-size:10pt;color:#3a2a00;line-height:1.8;">
+          <li><strong>Straight line test:</strong> Drive forward 2 meters on a flat surface. Does it track straight? Measure deviation from the intended line.</li>
+          <li><strong>Turn test:</strong> Execute a 90° left and right turn from a standing stop. Does it turn consistently? Does one side feel stronger than the other?</li>
+          <li><strong>Speed estimate:</strong> Time how long it takes to drive 1 meter at full speed. Calculate approximate speed in m/s.</li>
+          <li><strong>Stability test:</strong> Place a 500g weight on top of the battery holder and repeat the turn test. Does the robot become less stable? Note any differences.</li>
+          <li><strong>Surface test:</strong> Drive over a smooth floor, then a carpet or textured surface. Note the difference in traction and speed.</li>
+        </ol>
+      </div>
+      <p style="margin-top:10px;"><strong>Notebook Entry 5:</strong> Record all five test results in a table. For each test, note what you observed and what it tells you about the MiniBot's design. Identify one test result that surprised you and explain what engineering reason might cause it.</p>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase-card ph4">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 4</span>
+      <span class="phase-title">Modular Analysis &amp; Architecture Diagram</span>
+      <span class="phase-time">~30 min &nbsp;·&nbsp; Notebook Entry 6</span>
+    </div>
+    <div class="phase-body">
+      <p>Apply the Class 5 modular design framework to the MiniBot. You built it — now analyze it as an engineer who designed it.</p>
+
+      <div style="background:var(--red-lt);border-radius:6px;padding:12px 14px;margin-bottom:12px;">
+        <div style="font-size:8.5pt;text-transform:uppercase;letter-spacing:0.07em;font-weight:700;color:var(--red);margin-bottom:8px;">Notebook Entry 6 — Modular Design Analysis</div>
+        <ol style="padding-left:18px;font-size:10pt;color:#3a1a1a;line-height:1.8;">
+          <li><strong>Module identification:</strong> Identify 4–5 distinct modules on the MiniBot (e.g., drivetrain module, motor module, frame, control system). For each: name it, state its job, and identify its interface(s) to the rest of the robot.</li>
+          <li><strong>Architecture diagram:</strong> Draw the complete architecture diagram — all modules as labeled boxes, all interfaces as labeled connection lines. Note the interface type for each connection (mechanical, power, data).</li>
+          <li><strong>Interface map table:</strong> Complete a table listing every module-to-module interface: From / To / Interface type / Physical mechanism.</li>
+          <li><strong>Modularity score:</strong> Rate the MiniBot on all five modular design properties (functional independence, defined interfaces, replaceability, testability, parallel development). Score 1–3 each with evidence. Calculate total score out of 15.</li>
+          <li><strong>Module boundary judgment:</strong> Identify one place where the MiniBot's design is <em>not</em> modular — where two functions are combined in a way that makes them hard to change independently. Explain why this is a limitation and what it would cost to fix it.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase-card ph5">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 5</span>
+      <span class="phase-title">Capabilities, Strengths &amp; Limitations Analysis</span>
+      <span class="phase-time">~30 min &nbsp;·&nbsp; Notebook Entry 7</span>
+    </div>
+    <div class="phase-body">
+      <p>Now that you've driven it and analyzed its structure, assess the MiniBot honestly as an engineering product. This is not a review — it is a structured engineering evaluation.</p>
+
+      <div class="analysis-category" style="margin-bottom:12px;">
+        <div class="analysis-cat-header" style="background:var(--purple);">A · What the MiniBot can do — Capabilities</div>
+        <div class="analysis-cat-body">
+          <div class="prompt-item"><span class="prompt-number">1</span><div class="prompt-text">Based on your drive test, describe the MiniBot's motion capabilities: speed, turning ability, surface compatibility. Support every claim with data from Phase 3.</div></div>
+          <div class="prompt-item"><span class="prompt-number">2</span><div class="prompt-text">The MiniBot uses a simple 2-motor differential drive. What types of game tasks is it well-suited for? List at least 3 specific actions a robot might need to do in an FTC game and evaluate whether this drivetrain can do each one.</div></div>
+          <div class="prompt-item"><span class="prompt-number">3</span><div class="prompt-text">Identify the gear ratio used in the MiniBot (72T and 90T gears are both present — which is driving which?). Does this gear ratio prioritize speed or force? How does that match the MiniBot's likely intended use?</div></div>
+        </div>
+      </div>
+
+      <div class="analysis-category" style="margin-bottom:12px;">
+        <div class="analysis-cat-header" style="background:var(--green);">B · Design Decision Analysis — Purposeful Design Review</div>
+        <div class="analysis-cat-body">
+          <p style="font-size:9.5pt;color:#555;margin-bottom:10px;font-style:italic;">Using the Class 1 framework: I notice / I ask "why?" / Trade-off — analyze three specific design decisions REV made when engineering the MiniBot.</p>
+          <div class="prompt-item"><span class="prompt-number">4</span><div class="prompt-text">The extrusion frame uses 225mm lengths at 90° ends. Why that length? What does it give the designer in terms of component placement? What constraint does it create?</div></div>
+          <div class="prompt-item"><span class="prompt-number">5</span><div class="prompt-text">The battery holder plate mounts the battery in a specific location on the chassis. Evaluate this placement using center-of-gravity reasoning from Class 1. Is it optimal? What trade-off did REV accept?</div></div>
+          <div class="prompt-item"><span class="prompt-number">6</span><div class="prompt-text">The MiniBot uses pillow block bearings at the wheel axle points. Why use bearings rather than letting the shaft slide directly through a bracket hole? What would happen without them? What did this choice cost in complexity?</div></div>
+        </div>
+      </div>
+
+      <div class="analysis-category">
+        <div class="analysis-cat-header" style="background:var(--red);">C · Limitations &amp; Gaps — What the MiniBot Cannot Do</div>
+        <div class="analysis-cat-body">
+          <div class="prompt-item"><span class="prompt-number">7</span><div class="prompt-text">The MiniBot is described by REV as "ideal for basic programming training." What does this phrase tell you about what it was <em>not</em> designed for? List at least 4 things a competition robot needs to do that the MiniBot cannot do as built.</div></div>
+          <div class="prompt-item"><span class="prompt-number">8</span><div class="prompt-text">Perform a stability analysis: estimate the MiniBot's center of gravity location (high or low? centered or offset?). Using your Class 1 experiment knowledge, predict what types of maneuvers or situations might cause it to tip or lose traction. Which structural change would most improve stability?</div></div>
+          <div class="prompt-item"><span class="prompt-number">9</span><div class="prompt-text">The MiniBot has no mechanism for manipulating game objects (no arm, claw, intake, or shooter). If you had to add one mechanism — choosing from anything you designed in Class 4 — which would you add first and why? What interface point on the MiniBot frame would you use?</div></div>
+        </div>
+      </div>
+
+      <p style="margin-top:12px;"><strong>Notebook Entry 7:</strong> Complete all nine prompts above. Each answer must include specific evidence — measurements from Phase 3, component names and part numbers, or engineering reasoning. Vague answers ("it seems stable") are not acceptable.</p>
+    </div>
+  </div>
+
+  <!-- PHASE 6 -->
+  <div class="phase-card ph6">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 6</span>
+      <span class="phase-title">Improvement Proposal — Full EDP</span>
+      <span class="phase-time">~40 min &nbsp;·&nbsp; Notebook Entry 8</span>
+    </div>
+    <div class="phase-body">
+      <p>Choose one limitation from Phase 5 and address it using the complete Engineering Design Process. This is your Phase 6 design challenge — not another build, but a full documented design proposal.</p>
+
+      <div style="background:var(--teal-lt);border-radius:6px;padding:12px 14px;margin-bottom:12px;">
+        <div style="font-size:8.5pt;text-transform:uppercase;letter-spacing:0.07em;font-weight:700;color:var(--teal);margin-bottom:8px;">Improvement Proposal Requirements</div>
+        <ol style="padding-left:18px;font-size:10pt;color:#0a2e2e;line-height:1.8;">
+          <li><strong>Problem statement:</strong> Define in 2–3 sentences exactly what limitation you are addressing, why it matters for a robot that would compete in FTC, and what "success" looks like for your proposed improvement.</li>
+          <li><strong>Three design alternatives:</strong> Sketch three genuinely different solutions using orthographic views (at least top + front/side for each). Label key dimensions. Show how each alternative interfaces with the existing MiniBot frame.</li>
+          <li><strong>Weighted decision matrix:</strong> Set your weights before sketching. Evaluate all three alternatives on at least 5 criteria, including: improvement to the identified limitation, interface compatibility with the existing MiniBot, estimated weight impact, build complexity, and repairability. Calculate weighted totals.</li>
+          <li><strong>Selected design — engineering drawing:</strong> Produce a final engineering drawing of your selected design: three views, labeled dimensions, title block, revision box with at least 2 revision entries, and a parts list estimating the REV components required.</li>
+          <li><strong>Design rationale paragraph:</strong> 3–4 sentences explaining your choice. Reference your highest-weighted criterion. Acknowledge the trade-off your design accepts. State what you would change if you had a 4th design option.</li>
+        </ol>
+      </div>
+
+      <div class="scaffold-tabs">
+        <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Your three designs may address the same limitation with different shapes or sizes. Matrix criteria may use simple 1–3 ratings without weights.</div>
+        <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Three genuinely different mechanism types. Weighted matrix with 5 criteria. Final drawing with title block and parts list.</div>
+        <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>All intermediate requirements plus: annotate the force/motion path on your final sketch; include a tolerance note on one critical dimension; show the improvement proposal against the MiniBot's existing modules using an updated architecture diagram.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ANALYSIS PROMPTS CONSOLIDATED -->
+<div class="section">
+  <div class="section-label">Summary — all notebook entries required</div>
+  <h2>Engineering Notebook Requirements</h2>
+
+  <div class="nb-checklist">
+    <div class="nbc-label">Notebook completeness checklist — every entry must be dated &amp; signed by all team members</div>
+    <div class="nb-items">
+      <label><input type="checkbox"><span><strong>Entry 1:</strong> Parts inventory, first impressions (3× I notice/why/trade-off), define statement, predicted challenge</span></label>
+      <label><input type="checkbox"><span><strong>Entry 2:</strong> Axle assembly sketch (2 views, labeled), hex shaft explanation</span></label>
+      <label><input type="checkbox"><span><strong>Entry 3:</strong> Side assembly sketch (2 views, labeled), build problems log</span></label>
+      <label><input type="checkbox"><span><strong>Entry 4:</strong> Full MiniBot 3-view drawing, title block, revision box, dimension labels</span></label>
+      <label><input type="checkbox"><span><strong>Entry 5:</strong> Drive test data table (5 tests), analysis of one surprising result</span></label>
+      <label><input type="checkbox"><span><strong>Entry 6:</strong> Module identification, architecture diagram, interface map, modularity score</span></label>
+      <label><input type="checkbox"><span><strong>Entry 7:</strong> All 9 capability/limitation analysis prompts with evidence</span></label>
+      <label><input type="checkbox"><span><strong>Entry 8:</strong> Improvement proposal — 3 sketches, weighted matrix, final drawing, rationale</span></label>
+      <label><input type="checkbox"><span>Every entry dated and signed by all team members</span></label>
+      <label><input type="checkbox"><span>Table of contents updated after every entry</span></label>
+      <label><input type="checkbox"><span>Every sketch has a title, date, and at least one dimension</span></label>
+      <label><input type="checkbox"><span>Revision box on all formal engineering drawings (Entries 4 and 8)</span></label>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- RUBRIC -->
+<div class="section">
+  <div class="section-label">Assessment</div>
+  <h2>Project Rubric — 200 Points Total</h2>
+
+  <table class="rubric-table">
+    <thead>
+      <tr>
+        <th style="width:28%">Criterion</th>
+        <th style="width:8%">Points</th>
+        <th>4 — Exceeds (Full points)</th>
+        <th>3 — Meets</th>
+        <th>2 — Approaching</th>
+        <th>1 — Beginning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Notebook completeness &amp; format</strong><br><span style="font-size:8.5pt;color:#888;">All 8 entries present, dated, signed; sketches labeled; ToC updated</span></td>
+        <td class="score">30</td>
+        <td style="font-size:9pt;">All 8 entries complete, dated, signed. Every sketch has title, date, ≥1 dimension. ToC accurate.</td>
+        <td style="font-size:9pt;">7 of 8 entries complete. Minor formatting gaps.</td>
+        <td style="font-size:9pt;">5–6 entries complete. Several missing dates or signatures.</td>
+        <td style="font-size:9pt;">Fewer than 5 entries or most missing required elements.</td>
+      </tr>
+      <tr>
+        <td><strong>Engineering drawings quality</strong><br><span style="font-size:8.5pt;color:#888;">Entry 4 (3-view) + Entry 8 final design drawing</span></td>
+        <td class="score">35</td>
+        <td style="font-size:9pt;">3 orthographic views, all key parts labeled, dimensions with units, accurate title block, revision box with ≥2 entries.</td>
+        <td style="font-size:9pt;">3 views, most parts labeled, title block present, revision box with 1 entry.</td>
+        <td style="font-size:9pt;">2 views, some dimensions, title block incomplete.</td>
+        <td style="font-size:9pt;">1 view only or missing critical labels and documentation.</td>
+      </tr>
+      <tr>
+        <td><strong>Purposeful design analysis</strong><br><span style="font-size:8.5pt;color:#888;">Phase 1 + Phase 5B: 3 design decisions analyzed</span></td>
+        <td class="score">30</td>
+        <td style="font-size:9pt;">Each analysis names specific component/dimension, states engineering reason, identifies trade-off. Uses vocabulary correctly.</td>
+        <td style="font-size:9pt;">Analysis present for all 3, reasoning plausible but one is vague or missing a trade-off.</td>
+        <td style="font-size:9pt;">2 of 3 analyses have clear reasoning. Trade-offs thin or missing.</td>
+        <td style="font-size:9pt;">Analysis present but mostly describes what is seen, not why it was designed that way.</td>
+      </tr>
+      <tr>
+        <td><strong>Modular design analysis</strong><br><span style="font-size:8.5pt;color:#888;">Phase 4: module cards, architecture diagram, modularity score</span></td>
+        <td class="score">30</td>
+        <td style="font-size:9pt;">4+ modules identified with interfaces. Architecture diagram complete and labeled. Modularity score with specific evidence for each property.</td>
+        <td style="font-size:9pt;">4 modules, architecture diagram present, modularity score with 3–4 evidenced properties.</td>
+        <td style="font-size:9pt;">3 modules, partial diagram, score without consistent evidence.</td>
+        <td style="font-size:9pt;">Modules identified but no diagram or score.</td>
+      </tr>
+      <tr>
+        <td><strong>Capabilities &amp; limitations analysis</strong><br><span style="font-size:8.5pt;color:#888;">Phase 5: all 9 prompts with evidence</span></td>
+        <td class="score">30</td>
+        <td style="font-size:9pt;">All 9 prompts answered. Every claim supported by Phase 3 data, component names, or engineering reasoning. No vague statements.</td>
+        <td style="font-size:9pt;">All 9 answered. 1–2 rely on opinion rather than evidence.</td>
+        <td style="font-size:9pt;">7–8 answered. Several lack supporting evidence.</td>
+        <td style="font-size:9pt;">Fewer than 7 answered or most lack evidence.</td>
+      </tr>
+      <tr>
+        <td><strong>Improvement proposal</strong><br><span style="font-size:8.5pt;color:#888;">Phase 6: 3 sketches, weighted matrix, final drawing, rationale</span></td>
+        <td class="score">45</td>
+        <td style="font-size:9pt;">3 genuinely different mechanisms. Weights set before sketching. 5+ criteria matrix. Final drawing with 3 views, title block, revision box, parts list. Rationale references matrix score and names trade-off.</td>
+        <td style="font-size:9pt;">3 alternatives sketched. Weighted matrix (4 criteria). Final drawing with title block. Rationale present.</td>
+        <td style="font-size:9pt;">2–3 alternatives. Unweighted or incomplete matrix. Final drawing missing some elements.</td>
+        <td style="font-size:9pt;">1 alternative. No matrix. Drawing incomplete. Rationale absent.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10pt;color:#555;margin-bottom:0;"><strong>Note on teams:</strong> All team members receive the same project score. Individual notebook signatures are required on every entry — a member who did not sign an entry is assumed to have not contributed to it. Teachers may adjust individual scores based on observed contribution.</p>
+</div>
+
+<hr class="section-rule">
+
+<!-- EXTENSION -->
+<div class="section">
+  <div class="section-label">Going further</div>
+  <h2>Extension Challenges</h2>
+
+  <div class="extension-box" style="margin-bottom:10px;">
+    <div class="ext-label">Extension A — Competition Readiness Assessment</div>
+    <p>FTC games require robots to score points by moving game elements, placing objects in goals, climbing, and autonomous operation. Research the most recent FTC season game. Write a 1-page competitive analysis in your notebook: which of the game's required tasks could the MiniBot perform as-is? Which would require the most fundamental redesign? Rate the MiniBot's competition readiness on a scale of 0–10 with specific justification for your score.</p>
+  </div>
+
+  <div class="extension-box" style="margin-bottom:10px;">
+    <div class="ext-label">Extension B — Gear Ratio Calculation &amp; Wheel Speed</div>
+    <p>The MiniBot uses a 72-tooth gear meshing with a 90-tooth gear. The Core Hex Motor's free speed is 150 RPM. Calculate: (1) the gear ratio, (2) the theoretical wheel RPM at free speed, (3) the theoretical linear speed in m/s given the 90mm traction wheel diameter. Compare your calculated speed to your measured speed from the Phase 3 drive test. What accounts for the difference? Write your full calculation in your notebook with labeled steps.</p>
+  </div>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension C — Second Improvement Proposal</div>
+    <p>Complete a second full improvement proposal (Phase 6) addressing a different limitation than your first. Your two proposals must address different categories: one must be structural (changes to frame, stability, or drivetrain) and the other must be functional (adds capability the MiniBot currently lacks). Compare your two proposals in a short paragraph: which has the higher difficulty-to-impact ratio, and why?</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="proj-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 1 Capstone Project</span>
+  <span>REV MiniBot Build &amp; Analysis (REV-45-1171)</span>
+  <span>200 Points &nbsp;·&nbsp; 8 Notebook Entries</span>
+</div>
+
+</body>
+</html>

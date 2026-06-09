@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 Vocabulary — Introductory Robotics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue: #1a4f82;     --blue-lt: #e8f0f9;
+    --green: #2d6a4f;    --green-lt: #e8f4ee;
+    --amber: #7d4e00;    --amber-lt: #fdf3e3;
+    --purple: #3d2a99;   --purple-lt: #f0ecff;
+    --red: #8b1a1a;      --red-lt: #fdf2f2;
+    --orange: #8c3a00;   --orange-lt: #fef0e7;
+    --teal: #0f5f5f;     --teal-lt: #e0f4f4;
+    --border: #d0d0cc;
+    --r: 8px;
+    --body-bg: #f7f6f3;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', Arial, sans-serif;
+    font-size: 15px;
+    color: #222;
+    background: var(--body-bg);
+    min-height: 100vh;
+  }
+
+  /* ── TOP NAV ── */
+  .top-nav {
+    background: var(--blue);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    height: 44px;
+    border-bottom: 1px solid #15406a;
+    gap: 0;
+  }
+  .top-nav a { color: #b8d0f0; text-decoration: none; font-size: 13px; padding: 0 4px; line-height: 44px; }
+  .top-nav a:hover { color: #fff; }
+  .top-nav .sep { color: #4a78b0; font-size: 11px; padding: 0 8px; }
+  .top-nav .current { color: #fff; font-weight: 600; }
+
+  /* ── LAYOUT ── */
+  .page-body { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 44px); }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: #fff;
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky;
+    top: 44px;
+    height: calc(100vh - 44px);
+    overflow-y: auto;
+  }
+  .sidebar-section-label {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: #aaa; padding: 10px 20px 4px; display: block;
+  }
+  .sidebar a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 20px; font-size: 13px; color: #444;
+    text-decoration: none; border-left: 3px solid transparent;
+    transition: all .12s;
+  }
+  .sidebar a:hover { background: #f5f5f3; color: var(--blue); border-left-color: #bcd3ee; }
+  .sidebar a.active { background: var(--blue-lt); color: var(--blue); font-weight: 600; border-left-color: var(--blue); }
+  .sidebar-divider { border: none; border-top: 1px solid var(--border); margin: 8px 20px; }
+  .cat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── MAIN ── */
+  .main-content { padding: 32px 40px 80px; max-width: 960px; }
+
+  /* ── HERO ── */
+  .hero-block {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--r);
+    padding: 28px 32px; margin-bottom: 28px; border-left: 5px solid var(--blue);
+  }
+  .unit-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--blue); margin-bottom: 6px; }
+  .hero-block h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 26px; color: #111; line-height: 1.2; margin-bottom: 8px; }
+  .hero-block .desc { font-size: 14px; color: #555; line-height: 1.65; margin-bottom: 18px; max-width: 680px; }
+  .hero-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+  .hero-meta-item { font-size: 13px; color: #666; }
+  .hero-meta-item strong { color: #333; }
+
+  /* ── SEARCH BAR ── */
+  .search-wrap { margin-bottom: 24px; position: relative; }
+  .search-wrap input {
+    width: 100%; padding: 10px 16px 10px 40px;
+    border: 1.5px solid var(--border); border-radius: var(--r);
+    font-family: inherit; font-size: 14px; color: #222;
+    background: #fff; outline: none; transition: border .15s;
+  }
+  .search-wrap input:focus { border-color: var(--blue); }
+  .search-wrap input::placeholder { color: #aaa; }
+  .search-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: #aaa; font-size: 15px; pointer-events: none;
+  }
+  .search-count { font-size: 12px; color: #888; margin-top: 6px; }
+
+  /* ── SECTION HEADING ── */
+  .cat-heading {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .09em; margin: 32px 0 14px;
+    padding-bottom: 8px; border-bottom: 2px solid var(--border);
+  }
+  .cat-heading:first-of-type { margin-top: 0; }
+  .cat-pill {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .06em; padding: 2px 10px; border-radius: 100px;
+    color: #fff;
+  }
+  .cat-count { font-size: 11px; color: #aaa; font-weight: 400; margin-left: auto; }
+
+  /* ── VOCAB CARD GRID ── */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  /* ── VOCAB CARD ── */
+  .vocab-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    transition: box-shadow .15s, transform .1s;
+  }
+  .vocab-card:hover { box-shadow: 0 2px 14px rgba(0,0,0,.08); transform: translateY(-1px); }
+
+  .card-header {
+    padding: 10px 14px 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+  }
+  .card-term {
+    font-size: 14px; font-weight: 700; color: #111; line-height: 1.3;
+  }
+  .card-class-badge {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .05em; padding: 2px 7px; border-radius: 100px;
+    white-space: nowrap; flex-shrink: 0; color: #fff; margin-top: 2px;
+  }
+
+  .card-body { padding: 10px 14px 12px; }
+  .card-def { font-size: 13px; line-height: 1.6; color: #333; margin-bottom: 0; }
+
+  .card-example {
+    margin-top: 8px; padding: 8px 10px;
+    background: var(--body-bg); border-radius: 5px;
+    font-size: 12px; color: #555; line-height: 1.55;
+    border-left: 3px solid var(--border);
+    font-style: italic;
+  }
+  .card-example strong { font-style: normal; font-weight: 700; color: #333; }
+
+  .card-also {
+    margin-top: 8px; font-size: 11px; color: #888;
+  }
+  .card-also span { font-weight: 600; color: #666; }
+
+  /* hidden for search filtering */
+  .vocab-card.hidden { display: none; }
+
+  /* ── NO RESULTS ── */
+  .no-results { display: none; padding: 32px; text-align: center; color: #aaa; font-size: 14px; }
+  .no-results.visible { display: block; }
+
+  /* ── PRINT ── */
+  @media print {
+    .sidebar, .top-nav, .search-wrap { display: none; }
+    .page-body { grid-template-columns: 1fr; }
+    .main-content { padding: 0.5in; }
+    .vocab-card { break-inside: avoid; }
+    .vocab-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .page-body { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .main-content { padding: 20px; }
+    .vocab-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <a href="index.html">Robotics Curriculum</a>
+  <span class="sep">›</span>
+  <a href="unit1/index.html">Unit 1: Engineering Foundations</a>
+  <span class="sep">›</span>
+  <span class="current">Vocabulary</span>
+</nav>
+
+<div class="page-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <span class="sidebar-section-label">Jump to category</span>
+    <a href="#cat-design"><div class="cat-dot" style="background:#1a4f82"></div> Design Thinking</a>
+    <a href="#cat-edp"><div class="cat-dot" style="background:#2d6a4f"></div> Engineering Design Process</a>
+    <a href="#cat-drawing"><div class="cat-dot" style="background:#c8860a"></div> Drawing &amp; Documentation</a>
+    <a href="#cat-structures"><div class="cat-dot" style="background:#3d2a99"></div> Structures &amp; Forces</a>
+    <a href="#cat-mechanisms"><div class="cat-dot" style="background:#8b1a1a"></div> Mechanisms &amp; Motion</a>
+    <a href="#cat-modular"><div class="cat-dot" style="background:#0f5f5f"></div> Modular Design</a>
+    <a href="#cat-aero"><div class="cat-dot" style="background:#6b3a8c"></div> Aerodynamics</a>
+    <a href="#cat-notebook"><div class="cat-dot" style="background:#555"></div> Notebook &amp; Process</a>
+    <div class="sidebar-divider"></div>
+    <a href="unit1/index.html"><span style="font-size:13px;">← Back to Unit 1</span></a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- HERO -->
+    <div class="hero-block">
+      <div class="unit-tag">Unit 1 · Engineering Foundations</div>
+      <h1>Vocabulary Reference</h1>
+      <p class="desc">Every term and concept introduced across the five classes of Unit 1. Use this page to look up words before, during, or after class. Terms are organized by topic — or use the search bar to find any word instantly.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><strong>54 terms</strong> across 8 categories</div>
+        <div class="hero-meta-item"><strong>Classes 1–5</strong></div>
+        <div class="hero-meta-item">Each card shows which class introduces the term</div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search any term or definition…" oninput="filterVocab()">
+      <div class="search-count" id="searchCount"></div>
+    </div>
+
+    <div id="no-results" class="no-results">No terms match your search. Try a different word.</div>
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 1 — DESIGN THINKING
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-design">
+      <div class="cat-dot" style="background:#1a4f82; width:12px; height:12px;"></div>
+      <span style="color:#1a4f82;">Design Thinking</span>
+      <span class="cat-count">8 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-design">
+
+      <div class="vocab-card" data-terms="purposeful design">
+        <div class="card-header">
+          <div class="card-term">Purposeful design</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 1</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A design approach where every choice has a documented reason. When asked "why did you build it that way?" you can answer with a specific engineering justification — not "I thought it looked right."</p>
+          <div class="card-example"><strong>Example:</strong> Mounting the battery low on the chassis is purposeful design — you did it to lower the center of gravity and prevent tipping, not just because there was space there.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="trial and error">
+        <div class="card-header">
+          <div class="card-term">Trial and error</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 1</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Building or changing things until something works — without understanding <em>why</em> it works. Useful for simple problems but unreliable for engineering: if you don't know why it worked, you can't fix it when it breaks or improve it purposefully.</p>
+          <div class="card-example"><strong>Contrast:</strong> Purposeful design vs. trial and error is the difference between knowing that shorter fingers grip harder because of torque, versus just trying shorter fingers until the claw held something.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="constraint constraints">
+        <div class="card-header">
+          <div class="card-term">Constraint</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 1</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A limit you must work within. Engineers solve problems inside constraints, not in spite of them. Common types: weight, cost, size, time, available materials, rules of a competition.</p>
+          <div class="card-example"><strong>Example:</strong> "One sheet of paper, 30 cm of tape, freestanding for 10 seconds" — those are all constraints on the paper tower challenge.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="trade-off tradeoff trade off">
+        <div class="card-header">
+          <div class="card-term">Trade-off</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 1</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A situation where making something better in one way makes it worse in another. Every design decision involves trade-offs — there is no "perfect" design, only the best balance of competing priorities for your situation.</p>
+          <div class="card-example"><strong>Example:</strong> Bigger wheels give a robot more speed, but raise the chassis height (higher center of gravity → easier to tip). Speed vs. stability is the trade-off.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="multi-objective design multi objective">
+        <div class="card-header">
+          <div class="card-term">Multi-objective design</div>
+          <div class="card-class-badge" style="background:#c8860a;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Designing for more than one goal at the same time, when those goals may conflict. You either find a design that balances both, or you decide which goal to prioritize.</p>
+          <div class="card-example"><strong>Example:</strong> A paper airplane optimized for <em>distance</em> has narrow wings that cut through air efficiently — but those same wings make it harder to aim accurately. Distance and accuracy are two competing objectives.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="decision matrix weighted decision matrix">
+        <div class="card-header">
+          <div class="card-term">Decision matrix</div>
+          <div class="card-class-badge" style="background:#c8860a;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A table used to evaluate and compare multiple designs across multiple criteria. Each design is rated on each criterion, scores are totaled, and the highest-scoring design is the preferred choice.</p>
+          <div class="card-example"><strong>Simple version:</strong> Rate designs 1–3 on each criterion; add totals. <strong>Weighted version (Class 4):</strong> multiply rating × weight so more important criteria count more.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="weighted decision matrix weight multiplier criterion criteria">
+        <div class="card-header">
+          <div class="card-term">Weighted decision matrix</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A decision matrix where each criterion is given a <em>weight</em> (multiplier) based on how important it is. A criterion rated weight 3 counts three times as much as one rated weight 1. The formula is: <strong>rating × weight = weighted score</strong>. Weights must be assigned <em>before</em> rating designs.</p>
+          <div class="card-example"><strong>Why it matters:</strong> A simple matrix accidentally treats "looks nice" the same as "won't break." A weighted matrix lets you say "grip reliability is 3× more important than appearance" before any design biases creep in.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="design rationale rationale">
+        <div class="card-header">
+          <div class="card-term">Design rationale</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A written explanation of <em>why</em> a design decision was made — which criterion it serves, what trade-off it accepts, and why the alternatives were rejected. A design without a rationale is not purposeful design.</p>
+          <div class="card-example"><strong>Example:</strong> "I chose short fingers (4 cm) because my experiment showed they held twice the weight of 8 cm fingers. The trade-off is reduced opening width — the claw can only grab objects narrower than 6 cm."</div>
+        </div>
+      </div>
+
+    </div><!-- /grid-design -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 2 — ENGINEERING DESIGN PROCESS
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-edp">
+      <div class="cat-dot" style="background:#2d6a4f; width:12px; height:12px;"></div>
+      <span style="color:#2d6a4f;">Engineering Design Process</span>
+      <span class="cat-count">8 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-edp">
+
+      <div class="vocab-card" data-terms="engineering design process EDP">
+        <div class="card-header">
+          <div class="card-term">Engineering Design Process (EDP)</div>
+          <div class="card-class-badge" style="background:#2d6a4f;">Class 2</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A structured 6-stage loop engineers use to solve problems: <strong>Define → Research → Ideate → Prototype → Test &amp; Measure → Iterate</strong>. It is a loop, not a straight line — testing sends you back to improve.</p>
+          <div class="card-example"><strong>Key idea:</strong> A failed test is not a failure — it's data. The EDP is designed to use failure as information.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="define problem success criteria">
+        <div class="card-header">
+          <div class="card-term">Define (EDP Stage 1)</div>
+          <div class="card-class-badge" style="background:#2d6a4f;">Class 2</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The first EDP stage: clearly stating what the solution must do, what constraints it must satisfy, and what "success" looks like before any designing begins. Students who skip this step often build the wrong thing correctly.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="ideate ideation brainstorm sketches alternatives">
+        <div class="card-header">
+          <div class="card-term">Ideate (EDP Stage 3)</div>
+          <div class="card-class-badge" style="background:#2d6a4f;">Class 2</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The third EDP stage: generating multiple different design alternatives before committing to one. The rule in this course is <strong>minimum 3 sketches</strong>. Designs must be genuinely different approaches, not variations of the same idea.</p>
+          <div class="card-example"><strong>Why 3?</strong> Your first idea is usually your most obvious one. Forcing a second and third idea is how you find better solutions.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="prototype prototyping build">
+        <div class="card-header">
+          <div class="card-term">Prototype (EDP Stage 4)</div>
+          <div class="card-class-badge" style="background:#2d6a4f;">Class 2</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A testable, physical version of a design — built to be tested, not to be perfect. A prototype is not the final product; it's the version you build to learn what works and what doesn't.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="iterate iteration loop improve">
+        <div class="card-header">
+          <div class="card-term">Iterate / Iteration (EDP Stage 6)</div>
+          <div class="card-class-badge" style="background:#2d6a4f;">Class 2</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Using test results to improve a design and try again. Iteration is a <em>planned</em> part of engineering — not a sign that something went wrong. Professional engineers expect to iterate many times before reaching a good solution.</p>
+          <div class="card-example"><strong>Key distinction:</strong> Iteration without analysis is just trial and error. True iteration means: "The tower fell at the base joint, so I reinforced that specific joint — here's why that should fix it."</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="root cause root-cause analysis failure mode">
+        <div class="card-header">
+          <div class="card-term">Root cause</div>
+          <div class="card-class-badge" style="background:#2d6a4f;">Class 2</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The underlying reason something failed — not just what broke, but <em>why</em> it broke. Fixing the symptom without finding the root cause means the problem comes back. Good iteration always identifies root causes.</p>
+          <div class="card-example"><strong>Example:</strong> Tower tipped → symptom. Base was too narrow relative to height → root cause. Fix: widen the base.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="success criteria requirements">
+        <div class="card-header">
+          <div class="card-term">Success criteria</div>
+          <div class="card-class-badge" style="background:#2d6a4f;">Class 2</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A specific, measurable description of what a successful solution must do. Written at the Define stage before any designing begins. Without success criteria, you don't know when you're done — or whether your design actually works.</p>
+          <div class="card-example"><strong>Good:</strong> "Tower must stand unassisted for 10 seconds and be at least 30 cm tall." <strong>Not useful:</strong> "Tower must be tall and stable."</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="failure mode fail failure">
+        <div class="card-header">
+          <div class="card-term">Failure mode</div>
+          <div class="card-class-badge" style="background:#2d6a4f;">Class 2</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The specific way something fails — where it breaks, how it collapses, what goes wrong first. Identifying a failure mode is the first step toward fixing it. A new design iteration may fix one failure mode but introduce a new one.</p>
+        </div>
+      </div>
+
+    </div><!-- /grid-edp -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 3 — DRAWING & DOCUMENTATION
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-drawing">
+      <div class="cat-dot" style="background:#c8860a; width:12px; height:12px;"></div>
+      <span style="color:#7d4e00;">Drawing &amp; Documentation</span>
+      <span class="cat-count">9 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-drawing">
+
+      <div class="vocab-card" data-terms="orthographic view orthographic projection multi-view drawing">
+        <div class="card-header">
+          <div class="card-term">Orthographic view</div>
+          <div class="card-class-badge" style="background:#c8860a;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A flat drawing of an object from directly in front, above, or to the side — no perspective or distortion. You need at least a front view and a top view to fully describe a 3D object. Each view reveals information the others cannot.</p>
+          <div class="card-example"><strong>Why not just one view?</strong> A front view of a cube and a front view of a cylinder look identical. You need the side view to tell them apart.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="front view top view side view profile view plan view">
+        <div class="card-header">
+          <div class="card-term">Front / Top / Side view</div>
+          <div class="card-class-badge" style="background:#c8860a;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The three standard orthographic views: <strong>Front view</strong> — looking straight at the face. <strong>Top view</strong> (also called <em>plan view</em>) — looking straight down. <strong>Side view</strong> (also called <em>profile view</em>) — looking at the left or right edge. Together, the three views fully describe a 3D object.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="dimension labels dimensioning dimension line">
+        <div class="card-header">
+          <div class="card-term">Dimension labels</div>
+          <div class="card-class-badge" style="background:#c8860a;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Measurements added to a sketch using dimension lines (lines with arrows at each end) and numbers. Every dimension must include a unit (cm, mm, or inches). Numbers are always written horizontally — never rotated 90°.</p>
+          <div class="card-example"><strong>Rule:</strong> "12" without a unit is not a valid dimension in engineering. Write "12 cm" or "12 mm" — always.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="title block scale sheet number designer date">
+        <div class="card-header">
+          <div class="card-term">Title block</div>
+          <div class="card-class-badge" style="background:#c8860a;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A box in the bottom-right corner of an engineering drawing that records: part name, designer's name, date, scale, and sheet number. Every professional engineering drawing has one. It makes the drawing traceable — you can always find out who drew it, when, and at what scale.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="revision box revision history rev change tracking">
+        <div class="card-header">
+          <div class="card-term">Revision box</div>
+          <div class="card-class-badge" style="background:#c8860a;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A table above the title block that records every change made to a drawing: revision number, date, description of the change, and initials. You never erase an original sketch — you add a revision entry. This proves the design evolved purposefully, not accidentally.</p>
+          <div class="card-example"><strong>Example entry:</strong> Rev 2 | May 15 | Changed finger length from 8 cm to 5 cm — shorter arm increases grip force | JR</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="scale drawing scale ratio 1:1 2:1">
+        <div class="card-header">
+          <div class="card-term">Scale</div>
+          <div class="card-class-badge" style="background:#c8860a;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The ratio between a drawing's size and the object's actual size. Written as <strong>drawing size : actual size</strong>. Scale 1:1 = life size. Scale 2:1 = drawn twice as large as real (for small parts). Scale 1:10 = drawn ten times smaller than real (for large objects).</p>
+          <div class="card-example"><strong>Important:</strong> Always write the scale in the title block. A drawing without a scale cannot be used to build anything.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="isometric isometric sketch 3D sketch thumbnail">
+        <div class="card-header">
+          <div class="card-term">Isometric sketch</div>
+          <div class="card-class-badge" style="background:#c8860a;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A 3D sketch drawn at a 30° angle that shows three faces of an object at once. Not as precise as orthographic views, but useful as a quick "thumbnail" to show overall shape. Used in addition to orthographic views, not instead of them.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="parts list bill of materials BOM qty quantity">
+        <div class="card-header">
+          <div class="card-term">Parts list</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A table listing every component needed to build a design, with quantities, part names or numbers, and the role each part plays. Also called a <em>Bill of Materials (BOM)</em>. Without a parts list, a drawing can't easily be built by someone else.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="tolerance manufacturing variation precision accurate">
+        <div class="card-header">
+          <div class="card-term">Tolerance / Manufacturing variation</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The acceptable range of variation around a target dimension. Written as <strong>target ± range</strong> (e.g., "10 cm ± 2 mm"). Manufacturing variation is the natural difference between your intended dimension and the actual built result. Tolerances define how much variation is acceptable before something stops working.</p>
+          <div class="card-example"><strong>Example:</strong> If your claw fingers need to close within 5 mm of each other to grip a cube, the tolerance on finger length is ± 2.5 mm.</div>
+        </div>
+      </div>
+
+    </div><!-- /grid-drawing -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 4 — STRUCTURES & FORCES
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-structures">
+      <div class="cat-dot" style="background:#3d2a99; width:12px; height:12px;"></div>
+      <span style="color:#3d2a99;">Structures &amp; Forces</span>
+      <span class="cat-count">6 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-structures">
+
+      <div class="vocab-card" data-terms="center of gravity stability stable tipping balance weight">
+        <div class="card-header">
+          <div class="card-term">Center of gravity</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 1</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The single point where an object's weight is balanced in all directions. When the center of gravity is <strong>low</strong>, the object is stable and hard to tip. When it is <strong>high</strong>, small pushes can tip it easily.</p>
+          <div class="card-example"><strong>You observed this:</strong> In the Class 1 experiment, placing a heavy book on top of a water bottle (high center of gravity) made it easy to tip. The same book on the table under the bottle (low) made it stable.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="stability stable unstable tip tipping">
+        <div class="card-header">
+          <div class="card-term">Stability</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 1</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">How resistant a structure is to tipping over. A stable structure resists tipping when pushed; an unstable one tips with minimal force. Lowering the center of gravity and widening the base both increase stability.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="torque rotational force moment arm lever arm">
+        <div class="card-header">
+          <div class="card-term">Torque</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A rotational force — the turning effect produced by a motor, servo, or lever. Torque equals force multiplied by the distance from the pivot (force × distance = torque). A longer arm means the same torque produces less force at the tip; a shorter arm produces more force.</p>
+          <div class="card-example"><strong>You observed this:</strong> In the servo arm experiment, a 3 cm arm held far more weight than a 9 cm arm using the same servo. The servo's torque was the same — but spread over more distance, the force at the tip was lower.</div>
+          <div class="card-also">Also called: <span>moment, rotational force</span></div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="stall torque stall maximum torque load">
+        <div class="card-header">
+          <div class="card-term">Stall torque</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The maximum torque a motor or servo can produce before it stops moving (stalls). Listed on servo spec sheets. If the load exceeds the stall torque, the servo buzzes and holds position but can't move. A servo stalls when the grip load is too heavy for the arm length.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="buckling column strength compressive load structural">
+        <div class="card-header">
+          <div class="card-term">Buckling</div>
+          <div class="card-class-badge" style="background:#2d6a4f;">Class 2</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A failure mode where a long, thin structural member suddenly bends sideways under a compressive (pushing) load. A flat sheet of paper buckles almost immediately under vertical load; rolling it into a tube prevents buckling by distributing the force around the curved surface.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="outrigger stabilizer base of support wide base">
+        <div class="card-header">
+          <div class="card-term">Outrigger</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A support arm that extends sideways from a machine to widen its base and prevent tipping. Found on cranes, backhoe loaders, and camera dollies. On the LEGO 42197, outriggers fold out when the digger arm is in use to prevent the machine from tipping sideways.</p>
+        </div>
+      </div>
+
+    </div><!-- /grid-structures -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 5 — MECHANISMS & MOTION
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-mechanisms">
+      <div class="cat-dot" style="background:#8b1a1a; width:12px; height:12px;"></div>
+      <span style="color:#8b1a1a;">Mechanisms &amp; Motion</span>
+      <span class="cat-count">8 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-mechanisms">
+
+      <div class="vocab-card" data-terms="servo motor servo position hold actuator">
+        <div class="card-header">
+          <div class="card-term">Servo motor</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A motor that moves to a specific angular position and holds it, rather than spinning continuously. Commanded with a position value (0°–270° for the REV Smart Robot Servo). Ideal for claws, arms, and anything that needs to move to a known position and stay there.</p>
+          <div class="card-example"><strong>Compared to a DC motor:</strong> A DC motor spins as long as power is applied. A servo moves to a commanded angle and holds — useful for a claw that needs to be "open" or "closed" on command.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="servo horn horn attachment point">
+        <div class="card-header">
+          <div class="card-term">Servo horn</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The arm or disk that attaches to a servo's output shaft. Your mechanism connects to the servo horn — it's the point where rotational motion transfers from the servo to your design. Horn geometry (single arm, cross, disk) affects what you can attach and how.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="actuator actuation drive mechanism">
+        <div class="card-header">
+          <div class="card-term">Actuator</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Any component that converts energy into mechanical motion — the "mover" in a mechanism. In Class 4, the REV Smart Robot Servo is the actuator: it converts electrical energy into angular motion. Motors, pneumatics, and hydraulics are all types of actuators.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="linkage 4-bar linkage four-bar mechanism kinematic">
+        <div class="card-header">
+          <div class="card-term">Linkage / 4-bar linkage</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A <strong>linkage</strong> is a chain of connected rigid parts (links) that transmits and transforms motion. A <strong>4-bar linkage</strong> is four links connected in a loop, creating controlled motion on the opposite side from where force is applied. Keeps both sides of a claw parallel as they open and close.</p>
+          <div class="card-example"><strong>You built one:</strong> In the Class 4 cardboard experiment, four strips connected in a loop was a 4-bar linkage. When you pushed one side, the opposite side moved in a controlled, parallel way.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="direct drive direct-drive mechanism simple pivot">
+        <div class="card-header">
+          <div class="card-term">Direct-drive mechanism</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A mechanism where the actuator (motor or servo) is connected directly to the moving part — no intermediate gears or linkages. Simple, lightweight, and easy to build. Trade-off: the moving part can only do what the servo's range of motion allows directly.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="pivot point pivot pin hinge rotation axis">
+        <div class="card-header">
+          <div class="card-term">Pivot</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A fixed point around which something rotates. On a claw, the pivot is where the finger connects to the servo horn or linkage. Distance from pivot to fingertip determines the force at the tip (longer = less force, more reach; shorter = more force, less reach).</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="degrees of freedom DOF joint range of motion movement">
+        <div class="card-header">
+          <div class="card-term">Degrees of freedom (DoF)</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The number of independent ways something can move. A door has 1 DoF (swing open/closed). A human arm has about 7 DoF (shoulder: 3, elbow: 1, wrist: 3). The rear digger arm on the LEGO 42197 has multiple DoF — it can pivot up/down and extend at multiple joints independently.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="mounting interface mount attachment point robot arm">
+        <div class="card-header">
+          <div class="card-term">Mounting interface</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The physical connection point between a mechanism and the structure it attaches to. In Class 4, the claw's mounting interface is how the claw assembly attaches to a robot arm. A well-designed interface is standardized — any arm can accept any claw without redesigning both.</p>
+        </div>
+      </div>
+
+    </div><!-- /grid-mechanisms -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 6 — MODULAR DESIGN
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-modular">
+      <div class="cat-dot" style="background:#0f5f5f; width:12px; height:12px;"></div>
+      <span style="color:#0f5f5f;">Modular Design</span>
+      <span class="cat-count">8 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-modular">
+
+      <div class="vocab-card" data-terms="module modular self-contained unit">
+        <div class="card-header">
+          <div class="card-term">Module</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A self-contained unit with a clearly defined job that connects to the rest of a system through a standardized interface. A module can be designed, built, tested, and replaced independently — without redesigning the whole system.</p>
+          <div class="card-example"><strong>Contrast:</strong> A module is more than just a <em>part</em>. A wheel is a part; the entire drivetrain (wheels + axles + frame + motor) is a module because it has a complete, testable function.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="modular design modularity system architecture">
+        <div class="card-header">
+          <div class="card-term">Modular design</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The deliberate choice to organize a system as a collection of independent modules rather than one unified structure. Makes large systems easier to build, test, repair, and upgrade — because changing one module doesn't force you to redesign everything else.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="interface connection point standardized interface mechanical interface">
+        <div class="card-header">
+          <div class="card-term">Interface</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The connection point between two modules — where they meet, exchange force, motion, or signals. A good interface is <em>standardized</em>: defined clearly enough that any module on one side can connect to any module on the other. The REV hole pattern is an interface standard.</p>
+          <div class="card-example"><strong>Rule of thumb:</strong> The interface is always simpler than the module it connects — that's a sign of good modular design.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="functional independence independent module separate">
+        <div class="card-header">
+          <div class="card-term">Functional independence</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">One of the five properties of a modular system: each module does one complete job on its own and doesn't depend on other modules to function. If you remove the front loader arm from the LEGO backhoe, the rear digger still works — that's functional independence.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="replaceability replaceable swap module">
+        <div class="card-header">
+          <div class="card-term">Replaceability</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">One of the five properties of a modular system: you can swap one module for another without redesigning the whole system. The LEGO bucket can be changed without changing the arm — because the attachment interface is standardized.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="parallel development concurrent engineering multiple teams">
+        <div class="card-header">
+          <div class="card-term">Parallel development</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">One of the five properties of a modular system: different teams can build different modules at the same time — because the interfaces are agreed upon in advance. Without modularity, teams must wait for each other; with it, work happens simultaneously.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="architecture diagram system diagram integration layer hub">
+        <div class="card-header">
+          <div class="card-term">Architecture diagram</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A diagram that shows all modules in a system as labeled boxes, with lines connecting modules that interface with each other. Each connection line is labeled with the interface type (mechanical, power, structural, etc.). Used to understand how a system is organized at the highest level.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="coupling tightly coupled loosely coupled dependency">
+        <div class="card-header">
+          <div class="card-term">Coupling</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">How much modules depend on each other. <strong>Tight coupling</strong>: changing one module forces changes in others — bad for modular design. <strong>Loose coupling</strong>: modules interact only through defined interfaces — changing one doesn't break the others. Good modular design aims for loose coupling.</p>
+          <div class="card-example"><strong>LEGO example:</strong> The front loader and rear digger are loosely coupled — they share the chassis but don't connect to each other, so redesigning one doesn't affect the other.</div>
+        </div>
+      </div>
+
+    </div><!-- /grid-modular -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 7 — AERODYNAMICS
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-aero">
+      <div class="cat-dot" style="background:#6b3a8c; width:12px; height:12px;"></div>
+      <span style="color:#6b3a8c;">Aerodynamics</span>
+      <span class="cat-count">5 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-aero">
+
+      <div class="vocab-card" data-terms="aspect ratio wing shape narrow wide">
+        <div class="card-header">
+          <div class="card-term">Aspect ratio</div>
+          <div class="card-class-badge" style="background:#6b3a8c;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The ratio of a wing's length (span) to its width (chord). A <strong>high aspect ratio</strong> wing is long and narrow (like a glider or Plane T). A <strong>low aspect ratio</strong> wing is short and wide (like a fighter jet or Plane W). High aspect ratio = more efficient at cutting through air for long distances; low aspect ratio = more maneuverable and stable at lower speeds.</p>
+          <div class="card-example"><strong>You observed this:</strong> Plane T (narrow dart = high aspect ratio) flew farther. Plane W (wide glider = lower aspect ratio) was more accurate.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="dihedral wing angle upward tilt stability roll">
+        <div class="card-header">
+          <div class="card-term">Dihedral</div>
+          <div class="card-class-badge" style="background:#6b3a8c;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The upward angle of a wing when viewed from the front. Dihedral makes a plane self-correcting: if it rolls sideways, the lower wing produces more lift and the plane automatically levels out. This is why Plane W was more predictable and accurate in flight.</p>
+          <div class="card-example"><strong>You observed this:</strong> Plane W's wings tilted upward slightly — that was dihedral. It made Plane W self-stabilize and fly in a more repeatable path.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="nose weight weighted nose front heavy center of mass">
+        <div class="card-header">
+          <div class="card-term">Nose weight</div>
+          <div class="card-class-badge" style="background:#6b3a8c;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Concentrated mass at the nose (front) of a paper airplane, created by extra folds. Nose weight keeps the flight path flat and fast by resisting the tendency to pitch upward. Too much nose weight makes the plane dive; too little makes it stall and pitch up.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="drag air resistance aerodynamic drag force">
+        <div class="card-header">
+          <div class="card-term">Drag</div>
+          <div class="card-class-badge" style="background:#6b3a8c;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The air resistance force that slows a flying object down. A narrow, pointed plane (Plane T) has less drag than a wide, flat-nosed plane because it pushes less air out of the way as it flies. Reducing drag is one of the main strategies for maximizing distance.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="stall stalling lift loss slow throw glider">
+        <div class="card-header">
+          <div class="card-term">Stall</div>
+          <div class="card-class-badge" style="background:#6b3a8c;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">When an aircraft's wings stop generating enough lift to stay airborne — usually because airspeed dropped too low. Wide-wing gliders (Plane W) stall easily if thrown too hard, because the sudden force angle disrupts the wing's ability to generate lift smoothly. Stalling causes an abrupt drop in the flight path.</p>
+        </div>
+      </div>
+
+    </div><!-- /grid-aero -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 8 — NOTEBOOK & PROCESS
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-notebook">
+      <div class="cat-dot" style="background:#555; width:12px; height:12px;"></div>
+      <span style="color:#444;">Notebook &amp; Process</span>
+      <span class="cat-count">5 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-notebook">
+
+      <div class="vocab-card" data-terms="engineering notebook notebook entry dated signed">
+        <div class="card-header">
+          <div class="card-term">Engineering notebook</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 1</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A dated, signed record of your complete design process — every decision, sketch, test result, and revision. In FIRST Tech Challenge competitions, judges read notebooks to understand how teams think, not just what they built. Every entry must be dated and signed; every sketch must be labeled; every decision must have a reason.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="reverse engineering reverse-engineer disassemble analyze existing design">
+        <div class="card-header">
+          <div class="card-term">Reverse engineering</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Class 5</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Analyzing an existing design to understand <em>how</em> and <em>why</em> it works — without access to the original plans. In Class 5, you reverse-engineer the LEGO backhoe by observing, building, and documenting it, rather than designing it from scratch. A key tool for learning from other engineers' work.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="design tension tension objectives conflict competing goals">
+        <div class="card-header">
+          <div class="card-term">Design tension</div>
+          <div class="card-class-badge" style="background:#c8860a;">Class 3</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The conflict between two design objectives that cannot both be fully satisfied at once. Recognizing and naming the tension is the first step toward managing it: either find a design that balances both, or explicitly decide which objective takes priority.</p>
+          <div class="card-example"><strong>Example:</strong> Distance vs. accuracy in paper airplanes. Narrow wings help distance but hurt accuracy — that tension must be resolved by choosing which matters more for your situation.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="PWM pulse width modulation control signal">
+        <div class="card-header">
+          <div class="card-term">PWM (Pulse Width Modulation)</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The type of electrical signal used to control servo motors. A very fast switching signal where the "on" time tells the servo what angle to go to. The REV Control Hub sends PWM signals to all servos. You don't need to understand the electronics to use it — just know that "PWM" is how servos receive position commands.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="extrusion REV extrusion structural channel aluminum profile">
+        <div class="card-header">
+          <div class="card-term">Extrusion (REV)</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 4</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A structural channel with a standardized hole pattern used as the primary building material in REV Robotics kits. Any REV bracket, motor mount, or sensor holder can attach at any point along an extrusion. The standardized hole pattern is the interface — it's what makes REV a modular system.</p>
+        </div>
+      </div>
+
+    </div><!-- /grid-notebook -->
+
+  </main>
+</div><!-- /page-body -->
+
+<script>
+function filterVocab() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const cards = document.querySelectorAll('.vocab-card');
+  const headings = document.querySelectorAll('.cat-heading');
+  const grids = document.querySelectorAll('.vocab-grid');
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const term = (card.getAttribute('data-terms') || '').toLowerCase();
+    const text = card.innerText.toLowerCase();
+    const match = !query || term.includes(query) || text.includes(query);
+    card.classList.toggle('hidden', !match);
+    if (match) visibleCount++;
+  });
+
+  // Show/hide section headings based on whether their grid has any visible cards
+  grids.forEach(grid => {
+    const id = grid.id;
+    const catId = 'cat-' + id.replace('grid-', '');
+    const heading = document.getElementById(catId);
+    const hasVisible = [...grid.querySelectorAll('.vocab-card')].some(c => !c.classList.contains('hidden'));
+    if (heading) heading.style.display = hasVisible ? '' : 'none';
+    grid.style.display = hasVisible ? '' : 'none';
+  });
+
+  const countEl = document.getElementById('searchCount');
+  const noResults = document.getElementById('no-results');
+
+  if (query) {
+    countEl.textContent = `${visibleCount} term${visibleCount !== 1 ? 's' : ''} found`;
+    noResults.classList.toggle('visible', visibleCount === 0);
+  } else {
+    countEl.textContent = '';
+    noResults.classList.remove('visible');
+    headings.forEach(h => h.style.display = '');
+    grids.forEach(g => g.style.display = '');
+  }
+}
+</script>
+
+</body>
+</html>
