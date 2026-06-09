@@ -198,7 +198,22 @@
   .assessment-body { padding:14px 20px; }
   .assessment-body .a-desc { font-size:13px; color:#555; line-height:1.55; margin-bottom:12px; }
   .assessment-actions { display:flex; gap:8px; flex-wrap:wrap; }
-  .btn-purple { background:var(--purple); color:#fff; border:1.5px solid var(--purple); }
+  .btn-teal { background:#0f5f5f; color:#fff; border:1.5px solid #0f5f5f; }
+  .btn-teal:hover { background:#0a4a4a; border-color:#0a4a4a; }
+  .btn-teal-outline { background:#fff; color:#0f5f5f; border:1.5px solid #0f5f5f; }
+  .btn-teal-outline:hover { background:#e0f4f4; }
+  .project-card { background:#fff; border:1.5px solid #0f5f5f; border-radius:var(--radius); overflow:hidden; margin-bottom:20px; }
+  .project-card .project-header { background:#0f5f5f; padding:14px 20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .project-card .project-header .ph-title { font-size:16px; font-weight:700; color:#fff; margin-bottom:3px; }
+  .project-card .project-header .ph-meta { font-size:12px; color:rgba(255,255,255,0.8); }
+  .project-card .project-header .ph-badges { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+  .project-card .project-header .ph-badge { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; padding:2px 8px; border-radius:100px; background:rgba(255,255,255,0.18); color:#fff; }
+  .project-card .project-body { padding:16px 20px; }
+  .project-card .project-desc { font-size:13px; color:#444; line-height:1.6; margin-bottom:14px; }
+  .project-card .project-phases { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px; }
+  .project-card .phase-pill { background:#e0f4f4; border-radius:6px; padding:8px 10px; font-size:12px; color:#0a3a3a; line-height:1.4; }
+  .project-card .phase-pill strong { display:block; color:#0f5f5f; margin-bottom:2px; }
+  .project-card .project-actions { display:flex; gap:8px; flex-wrap:wrap; }
   .btn-purple:hover { background:#2e1f7a; border-color:#2e1f7a; }
   .btn-purple-outline { background:#fff; color:var(--purple); border:1.5px solid var(--purple); }
   .btn-purple-outline:hover { background:var(--purple-lt); }
@@ -271,6 +286,9 @@
 
     <div class="sidebar-section">
       <span class="sidebar-section-label">Assessment</span>
+      <a href="#project">
+        <span class="sicon">🤖</span> Unit 1 Project
+      </a>
       <a href="#assessment">
         <span class="sicon">✎</span> Unit 1 Test
       </a>
@@ -307,7 +325,7 @@
       <div class="hero-meta">
         <div class="hero-meta-item"><strong>5 classes</strong> (Classes 1–5)</div>
         <div class="hero-meta-item"><strong>74 min</strong> per class</div>
-        <div class="hero-meta-item"><strong>Groups of 4</strong></div>
+        <div class="hero-meta-item"><strong>+ Unit project</strong> REV MiniBot build</div>
         <div class="hero-meta-item"><strong>Next:</strong> Unit 2 — Project Management</div>
       </div>
     </div>
@@ -529,6 +547,47 @@
       </div>
     </div>
 
+    <!-- ── UNIT PROJECT ── -->
+    <div class="section-heading" id="project">Unit 1 Capstone Project</div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <div class="ph-title">🤖 Build &amp; Analyse the REV MiniBot — REV-45-1171</div>
+          <div class="ph-meta">Completed after Classes 1–5 &nbsp;·&nbsp; 4–5 class periods &nbsp;·&nbsp; Teams of 2–4 &nbsp;·&nbsp; 200 points</div>
+          <div class="ph-badges">
+            <span class="ph-badge">C1 · Purposeful design</span>
+            <span class="ph-badge">C2 · EDP</span>
+            <span class="ph-badge">C3 · Sketching</span>
+            <span class="ph-badge">C4 · Weighted matrix</span>
+            <span class="ph-badge">C5 · Modular design</span>
+            <span class="ph-badge">All · Engineering notebook</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">Students build the REV MiniBot Hardware Kit from scratch, treating the assembly process as a real engineering project. From first sketch to final analysis, every step is documented in an engineering notebook. Once built, students analyse the MiniBot as an engineer: identify modules and interfaces, evaluate design decisions and trade-offs, assess capabilities and limitations, and propose one improvement using the full Engineering Design Process. This project synthesises every skill from Unit 1 applied to a real robot.</p>
+        <div class="project-phases">
+          <div class="phase-pill"><strong>Phase 1 — Pre-build</strong>Parts inventory, define statement, first impressions using I notice / why / trade-off</div>
+          <div class="phase-pill"><strong>Phase 2 — Build</strong>Guided assembly with 3 mandatory stop-and-document checkpoints</div>
+          <div class="phase-pill"><strong>Phase 3 — Drive test</strong>Control system integration + 6-test structured drive protocol</div>
+          <div class="phase-pill"><strong>Phase 4 — Modular analysis</strong>5 module cards, architecture diagram, interface map, modularity score</div>
+          <div class="phase-pill"><strong>Phase 5 — Capabilities</strong>9 analysis prompts across capabilities, design decisions, and limitations</div>
+          <div class="phase-pill"><strong>Phase 6 — EDP proposal</strong>3 sketches, weighted matrix, final drawing, parts list, design rationale</div>
+        </div>
+        <div class="project-actions">
+          <a class="btn btn-teal" href="unit1_minibot_project.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Open project sheet
+          </a>
+          <a class="btn btn-teal-outline" href="../downloads/unit1_minibot_notebook_template.docx" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Project notebook .docx
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- ── ASSESSMENT ── -->
     <div class="section-heading" id="assessment">Assessment</div>
 
@@ -651,6 +710,20 @@
       </div>
 
       <span class="dl-group-label">Assessment</span>
+      <div class="resource-row">
+        <div class="resource-info">Unit 1 Capstone Project — REV MiniBot Build &amp; Analysis<small>.html · Project sheet · 200 points · 6 phases · 8 notebook entries</small></div>
+        <a class="btn btn-teal" href="unit1_minibot_project.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Open
+        </a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Unit 1 Project Notebook Template — MiniBot Build &amp; Analysis<small>.docx · Google Docs compatible · 8 entries · 700 paragraphs</small></div>
+        <a class="btn btn-teal-outline" href="../downloads/unit1_minibot_notebook_template.docx" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          .docx
+        </a>
+      </div>
       <div class="resource-row">
         <div class="resource-info">Unit 1 Test — Engineering Foundations (100 pts)<small>.docx · Answer bank + free response + performance tasks · Includes answer key</small></div>
         <a class="btn btn-purple-outline" href="../downloads/unit1_test.docx" download>
