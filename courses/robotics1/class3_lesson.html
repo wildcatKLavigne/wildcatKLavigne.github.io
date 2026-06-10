@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Class 3: Engineering Documentation, Sketching & Multi-View Drawing</title>
+
 <style>
+
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
 
   :root {
@@ -186,13 +188,266 @@
     .write-area, .iter-input { border: 1px solid #aaa; }
     .sketch-box, .view-inner { border: 1.5px dashed #999; }
   }
+
+
+/* ── PAGINATED LESSON LAYOUT ─────────────────────────────── */
+html, body { height: 100%; margin: 0; padding: 0; }
+body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar content"
+    "sidebar footer";
+  min-height: 100vh;
+  max-width: none;
+  padding: 0;
+  background: #f7f6f3;
+}
+
+/* ── SIDEBAR ── */
+#lesson-sidebar {
+  grid-area: sidebar;
+  background: #fff;
+  border-right: 1px solid #d0d0cc;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 18px 0 32px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+#lesson-sidebar .sb-course {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: #aaa; padding: 0 18px 10px;
+  border-bottom: 1px solid #eee; margin-bottom: 8px;
+}
+#lesson-sidebar .sb-title {
+  font-size: 11px; font-weight: 700; color: #1a4f82;
+  padding: 0 18px 12px; border-bottom: 1px solid #eee; margin-bottom: 8px;
+  line-height: 1.4;
+}
+#lesson-sidebar .sb-progress {
+  font-size: 9px; color: #aaa; padding: 0 18px 10px;
+  font-weight: 600; letter-spacing: .05em;
+}
+#lesson-sidebar .sb-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 18px; font-size: 12px; color: #555;
+  cursor: pointer; border-left: 3px solid transparent;
+  transition: all .12s; user-select: none; line-height: 1.35;
+  text-decoration: none;
+}
+#lesson-sidebar .sb-item:hover { background: #f5f5f3; color: #1a4f82; }
+#lesson-sidebar .sb-item.active {
+  background: #e8f0f9; color: #1a4f82; font-weight: 700;
+  border-left-color: #1a4f82;
+}
+#lesson-sidebar .sb-item.completed {
+  color: #2d6a4f;
+}
+#lesson-sidebar .sb-item.completed .sb-check { opacity: 1; }
+#lesson-sidebar .sb-check {
+  margin-left: auto; font-size: 11px; opacity: 0; flex-shrink: 0;
+  color: #2d6a4f;
+}
+#lesson-sidebar .sb-icon { font-size: 14px; flex-shrink: 0; width: 18px; }
+#lesson-sidebar .sb-divider {
+  border: none; border-top: 1px solid #eee; margin: 6px 18px;
+}
+#lesson-sidebar .sb-back-link {
+  margin-top: auto; padding: 12px 18px 0;
+  border-top: 1px solid #eee;
+}
+#lesson-sidebar .sb-back-link a {
+  font-size: 11px; color: #888; text-decoration: none; font-weight: 600;
+}
+#lesson-sidebar .sb-back-link a:hover { color: #1a4f82; }
+
+/* ── HEADER ── */
+.ws-header {
+  grid-area: header;
+  background: #fff;
+  border-bottom: 1px solid #d0d0cc;
+  padding: 14px 32px 14px !important;
+  margin-bottom: 0 !important;
+  position: sticky; top: 0; z-index: 99;
+}
+.ws-header h1 { font-size: 16pt !important; }
+.ws-header .subtitle { margin-bottom: 0 !important; }
+.ws-meta { margin-top: 10px; }
+
+/* ── CONTENT AREA ── */
+#lesson-content {
+  grid-area: content;
+  padding: 28px 40px 40px;
+  max-width: 780px;
+  min-height: 0;
+}
+
+/* ── SECTIONS ── */
+.lesson-section { display: none; }
+.lesson-section.active { display: block; }
+
+/* ── NAV BAR (bottom of each section) ── */
+.section-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 32px; padding-top: 16px;
+  border-top: 2px solid #1a4f82;
+  gap: 12px;
+}
+.section-nav .nav-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #1a4f82; color: #fff; border: none;
+  padding: 9px 18px; border-radius: 6px; font-size: 11pt;
+  font-weight: 600; cursor: pointer; font-family: inherit;
+  text-decoration: none; transition: background .12s;
+}
+.section-nav .nav-btn:hover { background: #15406a; }
+.section-nav .nav-btn.secondary {
+  background: #fff; color: #1a4f82; border: 1.5px solid #1a4f82;
+}
+.section-nav .nav-btn.secondary:hover { background: #e8f0f9; }
+.section-nav .nav-btn:disabled {
+  opacity: 0.35; cursor: default; pointer-events: none;
+}
+.section-nav .nav-center {
+  font-size: 10pt; color: #888; font-weight: 600;
+}
+
+/* ── FOOTER ── */
+.ws-footer {
+  grid-area: footer;
+  background: #fff;
+  border-top: 1px solid #d0d0cc;
+  padding: 8px 32px !important;
+}
+
+/* ── PRINT: restore single-scroll layout ── */
+@media print {
+  body {
+    display: block !important;
+    max-width: 850px !important;
+    margin: 0 auto !important;
+    padding: 0.4in 0.6in !important;
+  }
+  #lesson-sidebar, .section-nav { display: none !important; }
+  .lesson-section { display: block !important; }
+  .ws-header { position: static !important; border-bottom: none !important; }
+  #lesson-content { padding: 0 !important; max-width: none !important; }
+}
+
+/* ── MOBILE: collapse sidebar ── */
+@media (max-width: 680px) {
+  body { grid-template-columns: 1fr; grid-template-areas: "header" "content" "footer"; }
+  #lesson-sidebar { display: none; }
+  #lesson-content { padding: 16px; }
+}
+
 </style>
+
+<script>
+(function() {
+  var TOTAL = 7;
+  var storageKey = 'lesson_class3_lesson_html_section';
+
+  // Restore position from sessionStorage
+  var saved = parseInt(sessionStorage.getItem(storageKey) || '0');
+  var current = (saved >= 0 && saved < TOTAL) ? saved : 0;
+
+  function showSection(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+    // Hide all
+    var sections = document.querySelectorAll('.lesson-section');
+    sections.forEach(function(s) { s.classList.remove('active'); });
+    // Show target
+    sections[idx].classList.add('active');
+    current = idx;
+    sessionStorage.setItem(storageKey, idx);
+    // Update sidebar
+    var items = document.querySelectorAll('.sb-item');
+    items.forEach(function(it, i) {
+      it.classList.toggle('active', i === idx);
+      if (i < idx) { it.classList.add('completed'); it.querySelector('.sb-check').textContent = '✓'; }
+    });
+    // Update progress
+    var prog = document.getElementById('sb-progress');
+    if (prog) prog.textContent = 'Section ' + (idx + 1) + ' of ' + TOTAL;
+    // Scroll top
+    window.scrollTo(0, 0);
+    document.getElementById('lesson-content') && document.getElementById('lesson-content').scrollTo(0, 0);
+  }
+
+  // Expose globally for button onclick
+  window.lessonNav = function(delta) { showSection(current + delta); };
+  window.lessonGoto = function(idx) { showSection(idx); };
+
+  // Init on DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    showSection(current);
+  });
+})();
+</script>
+
 </head>
 <body>
 
+
+<aside id="lesson-sidebar">
+  <div class="sb-course">Unit 1 · Engineering Foundations</div>
+  <div class="sb-title">Class 3: Engineering Documentation, Sketching & Multi-View Drawing</div>
+  <div class="sb-progress" id="sb-progress">Section 1 of 7</div>
+  <hr class="sb-divider">
+  
+    <div class="sb-item" onclick="lessonGoto(0)">
+      <span class="sb-icon">📐</span>
+      <span>Part 1 · Sketching Standards</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(1)">
+      <span class="sb-icon">🧱</span>
+      <span>Activity · Blocks & Video</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(2)">
+      <span class="sb-icon">✈️</span>
+      <span>Part 2 · Fly First</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(3)">
+      <span class="sb-icon">💡</span>
+      <span>Part 3 · Ideate</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(4)">
+      <span class="sb-icon">📏</span>
+      <span>Part 4 · Distance</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(5)">
+      <span class="sb-icon">🎯</span>
+      <span>Part 5 · Accuracy</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(6)">
+      <span class="sb-icon">📓</span>
+      <span>Part 6 · Reflect</span>
+      <span class="sb-check"></span>
+    </div>
+  <div class="sb-back-link"><a href="index.html">← Back to Unit 1</a></div>
+</aside>
+
 <div class="ws-header">
   <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
-  <h1>Engineering Documentation,<br>Sketching &amp; the Paper Airplane Challenge</h1>
+  
+
+<main id="lesson-content">
+  
+  <div class="lesson-section" id="section-0">
+    <h1>Engineering Documentation,<br>Sketching &amp; the Paper Airplane Challenge</h1>
   <div class="subtitle">Class 3 of 4 &nbsp;·&nbsp; 74 minutes</div>
   <div class="ws-meta">
     <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
@@ -445,8 +700,15 @@
   <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Why does changing a design require a new revision entry rather than just erasing and redrawing?</p>
   <textarea class="write-area" rows="2" placeholder="Revision tracking matters because..."></textarea>
 </div>
-
-<hr class="section-rule"><!-- ═══════════════════════════════════════════════════════════════════════
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" disabled>← Back</button>
+  <span class="nav-center">Section 1 of 7</span>
+  <button class="nav-btn" onclick="lessonNav(1)" >Activity · Blocks & Video →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-1">
+    <!-- ═══════════════════════════════════════════════════════════════════════
      PART 2 — CHALLENGE SETUP
      ═══════════════════════════════════════════════════════════════════════ -->
 <div class="section">
@@ -553,10 +815,15 @@
 
   <p style="font-size:9.5pt; color:#555; margin-bottom:0;">This table is now your <em>research base</em> for the design phase. When you sketch your own planes in Part 3, refer back to these observations to justify your design choices.</p>
 </div>
-
-<hr class="section-rule">
-
-<!-- ═══════════════════════════════════════════════════════════════════════
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 1 · Sketching Standards</button>
+  <span class="nav-center">Section 2 of 7</span>
+  <button class="nav-btn" onclick="lessonNav(1)" >Part 2 · Fly First →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-2">
+    <!-- ═══════════════════════════════════════════════════════════════════════
      PART 3 — THREE DESIGN SKETCHES WITH FULL DOCUMENTATION
      ═══════════════════════════════════════════════════════════════════════ -->
 <div class="section">
@@ -646,10 +913,15 @@
 
   <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Selected distance design:</strong> Design _______ &nbsp;&nbsp; <strong>Reason:</strong></p>
   <textarea class="write-area" rows="2" placeholder="I chose this design because... I expect its key advantage over the others to be..."></textarea>
-
-  <hr class="section-rule">
-
-  <!-- ACCURACY PLANE DESIGNS -->
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Activity · Blocks & Video</button>
+  <span class="nav-center">Section 3 of 7</span>
+  <button class="nav-btn" onclick="lessonNav(1)" >Part 3 · Ideate →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-3">
+    <!-- ACCURACY PLANE DESIGNS -->
   <div class="ydo-header">
     <span class="ydo-badge">You Do</span>
     <span class="ydo-title">Part 3B — Three accuracy plane designs with orthographic sketches</span>
@@ -716,10 +988,15 @@
   <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Selected accuracy design:</strong> Design _______ &nbsp;&nbsp; <strong>Reason:</strong></p>
   <textarea class="write-area" rows="2" placeholder="I chose this design because... For accuracy, the most important feature is..."></textarea>
 </div>
-
-<hr class="section-rule">
-
-<!-- ═══════════════════════════════════════════════════════════════════════
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 2 · Fly First</button>
+  <span class="nav-center">Section 4 of 7</span>
+  <button class="nav-btn" onclick="lessonNav(1)" >Part 4 · Distance →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-4">
+    <!-- ═══════════════════════════════════════════════════════════════════════
      PART 4 — THREE ITERATIONS: CHALLENGE A — DISTANCE
      ═══════════════════════════════════════════════════════════════════════ -->
 <div class="section">
@@ -831,10 +1108,15 @@
     </div>
   </div>
 </div>
-
-<hr class="section-rule">
-
-<!-- ═══════════════════════════════════════════════════════════════════════
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 3 · Ideate</button>
+  <span class="nav-center">Section 5 of 7</span>
+  <button class="nav-btn" onclick="lessonNav(1)" >Part 5 · Accuracy →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-5">
+    <!-- ═══════════════════════════════════════════════════════════════════════
      PART 5 — THREE ITERATIONS: CHALLENGE B — ACCURACY
      ═══════════════════════════════════════════════════════════════════════ -->
 <div class="section">
@@ -940,10 +1222,15 @@
     </div>
   </div>
 </div>
-
-<hr class="section-rule">
-
-<!-- ═══════════════════════════════════════════════════════════════════════
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 4 · Distance</button>
+  <span class="nav-center">Section 6 of 7</span>
+  <button class="nav-btn" onclick="lessonNav(1)" >Part 6 · Reflect →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-6">
+    <!-- ═══════════════════════════════════════════════════════════════════════
      PART 6 — ANALYSIS, DOCUMENTATION & REFLECTION
      ═══════════════════════════════════════════════════════════════════════ -->
 <div class="section">
@@ -1006,12 +1293,22 @@
     <p style="margin-top:8px;">Now imagine those strips were the wings of a paper airplane and they needed to be equal length within 3 mm for the plane to fly straight. Which of your group's strips would cause a problem? In your engineering notebook, write: <em>"For my plane to fly straight, the wingspan needs to be [your target] ± [range you think is acceptable] cm, otherwise it will fail because [reason]."</em> That range is called a <strong>tolerance</strong> — and writing it down before you build is one of the things that separates an engineer from a guesser.</p>
   </div>
 </div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 5 · Accuracy</button>
+  <span class="nav-center">Section 7 of 7</span>
+  <button class="nav-btn" onclick="lessonNav(1)" disabled>Finish →</button>
+</div>
+  </div>
+</main>
 
 <div class="ws-footer">
   <span>Introductory Robotics &nbsp;·&nbsp; Unit 1, Class 3</span>
   <span>Engineering Documentation, Sketching &amp; Paper Airplane Challenge</span>
   <span>Page 1 of 1</span>
 </div>
+
+
 
 </body>
 </html>
