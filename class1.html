@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 1: What is Engineering? Purposeful Design</title>
+
+<style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue: #1a4f82;
+    --blue-light: #e8f0f9;
+    --green: #2d6a4f;
+    --green-light: #e8f4ee;
+    --amber: #7d4e00;
+    --amber-light: #fdf3e3;
+    --red: #7a1f1f;
+    --gray: #444;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', Arial, sans-serif;
+    font-size: 11pt;
+    color: #222;
+    background: #fff;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0.5in 0.75in;
+  }
+
+  /* --- HEADER --- */
+  .ws-header {
+    border-top: 5px solid var(--blue);
+    padding-top: 14px;
+    margin-bottom: 20px;
+  }
+  .ws-header .course-label {
+    font-size: 9pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .ws-header h1 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 22pt;
+    color: #111;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .ws-header .subtitle {
+    font-size: 10pt;
+    color: #666;
+    margin-bottom: 14px;
+  }
+  .ws-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .ws-meta-item {
+    padding: 8px 12px;
+    border-right: 1px solid var(--border);
+  }
+  .ws-meta-item:last-child { border-right: none; }
+  .ws-meta-item .meta-label {
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #888;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .ws-meta-item .meta-value {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #222;
+  }
+
+  /* --- OBJECTIVES BOX --- */
+  .objectives-box {
+    background: var(--blue-light);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 12px 16px;
+    margin: 18px 0;
+  }
+  .objectives-box h3 {
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--blue);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .objectives-box ol {
+    padding-left: 18px;
+    margin: 0;
+  }
+  .objectives-box li {
+    font-size: 10pt;
+    margin-bottom: 4px;
+    color: #1a1a3a;
+  }
+
+  /* --- SECTION --- */
+  .section {
+    margin-bottom: 22px;
+  }
+  .section-label {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+    border-bottom: 1.5px solid var(--blue-light);
+  }
+  .section h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 8px;
+  }
+
+  /* --- CONTENT BLOCKS --- */
+  .reading-block {
+    background: var(--gray-light);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 10.5pt;
+    line-height: 1.7;
+    color: #333;
+  }
+  .reading-block p { margin-bottom: 10px; }
+  .reading-block p:last-child { margin-bottom: 0; }
+
+  .key-term {
+    display: inline;
+    font-weight: 700;
+    color: var(--blue);
+  }
+
+  /* --- INPUT FIELDS --- */
+  .write-line {
+    border: none;
+    border-bottom: 1px solid #999;
+    display: block;
+    width: 100%;
+    margin: 8px 0 14px;
+    height: 26px;
+    background: transparent;
+  }
+  .write-lines-short {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+    margin-bottom: 14px;
+  }
+  .write-lines-short .line-group label {
+    font-size: 9pt;
+    color: #666;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .write-area {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    width: 100%;
+    min-height: 70px;
+    display: block;
+    background: transparent;
+    resize: none;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 10.5pt;
+    color: #222;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  /* --- SKETCH BOX --- */
+  .sketch-box {
+    border: 1.5px dashed #bbb;
+    border-radius: var(--radius);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+    font-size: 9pt;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .sketch-box.tall { height: 180px; }
+  .sketch-box.short { height: 100px; }
+
+  /* --- ANALYSIS TABLE --- */
+  .analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 14px;
+    font-size: 10pt;
+  }
+  .analysis-table th {
+    background: var(--green);
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .analysis-table td {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    vertical-align: top;
+  }
+  .analysis-table tr:nth-child(even) td { background: var(--green-light); }
+  .analysis-table .write-cell {
+    height: 44px;
+    vertical-align: top;
+  }
+
+  /* --- LEVEL SCAFFOLDING --- */
+  .scaffold-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .scaffold-tab {
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    font-size: 9.5pt;
+  }
+  .scaffold-tab .tab-label {
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .scaffold-tab.novice { background: var(--green-light); }
+  .scaffold-tab.novice .tab-label { color: var(--green); }
+  .scaffold-tab.intermediate { background: var(--blue-light); }
+  .scaffold-tab.intermediate .tab-label { color: var(--blue); }
+  .scaffold-tab.proficient { background: #f0ecff; }
+  .scaffold-tab.proficient .tab-label { color: #3d2a99; }
+
+  /* --- REFLECTION / NOTEBOOK --- */
+  .notebook-prompt {
+    background: var(--amber-light);
+    border-left: 4px solid #c8860a;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+  }
+  .notebook-prompt .nb-label {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+  .notebook-prompt p { font-size: 10.5pt; color: #3a2a00; line-height: 1.6; }
+
+  /* --- EXTENSION --- */
+  .extension-box {
+    background: #f0ecff;
+    border: 1px solid #c5b8f5;
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-top: 6px;
+  }
+  .extension-box .ext-label {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    color: #3d2a99;
+    margin-bottom: 6px;
+  }
+  .extension-box p { font-size: 10pt; color: #2a1a55; line-height: 1.6; }
+
+  /* --- I DO EXEMPLAR --- */
+  .ido-section {
+    border: 2px solid #8b1a1a;
+    border-radius: var(--radius);
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .ido-header {
+    background: #8b1a1a;
+    color: #fff;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ido-header .ido-badge {
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.18);
+    padding: 2px 8px;
+    border-radius: 100px;
+  }
+  .ido-header .ido-title {
+    font-size: 10.5pt;
+    font-weight: 600;
+  }
+  .ido-body {
+    padding: 14px 16px;
+    background: #fdf2f2;
+  }
+  .ido-intro {
+    font-size: 10pt;
+    color: #3a1a1a;
+    line-height: 1.6;
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .ido-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .ido-robot-box {
+    background: #fff;
+    border: 1px solid #e0b0b0;
+    border-radius: var(--radius);
+    padding: 10px;
+  }
+  .ido-robot-box .robot-caption {
+    font-size: 8.5pt;
+    color: #8b1a1a;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .ido-thinking {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .thought-bubble {
+    background: #fff;
+    border: 1px solid #e0b0b0;
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    position: relative;
+  }
+  .thought-bubble .obs-label {
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .thought-bubble .obs-label.observe { color: #1a4f82; }
+  .thought-bubble .obs-label.why { color: #8b1a1a; }
+  .thought-bubble .obs-label.tradeoff { color: #7d4e00; }
+  .thought-bubble p {
+    font-size: 9.5pt;
+    color: #333;
+    line-height: 1.55;
+  }
+  .thought-bubble .think-prefix {
+    font-style: italic;
+    color: #666;
+  }
+  .ido-table-wrap {
+    margin-top: 14px;
+  }
+  .ido-table-wrap .ido-table-label {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    color: #8b1a1a;
+    margin-bottom: 6px;
+  }
+  .exemplar-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+  }
+  .exemplar-table th {
+    background: #8b1a1a;
+    color: #fff;
+    padding: 6px 10px;
+    text-align: left;
+    font-size: 8.5pt;
+    font-weight: 600;
+  }
+  .exemplar-table td {
+    border: 1px solid #e0b0b0;
+    padding: 7px 10px;
+    vertical-align: top;
+    background: #fff;
+    line-height: 1.5;
+  }
+  .exemplar-table tr:nth-child(even) td { background: #fdf2f2; }
+
+  /* --- YOU DO HEADER --- */
+  .ydo-header {
+    background: var(--green);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 7px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ydo-header .ydo-badge {
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.18);
+    padding: 2px 8px;
+    border-radius: 100px;
+  }
+  .ydo-header .ydo-title {
+    font-size: 10.5pt;
+    font-weight: 600;
+  }
+
+  /* --- DIVIDER --- */
+  hr.section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 22px 0;
+  }
+
+  /* --- FOOTER --- */
+  .ws-footer {
+    margin-top: 28px;
+    padding-top: 10px;
+    border-top: 2px solid var(--blue);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 8.5pt;
+    color: #888;
+  }
+
+  @media print {
+    body { padding: 0.4in 0.6in; }
+    .write-area { border: 1px solid #aaa; }
+    .sketch-box { border: 1.5px dashed #999; }
+  }
+
+
+/* ── PAGINATED LESSON LAYOUT ─────────────────────────────── */
+html, body { height: 100%; margin: 0; padding: 0; }
+body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar content"
+    "sidebar footer";
+  min-height: 100vh;
+  max-width: none;
+  padding: 0;
+  background: #f7f6f3;
+}
+
+/* ── SIDEBAR ── */
+#lesson-sidebar {
+  grid-area: sidebar;
+  background: #fff;
+  border-right: 1px solid #d0d0cc;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 18px 0 32px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+#lesson-sidebar .sb-course {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: #aaa; padding: 0 18px 10px;
+  border-bottom: 1px solid #eee; margin-bottom: 8px;
+}
+#lesson-sidebar .sb-title {
+  font-size: 11px; font-weight: 700; color: #1a4f82;
+  padding: 0 18px 12px; border-bottom: 1px solid #eee; margin-bottom: 8px;
+  line-height: 1.4;
+}
+#lesson-sidebar .sb-progress {
+  font-size: 9px; color: #aaa; padding: 0 18px 10px;
+  font-weight: 600; letter-spacing: .05em;
+}
+#lesson-sidebar .sb-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 18px; font-size: 12px; color: #555;
+  cursor: pointer; border-left: 3px solid transparent;
+  transition: all .12s; user-select: none; line-height: 1.35;
+  text-decoration: none;
+}
+#lesson-sidebar .sb-item:hover { background: #f5f5f3; color: #1a4f82; }
+#lesson-sidebar .sb-item.active {
+  background: #e8f0f9; color: #1a4f82; font-weight: 700;
+  border-left-color: #1a4f82;
+}
+#lesson-sidebar .sb-item.completed {
+  color: #2d6a4f;
+}
+#lesson-sidebar .sb-item.completed .sb-check { opacity: 1; }
+#lesson-sidebar .sb-check {
+  margin-left: auto; font-size: 11px; opacity: 0; flex-shrink: 0;
+  color: #2d6a4f;
+}
+#lesson-sidebar .sb-icon { font-size: 14px; flex-shrink: 0; width: 18px; }
+#lesson-sidebar .sb-divider {
+  border: none; border-top: 1px solid #eee; margin: 6px 18px;
+}
+#lesson-sidebar .sb-back-link {
+  margin-top: auto; padding: 12px 18px 0;
+  border-top: 1px solid #eee;
+}
+#lesson-sidebar .sb-back-link a {
+  font-size: 11px; color: #888; text-decoration: none; font-weight: 600;
+}
+#lesson-sidebar .sb-back-link a:hover { color: #1a4f82; }
+
+/* ── HEADER ── */
+.ws-header {
+  grid-area: header;
+  background: #fff;
+  border-bottom: 1px solid #d0d0cc;
+  padding: 14px 32px 14px !important;
+  margin-bottom: 0 !important;
+  position: sticky; top: 0; z-index: 99;
+}
+.ws-header h1 { font-size: 16pt !important; }
+.ws-header .subtitle { margin-bottom: 0 !important; }
+.ws-meta { margin-top: 10px; }
+
+/* ── CONTENT AREA ── */
+#lesson-content {
+  grid-area: content;
+  padding: 28px 40px 40px;
+  max-width: 780px;
+  min-height: 0;
+}
+
+/* ── SECTIONS ── */
+.lesson-section { display: none; }
+.lesson-section.active { display: block; }
+
+/* ── NAV BAR (bottom of each section) ── */
+.section-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 32px; padding-top: 16px;
+  border-top: 2px solid #1a4f82;
+  gap: 12px;
+}
+.section-nav .nav-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #1a4f82; color: #fff; border: none;
+  padding: 9px 18px; border-radius: 6px; font-size: 11pt;
+  font-weight: 600; cursor: pointer; font-family: inherit;
+  text-decoration: none; transition: background .12s;
+}
+.section-nav .nav-btn:hover { background: #15406a; }
+.section-nav .nav-btn.secondary {
+  background: #fff; color: #1a4f82; border: 1.5px solid #1a4f82;
+}
+.section-nav .nav-btn.secondary:hover { background: #e8f0f9; }
+.section-nav .nav-btn:disabled {
+  opacity: 0.35; cursor: default; pointer-events: none;
+}
+.section-nav .nav-center {
+  font-size: 10pt; color: #888; font-weight: 600;
+}
+
+/* ── FOOTER ── */
+.ws-footer {
+  grid-area: footer;
+  background: #fff;
+  border-top: 1px solid #d0d0cc;
+  padding: 8px 32px !important;
+}
+
+/* ── PRINT: restore single-scroll layout ── */
+@media print {
+  body {
+    display: block !important;
+    max-width: 850px !important;
+    margin: 0 auto !important;
+    padding: 0.4in 0.6in !important;
+  }
+  #lesson-sidebar, .section-nav { display: none !important; }
+  .lesson-section { display: block !important; }
+  .ws-header { position: static !important; border-bottom: none !important; }
+  #lesson-content { padding: 0 !important; max-width: none !important; }
+}
+
+/* ── MOBILE: collapse sidebar ── */
+@media (max-width: 680px) {
+  body { grid-template-columns: 1fr; grid-template-areas: "header" "content" "footer"; }
+  #lesson-sidebar { display: none; }
+  #lesson-content { padding: 16px; }
+}
+
+</style>
+
+<script>
+(function() {
+  var TOTAL = 5;
+  var storageKey = 'lesson_class1_html_section';
+
+  // Restore position from sessionStorage
+  var saved = parseInt(sessionStorage.getItem(storageKey) || '0');
+  var current = (saved >= 0 && saved < TOTAL) ? saved : 0;
+
+  function showSection(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+    // Hide all
+    var sections = document.querySelectorAll('.lesson-section');
+    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
+    // Show target
+    sections[idx].classList.add('active');
+    sections[idx].style.display = 'block';
+    current = idx;
+    sessionStorage.setItem(storageKey, idx);
+    // Update sidebar
+    var items = document.querySelectorAll('.sb-item');
+    items.forEach(function(it, i) {
+      it.classList.toggle('active', i === idx);
+      if (i < idx) { it.classList.add('completed'); it.querySelector('.sb-check').textContent = '✓'; }
+    });
+    // Update progress
+    var prog = document.getElementById('sb-progress');
+    if (prog) prog.textContent = 'Section ' + (idx + 1) + ' of ' + TOTAL;
+    // Scroll top
+    window.scrollTo(0, 0);
+    document.getElementById('lesson-content') && document.getElementById('lesson-content').scrollTo(0, 0);
+  }
+
+  // Expose globally for button onclick
+  window.lessonNav = function(delta) { showSection(current + delta); };
+  window.lessonGoto = function(idx) { showSection(idx); };
+  window.lessonCurrent = function() { return current; };
+
+  // Init on DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    showSection(current);
+  });
+})();
+var QUIZ_DATA = [
+  // Leaving section 0 (Part 1 — What Makes a Design Purposeful?)
+  {
+    question: "A robot team mounts their battery high on the frame because there is space there. This is an example of:",
+    options: [
+      "Purposeful design — they chose a location that works",
+      "Trial-and-error — they tried it and it worked, so they kept it",
+      "A constraint — the battery had to go there",
+      "An interface — the battery connects to the frame"
+    ],
+    correct: 1,
+    reinforcement: "Correct! Choosing a location because there's space — without an engineering reason — is trial-and-error thinking, not purposeful design. Purposeful design requires a documented reason for every decision.",
+    review: "Go back and re-read the section on purposeful design vs. trial-and-error. Key question: does the team know <em>why</em> the battery is there?"
+  },
+  // Leaving section 1 (Stability Experiment)
+  {
+    question: "In the stability experiment, placing the heavy book <strong>on top of</strong> the water bottle made it easier to tip. What engineering concept does this demonstrate?",
+    options: [
+      "A high center of gravity creates a less stable structure",
+      "Heavier objects always tip more easily than lighter ones",
+      "The bottle's constraint prevented it from standing upright",
+      "Dihedral angle increases when mass is added to the top"
+    ],
+    correct: 0,
+    reinforcement: "Correct! The book raised the center of gravity — the point where the object's weight is balanced. When that point is high, small forces can tip the structure. This is why robot designers mount heavy components like batteries as low as possible.",
+    review: "Review the stability experiment results. Focus on the key term callout box that defines <em>center of gravity</em> and explains what happens when it is high vs. low."
+  },
+  // Leaving section 2 (Robot Photo Analysis)
+  {
+    question: "When analyzing a robot photo, you notice the wheels are very large. Which response best demonstrates purposeful design thinking?",
+    options: [
+      "\"The wheels are large.\"",
+      "\"The wheels are large — they probably chose that because they look good.\"",
+      "\"The wheels are large — larger diameter means more distance per motor revolution, trading off higher chassis height.\"",
+      "\"The wheels are large — that means the robot is fast.\""
+    ],
+    correct: 2,
+    reinforcement: "Correct! Strong purposeful design analysis names the observation, explains the engineering reason (more distance per revolution), and identifies the trade-off (higher chassis height raises the center of gravity). Observation alone or vague guesses aren't engineering thinking.",
+    review: "Review the I Do section showing the three-part observation structure: <em>I notice / I ask why / Trade-off</em>. Your answer needs all three parts to count as purposeful design analysis."
+  },
+  // Leaving section 3 (Notebook Setup)
+  {
+    question: "A student sketches a robot arm in their notebook but doesn't write the date or their name. What is the main problem with this?",
+    options: [
+      "The sketch won't look professional",
+      "The entry cannot be used as a legal record — it can't be traced back to who made it or when",
+      "The student will forget which class period it was from",
+      "Notebook judges prefer pencil sketches with dates written in pen"
+    ],
+    correct: 1,
+    reinforcement: "Correct! An engineering notebook is a legal record of the design process. Without a date and signature, the entry can't be verified — it has no traceability. In FTC competition, judges use the notebook to understand how the team thinks, and undated entries cannot be relied upon.",
+    review: "Review the notebook setup section. Pay attention to the checklist of what every entry must include, and why the notebook functions as a <em>legal record</em> of your design process."
+  }
+];
+
+// ── POPUP LOGIC ──────────────────────────────────────────────────────────────
+var _selectedOption = null;
+var _pendingAdvance = false;
+
+function checkAndAdvance() {
+  // Only show popup when going forward (Next), not on the last section
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  if (qIdx >= QUIZ_DATA.length) {
+    // No question for this transition — just advance
+    lessonNav(1);
+    return;
+  }
+  _pendingAdvance = true;
+  _selectedOption = null;
+  showPopup(qIdx);
+}
+
+function showPopup(idx) {
+  var data = QUIZ_DATA[idx];
+  // Reset state
+  document.getElementById('popup-question').innerHTML = data.question;
+  var optDiv = document.getElementById('popup-options');
+  optDiv.innerHTML = '';
+  data.options.forEach(function(opt, i) {
+    var btn = document.createElement('button');
+    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
+    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
+    btn.onclick = function() { selectOption(i, btn); };
+    optDiv.appendChild(btn);
+  });
+  document.getElementById('popup-feedback').style.display = 'none';
+  document.getElementById('popup-submit').style.display = 'inline-block';
+  document.getElementById('popup-continue').style.display = 'none';
+  document.getElementById('popup-review').style.display = 'none';
+
+  var overlay = document.getElementById('check-overlay');
+  overlay.style.display = 'flex';
+  // Animate in
+  var modal = document.getElementById('check-modal');
+  modal.style.transform = 'scale(0.93)';
+  modal.style.opacity = '0';
+  modal.style.transition = 'transform .18s, opacity .18s';
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      modal.style.transform = 'scale(1)';
+      modal.style.opacity = '1';
+    });
+  });
+}
+
+function selectOption(i, btn) {
+  _selectedOption = i;
+  // Reset all buttons
+  var btns = document.getElementById('popup-options').querySelectorAll('button');
+  btns.forEach(function(b) {
+    b.style.background = '#f7f6f3';
+    b.style.borderColor = '#d0d0cc';
+    b.style.color = '#222';
+    var circle = b.querySelector('span');
+    if (circle) { circle.style.background = ''; circle.style.borderColor = '#d0d0cc'; }
+  });
+  // Highlight selected
+  btn.style.background = '#e8f0f9';
+  btn.style.borderColor = '#1a4f82';
+  btn.style.color = '#1a4f82';
+  var circle = btn.querySelector('span');
+  if (circle) { circle.style.background = '#1a4f82'; circle.style.borderColor = '#1a4f82'; }
+}
+
+function submitAnswer() {
+  if (_selectedOption === null) {
+    // Shake the submit button
+    var sb = document.getElementById('popup-submit');
+    sb.style.transform = 'translateX(-4px)';
+    setTimeout(function(){ sb.style.transform = 'translateX(4px)'; }, 80);
+    setTimeout(function(){ sb.style.transform = ''; }, 160);
+    return;
+  }
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  var data = QUIZ_DATA[qIdx];
+  var correct = _selectedOption === data.correct;
+  var feedback = document.getElementById('popup-feedback');
+  var optBtns = document.getElementById('popup-options').querySelectorAll('button');
+
+  // Colour all options
+  optBtns.forEach(function(b, i) {
+    b.style.pointerEvents = 'none';
+    if (i === data.correct) {
+      b.style.background = '#e8f4ee';
+      b.style.borderColor = '#2d6a4f';
+      b.style.color = '#2d6a4f';
+      var circle = b.querySelector('span');
+      if (circle) { circle.style.background = '#2d6a4f'; circle.style.borderColor = '#2d6a4f'; }
+    } else if (i === _selectedOption && !correct) {
+      b.style.background = '#fdf2f2';
+      b.style.borderColor = '#8b1a1a';
+      b.style.color = '#8b1a1a';
+      var circle = b.querySelector('span');
+      if (circle) { circle.style.background = '#8b1a1a'; circle.style.borderColor = '#8b1a1a'; }
+    }
+  });
+
+  document.getElementById('popup-submit').style.display = 'none';
+
+  if (correct) {
+    feedback.style.background = '#e8f4ee';
+    feedback.style.border = '1.5px solid #2d6a4f';
+    feedback.style.color = '#1a3a1a';
+    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
+    document.getElementById('popup-continue').style.display = 'inline-block';
+    // Update popup header
+    document.getElementById('popup-header').style.background = '#2d6a4f';
+    document.getElementById('popup-header').querySelector('span:first-child').textContent = '✓';
+    document.getElementById('popup-header').querySelector('span:last-child').textContent = 'Correct — keep going!';
+  } else {
+    feedback.style.background = '#fdf3e3';
+    feedback.style.border = '1.5px solid #c8860a';
+    feedback.style.color = '#3a2a00';
+    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
+    document.getElementById('popup-review').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#7d4e00';
+    document.getElementById('popup-header').querySelector('span:first-child').textContent = '↩';
+    document.getElementById('popup-header').querySelector('span:last-child').textContent = 'Review before continuing';
+  }
+  feedback.style.display = 'block';
+}
+
+function closePopupAndAdvance() {
+  document.getElementById('check-overlay').style.display = 'none';
+  lessonNav(1);
+}
+
+function closePopup() {
+  document.getElementById('check-overlay').style.display = 'none';
+  _pendingAdvance = false;
+}
+
+// Close on overlay click (outside modal)
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('check-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closePopup();
+  });
+});
+
+
+</script>
+
+</head>
+<body>
+
+
+<!-- CHECK POPUP -->
+<div id="check-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+  <div id="check-modal" style="background:#fff; border-radius:10px; max-width:540px; width:100%; box-shadow:0 8px 40px rgba(0,0,0,0.25); overflow:hidden; font-family:'Source Sans 3',Arial,sans-serif;">
+    <div id="popup-header" style="background:#1a4f82; padding:14px 20px; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:16px;">&#x1F3AF;</span>
+      <span style="font-size:11pt; font-weight:700; color:#fff; letter-spacing:.02em;">Quick Check &#x2014; Before You Continue</span>
+    </div>
+    <div style="padding:20px 22px 6px;">
+      <p id="popup-question" style="font-size:11.5pt; color:#111; line-height:1.6; margin-bottom:18px; font-weight:600;"></p>
+      <div id="popup-options" style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;"></div>
+      <div id="popup-feedback" style="display:none; border-radius:7px; padding:12px 16px; margin-bottom:14px; font-size:10.5pt; line-height:1.6;"></div>
+    </div>
+    <div id="popup-footer" style="padding:0 22px 18px; display:flex; gap:10px; justify-content:flex-end;">
+      <button id="popup-submit" onclick="submitAnswer()" style="background:#1a4f82; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Check Answer</button>
+      <button id="popup-continue" onclick="closePopupAndAdvance()" style="display:none; background:#2d6a4f; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Continue &#x2192;</button>
+      <button id="popup-review" onclick="closePopup()" style="display:none; background:#fff; color:#7d4e00; border:1.5px solid #c8860a; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Review Section</button>
+    </div>
+  </div>
+</div>
+
+<aside id="lesson-sidebar">
+  <div class="sb-course">Unit 1 · Engineering Foundations</div>
+  <div class="sb-title">Class 1: What is Engineering? Purposeful Design</div>
+  <div class="sb-progress" id="sb-progress">Section 1 of 5</div>
+  <hr class="sb-divider">
+  
+    <div class="sb-item" onclick="lessonGoto(0)">
+      <span class="sb-icon">📖</span>
+      <span>Overview & Part 1</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(1)">
+      <span class="sb-icon">🧪</span>
+      <span>Experiment · Stability</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(2)">
+      <span class="sb-icon">🤖</span>
+      <span>Part 2 · Robot Analysis</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(3)">
+      <span class="sb-icon">📓</span>
+      <span>Part 3 · Notebook</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(4)">
+      <span class="sb-icon">✅</span>
+      <span>Part 4 · Reflection</span>
+      <span class="sb-check"></span>
+    </div>
+  <div class="sb-back-link"><a href="index.html">← Back to Unit 1</a></div>
+</aside>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
+  <h1>What is Engineering?<br>Purposeful Design</h1>
+  <div class="subtitle">Class 1 of 4 &nbsp;·&nbsp; 74 minutes</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><span class="meta-value">_______________________</span></div>
+  </div>
+</div>
+
+<main id="lesson-content">
+  
+  <div class="lesson-section" id="section-0" style="display:none">
+    <!-- OBJECTIVES -->
+<div class="objectives-box">
+  <h3>Learning Objectives</h3>
+  <ol>
+    <li>Define <em>purposeful design</em> and explain what makes it different from trial-and-error.</li>
+    <li>Identify design decisions visible in a robot photo and explain their likely purpose.</li>
+    <li>Set up and make your first entry in your engineering notebook.</li>
+  </ol>
+</div>
+
+<!-- PART 1 -->
+<div class="section">
+  <div class="section-label">Part 1 &nbsp;·&nbsp; Reading &amp; Discussion (15 min)</div>
+  <h2>What Makes a Design Purposeful?</h2>
+
+  <div class="reading-block">
+    <p>Engineering is the practice of solving problems with <span class="key-term">constraints</span>. A constraint is a limit you must work within — weight, cost, size, time, available materials. Engineers don't just build whatever they imagine; they make decisions that balance competing demands.</p>
+    <p><span class="key-term">Purposeful design</span> means every choice in your robot has a reason. You chose that wheel size because it gives the right ground clearance. You placed the battery low because it lowers the center of gravity. You used a modular bracket so you can swap it later. When someone asks "why did you build it that way?" you should have an answer.</p>
+    <p>Trial-and-error means trying things until something works — without understanding why it works. It can get you a functioning robot, but you won't be able to improve it reliably or explain it to a judge, a teammate, or next year's team.</p>
+  </div>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:12px;">After the class discussion, answer these questions in the space below.</p>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> In your own words, what is the difference between purposeful design and trial-and-error?</p>
+  <textarea class="write-area" rows="3" placeholder="Write your answer here..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Give one example from everyday life (not a robot) where someone used purposeful design. What was the constraint they were working within?</p>
+  <textarea class="write-area" rows="3" placeholder="Example and constraint..."></textarea>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" disabled>← Back</button>
+  <span class="nav-center">Section 1 of 5</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Experiment · Stability →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-1" style="display:none">
+    <!-- STABILITY EXPERIMENT -->
+<div class="section">
+  <div class="section-label">Quick Experiment &nbsp;·&nbsp; Stability &amp; Weight Placement (5 min)</div>
+  <h2>Where Weight Lives Changes Everything</h2>
+
+  <div class="reading-block">
+    <p>Before analyzing robots, you need one concept in your hands: <span class="key-term">stability</span> — how easily something tips over. This 5-minute experiment gives you the idea physically so you can apply it when analyzing robot photos.</p>
+  </div>
+
+  <div style="background:#e8f4ee; border-left:4px solid #2d6a4f; border-radius:0 6px 6px 0; padding:12px 16px; margin-bottom:14px;">
+    <div style="font-size:8.5pt; text-transform:uppercase; letter-spacing:0.07em; font-weight:700; color:#2d6a4f; margin-bottom:8px;">Materials (per group)</div>
+    <div style="font-size:10pt; color:#1a3a1a; line-height:1.7;">
+      1 empty plastic water bottle with cap &nbsp;·&nbsp; 1 heavy book or a few textbooks &nbsp;·&nbsp; 1 small flat object to place on top (eraser or phone)
+    </div>
+  </div>
+
+  <div style="border:1.5px solid #d0d0cc; border-radius:6px; overflow:hidden; margin-bottom:14px;">
+    <div style="background:#2d6a4f; color:#fff; padding:7px 14px; font-size:9.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">Procedure</div>
+    <div style="padding:12px 16px; font-size:10.5pt; line-height:1.8; color:#222;">
+      <p style="margin-bottom:8px;"><strong>Step 1 — Baseline.</strong> Stand the empty water bottle upright on the table. Gently push it from the side with one finger. Note how much force it takes to tip it.</p>
+      <p style="margin-bottom:8px;"><strong>Step 2 — Weight on top.</strong> Balance the heavy book on top of the water bottle. Gently push from the side with the same force. What happens?</p>
+      <p style="margin-bottom:8px;"><strong>Step 3 — Weight on bottom.</strong> Now place the book flat on the table and stand the water bottle on top of it (book is the base). Push the bottle again. Compare to Step 2.</p>
+      <p style="margin-bottom:0;"><strong>Step 4 — Predict.</strong> Before you look at any robot photos: if a robot's battery is the heaviest single part, where would you want to mount it — high or low? Why?</p>
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Record your observations:</strong></p>
+  <table class="analysis-table" style="font-size:10pt;">
+    <thead>
+      <tr>
+        <th style="width:28%">Setup</th>
+        <th style="width:36%">What happened when you pushed?</th>
+        <th>How much force did it take to tip?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Step 1</strong> — Bottle alone</td>
+        <td class="write-cell"></td>
+        <td class="write-cell"></td>
+      </tr>
+      <tr>
+        <td><strong>Step 2</strong> — Book on top</td>
+        <td class="write-cell"></td>
+        <td class="write-cell"></td>
+      </tr>
+      <tr>
+        <td><strong>Step 3</strong> — Book on bottom</td>
+        <td class="write-cell"></td>
+        <td class="write-cell"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Write a rule in your own words: where should the heaviest part of a robot be mounted, and why?</p>
+  <textarea class="write-area" rows="2" placeholder="The heaviest part should be mounted... because when it is high, the robot..."></textarea>
+
+  <div style="background:#fdf3e3; border-left:4px solid #c8860a; border-radius:0 6px 6px 0; padding:10px 14px; margin-bottom:6px; font-size:10pt; color:#3a2a00; line-height:1.6;">
+    <strong style="color:#7d4e00;">Key term:</strong> The point where an object's weight is balanced is called its <strong>center of gravity</strong>. When the center of gravity is low (close to the ground), the object is stable and hard to tip. When it is high, small pushes can tip it easily. In your Step 2 experiment, the book raised the center of gravity — in Step 3, the book lowered it. You will see this reasoning again when analyzing robot photos.
+  </div>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Overview & Part 1</button>
+  <span class="nav-center">Section 2 of 5</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 2 · Robot Analysis →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-2" style="display:none">
+    <!-- PART 2 -->
+<div class="section">
+  <div class="section-label">Part 2 &nbsp;·&nbsp; Robot Photo Analysis (20 min)</div>
+  <h2>Reading a Robot Like an Engineer</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:12px;">Your teacher will show you a photo (or photos) of a REV-based robot. Examine it carefully before answering.</p>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice">
+      <span class="tab-label">Novice task</span>
+      Identify and label 3 design choices you can see. Use the table below.
+    </div>
+    <div class="scaffold-tab intermediate">
+      <span class="tab-label">Intermediate task</span>
+      Complete the table AND write a comparison paragraph (Part 2B).
+    </div>
+    <div class="scaffold-tab proficient">
+      <span class="tab-label">Proficient task</span>
+      Complete both tables, the paragraph, and propose one improvement with full rationale.
+    </div>
+  </div>
+
+  <!-- I DO EXEMPLAR -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model engineering thinking on this example robot</span>
+    </div>
+    <div class="ido-body">
+      <p class="ido-intro">Before you analyze your own robot photo, watch your teacher think out loud using the example below. Notice how each observation leads to a "why" question, and how every design choice has a trade-off.</p>
+
+      <div class="ido-columns">
+        <!-- Robot diagram -->
+        <div class="ido-robot-box">
+          <div class="robot-caption">Example robot — annotated for discussion</div>
+          <svg viewBox="0 0 300 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+            <!-- chassis frame -->
+            <rect x="40" y="110" width="220" height="100" rx="4" fill="#e8f0f9" stroke="#1a4f82" stroke-width="2"/>
+            <!-- frame rails -->
+            <rect x="40" y="110" width="220" height="12" rx="2" fill="#1a4f82" opacity="0.3"/>
+            <rect x="40" y="198" width="220" height="12" rx="2" fill="#1a4f82" opacity="0.3"/>
+            <rect x="40" y="110" width="12" height="100" rx="2" fill="#1a4f82" opacity="0.3"/>
+            <rect x="248" y="110" width="12" height="100" rx="2" fill="#1a4f82" opacity="0.3"/>
+            <!-- battery (low, centered) -->
+            <rect x="105" y="138" width="90" height="34" rx="3" fill="#fdf3e3" stroke="#c8860a" stroke-width="1.5"/>
+            <text x="150" y="149" text-anchor="middle" font-family="Arial" font-size="7" fill="#7d4e00" font-weight="bold">BATTERY</text>
+            <text x="150" y="160" text-anchor="middle" font-family="Arial" font-size="6" fill="#7d4e00">(mounted low)</text>
+            <!-- wheels (4x) -->
+            <ellipse cx="65" cy="220" rx="22" ry="22" fill="#ddd" stroke="#555" stroke-width="2"/>
+            <ellipse cx="65" cy="220" rx="10" ry="10" fill="#aaa" stroke="#555" stroke-width="1"/>
+            <ellipse cx="235" cy="220" rx="22" ry="22" fill="#ddd" stroke="#555" stroke-width="2"/>
+            <ellipse cx="235" cy="220" rx="10" ry="10" fill="#aaa" stroke="#555" stroke-width="1"/>
+            <ellipse cx="65" cy="100" rx="22" ry="22" fill="#ddd" stroke="#555" stroke-width="2"/>
+            <ellipse cx="65" cy="100" rx="10" ry="10" fill="#aaa" stroke="#555" stroke-width="1"/>
+            <ellipse cx="235" cy="100" rx="22" ry="22" fill="#ddd" stroke="#555" stroke-width="2"/>
+            <ellipse cx="235" cy="100" rx="10" ry="10" fill="#aaa" stroke="#555" stroke-width="1"/>
+            <!-- wheel size label -->
+            <line x1="43" y1="220" x2="5" y2="220" stroke="#999" stroke-width="0.8" stroke-dasharray="3,2"/>
+            <line x1="43" y1="100" x2="5" y2="100" stroke="#999" stroke-width="0.8" stroke-dasharray="3,2"/>
+            <line x1="6" y1="100" x2="6" y2="220" stroke="#999" stroke-width="0.8"/>
+            <text x="4" y="164" text-anchor="middle" font-family="Arial" font-size="6.5" fill="#555" transform="rotate(-90,4,164)">4" wheels</text>
+            <!-- arm pivot -->
+            <rect x="125" y="60" width="50" height="55" rx="3" fill="#e8f4ee" stroke="#2d6a4f" stroke-width="1.5"/>
+            <text x="150" y="82" text-anchor="middle" font-family="Arial" font-size="7" fill="#2d6a4f" font-weight="bold">ARM</text>
+            <text x="150" y="93" text-anchor="middle" font-family="Arial" font-size="6" fill="#2d6a4f">motor mount</text>
+            <!-- arm link -->
+            <line x1="150" y1="60" x2="150" y2="35" stroke="#2d6a4f" stroke-width="2.5"/>
+            <!-- gripper -->
+            <rect x="128" y="15" width="44" height="22" rx="3" fill="#e8f4ee" stroke="#2d6a4f" stroke-width="1.5"/>
+            <text x="150" y="30" text-anchor="middle" font-family="Arial" font-size="7" fill="#2d6a4f">gripper</text>
+            <!-- control hub -->
+            <rect x="170" y="125" width="52" height="38" rx="3" fill="#eeedfe" stroke="#534ab7" stroke-width="1.5"/>
+            <text x="196" y="140" text-anchor="middle" font-family="Arial" font-size="6.5" fill="#534ab7" font-weight="bold">CONTROL</text>
+            <text x="196" y="151" text-anchor="middle" font-family="Arial" font-size="6.5" fill="#534ab7" font-weight="bold">HUB</text>
+            <!-- cable run -->
+            <path d="M196,163 Q196,175 170,180 Q100,185 80,170" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="3,2"/>
+            <!-- annotation callouts -->
+            <!-- A: battery -->
+            <circle cx="196" cy="155" r="7" fill="#1a4f82"/>
+            <text x="196" y="158" text-anchor="middle" font-family="Arial" font-size="7" fill="#fff" font-weight="bold">A</text>
+            <!-- B: wheels -->
+            <circle cx="65" cy="72" r="7" fill="#2d6a4f"/>
+            <text x="65" y="75" text-anchor="middle" font-family="Arial" font-size="7" fill="#fff" font-weight="bold">B</text>
+            <!-- C: arm position -->
+            <circle cx="118" cy="63" r="7" fill="#7d4e00"/>
+            <text x="118" y="66" text-anchor="middle" font-family="Arial" font-size="7" fill="#fff" font-weight="bold">C</text>
+            <!-- legend -->
+            <rect x="30" y="268" width="240" height="38" rx="3" fill="#f5f5f3" stroke="#d0d0cc" stroke-width="0.8"/>
+            <circle cx="44" cy="280" r="5" fill="#1a4f82"/><text x="52" y="283" font-family="Arial" font-size="6.5" fill="#333">A — Battery mounted low &amp; centered</text>
+            <circle cx="44" cy="294" r="5" fill="#2d6a4f"/><text x="52" y="297" font-family="Arial" font-size="6.5" fill="#333">B — 4" diameter wheels (all 4 corners)</text>
+            <circle cx="160" cy="280" r="5" fill="#7d4e00"/><text x="168" y="283" font-family="Arial" font-size="6.5" fill="#333">C — Arm mounted at front-center</text>
+          </svg>
+        </div>
+
+        <!-- Teacher think-alouds -->
+        <div class="ido-thinking">
+          <div class="thought-bubble">
+            <div class="obs-label observe">Observation A — Battery placement</div>
+            <p><span class="think-prefix">I notice:</span> The battery is mounted low and centered on the frame — not up high, not off to one side.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">I ask "why?":</span> A heavy object mounted low lowers the robot's center of gravity. That makes it much harder to tip over when turning fast or climbing a ramp. Centering it left-to-right keeps the weight balanced so the robot doesn't pull to one side.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">Trade-off:</span> Mounting low takes up interior space that could have been used for wiring or a second mechanism.</p>
+          </div>
+
+          <div class="thought-bubble">
+            <div class="obs-label why">Observation B — Wheel size</div>
+            <p><span class="think-prefix">I notice:</span> The robot uses 4-inch diameter wheels at all four corners, evenly spaced.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">I ask "why?":</span> Larger wheels mean the robot travels farther per motor revolution — higher top speed. Four wheels (two per side) share the driving load and reduce the chance of getting stuck. Equal spacing keeps the turning center predictable.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">Trade-off:</span> Bigger wheels raise the chassis height, which raises the center of gravity slightly. They also take more torque to accelerate from a stop.</p>
+          </div>
+
+          <div class="thought-bubble">
+            <div class="obs-label tradeoff">Observation C — Arm position</div>
+            <p><span class="think-prefix">I notice:</span> The arm is mounted at the front-center of the robot, not to the side.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">I ask "why?":</span> Centering the arm keeps the robot balanced when the arm extends — if it were on one side, extending it would shift the center of mass sideways and the robot could tip or track crooked. Front-mounting means the driver just needs to point the robot at the target.</p>
+            <p style="margin-top:5px;"><span class="think-prefix">Trade-off:</span> The arm now blocks the front camera's view when fully extended. The team would need to mount the camera higher or use a rear camera instead.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exemplar completed table -->
+      <div class="ido-table-wrap">
+        <div class="ido-table-label">What the completed table looks like — teacher's example</div>
+        <table class="exemplar-table">
+          <thead>
+            <tr>
+              <th style="width:28%">What I observe</th>
+              <th style="width:36%">Why the designer probably chose this</th>
+              <th style="width:36%">What might be traded off</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>A.</strong> Battery mounted low and centered on the frame</td>
+              <td>Lowers center of gravity to prevent tipping; centering keeps the robot balanced side-to-side</td>
+              <td>Uses interior space that could hold wiring or a second mechanism</td>
+            </tr>
+            <tr>
+              <td><strong>B.</strong> 4" wheels at all four corners, evenly spaced</td>
+              <td>Larger wheels = more distance per motor rotation (faster); four-wheel contact reduces getting stuck; equal spacing makes turning predictable</td>
+              <td>Bigger wheels raise chassis height (higher center of gravity); require more torque to accelerate</td>
+            </tr>
+            <tr>
+              <td><strong>C.</strong> Arm mounted at front-center of chassis</td>
+              <td>Keeps weight balanced front-to-back when arm extends; driver only needs to point robot at target</td>
+              <td>Arm blocks forward camera view when fully extended — camera must be repositioned</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2A — Design Decisions Table</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Now it's your turn. Using the robot photo your teacher displays, fill in the table below. For each design choice you observe, describe what you see, explain the likely reason for that choice, and identify any trade-off it might create.</p>
+
+  <table class="analysis-table">
+    <thead>
+      <tr>
+        <th style="width:28%">What I observe</th>
+        <th style="width:36%">Why the designer probably chose this</th>
+        <th style="width:36%">What might be traded off</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <!-- I DO — 2B -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model a comparison paragraph using two example robots</span>
+    </div>
+    <div class="ido-body">
+      <p class="ido-intro">A strong comparison paragraph doesn't just list differences — it explains what each difference reveals about the team's priorities. Watch how the teacher structures this.</p>
+
+      <p style="font-size:9pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8b1a1a; margin-bottom:8px;">Two example robots being compared</p>
+
+      <div class="ido-columns" style="margin-bottom:14px;">
+        <div class="ido-robot-box">
+          <div class="robot-caption">Robot A — Speed-focused design</div>
+          <ul style="font-size:9.5pt; color:#333; line-height:1.7; padding-left:16px; margin:0;">
+            <li>6" diameter wheels (large)</li>
+            <li>Battery mounted high on frame</li>
+            <li>No arm — only a pusher bar</li>
+            <li>4-wheel drive, wide stance</li>
+          </ul>
+        </div>
+        <div class="ido-robot-box">
+          <div class="robot-caption">Robot B — Capability-focused design</div>
+          <ul style="font-size:9.5pt; color:#333; line-height:1.7; padding-left:16px; margin:0;">
+            <li>4" diameter wheels (smaller)</li>
+            <li>Battery mounted low and centered</li>
+            <li>Articulated arm with gripper</li>
+            <li>4-wheel drive, narrower frame</li>
+          </ul>
+        </div>
+      </div>
+
+      <p style="font-size:9pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8b1a1a; margin-bottom:6px;">Teacher's modeled comparison paragraph</p>
+      <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:12px 14px; font-size:10pt; color:#222; line-height:1.75;">
+        <p>Both robots use four-wheel drive, which tells us both teams prioritized reliable traction and stability over simplicity. However, their wheel size choices reveal very different priorities: Robot A's 6-inch wheels will travel farther per motor revolution, giving it a higher top speed — suggesting this team valued crossing the field quickly. Robot B's smaller 4-inch wheels sacrifice speed for more torque, which is better suited to climbing ramps or pushing against resistance.</p>
+        <p style="margin-top:8px;">The most significant structural difference is battery placement. Robot A mounts the battery high, which raises the center of gravity — a risk for a fast robot making sharp turns. This suggests the team either didn't anticipate tipping as a problem, or accepted the risk to keep their frame design simple. Robot B mounts the battery low and centered, a deliberate stability choice that shows awareness of the physics involved.</p>
+        <p style="margin-top:8px;">Finally, Robot A has no arm — just a pusher bar — while Robot B has a full articulated gripper. This tells us Robot A was designed for a strategy that doesn't require manipulating game elements precisely, while Robot B was built for a more complex task. The trade-off is that Robot B is heavier, slower, and harder to repair under time pressure.</p>
+      </div>
+
+      <p style="font-size:9pt; color:#8b1a1a; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin:10px 0 5px;">What made that paragraph effective?</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:9.5pt;">
+        <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:8px 10px; color:#333;">
+          <strong style="color:#8b1a1a;">✓</strong> Named specific features, not vague ones ("6-inch wheels" not "big wheels")
+        </div>
+        <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:8px 10px; color:#333;">
+          <strong style="color:#8b1a1a;">✓</strong> Explained what each difference reveals about team priorities
+        </div>
+        <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:8px 10px; color:#333;">
+          <strong style="color:#8b1a1a;">✓</strong> Named at least one similarity before diving into differences
+        </div>
+        <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:8px 10px; color:#333;">
+          <strong style="color:#8b1a1a;">✓</strong> Identified the trade-off each choice created
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2B — Comparison Paragraph <span style="font-weight:400; opacity:0.85;">(Intermediate &amp; Proficient)</span></span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Compare the two robot photos your teacher displays. Identify at least 2 similarities and 2 differences. For each difference, explain what it reveals about what each team prioritized. Use specific feature names and engineering vocabulary.</p>
+  <textarea class="write-area" rows="7" placeholder="Both robots share... However, Robot A differs from Robot B in that... This suggests that Team A prioritized... while Team B prioritized... The trade-off of Team A's choice is..."></textarea>
+
+  <!-- I DO — 2C -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model an improvement proposal with engineering rationale</span>
+    </div>
+    <div class="ido-body">
+      <p class="ido-intro">An improvement proposal isn't a complaint — it's a structured engineering argument. It names a specific problem, explains the root cause, proposes a concrete alternative, and predicts the trade-off of that alternative. Watch the structure.</p>
+
+      <p style="font-size:9pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#8b1a1a; margin-bottom:8px;">Teacher's modeled improvement proposal — targeting Robot A's battery placement</p>
+
+      <div style="background:#fff; border:1px solid #e0b0b0; border-radius:6px; padding:0; overflow:hidden; margin-bottom:10px;">
+        <table style="width:100%; border-collapse:collapse; font-size:9.5pt;">
+          <tr>
+            <td style="background:#fdf2f2; border-bottom:1px solid #e0b0b0; padding:8px 12px; width:28%; font-weight:700; color:#8b1a1a; vertical-align:top;">Current design</td>
+            <td style="border-bottom:1px solid #e0b0b0; padding:8px 12px; color:#333; line-height:1.6;">Robot A mounts the battery in a bracket near the top of the frame, approximately 10 inches above the ground plane.</td>
+          </tr>
+          <tr>
+            <td style="background:#fdf2f2; border-bottom:1px solid #e0b0b0; padding:8px 12px; font-weight:700; color:#8b1a1a; vertical-align:top;">Problem identified</td>
+            <td style="border-bottom:1px solid #e0b0b0; padding:8px 12px; color:#333; line-height:1.6;">A high center of gravity increases the risk of tipping during fast turns or when the robot contacts a field element. At 6-inch wheel diameter and high drive speed, lateral forces during turning will be significant. A tipped robot cannot recover autonomously.</td>
+          </tr>
+          <tr>
+            <td style="background:#fdf2f2; border-bottom:1px solid #e0b0b0; padding:8px 12px; font-weight:700; color:#8b1a1a; vertical-align:top;">My proposed change</td>
+            <td style="border-bottom:1px solid #e0b0b0; padding:8px 12px; color:#333; line-height:1.6;">Relocate the battery to a low-mounted tray centered between the two drive rails, 2–3 inches above the ground plane. Use a REV battery strap and quick-release bracket so it can be swapped rapidly between matches.</td>
+          </tr>
+          <tr>
+            <td style="background:#fdf2f2; padding:8px 12px; font-weight:700; color:#8b1a1a; vertical-align:top;">Trade-off of my change</td>
+            <td style="padding:8px 12px; color:#333; line-height:1.6;">Low battery placement reduces interior frame space, which could interfere with wiring runs or a future mechanism. The team should plan cable routing before finalizing the tray position.</td>
+          </tr>
+        </table>
+      </div>
+
+      <p style="font-size:9pt; color:#8b1a1a; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 5px;">Notice the pattern: Current → Problem → Change → Trade-off. Every section is specific — no vague language.</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2C — Improvement Proposal <span style="font-weight:400; opacity:0.85;">(Proficient)</span></span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Choose one design decision from the robot photo that you think could be improved. Follow the four-part structure: Current design → Problem → My proposed change → Trade-off of my change. Be specific — name dimensions, component types, and engineering reasons.</p>
+  <table class="analysis-table" style="margin-bottom:14px;">
+    <thead>
+      <tr>
+        <th style="width:28%">Section</th>
+        <th>Your response</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="font-weight:600; color:#2d6a4f;">Current design</td><td class="write-cell" style="height:54px;"></td></tr>
+      <tr><td style="font-weight:600; color:#2d6a4f;">Problem identified</td><td class="write-cell" style="height:54px;"></td></tr>
+      <tr><td style="font-weight:600; color:#2d6a4f;">My proposed change</td><td class="write-cell" style="height:54px;"></td></tr>
+      <tr><td style="font-weight:600; color:#2d6a4f;">Trade-off of my change</td><td class="write-cell" style="height:54px;"></td></tr>
+    </tbody>
+  </table>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Experiment · Stability</button>
+  <span class="nav-center">Section 3 of 5</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 3 · Notebook →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-3" style="display:none">
+    <!-- PART 3 -->
+<div class="section">
+  <div class="section-label">Part 3 &nbsp;·&nbsp; Engineering Notebook Setup (15 min)</div>
+  <h2>Your First Notebook Entry</h2>
+
+  <div class="reading-block">
+    <p>Your engineering notebook is a legal record of your design process. In competitions like FIRST Tech Challenge, judges read notebooks to understand how your team thinks — not just what you built. Every entry must be dated and signed. Every sketch must be labeled. Every decision must have a reason.</p>
+    <p>Today you will set up your notebook and make your first entry: a title page and a definition entry for <em>purposeful design</em>.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:8px;"><strong>Notebook setup checklist</strong> — check each box as you complete it in your physical notebook:</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px 24px; margin-bottom:16px; font-size:10.5pt;">
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Title page with team name, year, and member names</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Table of contents page (leave 2 pages blank)</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> First entry dated and signed by all members</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Definition of "purposeful design" in your own words</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> One design decision from the robot photo, with rationale</label>
+    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox"> Page number written at the bottom of the entry page</label>
+  </div>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry Prompt</div>
+    <p>Write today's full date at the top right. Then write: <em>"Today I learned that purposeful design means..."</em> — finish this sentence in at least 3 sentences. Then sketch or describe one design choice from the robot photo and explain the engineering reason behind it.</p>
+  </div>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 2 · Robot Analysis</button>
+  <span class="nav-center">Section 4 of 5</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 4 · Reflection →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-4" style="display:none">
+    <!-- PART 4 — REFLECTION -->
+<div class="section">
+  <div class="section-label">Part 4 &nbsp;·&nbsp; Exit Reflection (10 min)</div>
+  <h2>Checking Your Understanding</h2>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Write one sentence that defines purposeful design without using the word "purposeful."</p>
+  <textarea class="write-area" rows="2"></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> What is one question you still have after today's class?</p>
+  <textarea class="write-area" rows="2"></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Rate your confidence on each objective (circle one):</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead>
+      <tr><th style="width:60%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>I can define purposeful design</td><td></td><td></td><td></td></tr>
+      <tr><td>I can identify design decisions in a robot photo</td><td></td><td></td><td></td></tr>
+      <tr><td>I set up my engineering notebook correctly</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension / Exploration — Purposeful Failure</div>
+    <p><strong>Build it wrong on purpose.</strong> Using materials from today's class (paper, tape, or anything on your desk), build a small tower or structure that you deliberately design to fail in a specific way — for example, one that will definitely tip to the left, or one whose middle will buckle before the base. Before you build it: write down exactly how and where you predict it will fail. Then build it, test it, and record what actually happened.</p>
+    <p style="margin-top:8px;">In your engineering notebook, write 3 sentences: (1) where you predicted the failure, (2) where the failure actually occurred, and (3) what this tells you about where engineers need to look hardest for problems. Then watch the video below about the Gimli Glider (1983) — a real plane that ran out of fuel mid-flight because of a unit conversion error. Apply the same three questions to that failure.</p>
+
+    <div style="margin-top:14px; background:#1a1a2e; border-radius:8px; overflow:hidden; border:1.5px solid #3d3d5c;">
+      <div style="background:#2a2a4a; padding:8px 14px; display:flex; align-items:center; gap:10px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.498 6.186a2.999 2.999 0 0 0-2.112-2.12C19.502 3.5 12 3.5 12 3.5s-7.502 0-9.386.566A2.999 2.999 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a2.999 2.999 0 0 0 2.11 2.12C4.498 20.5 12 20.5 12 20.5s7.502 0 9.386-.566a2.999 2.999 0 0 0 2.112-2.12C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span style="font-size:10pt; font-weight:700; color:#e0e0ff; letter-spacing:0.02em;">Watch: The Gimli Glider — Air Canada Flight 143 (1983)</span>
+      </div>
+      <div style="padding:12px 16px; display:flex; align-items:center; gap:16px;">
+        <a href="https://youtu.be/4fGibq7OV6E?si=IS7MUff21FCCCcxU" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; background:#ff4444; color:#fff; font-size:10pt; font-weight:700; text-decoration:none; padding:8px 16px; border-radius:6px; flex-shrink:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+          Watch on YouTube
+        </a>
+        <div>
+          <div style="font-size:10pt; color:#c0c0e0; line-height:1.55;">A unit conversion error caused a fully loaded Boeing 767 to run out of fuel at 41,000 feet. The crew landed it safely — but the failure chain that got them there is a textbook case in what happens when engineers don't catch their own mistakes.</div>
+          <div style="font-size:9pt; color:#8888aa; margin-top:5px;">youtu.be/4fGibq7OV6E &nbsp;·&nbsp; ~15 minutes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 3 · Notebook</button>
+  <span class="nav-center">Section 5 of 5</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" disabled>Finish →</button>
+</div>
+  </div>
+</main>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 1, Class 1</span>
+  <span>What is Engineering? Purposeful Design</span>
+  <span>Page 1 of 1</span>
+</div>
+
+</body>
+</html>

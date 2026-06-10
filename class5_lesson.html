@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 5: Modular Design Thinking</title>
+
+<style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue: #1a4f82;     --blue-light: #e8f0f9;
+    --green: #2d6a4f;    --green-light: #e8f4ee;
+    --amber: #7d4e00;    --amber-light: #fdf3e3;
+    --red: #8b1a1a;      --red-light: #fdf2f2;
+    --purple: #3d2a99;   --purple-light: #f0ecff;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 11pt; color: #222; background: #fff; max-width: 850px; margin: 0 auto; padding: 0.5in 0.75in; }
+
+  /* HEADER */
+  .ws-header { border-top: 5px solid var(--blue); padding-top: 14px; margin-bottom: 20px; }
+  .ws-header .course-label { font-size: 9pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); font-weight: 700; margin-bottom: 4px; }
+  .ws-header h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 22pt; color: #111; line-height: 1.2; margin-bottom: 4px; }
+  .ws-header .subtitle { font-size: 10pt; color: #666; margin-bottom: 14px; }
+  .ws-meta { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .ws-meta-item { padding: 8px 12px; border-right: 1px solid var(--border); }
+  .ws-meta-item:last-child { border-right: none; }
+  .ws-meta-item .meta-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 2px; }
+  .ws-meta-item .meta-value { font-size: 10pt; font-weight: 600; }
+
+  /* OBJECTIVES */
+  .objectives-box { background: var(--blue-light); border-left: 4px solid var(--blue); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin: 18px 0; }
+  .objectives-box h3 { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.07em; color: var(--blue); font-weight: 700; margin-bottom: 8px; }
+  .objectives-box ol { padding-left: 18px; margin: 0; }
+  .objectives-box li { font-size: 10pt; margin-bottom: 4px; color: #1a1a3a; }
+
+  /* REVIEW BADGE */
+  .review-badge { display: inline-block; font-size: 8pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue); border-radius: 100px; padding: 1px 8px; margin-left: 6px; vertical-align: middle; }
+
+  /* SECTION */
+  .section { margin-bottom: 22px; }
+  .section-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; color: var(--blue); margin-bottom: 6px; padding-bottom: 3px; border-bottom: 1.5px solid var(--blue-light); }
+  .section h2 { font-size: 13pt; font-weight: 700; color: #111; margin-bottom: 8px; }
+
+  /* READING */
+  .reading-block { background: var(--gray-light); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; font-size: 10.5pt; line-height: 1.7; color: #333; }
+  .reading-block p { margin-bottom: 10px; }
+  .reading-block p:last-child { margin-bottom: 0; }
+  .key-term { font-weight: 700; color: var(--blue); }
+
+  /* INPUTS */
+  .write-area { border: 1px solid var(--border); border-radius: var(--radius); width: 100%; min-height: 70px; display: block; background: transparent; resize: none; padding: 8px 10px; font-family: inherit; font-size: 10.5pt; color: #222; line-height: 1.6; margin-bottom: 14px; }
+  .sketch-box { border: 1.5px dashed #bbb; border-radius: var(--radius); width: 100%; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 9pt; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; }
+  .sketch-box.xl   { height: 280px; }
+  .sketch-box.tall { height: 200px; }
+  .sketch-box.medium { height: 150px; }
+  .sketch-box.short { height: 100px; }
+
+  /* TABLES */
+  .analysis-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 10pt; }
+  .analysis-table th { background: var(--green); color: #fff; padding: 8px 10px; text-align: left; font-size: 9pt; font-weight: 600; letter-spacing: 0.04em; }
+  .analysis-table td { border: 1px solid var(--border); padding: 6px 10px; vertical-align: top; }
+  .analysis-table tr:nth-child(even) td { background: var(--green-light); }
+  .analysis-table .write-cell { height: 50px; vertical-align: top; }
+
+  /* SCAFFOLD TABS */
+  .scaffold-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .scaffold-tab { border-radius: var(--radius); padding: 10px 12px; font-size: 9.5pt; }
+  .scaffold-tab .tab-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; margin-bottom: 5px; display: block; }
+  .scaffold-tab.novice { background: var(--green-light); }
+  .scaffold-tab.novice .tab-label { color: var(--green); }
+  .scaffold-tab.intermediate { background: var(--blue-light); }
+  .scaffold-tab.intermediate .tab-label { color: var(--blue); }
+  .scaffold-tab.proficient { background: var(--purple-light); }
+  .scaffold-tab.proficient .tab-label { color: var(--purple); }
+
+  /* I DO / YOU DO */
+  .ido-section { border: 2px solid var(--red); border-radius: var(--radius); margin-bottom: 18px; overflow: hidden; }
+  .ido-header { background: var(--red); color: #fff; padding: 8px 14px; display: flex; align-items: center; gap: 10px; }
+  .ido-header .ido-badge { font-size: 9pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .ido-header .ido-title { font-size: 10.5pt; font-weight: 600; }
+  .ido-body { padding: 14px 16px; background: var(--red-light); }
+  .ido-body p { font-size: 10.5pt; line-height: 1.7; color: #3a1a1a; margin-bottom: 8px; }
+  .ido-body p:last-child { margin-bottom: 0; }
+  .ido-body .think-prefix { font-style: italic; color: #666; }
+
+  .ydo-header { background: var(--green); color: #fff; border-radius: var(--radius); padding: 7px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .ydo-header .ydo-badge { font-size: 9pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .ydo-header .ydo-title { font-size: 10.5pt; font-weight: 600; }
+
+  /* NOTEBOOK */
+  .notebook-prompt { background: var(--amber-light); border-left: 4px solid #c8860a; border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 14px; }
+  .notebook-prompt .nb-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--amber); margin-bottom: 6px; }
+  .notebook-prompt p { font-size: 10.5pt; color: #3a2a00; line-height: 1.6; }
+
+  /* EXTENSION */
+  .extension-box { background: var(--purple-light); border: 1px solid #c5b8f5; border-radius: var(--radius); padding: 12px 16px; margin-top: 6px; }
+  .extension-box .ext-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--purple); margin-bottom: 6px; }
+  .extension-box p { font-size: 10pt; color: #2a1a55; line-height: 1.6; }
+
+  /* MODULE-SPECIFIC STYLES */
+  .module-card { border: 2px solid var(--blue); border-radius: var(--radius); margin-bottom: 16px; overflow: hidden; }
+  .module-card-header { background: var(--blue); color: #fff; padding: 8px 14px; display: flex; align-items: center; gap: 10px; }
+  .module-card-header .mod-num { font-size: 9pt; font-weight: 700; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .module-card-header .mod-name { font-size: 11pt; font-weight: 700; }
+  .module-card-body { padding: 12px 14px; background: var(--blue-light); }
+  .module-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+  .module-field-label { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue); margin-bottom: 4px; }
+  .module-field-input { border: 1px solid var(--border); border-radius: 4px; background: #fff; padding: 6px 8px; width: 100%; min-height: 56px; resize: none; font-family: inherit; font-size: 10pt; line-height: 1.5; display: block; }
+  .module-field-input.short { min-height: 34px; }
+
+  .interface-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 10pt; }
+  .interface-table th { background: var(--purple); color: #fff; padding: 8px 10px; text-align: left; font-size: 9pt; font-weight: 600; }
+  .interface-table td { border: 1px solid var(--border); padding: 7px 10px; vertical-align: top; }
+  .interface-table tr:nth-child(even) td { background: var(--purple-light); }
+  .interface-table .write-cell { height: 48px; }
+
+  /* ARCHITECTURE DIAGRAM PLACEHOLDER */
+  .arch-diagram { border: 2px solid var(--blue); border-radius: var(--radius); padding: 16px; margin-bottom: 14px; background: var(--blue-light); }
+  .arch-diagram .arch-label { font-size: 9pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--blue); margin-bottom: 10px; text-align: center; }
+  .arch-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .arch-box { border: 2px solid var(--blue); background: #fff; border-radius: 4px; padding: 6px 10px; text-align: center; min-width: 100px; font-size: 9.5pt; font-weight: 600; color: var(--blue); }
+  .arch-box.central { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .arch-arrow { color: var(--blue); font-size: 14pt; line-height: 1; }
+  .arch-note { font-size: 8pt; color: #777; text-align: center; margin-top: 6px; font-style: italic; }
+
+  /* GRID LAYOUTS */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .col-label { font-size: 9pt; color: #888; font-weight: 600; text-align: center; margin-bottom: 4px; }
+
+  /* VIEW BOXES */
+  .view-box { border: 1px solid var(--border); border-radius: var(--radius); background: #fff; padding: 4px; margin-bottom: 6px; }
+  .view-inner { border: 1.5px dashed #ccc; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 8pt; letter-spacing: 0.04em; text-transform: uppercase; }
+  .view-inner.v-tall { height: 160px; }
+  .view-inner.v-medium { height: 120px; }
+  .view-inner.v-short { height: 80px; }
+
+  /* REVIEW CALL-OUTS */
+  .review-callout { background: var(--blue-light); border: 1px solid var(--blue); border-radius: var(--radius); padding: 8px 12px; margin-bottom: 10px; font-size: 9.5pt; color: var(--blue); }
+  .review-callout strong { font-weight: 700; }
+
+  /* DIVIDER */
+  hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+
+  /* FOOTER */
+  .ws-footer { margin-top: 28px; padding-top: 10px; border-top: 2px solid var(--blue); display: flex; justify-content: space-between; font-size: 8.5pt; color: #888; }
+
+  @media print {
+    body { padding: 0.4in 0.6in; }
+    .write-area, .module-field-input { border: 1px solid #aaa; }
+    .sketch-box, .view-inner { border: 1.5px dashed #999; }
+  }
+
+
+/* ── PAGINATED LESSON LAYOUT ─────────────────────────────── */
+html, body { height: 100%; margin: 0; padding: 0; }
+body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar content"
+    "sidebar footer";
+  min-height: 100vh;
+  max-width: none;
+  padding: 0;
+  background: #f7f6f3;
+}
+
+/* ── SIDEBAR ── */
+#lesson-sidebar {
+  grid-area: sidebar;
+  background: #fff;
+  border-right: 1px solid #d0d0cc;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 18px 0 32px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+#lesson-sidebar .sb-course {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: #aaa; padding: 0 18px 10px;
+  border-bottom: 1px solid #eee; margin-bottom: 8px;
+}
+#lesson-sidebar .sb-title {
+  font-size: 11px; font-weight: 700; color: #1a4f82;
+  padding: 0 18px 12px; border-bottom: 1px solid #eee; margin-bottom: 8px;
+  line-height: 1.4;
+}
+#lesson-sidebar .sb-progress {
+  font-size: 9px; color: #aaa; padding: 0 18px 10px;
+  font-weight: 600; letter-spacing: .05em;
+}
+#lesson-sidebar .sb-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 18px; font-size: 12px; color: #555;
+  cursor: pointer; border-left: 3px solid transparent;
+  transition: all .12s; user-select: none; line-height: 1.35;
+  text-decoration: none;
+}
+#lesson-sidebar .sb-item:hover { background: #f5f5f3; color: #1a4f82; }
+#lesson-sidebar .sb-item.active {
+  background: #e8f0f9; color: #1a4f82; font-weight: 700;
+  border-left-color: #1a4f82;
+}
+#lesson-sidebar .sb-item.completed {
+  color: #2d6a4f;
+}
+#lesson-sidebar .sb-item.completed .sb-check { opacity: 1; }
+#lesson-sidebar .sb-check {
+  margin-left: auto; font-size: 11px; opacity: 0; flex-shrink: 0;
+  color: #2d6a4f;
+}
+#lesson-sidebar .sb-icon { font-size: 14px; flex-shrink: 0; width: 18px; }
+#lesson-sidebar .sb-divider {
+  border: none; border-top: 1px solid #eee; margin: 6px 18px;
+}
+#lesson-sidebar .sb-back-link {
+  margin-top: auto; padding: 12px 18px 0;
+  border-top: 1px solid #eee;
+}
+#lesson-sidebar .sb-back-link a {
+  font-size: 11px; color: #888; text-decoration: none; font-weight: 600;
+}
+#lesson-sidebar .sb-back-link a:hover { color: #1a4f82; }
+
+/* ── HEADER ── */
+.ws-header {
+  grid-area: header;
+  background: #fff;
+  border-bottom: 1px solid #d0d0cc;
+  padding: 14px 32px 14px !important;
+  margin-bottom: 0 !important;
+  position: sticky; top: 0; z-index: 99;
+}
+.ws-header h1 { font-size: 16pt !important; }
+.ws-header .subtitle { margin-bottom: 0 !important; }
+.ws-meta { margin-top: 10px; }
+
+/* ── CONTENT AREA ── */
+#lesson-content {
+  grid-area: content;
+  padding: 28px 40px 40px;
+  max-width: 780px;
+  min-height: 0;
+}
+
+/* ── SECTIONS ── */
+.lesson-section { display: none; }
+.lesson-section.active { display: block; }
+
+/* ── NAV BAR (bottom of each section) ── */
+.section-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 32px; padding-top: 16px;
+  border-top: 2px solid #1a4f82;
+  gap: 12px;
+}
+.section-nav .nav-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #1a4f82; color: #fff; border: none;
+  padding: 9px 18px; border-radius: 6px; font-size: 11pt;
+  font-weight: 600; cursor: pointer; font-family: inherit;
+  text-decoration: none; transition: background .12s;
+}
+.section-nav .nav-btn:hover { background: #15406a; }
+.section-nav .nav-btn.secondary {
+  background: #fff; color: #1a4f82; border: 1.5px solid #1a4f82;
+}
+.section-nav .nav-btn.secondary:hover { background: #e8f0f9; }
+.section-nav .nav-btn:disabled {
+  opacity: 0.35; cursor: default; pointer-events: none;
+}
+.section-nav .nav-center {
+  font-size: 10pt; color: #888; font-weight: 600;
+}
+
+/* ── FOOTER ── */
+.ws-footer {
+  grid-area: footer;
+  background: #fff;
+  border-top: 1px solid #d0d0cc;
+  padding: 8px 32px !important;
+}
+
+/* ── PRINT: restore single-scroll layout ── */
+@media print {
+  body {
+    display: block !important;
+    max-width: 850px !important;
+    margin: 0 auto !important;
+    padding: 0.4in 0.6in !important;
+  }
+  #lesson-sidebar, .section-nav { display: none !important; }
+  .lesson-section { display: block !important; }
+  .ws-header { position: static !important; border-bottom: none !important; }
+  #lesson-content { padding: 0 !important; max-width: none !important; }
+}
+
+/* ── MOBILE: collapse sidebar ── */
+@media (max-width: 680px) {
+  body { grid-template-columns: 1fr; grid-template-areas: "header" "content" "footer"; }
+  #lesson-sidebar { display: none; }
+  #lesson-content { padding: 16px; }
+}
+
+</style>
+
+<script>
+(function() {
+  var TOTAL = 7;
+  var storageKey = 'lesson_class5_lesson_html_section';
+
+  // Restore position from sessionStorage
+  var saved = parseInt(sessionStorage.getItem(storageKey) || '0');
+  var current = (saved >= 0 && saved < TOTAL) ? saved : 0;
+
+  function showSection(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+    // Hide all
+    var sections = document.querySelectorAll('.lesson-section');
+    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
+    // Show target
+    sections[idx].classList.add('active');
+    sections[idx].style.display = 'block';
+    current = idx;
+    sessionStorage.setItem(storageKey, idx);
+    // Update sidebar
+    var items = document.querySelectorAll('.sb-item');
+    items.forEach(function(it, i) {
+      it.classList.toggle('active', i === idx);
+      if (i < idx) { it.classList.add('completed'); it.querySelector('.sb-check').textContent = '✓'; }
+    });
+    // Update progress
+    var prog = document.getElementById('sb-progress');
+    if (prog) prog.textContent = 'Section ' + (idx + 1) + ' of ' + TOTAL;
+    // Scroll top
+    window.scrollTo(0, 0);
+    document.getElementById('lesson-content') && document.getElementById('lesson-content').scrollTo(0, 0);
+  }
+
+  // Expose globally for button onclick
+  window.lessonNav = function(delta) { showSection(current + delta); };
+  window.lessonGoto = function(idx) { showSection(idx); };
+  window.lessonCurrent = function() { return current; };
+
+  // Init on DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    showSection(current);
+  });
+})();
+
+// ── POPUP LOGIC ──
+var QUIZ_DATA = [
+  {
+    question: 'What is the key difference between a module and a part?',
+    options: [
+      'A module is larger than a part — modules are structural, parts are small.',
+      'A module is self-contained with a complete job and standardised interfaces; a part is just a component that contributes to a function.',
+      'A module can be 3D printed but a part must be purchased.',
+      'There is no difference — module and part are interchangeable engineering terms.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! A part is a component — a gear, a bracket, a wheel. A module is a complete functional unit: it has a clearly defined job, it can be built and tested independently, and it connects to the rest of the system through a standardised interface. The drivetrain is a module; a single wheel is a part.',
+    review: 'Review the reading block in Part 1. Focus on the definition of module and the five properties of modular design — especially functional independence and defined interfaces.'
+  },
+  {
+    question: 'The LEGO 42197 backhoe has both a front loader and a rear digger arm. What does having two completely different mechanisms on one chassis tell you about its design intent?',
+    options: [
+      'The designers made a mistake — a single purpose machine is always simpler and better.',
+      'The machine was designed to perform two distinct jobs, which is why it needed two separate functional modules sharing a common chassis.',
+      'The two mechanisms share the same motor so they are actually one module.',
+      'Having two mechanisms means it doesn\\\'t qualify as modular — modular machines have only one function.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! The front loader and rear digger serve completely different jobs — moving material vs. digging. Both attach to the same chassis, which acts as the integration layer. This is exactly what modular design enables: multiple independent functional modules sharing a common structural base.',
+    review: 'Review the backhoe introduction in Part 2. Think about what job each mechanism performs and what they share. This sets up the module card analysis you\'re about to do in Part 3.'
+  },
+  {
+    question: 'When completing a module card, you are asked to identify the module\'s \'interface to the rest of the system.\' What does this mean?',
+    options: [
+      'The colour and material of the parts where the module connects to the chassis.',
+      'The specific physical connection point — what attaches to what, and how force, motion, or signals transfer across that boundary.',
+      'The software command that tells the module to activate.',
+      'The total weight of the module, because heavier modules need stronger interfaces.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! An interface is the physical connection point where two modules exchange something — force, motion, power, or data. For the backhoe\'s digger arm, the interface is the pivot connection to the chassis where mechanical force transfers. Identifying interfaces is how engineers understand where the boundaries between modules actually are.',
+    review: 'Review the module card structure and the interface map table in Part 4. Focus on the three interface types: mechanical (force/motion), power (electrical), and data (signals/control).'
+  },
+  {
+    question: 'In an architecture diagram, what do the lines between the module boxes represent?',
+    options: [
+      'The physical distance between the modules on the machine.',
+      'The interfaces — labeled connections showing what type of exchange (mechanical, power, or data) occurs between each pair of modules.',
+      'The order in which the modules should be assembled.',
+      'Lines connecting modules that were built by the same team member.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! Lines in an architecture diagram are interfaces — each one must be labeled with its type (mechanical, power, or data). A diagram with unlabeled lines is incomplete: it shows that modules are connected but not how or what they exchange.',
+    review: 'Review the architecture diagram I Do section. Look at the teacher\'s example of how to label each connection line, and make sure your own diagram has labeled lines on every connection.'
+  },
+  {
+    question: 'The 42197 scores high on functional independence but low on replaceability. What does this most likely mean?',
+    options: [
+      'The modules each do their own complete job, but swapping one out requires modifying other parts of the machine.',
+      'The modules are independent but the machine is too complicated to reassemble after disassembly.',
+      'The front loader works independently but the rear digger depends on the front loader to function.',
+      'High independence means the machine doesn\\\'t need the chassis to hold it together.'
+    ],
+    correct: 0,
+    reinforcement: 'Correct! Functional independence means each module can do its job without the others. Low replaceability means the interfaces aren\'t standardised enough to swap modules without changes elsewhere. These two properties can exist independently — a module can have a clear job but still be hard to replace.',
+    review: 'Review the five modular design properties and the scoring table. Make sure you understand each property separately before connecting your score to the evidence from the backhoe.'
+  },
+  {
+    question: 'Your redesigned module must \'use the same interface as the original.\' Why is this constraint essential to the task?',
+    options: [
+      'It makes the redesign easier because you don\\\'t have to design the attachment point from scratch.',
+      'It ensures the redesigned module is actually interchangeable with the original — demonstrating replaceability, which is a core modular design property.',
+      'It is required by the LEGO building instructions and cannot be changed.',
+      'Interface compatibility is a safety requirement to prevent the module from falling off.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! Keeping the same interface is what makes replaceability real. If your new module uses a different attachment point, it\'s not actually replacing the original — it\'s a new design that happens to do a similar job. True modular design means a module can be swapped out without changing anything else in the system.',
+    review: 'Review the redesign constraints in Part 6 and the definition of replaceability from Part 1. The interface constraint isn\'t arbitrary — it\'s the engineering definition of what it means to replace rather than redesign.'
+  }
+];
+
+var _selectedOption = null;
+
+function checkAndAdvance() {{
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  if (qIdx >= QUIZ_DATA.length) {{ lessonNav(1); return; }}
+  _selectedOption = null;
+  showPopup(qIdx);
+}}
+
+function showPopup(idx) {{
+  var data = QUIZ_DATA[idx];
+  document.getElementById('popup-question').innerHTML = data.question;
+  var optDiv = document.getElementById('popup-options');
+  optDiv.innerHTML = '';
+  data.options.forEach(function(opt, i) {{
+    var btn = document.createElement('button');
+    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
+    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
+    btn.onclick = function() {{ selectOption(i, btn); }};
+    optDiv.appendChild(btn);
+  }});
+  document.getElementById('popup-feedback').style.display = 'none';
+  document.getElementById('popup-submit').style.display = 'inline-block';
+  document.getElementById('popup-continue').style.display = 'none';
+  document.getElementById('popup-review').style.display = 'none';
+  document.getElementById('popup-header').style.background = '#1a4f82';
+  document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '🎯';
+  document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Quick Check — Before You Continue';
+  var overlay = document.getElementById('check-overlay');
+  overlay.style.display = 'flex';
+  var modal = document.getElementById('check-modal');
+  modal.style.transform = 'scale(0.93)'; modal.style.opacity = '0';
+  modal.style.transition = 'transform .18s, opacity .18s';
+  requestAnimationFrame(function() {{
+    requestAnimationFrame(function() {{
+      modal.style.transform = 'scale(1)'; modal.style.opacity = '1';
+    }});
+  }});
+}}
+
+function selectOption(i, btn) {{
+  _selectedOption = i;
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b) {{
+    b.style.background = '#f7f6f3'; b.style.borderColor = '#d0d0cc'; b.style.color = '#222';
+    var c = b.querySelector('span'); if (c) {{ c.style.background = ''; c.style.borderColor = '#d0d0cc'; }}
+  }});
+  btn.style.background = '#e8f0f9'; btn.style.borderColor = '#1a4f82'; btn.style.color = '#1a4f82';
+  var c = btn.querySelector('span');
+  if (c) {{ c.style.background = '#1a4f82'; c.style.borderColor = '#1a4f82'; }}
+}}
+
+function submitAnswer() {{
+  if (_selectedOption === null) {{
+    var sb = document.getElementById('popup-submit');
+    sb.style.transform = 'translateX(-4px)';
+    setTimeout(function(){{ sb.style.transform = 'translateX(4px)'; }}, 80);
+    setTimeout(function(){{ sb.style.transform = ''; }}, 160);
+    return;
+  }}
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  var data = QUIZ_DATA[qIdx];
+  var correct = _selectedOption === data.correct;
+  var feedback = document.getElementById('popup-feedback');
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b, i) {{
+    b.style.pointerEvents = 'none';
+    if (i === data.correct) {{
+      b.style.background = '#e8f4ee'; b.style.borderColor = '#2d6a4f'; b.style.color = '#2d6a4f';
+      var c = b.querySelector('span'); if (c) {{ c.style.background = '#2d6a4f'; c.style.borderColor = '#2d6a4f'; }}
+    }} else if (i === _selectedOption && !correct) {{
+      b.style.background = '#fdf2f2'; b.style.borderColor = '#8b1a1a'; b.style.color = '#8b1a1a';
+      var c = b.querySelector('span'); if (c) {{ c.style.background = '#8b1a1a'; c.style.borderColor = '#8b1a1a'; }}
+    }}
+  }});
+  document.getElementById('popup-submit').style.display = 'none';
+  if (correct) {{
+    feedback.style.cssText = 'display:block;background:#e8f4ee;border:1.5px solid #2d6a4f;color:#1a3a1a;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
+    document.getElementById('popup-continue').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#2d6a4f';
+    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '✓';
+    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Correct — keep going!';
+  }} else {{
+    feedback.style.cssText = 'display:block;background:#fdf3e3;border:1.5px solid #c8860a;color:#3a2a00;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
+    document.getElementById('popup-review').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#7d4e00';
+    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '↩';
+    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Review before continuing';
+  }}
+}}
+
+function closePopupAndAdvance() {{
+  document.getElementById('check-overlay').style.display = 'none';
+  lessonNav(1);
+}}
+
+function closePopup() {{
+  document.getElementById('check-overlay').style.display = 'none';
+}}
+
+document.addEventListener('DOMContentLoaded', function() {{
+  document.getElementById('check-overlay').addEventListener('click', function(e) {{
+    if (e.target === this) closePopup();
+  }});
+}});
+
+</script>
+
+</head>
+<body>
+
+
+<!-- CHECK POPUP -->
+<div id="check-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+  <div id="check-modal" style="background:#fff; border-radius:10px; max-width:540px; width:100%; box-shadow:0 8px 40px rgba(0,0,0,0.25); overflow:hidden; font-family:\'Source Sans 3\',Arial,sans-serif;">
+    <div id="popup-header" style="background:#1a4f82; padding:14px 20px; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:16px;">🎯</span>
+      <span style="font-size:11pt; font-weight:700; color:#fff; letter-spacing:.02em;">Quick Check — Before You Continue</span>
+    </div>
+    <div style="padding:20px 22px 6px;">
+      <p id="popup-question" style="font-size:11.5pt; color:#111; line-height:1.6; margin-bottom:18px; font-weight:600;"></p>
+      <div id="popup-options" style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;"></div>
+      <div id="popup-feedback" style="display:none; border-radius:7px; padding:12px 16px; margin-bottom:14px; font-size:10.5pt; line-height:1.6;"></div>
+    </div>
+    <div id="popup-footer" style="padding:0 22px 18px; display:flex; gap:10px; justify-content:flex-end;">
+      <button id="popup-submit" onclick="submitAnswer()" style="background:#1a4f82; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Check Answer</button>
+      <button id="popup-continue" onclick="closePopupAndAdvance()" style="display:none; background:#2d6a4f; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Continue →</button>
+      <button id="popup-review" onclick="closePopup()" style="display:none; background:#fff; color:#7d4e00; border:1.5px solid #c8860a; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Review Section</button>
+    </div>
+  </div>
+</div>
+
+<aside id="lesson-sidebar">
+  <div class="sb-course">Unit 1 · Engineering Foundations</div>
+  <div class="sb-title">Modular Design Thinking</div>
+  <div class="sb-progress" id="sb-progress">Section 1 of 7</div>
+  <hr class="sb-divider">
+  
+    <div class="sb-item" onclick="lessonGoto(0)">
+      <span class="sb-icon">📖</span>
+      <span>Part 1 · Modular Design</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(1)">
+      <span class="sb-icon">🚜</span>
+      <span>Part 2 · Meet the Model</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(2)">
+      <span class="sb-icon">🏗️</span>
+      <span>Part 3 · Build & Document</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(3)">
+      <span class="sb-icon">🗺️</span>
+      <span>Part 4 · Architecture</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(4)">
+      <span class="sb-icon">✅</span>
+      <span>Part 5 · Evaluate</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(5)">
+      <span class="sb-icon">✏️</span>
+      <span>Part 6 · Redesign</span>
+      <span class="sb-check"></span>
+    </div>
+    <div class="sb-item" onclick="lessonGoto(6)">
+      <span class="sb-icon">📓</span>
+      <span>Part 7 · Notebook</span>
+      <span class="sb-check"></span>
+    </div>
+  <div class="sb-back-link"><a href="index.html">← Back to Unit 1</a></div>
+</aside>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
+  <h1>Modular Design Thinking</h1>
+  <div class="subtitle">Class 5 of 5 &nbsp;·&nbsp; 74 minutes &nbsp;·&nbsp; Activity: LEGO® Technic™ 42197 Backhoe Loader</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><span class="meta-value">_______________________</span></div>
+  </div>
+</div>
+
+<main id="lesson-content">
+  
+  <div class="lesson-section" id="section-0" style="display:none">
+    <div class="objectives-box">
+  <h3>Learning Objectives</h3>
+  <ol>
+    <li>Define <em>modular design</em> and identify the five properties that make a system truly modular.</li>
+    <li>Reverse-engineer the LEGO® Technic™ 42197 Backhoe Loader into its functional modules, documenting each module's job, inputs, outputs, and interfaces using orthographic sketches. <span class="review-badge">Reviews C3 sketching</span></li>
+    <li>Evaluate how well the Backhoe Loader's modular architecture serves its design objectives, using the purposeful design framework and design trade-off vocabulary from earlier classes. <span class="review-badge">Reviews C1 &amp; C3</span></li>
+    <li>Propose a redesign of one module using the EDP, producing three design sketches, a decision matrix, and a revision-tracked notebook entry. <span class="review-badge">Reviews C2, C3, C4</span></li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PART 1 — WHAT IS MODULAR DESIGN?
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 1 &nbsp;·&nbsp; What Is Modular Design? (12 min)</div>
+  <h2>Building in Sections — On Purpose</h2>
+
+  <div class="reading-block">
+    <p>A <span class="key-term">module</span> is a self-contained unit that has a clearly defined job, can be designed and built independently, and connects to the rest of the system through a standardized <span class="key-term">interface</span>. <span class="key-term">Modular design</span> is the deliberate choice to organize a system as a collection of modules rather than one unified mass.</p>
+    <p>A truly modular system has five properties: <strong>(1) Functional independence</strong> — each module does one job and does it fully. <strong>(2) Defined interfaces</strong> — the connection points between modules are standardized and documented. <strong>(3) Replaceability</strong> — you can swap one module for another without redesigning the whole system. <strong>(4) Testability</strong> — each module can be tested alone before being integrated. <strong>(5) Parallel development</strong> — different teams can build different modules at the same time because the interfaces are agreed upon in advance.</p>
+    <p>You have already seen modular design in the REV Robotics extrusion system: any REV bracket fits any REV extrusion at any point along its length. That standardized hole pattern is the <em>interface</em>. It means you can swap a motor mount without redesigning the frame. Today you will find the same principles in a LEGO® Technic™ set.</p>
+  </div>
+
+  <div class="review-callout"><strong>Class 1 connection:</strong> In purposeful design, every choice has a reason. Choosing to make something modular is itself an purposeful design decision — made for specific engineering reasons. Keep asking: <em>why modular here? what problem does it solve?</em></div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> In your own words, what is the difference between a <em>module</em> and just a <em>part</em> of a system?</p>
+  <textarea class="write-area" rows="3" placeholder="A module is different from just a part because... A part is just a component, whereas a module..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> List the five properties of a modular system and give a brief real-world example for each (not from robotics):</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:26%">Property</th><th>What it means</th><th style="width:32%">Real-world example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Functional independence</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Defined interfaces</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Replaceability</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Testability</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Parallel development</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Complete Q1 and fill in the "What it means" column only. Use the reading to help.</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Complete both columns. Examples should be from your own experience — not copied from the reading.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Complete all columns. For Q1, explain in 3–4 sentences using a counterexample: describe a system that is <em>not</em> modular and explain what property it's missing.</div>
+  </div>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" disabled>← Back</button>
+  <span class="nav-center">Section 1 of 7</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 2 · Meet the Model →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-1" style="display:none">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+     PART 2 — MEET THE BACKHOE LOADER
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 2 &nbsp;·&nbsp; Meet the Model: LEGO® Technic™ 42197 Backhoe Loader (5 min)</div>
+  <h2>A 104-Piece Engineering Case Study</h2>
+
+  <div class="reading-block">
+    <p>The LEGO® Technic™ 42197 Backhoe Loader is a 104-piece model of a real construction machine. Real backhoe loaders are used on building sites to dig trenches (with the rear arm) and to move and lift material (with the front bucket). The real machine must be able to do two very different jobs — which is why it has two distinctly different mechanisms attached to a common chassis.</p>
+    <p>The model includes four visible subsystems: a <strong>chassis and drivetrain</strong> (the frame, wheels, and axles that the machine rolls on); a <strong>front loader arm</strong> (a knob-operated arm with a bucket scoop that lifts and lowers); a <strong>rear digger arm</strong> (a multi-joint arm for digging); and <strong>outrigger stabilizers</strong> (two legs that fold out to the sides to prevent tipping when the digger is in use). Each of these is a candidate module.</p>
+  </div>
+
+  <!-- I DO — Teacher models the observation approach -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model how to observe a modular system as an engineer</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">Before I pick up any part, I ask:</span> "What is the machine supposed to do? A backhoe loader has two jobs — move material at the front, and dig at the rear. These two jobs are different enough that they need separate mechanisms. That tells me immediately that modularity was probably purposeful: the designers needed a way to work on the front mechanism without redesigning the rear one."</p>
+      <p><span class="think-prefix">I look for the interfaces first:</span> "Where does one part of the machine end and another begin? On this model, the front loader arm attaches to the chassis at a single pivot axle — one connection point. The rear digger arm attaches at a different single pivot on the opposite end. The outriggers fold on pivot pins at the sides. Each of these pivot points is an <em>interface</em>. The interface is always simpler than the module it connects — that's a sign of good modular design."</p>
+      <p><span class="think-prefix">I test functional independence:</span> "If I removed the front loader arm completely, would the rear digger still work? Yes — because the two arms share no mechanical linkage. Each has its own mechanism driven independently. That's functional independence in action."</p>
+      <p><span class="think-prefix">I look for replaceability signals:</span> "Could LEGO redesign the bucket shape without changing the chassis? Yes — the bucket attaches at the end of the arm with a standard pin. The chassis doesn't care what shape the bucket is. That's replaceability: the module boundary isolates each part from change in the others."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2A — First Observations: What do you see before you read the instructions?</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Before building or reading the instructions, examine the complete built model (or the box image). Record your initial observations of the four main subsystems. Use only what you can see — no guessing what's inside yet.</p>
+
+  <table class="analysis-table">
+    <thead><tr><th style="width:25%">Subsystem</th><th>What I observe it doing / can do</th><th style="width:30%">Where it connects to the rest of the machine</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Chassis &amp; drivetrain</strong> (frame + wheels)</td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Front loader arm</strong> (bucket + lift mechanism)</td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Rear digger arm</strong> (multi-joint arm)</td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Outrigger stabilizers</strong> (fold-out legs)</td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 1 · Modular Design</button>
+  <span class="nav-center">Section 2 of 7</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 3 · Build & Document →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-2" style="display:none">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+     PART 3 — BUILD & DOCUMENT: REVERSE ENGINEERING THE MODULES
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 3 &nbsp;·&nbsp; Build &amp; Document: Reverse Engineering the Modules (20 min)</div>
+  <h2>Follow the Instructions — But Think Like an Engineer</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:12px;">Build the 42197 following LEGO instructions. As you build, stop at each of the four module boundaries (your teacher will call these out) and complete the module card below before continuing. Each card requires an orthographic sketch of the module as a standalone unit. <span class="review-badge">Class 3 sketching skills</span></p>
+
+  <div class="review-callout"><strong>Class 3 reminder:</strong> Every sketch needs a title (module name), at least two orthographic views, at least 2 labeled dimensions, and your name and date. A revision box is not required here, but will be required in the notebook entry.</div>
+
+  <!-- MODULE 1 -->
+  <div class="module-card">
+    <div class="module-card-header">
+      <span class="mod-num">Module 1</span>
+      <span class="mod-name">Chassis &amp; Drivetrain</span>
+    </div>
+    <div class="module-card-body">
+      <p style="font-size:10pt; color:#1a3a5a; margin-bottom:10px;"><em>Complete after building the chassis frame, axles, and wheels — before adding any of the arms.</em></p>
+
+      <div class="two-col">
+        <div>
+          <div class="col-label">Front view (as built)</div>
+          <div class="view-box"><div class="view-inner v-tall">front view — label width, height, wheel diameter</div></div>
+        </div>
+        <div>
+          <div class="col-label">Side / top view (as built)</div>
+          <div class="view-box"><div class="view-inner v-tall">side or top view — label length, axle positions</div></div>
+        </div>
+      </div>
+
+      <div class="module-fields">
+        <div>
+          <div class="module-field-label">What this module does</div>
+          <textarea class="module-field-input" placeholder="This module provides... It allows the machine to..."></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Inputs (what it receives)</div>
+          <textarea class="module-field-input" placeholder="Force from... Motion from... Load from..."></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Outputs (what it produces)</div>
+          <textarea class="module-field-input" placeholder="Rolling motion... Support for... Attachment points for..."></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Interface connection points</div>
+          <textarea class="module-field-input" placeholder="Connects to other modules via: front pivot at... rear pivot at... side pins at..."></textarea>
+        </div>
+      </div>
+      <div class="module-field-label">Does this module show functional independence? Explain.</div>
+      <textarea class="module-field-input" placeholder="This module (can / cannot) function without the other modules because..."></textarea>
+    </div>
+  </div>
+
+  <!-- MODULE 2 -->
+  <div class="module-card">
+    <div class="module-card-header">
+      <span class="mod-num">Module 2</span>
+      <span class="mod-name">Front Loader Arm &amp; Bucket</span>
+    </div>
+    <div class="module-card-body">
+      <p style="font-size:10pt; color:#1a3a5a; margin-bottom:10px;"><em>Complete after building the front arm assembly and attaching it to the chassis — before building the rear digger.</em></p>
+
+      <div class="two-col">
+        <div>
+          <div class="col-label">Side view — arm lowered (rest position)</div>
+          <div class="view-box"><div class="view-inner v-tall">side view — arm down — label arm length, pivot point, bucket width</div></div>
+        </div>
+        <div>
+          <div class="col-label">Side view — arm raised (operating position)</div>
+          <div class="view-box"><div class="view-inner v-tall">side view — arm raised — label lift angle, knob position</div></div>
+        </div>
+      </div>
+
+      <div class="module-fields">
+        <div>
+          <div class="module-field-label">What this module does</div>
+          <textarea class="module-field-input" placeholder="This module lifts and lowers... It can scoop..."></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Input that drives this module</div>
+          <textarea class="module-field-input" placeholder="The knob rotation is converted to... via a... mechanism"></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Interface to the chassis</div>
+          <textarea class="module-field-input" placeholder="This module connects to the chassis at a single pivot axle located at... This means it can be removed by..."></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Replaceability assessment</div>
+          <textarea class="module-field-input" placeholder="Could a different bucket shape be attached here without changing the arm? Yes/No because..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 3 -->
+  <div class="module-card">
+    <div class="module-card-header">
+      <span class="mod-num">Module 3</span>
+      <span class="mod-name">Rear Digger Arm</span>
+    </div>
+    <div class="module-card-body">
+      <p style="font-size:10pt; color:#1a3a5a; margin-bottom:10px;"><em>Complete after building the rear digger arm assembly — before attaching outriggers.</em></p>
+
+      <div class="two-col">
+        <div>
+          <div class="col-label">Side view — arm stowed (travel position)</div>
+          <div class="view-box"><div class="view-inner v-tall">side view — arm folded — label folded height and width</div></div>
+        </div>
+        <div>
+          <div class="col-label">Side view — arm extended (digging position)</div>
+          <div class="view-box"><div class="view-inner v-tall">side view — arm out — label reach distance, joint positions</div></div>
+        </div>
+      </div>
+
+      <div class="module-fields">
+        <div>
+          <div class="module-field-label">What this module does</div>
+          <textarea class="module-field-input" placeholder="This module excavates... It moves in ___ degrees of freedom..."></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Number of joints / degrees of freedom</div>
+          <textarea class="module-field-input short" placeholder="Joints: ___ DoF: ___"></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Interface to the chassis</div>
+          <textarea class="module-field-input" placeholder="Connects at... pivot point at the rear of the chassis. Interface type: pin / axle / stud..."></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">How does this module differ from Module 2?</div>
+          <textarea class="module-field-input" placeholder="Unlike the front loader arm, the rear digger... This is because its job requires..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 4 -->
+  <div class="module-card">
+    <div class="module-card-header">
+      <span class="mod-num">Module 4</span>
+      <span class="mod-name">Outrigger Stabilizers</span>
+    </div>
+    <div class="module-card-body">
+      <p style="font-size:10pt; color:#1a3a5a; margin-bottom:10px;"><em>Complete after attaching the outrigger legs — final assembly step.</em></p>
+
+      <div class="two-col">
+        <div>
+          <div class="col-label">Front view — outriggers retracted (travel)</div>
+          <div class="view-box"><div class="view-inner v-medium">front view — retracted — label overall machine width</div></div>
+        </div>
+        <div>
+          <div class="col-label">Front view — outriggers deployed (working)</div>
+          <div class="view-box"><div class="view-inner v-medium">front view — deployed — label deployed width, ground contact</div></div>
+        </div>
+      </div>
+
+      <div class="module-fields">
+        <div>
+          <div class="module-field-label">What engineering problem do outriggers solve?</div>
+          <textarea class="module-field-input" placeholder="Without outriggers, the digger arm would cause... The outriggers prevent this by..."></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Why are they a separate module (not built into the chassis)?</div>
+          <textarea class="module-field-input" placeholder="Keeping outriggers as a separate module allows... If they were integrated, it would make..."></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Interface to the chassis</div>
+          <textarea class="module-field-input short" placeholder="Pivot pins located at... Number of attachment points: ___"></textarea>
+        </div>
+        <div>
+          <div class="module-field-label">Testability: could you test the chassis without the outriggers?</div>
+          <textarea class="module-field-input short" placeholder="Yes / No because..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 2 · Meet the Model</button>
+  <span class="nav-center">Section 3 of 7</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 4 · Architecture →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-3" style="display:none">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+     PART 4 — ARCHITECTURE DIAGRAM & INTERFACE MAP
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 4 &nbsp;·&nbsp; Architecture Diagram &amp; Interface Map (8 min)</div>
+  <h2>Mapping the Whole System</h2>
+
+  <p style="font-size:10pt; color:#555; margin-bottom:12px;">Now that you understand each module individually, map how they fit together as a system. The architecture diagram shows every module as a box and every interface as a labeled connection line. The interface map describes what physical mechanism creates each connection.</p>
+
+  <!-- I DO — Architecture diagram -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher draw and explain the system architecture diagram</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">How I draw a modular architecture diagram:</span> "I put the chassis in the center — it's the module everything else connects to. It's the hub of the system. Then I draw the other three modules branching off the chassis: front loader arm on one side, rear digger on the other, outriggers at the sides. Each connecting line gets a label: what type of interface is it? For the 42197, all three attachments are pin-and-axle connections — that's the LEGO equivalent of a standardized interface."</p>
+      <p><span class="think-prefix">What the diagram reveals:</span> "Notice that Module 2 (front loader) and Module 3 (rear digger) do NOT connect to each other — they both connect only to the chassis. This is important: no direct coupling between the two working arms. If they were connected to each other, a change in one would force a change in the other. The chassis acts as the <em>integration layer</em> — the thing that holds all the modules together without letting them depend on each other."</p>
+      <p><span class="think-prefix">Identifying interface types:</span> "Every interface has a type: mechanical (physical attachment — pin, axle, bracket), power (transmitting force or motion), data/signal (in electronic systems), or structural (load-bearing). On the 42197, all interfaces are mechanical. In your REV robotics robot, you'll have all four types."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 4A — Draw the complete architecture diagram for the 42197</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Draw all four modules as labeled boxes. Draw connecting lines between modules that interface with each other. Label each line with: (a) interface type (mechanical / power / structural) and (b) the physical connection mechanism (pin, axle, stud, etc.).</p>
+
+  <div class="sketch-box xl">architecture diagram — draw all 4 modules as labeled boxes connected by labeled interface lines &nbsp;·&nbsp; chassis should be the central hub</div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Interface map:</p>
+  <table class="interface-table">
+    <thead><tr><th style="width:22%">From module</th><th style="width:22%">To module</th><th style="width:20%">Interface type</th><th>Physical mechanism (how it connects)</th></tr></thead>
+    <tbody>
+      <tr><td>Front Loader Arm</td><td>Chassis</td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Rear Digger Arm</td><td>Chassis</td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Outrigger Stabilizers</td><td>Chassis</td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Why does the chassis connect to all three attachment modules, but the three attachment modules don't connect to each other? What engineering benefit does this create?</p>
+  <textarea class="write-area" rows="3" placeholder="The chassis acts as the integration layer because... If the front loader and rear digger connected to each other directly, it would mean that..."></textarea>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Draw the architecture diagram with 4 labeled boxes and 3 connecting lines. Fill in the interface type column using "mechanical," "power," or "structural."</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Complete the full interface map. For Q1, give a specific example of what would go wrong if two modules were tightly coupled.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Add a fifth row to the interface map for the knob-to-arm power transmission (how the knob transfers motion to the front arm). For Q1, explain the concept of "coupling" and its cost.</div>
+  </div>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 3 · Build & Document</button>
+  <span class="nav-center">Section 4 of 7</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 5 · Evaluate →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-4" style="display:none">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+     PART 5 — EVALUATE: DOES IT PASS THE MODULAR DESIGN TEST?
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 5 &nbsp;·&nbsp; Evaluate: Does the 42197 Pass the Modular Design Test? (8 min)</div>
+  <h2>Purposeful Design Meets Modular Thinking</h2>
+
+  <div class="review-callout"><strong>Class 1 connection — purposeful design:</strong> Every design choice has a reason. Now apply that lens to the 42197's modularity. For each module property, ask: did the designers intend this, or is it a side effect?</div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 5A — Score the 42197 against the five modular design properties</span>
+  </div>
+
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Rate the 42197 on each modular design property using evidence from your module cards. Score: 3 = strong, 2 = partial, 1 = weak. Justify each score with a specific observation.</p>
+
+  <table class="analysis-table">
+    <thead><tr><th style="width:26%">Property</th><th style="width:10%">Score (1–3)</th><th>Evidence from the 42197 that supports this score</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Functional independence</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Defined interfaces</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Replaceability</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Testability</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Parallel development</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-weight:600;">Total &nbsp; <span style="font-weight:400; font-size:9pt;">(max 15)</span></td><td class="write-cell"></td><td style="font-size:9.5pt; color:#888; font-style:italic;">12–15 = strongly modular &nbsp;·&nbsp; 8–11 = moderately modular &nbsp;·&nbsp; below 8 = limited modularity</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> The 42197 is designed as a toy priced at $9.99. How does the design context (low cost, entry-level, age 7+) affect the modularity decisions? Name one property that was likely purposefully limited because of cost or audience.</p>
+  <textarea class="write-area" rows="3" placeholder="The design context likely led the engineers to limit... because at $9.99 they couldn't afford to... A more expensive set like the full-size Technic backhoe would instead..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Name one benefit and one cost of the modular design approach used in the 42197. Use the trade-off vocabulary from Class 3.</p>
+  <textarea class="write-area" rows="3" placeholder="One benefit of this modular design is... The trade-off is that... This design trades [X] for [Y], which makes sense because..."></textarea>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 4 · Architecture</button>
+  <span class="nav-center">Section 5 of 7</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 6 · Redesign →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-5" style="display:none">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+     PART 6 — REDESIGN ONE MODULE: FULL EDP WITH SKETCHING
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 6 &nbsp;·&nbsp; Redesign One Module (15 min) &nbsp;·&nbsp; EDP + Sketching Practice</div>
+  <h2>Your Turn to Improve the System</h2>
+
+  <div class="reading-block">
+    <p>You will choose one module from the 42197 and propose an improved redesign. The constraint: your redesign must use the same interface as the original — it must connect to the chassis at the same attachment point. The module's function must remain the same or be improved. You may change the mechanism, shape, size, or operation method.</p>
+    <p>You will apply the full EDP (Class 2): <strong>Define</strong> what problem with the original module you're solving → <strong>Research</strong> what you know that could solve it → <strong>Ideate</strong> three sketched alternatives → <strong>Select</strong> one using a decision matrix → <strong>Document</strong> with a notebook-quality entry including a revision box.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>My chosen module for redesign:</strong> <span style="border-bottom:1px solid #aaa; display:inline-block; min-width:200px;">&nbsp;</span></p>
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Problem I'm solving</strong> (what specific limitation of the original module will my design improve?):</p>
+  <textarea class="write-area" rows="3" placeholder="The current [module name] has a limitation: it cannot... / it requires... / it is weak at... My redesign will improve this by..."></textarea>
+
+  <!-- I DO — Redesign ideation -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model redesigning the front bucket using three design sketches</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">My identified problem:</span> "The front bucket on the 42197 is flat-bottomed and quite shallow. This means it can push material but can't scoop and hold it — it spills out easily. My redesign goal: a bucket that retains material better without changing the attachment interface."</p>
+      <p><span class="think-prefix">Design R1 — Deeper curved bucket:</span> Top view shows same width, but side profile shows a curved interior with raised rear wall. The curved shape creates a pocket that holds material. Predicted advantage: holds material far better. Predicted weakness: deeper bucket increases weight at the end of the arm, which adds load on the pivot — may require a stiffer arm linkage.</p>
+      <p><span class="think-prefix">Design R2 — Hinged clamshell bucket:</span> Two half-buckets that close like jaws. A gear mechanism at the pivot opens and closes them. Advantage: can grab and hold discrete objects. Weakness: requires an additional gear linkage connected to a second knob — adds complexity and weight.</p>
+      <p><span class="think-prefix">Design R3 — Wider shallow bucket with side wings:</span> Same depth as original but 30% wider with curved side walls to prevent side spillage. Top view shows a U-shape rather than a rectangle. Advantage: easy to build, minimal weight increase, no mechanism change needed. Weakness: wider bucket reduces clearance and makes the machine harder to operate in narrow spaces.</p>
+      <p><span class="think-prefix">My decision matrix scores:</span> "R1: material retention=3, weight impact=2, complexity=3, interface compatibility=3. Total=11. R3: 2, 3, 3, 3. Total=11. R2: 3, 1, 1, 2. Total=7. Tie between R1 and R3. I choose R3 because complexity=3 matters most — this is an entry-level set, and I want to keep the mechanism simple."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 6A — Three redesign sketches for your chosen module</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">Produce three orthographic sketches of different redesign approaches. Each sketch: at least one view (top or side), labeled key dimensions, predicted advantage, predicted weakness. Interface point must be unchanged.</p>
+
+  <div class="three-col">
+    <div>
+      <div class="col-label">Redesign R1</div>
+      <div class="view-box"><div class="view-inner v-tall">top or side view — label key features and dimensions</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Mechanism / approach:</p>
+      <textarea class="write-area" rows="2" style="min-height:34px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:34px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:34px;"></textarea>
+    </div>
+    <div>
+      <div class="col-label">Redesign R2</div>
+      <div class="view-box"><div class="view-inner v-tall">top or side view — label key features and dimensions</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Mechanism / approach:</p>
+      <textarea class="write-area" rows="2" style="min-height:34px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:34px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:34px;"></textarea>
+    </div>
+    <div>
+      <div class="col-label">Redesign R3</div>
+      <div class="view-box"><div class="view-inner v-tall">top or side view — label key features and dimensions</div></div>
+      <p style="font-size:8.5pt; color:#888; margin-bottom:2px;">Mechanism / approach:</p>
+      <textarea class="write-area" rows="2" style="min-height:34px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--green); margin-bottom:2px;">Advantage:</p>
+      <textarea class="write-area" rows="2" style="min-height:34px; margin-bottom:4px;"></textarea>
+      <p style="font-size:8.5pt; font-weight:700; color:var(--red); margin-bottom:2px;">Weakness:</p>
+      <textarea class="write-area" rows="2" style="min-height:34px;"></textarea>
+    </div>
+  </div>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Decision matrix — rate each redesign 1–3 (1=poor, 3=good):</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr><th style="width:36%">Criterion</th><th>R1</th><th>R2</th><th>R3</th></tr></thead>
+    <tbody>
+      <tr><td>Improvement over the original module</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Interface compatibility (same connection point)</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Build simplicity / realistic with LEGO parts</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Weight / effect on the arm's performance</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td style="font-weight:600;">Total</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Selected redesign: R___ &nbsp;&nbsp; Reason:</strong></p>
+  <textarea class="write-area" rows="3" placeholder="I chose R__ because my decision matrix shows... The most important criterion for this module is... This is more important than [lower-scoring criterion] because..."></textarea>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 5 · Evaluate</button>
+  <span class="nav-center">Section 6 of 7</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 7 · Notebook →</button>
+</div>
+  </div>
+  <div class="lesson-section" id="section-6" style="display:none">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+     PART 7 — NOTEBOOK ENTRY & CONNECTING ALL FOUR CLASSES
+     ═══════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 7 &nbsp;·&nbsp; Notebook Entry &amp; Synthesis Reflection (6 min)</div>
+  <h2>Document, Reflect, and Connect</h2>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry Requirements</div>
+    <p>Transfer your selected redesign sketch into your engineering notebook as a formal engineering drawing. Required elements: (1) module name as title, (2) at least two orthographic views with labeled dimensions, (3) complete title block (designer, date, scale), (4) revision box with Rev 1 = original module described, Rev 2 = your redesign. Then write 2–3 sentences below the sketch explaining: what modular design principle your redesign preserves, what problem it solves, and what trade-off it accepts.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Today you reverse-engineered a real product as an engineer. How did understanding the <em>modules</em> change how you thought about the machine compared to just seeing it as a whole?</p>
+  <textarea class="write-area" rows="4" placeholder="Before seeing the modules, I thought of the backhoe as... After identifying each module, I understood that... The most surprising thing I discovered was..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Connect modular design to your future REV robotics robot. Name two robot subsystems that should be separate modules and explain why — using the five modular design properties as your framework.</p>
+  <textarea class="write-area" rows="4" placeholder="In a REV robot, the [subsystem 1] and [subsystem 2] should be separate modules because... Keeping them separate means... If they were combined into one structure it would mean that..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Self-assessment:</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:62%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr></thead>
+    <tbody>
+      <tr><td>I can define modular design and name its five properties</td><td></td><td></td><td></td></tr>
+      <tr><td>I can identify the modules and interfaces in the 42197 and document each with a sketch</td><td></td><td></td><td></td></tr>
+      <tr><td>I can evaluate a design's modularity using a scoring rubric with evidence</td><td></td><td></td><td></td></tr>
+      <tr><td>I can sketch three alternative redesigns using orthographic views and a decision matrix</td><td></td><td></td><td></td></tr>
+      <tr><td>I can connect modular design to purposeful design (C1), EDP (C2), and sketching (C3)</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension / Exploration</div>
+    <p>Research how NASA designs spacecraft for modularity — specifically the International Space Station, where modules have been added, replaced, and repaired while in orbit. Find one real example of a module swap or addition on the ISS. Write a 1-page comparison in your notebook: how is ISS modularity similar to the 42197's modularity? How is it different? What drives the differences? Pay particular attention to the <em>interface</em> designs — how do ISS modules connect, and why does that interface design matter so much when you can't easily revise it later?</p>
+  </div>
+</div>
+    
+<div class="section-nav">
+  <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 6 · Redesign</button>
+  <span class="nav-center">Section 7 of 7</span>
+  <button class="nav-btn" onclick="checkAndAdvance()" disabled>Finish →</button>
+</div>
+  </div>
+</main>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 1, Class 5</span>
+  <span>Modular Design Thinking &nbsp;·&nbsp; LEGO® Technic™ 42197 Backhoe Loader</span>
+  <span>Page 1 of 1</span>
+</div>
+
+
+
+
+</body>
+</html>
