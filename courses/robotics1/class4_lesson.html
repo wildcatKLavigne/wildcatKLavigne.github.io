@@ -360,6 +360,201 @@ body {
     showSection(current);
   });
 })();
+
+// ── POPUP LOGIC ──
+var QUIZ_DATA = [
+  {
+    question: 'Why must you set the weights in a weighted decision matrix BEFORE sketching your designs?',
+    options: [
+      'Because the weights affect how long each sketch takes to complete.',
+      'To prevent your knowledge of the designs from unconsciously biasing which criteria you make important.',
+      'Because the rubric requires weights to be submitted with the sketches.',
+      'Setting weights first makes the maths easier when calculating the final scores.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! If you set weights after you\'ve already designed, your brain will unconsciously inflate the importance of criteria your favourite design happens to score well on. Setting weights first forces you to define what matters most before any design bias exists.',
+    review: 'Review the weighted decision matrix section. The key rule is explicit: assign weights before you sketch — they are non-negotiable once set.'
+  },
+  {
+    question: 'A student wants to use a servo to spin a wheel continuously so the robot can drive. Is this the right component for that job?',
+    options: [
+      'Yes — servos can spin continuously if commanded to position 270°.',
+      'No — a servo moves to a specific angle and holds it; continuous spinning requires a DC motor.',
+      'Yes — the REV Smart Robot Servo has a special continuous rotation mode built in.',
+      'No — servos can only move in one direction, so driving would only work in reverse.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! A servo is designed to move to a specific angle and hold position — it\'s ideal for a claw (open/close) or an arm (move to angle and hold). Continuous spinning for driving requires a DC motor. Using the wrong actuator type is a common design mistake.',
+    review: 'Review the servo introduction in Part 2. Focus on the key difference: servo = position control (specific angle, holds), DC motor = speed control (spins continuously).'
+  },
+  {
+    question: 'In the servo arm experiment, doubling the arm length from 3 cm to 6 cm caused the weight held before stalling to:',
+    options: [
+      'Double — a longer arm multiplies the servo\\\'s force.',
+      'Stay the same — arm length doesn\\\'t affect holding force.',
+      'Decrease — a longer arm means less force at the tip for the same servo torque.',
+      'Increase by a fixed amount regardless of length.'
+    ],
+    correct: 2,
+    reinforcement: 'Correct! This is torque in action: force × distance = a constant (the servo\'s stall torque). So force = torque ÷ distance. When distance increases, force decreases. A shorter arm puts more force at the tip; a longer arm gives you more reach but less grip force.',
+    review: 'Review your experiment data table and the key term callout at the end of Experiment A. The rule you wrote in your own words about arm length and force is the key concept.'
+  },
+  {
+    question: 'When closing a single-pivot claw, the fingers arc through a curve. When closing a 4-bar linkage claw, the fingers stay roughly parallel. Why does this matter for gripping a foam cube?',
+    options: [
+      'It doesn\\\'t matter — both designs grip the cube as long as the servo has enough torque.',
+      'Parallel fingers distribute gripping force evenly across the cube\\\'s face; arcing fingers only contact at two points.',
+      'The 4-bar linkage is always stronger because it has more parts.',
+      'Parallel motion means the servo needs to rotate further to close the claw.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! When fingers stay parallel, they make full-face contact with the cube\'s flat sides, distributing grip force evenly. When fingers arc, they meet the cube at a point or edge, concentrating force and making the grip less secure — especially if the cube is smooth.',
+    review: 'Review your linkage experiment observations and the key term callout. Focus on what \'parallel motion\' means for contact area, and why that matters when gripping an object with flat faces.'
+  },
+  {
+    question: 'The claw design brief says it must pick up a 10 cm foam cube. A student designs a claw that grips objects up to 8 cm wide. This design:',
+    options: [
+      'Meets the requirement — 8 cm is close enough to 10 cm for a prototype.',
+      'Fails the constraint — the opening width is insufficient to fit around the 10 cm cube.',
+      'Exceeds the requirement — smaller grip width means more precision.',
+      'Meets the requirement only if the cube is compressed slightly during gripping.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! This is a constraint failure — the design cannot perform its required function. A claw with an 8 cm maximum opening cannot fit around a 10 cm cube. Constraints are non-negotiable: a design that fails a constraint is not a valid solution, regardless of how well it scores on other criteria.',
+    review: 'Review the Define section and the claw requirements. The opening width constraint is explicit — re-read it and make sure your own design sketches satisfy it before moving on.'
+  },
+  {
+    question: 'After completing the weighted matrix, a student ignores the highest-scoring design and chooses a different one because they prefer it. What is wrong with this?',
+    options: [
+      'Nothing — personal preference is a valid engineering criterion.',
+      'It undermines the purpose of the matrix: to make decisions based on pre-set priorities rather than post-design bias.',
+      'The student should add their preference as a new criterion and re-score all designs.',
+      'Nothing, as long as the chosen design still scores above 50% of the maximum possible.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! The point of the weighted matrix is to externalise the decision — to make it based on criteria you agreed were important before you saw the designs. Overriding the result because of preference introduces exactly the bias the matrix was designed to prevent.',
+    review: 'Review the weighted matrix section and the note about weights being non-negotiable. Think about what would happen to every design process if engineers could simply override their own evaluation criteria.'
+  },
+  {
+    question: 'A student\'s final claw drawing has three views and labeled dimensions but no title block or revision box. What is the problem?',
+    options: [
+      'The drawing cannot be used to build the claw — it is missing traceability and change history.',
+      'The drawing needs colour coding to be a proper engineering document.',
+      'Three views is too many — a final drawing only needs front and top view.',
+      'Dimensions without a title block are still valid as long as units are included.'
+    ],
+    correct: 0,
+    reinforcement: 'Correct! Without a title block, the drawing can\'t be traced back to who made it, when, or at what scale. Without a revision box, there\'s no record of how the design evolved. These aren\'t formatting niceties — they\'re what make an engineering drawing a usable, verifiable document.',
+    review: 'Review the final drawing requirements in Part 7 and the Class 3 documentation standards. Every required element has a specific reason — re-read what the title block and revision box each provide.'
+  }
+];
+
+var _selectedOption = null;
+
+function checkAndAdvance() {{
+  var qIdx = typeof current !== 'undefined' ? current : 0;
+  if (qIdx >= QUIZ_DATA.length) {{ lessonNav(1); return; }}
+  _selectedOption = null;
+  showPopup(qIdx);
+}}
+
+function showPopup(idx) {{
+  var data = QUIZ_DATA[idx];
+  document.getElementById('popup-question').innerHTML = data.question;
+  var optDiv = document.getElementById('popup-options');
+  optDiv.innerHTML = '';
+  data.options.forEach(function(opt, i) {{
+    var btn = document.createElement('button');
+    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
+    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
+    btn.onclick = function() {{ selectOption(i, btn); }};
+    optDiv.appendChild(btn);
+  }});
+  document.getElementById('popup-feedback').style.display = 'none';
+  document.getElementById('popup-submit').style.display = 'inline-block';
+  document.getElementById('popup-continue').style.display = 'none';
+  document.getElementById('popup-review').style.display = 'none';
+  document.getElementById('popup-header').style.background = '#1a4f82';
+  document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '🎯';
+  document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Quick Check — Before You Continue';
+  var overlay = document.getElementById('check-overlay');
+  overlay.style.display = 'flex';
+  var modal = document.getElementById('check-modal');
+  modal.style.transform = 'scale(0.93)'; modal.style.opacity = '0';
+  modal.style.transition = 'transform .18s, opacity .18s';
+  requestAnimationFrame(function() {{
+    requestAnimationFrame(function() {{
+      modal.style.transform = 'scale(1)'; modal.style.opacity = '1';
+    }});
+  }});
+}}
+
+function selectOption(i, btn) {{
+  _selectedOption = i;
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b) {{
+    b.style.background = '#f7f6f3'; b.style.borderColor = '#d0d0cc'; b.style.color = '#222';
+    var c = b.querySelector('span'); if (c) {{ c.style.background = ''; c.style.borderColor = '#d0d0cc'; }}
+  }});
+  btn.style.background = '#e8f0f9'; btn.style.borderColor = '#1a4f82'; btn.style.color = '#1a4f82';
+  var c = btn.querySelector('span');
+  if (c) {{ c.style.background = '#1a4f82'; c.style.borderColor = '#1a4f82'; }}
+}}
+
+function submitAnswer() {{
+  if (_selectedOption === null) {{
+    var sb = document.getElementById('popup-submit');
+    sb.style.transform = 'translateX(-4px)';
+    setTimeout(function(){{ sb.style.transform = 'translateX(4px)'; }}, 80);
+    setTimeout(function(){{ sb.style.transform = ''; }}, 160);
+    return;
+  }}
+  var qIdx = typeof current !== 'undefined' ? current : 0;
+  var data = QUIZ_DATA[qIdx];
+  var correct = _selectedOption === data.correct;
+  var feedback = document.getElementById('popup-feedback');
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b, i) {{
+    b.style.pointerEvents = 'none';
+    if (i === data.correct) {{
+      b.style.background = '#e8f4ee'; b.style.borderColor = '#2d6a4f'; b.style.color = '#2d6a4f';
+      var c = b.querySelector('span'); if (c) {{ c.style.background = '#2d6a4f'; c.style.borderColor = '#2d6a4f'; }}
+    }} else if (i === _selectedOption && !correct) {{
+      b.style.background = '#fdf2f2'; b.style.borderColor = '#8b1a1a'; b.style.color = '#8b1a1a';
+      var c = b.querySelector('span'); if (c) {{ c.style.background = '#8b1a1a'; c.style.borderColor = '#8b1a1a'; }}
+    }}
+  }});
+  document.getElementById('popup-submit').style.display = 'none';
+  if (correct) {{
+    feedback.style.cssText = 'display:block;background:#e8f4ee;border:1.5px solid #2d6a4f;color:#1a3a1a;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
+    document.getElementById('popup-continue').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#2d6a4f';
+    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '✓';
+    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Correct — keep going!';
+  }} else {{
+    feedback.style.cssText = 'display:block;background:#fdf3e3;border:1.5px solid #c8860a;color:#3a2a00;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
+    document.getElementById('popup-review').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#7d4e00';
+    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '↩';
+    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Review before continuing';
+  }}
+}}
+
+function closePopupAndAdvance() {{
+  document.getElementById('check-overlay').style.display = 'none';
+  lessonNav(1);
+}}
+
+function closePopup() {{
+  document.getElementById('check-overlay').style.display = 'none';
+}}
+
+document.addEventListener('DOMContentLoaded', function() {{
+  document.getElementById('check-overlay').addEventListener('click', function(e) {{
+    if (e.target === this) closePopup();
+  }});
+}});
+
 </script>
 
 </head>
@@ -507,7 +702,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" disabled>← Back</button>
   <span class="nav-center">Section 1 of 8</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 2 · Servo →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 2 · Servo →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-1">
@@ -587,7 +782,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 1 · Decision Matrix</button>
   <span class="nav-center">Section 2 of 8</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Experiment A · Force →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Experiment A · Force →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-2">
@@ -684,7 +879,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 2 · Servo</button>
   <span class="nav-center">Section 3 of 8</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Experiment B · Linkage →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Experiment B · Linkage →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-3">
@@ -721,7 +916,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Experiment A · Force</button>
   <span class="nav-center">Section 4 of 8</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 3 · Define →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 3 · Define →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-4">
@@ -841,7 +1036,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Experiment B · Linkage</button>
   <span class="nav-center">Section 5 of 8</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 4 · Weights →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 4 · Weights →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-5">
@@ -893,7 +1088,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 3 · Define</button>
   <span class="nav-center">Section 6 of 8</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 5 · Ideate →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 5 · Ideate →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-6">
@@ -985,7 +1180,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 4 · Weights</button>
   <span class="nav-center">Section 7 of 8</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 6 · Evaluate →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 6 · Evaluate →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-7">
@@ -1042,7 +1237,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 5 · Ideate</button>
   <span class="nav-center">Section 8 of 8</span>
-  <button class="nav-btn" onclick="lessonNav(1)" disabled>Finish →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" disabled>Finish →</button>
 </div>
   </div>
 </main>
@@ -1054,6 +1249,27 @@ body {
 </div>
 
 
+
+
+<!-- CHECK POPUP -->
+<div id="check-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+  <div id="check-modal" style="background:#fff; border-radius:10px; max-width:540px; width:100%; box-shadow:0 8px 40px rgba(0,0,0,0.25); overflow:hidden; font-family:\'Source Sans 3\',Arial,sans-serif;">
+    <div id="popup-header" style="background:#1a4f82; padding:14px 20px; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:16px;">🎯</span>
+      <span style="font-size:11pt; font-weight:700; color:#fff; letter-spacing:.02em;">Quick Check — Before You Continue</span>
+    </div>
+    <div style="padding:20px 22px 6px;">
+      <p id="popup-question" style="font-size:11.5pt; color:#111; line-height:1.6; margin-bottom:18px; font-weight:600;"></p>
+      <div id="popup-options" style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;"></div>
+      <div id="popup-feedback" style="display:none; border-radius:7px; padding:12px 16px; margin-bottom:14px; font-size:10.5pt; line-height:1.6;"></div>
+    </div>
+    <div id="popup-footer" style="padding:0 22px 18px; display:flex; gap:10px; justify-content:flex-end;">
+      <button id="popup-submit" onclick="submitAnswer()" style="background:#1a4f82; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Check Answer</button>
+      <button id="popup-continue" onclick="closePopupAndAdvance()" style="display:none; background:#2d6a4f; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Continue →</button>
+      <button id="popup-review" onclick="closePopup()" style="display:none; background:#fff; color:#7d4e00; border:1.5px solid #c8860a; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Review Section</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

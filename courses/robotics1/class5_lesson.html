@@ -359,6 +359,189 @@ body {
     showSection(current);
   });
 })();
+
+// ── POPUP LOGIC ──
+var QUIZ_DATA = [
+  {
+    question: 'What is the key difference between a module and a part?',
+    options: [
+      'A module is larger than a part — modules are structural, parts are small.',
+      'A module is self-contained with a complete job and standardised interfaces; a part is just a component that contributes to a function.',
+      'A module can be 3D printed but a part must be purchased.',
+      'There is no difference — module and part are interchangeable engineering terms.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! A part is a component — a gear, a bracket, a wheel. A module is a complete functional unit: it has a clearly defined job, it can be built and tested independently, and it connects to the rest of the system through a standardised interface. The drivetrain is a module; a single wheel is a part.',
+    review: 'Review the reading block in Part 1. Focus on the definition of module and the five properties of modular design — especially functional independence and defined interfaces.'
+  },
+  {
+    question: 'The LEGO 42197 backhoe has both a front loader and a rear digger arm. What does having two completely different mechanisms on one chassis tell you about its design intent?',
+    options: [
+      'The designers made a mistake — a single purpose machine is always simpler and better.',
+      'The machine was designed to perform two distinct jobs, which is why it needed two separate functional modules sharing a common chassis.',
+      'The two mechanisms share the same motor so they are actually one module.',
+      'Having two mechanisms means it doesn\\\'t qualify as modular — modular machines have only one function.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! The front loader and rear digger serve completely different jobs — moving material vs. digging. Both attach to the same chassis, which acts as the integration layer. This is exactly what modular design enables: multiple independent functional modules sharing a common structural base.',
+    review: 'Review the backhoe introduction in Part 2. Think about what job each mechanism performs and what they share. This sets up the module card analysis you\'re about to do in Part 3.'
+  },
+  {
+    question: 'When completing a module card, you are asked to identify the module\'s \'interface to the rest of the system.\' What does this mean?',
+    options: [
+      'The colour and material of the parts where the module connects to the chassis.',
+      'The specific physical connection point — what attaches to what, and how force, motion, or signals transfer across that boundary.',
+      'The software command that tells the module to activate.',
+      'The total weight of the module, because heavier modules need stronger interfaces.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! An interface is the physical connection point where two modules exchange something — force, motion, power, or data. For the backhoe\'s digger arm, the interface is the pivot connection to the chassis where mechanical force transfers. Identifying interfaces is how engineers understand where the boundaries between modules actually are.',
+    review: 'Review the module card structure and the interface map table in Part 4. Focus on the three interface types: mechanical (force/motion), power (electrical), and data (signals/control).'
+  },
+  {
+    question: 'In an architecture diagram, what do the lines between the module boxes represent?',
+    options: [
+      'The physical distance between the modules on the machine.',
+      'The interfaces — labeled connections showing what type of exchange (mechanical, power, or data) occurs between each pair of modules.',
+      'The order in which the modules should be assembled.',
+      'Lines connecting modules that were built by the same team member.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! Lines in an architecture diagram are interfaces — each one must be labeled with its type (mechanical, power, or data). A diagram with unlabeled lines is incomplete: it shows that modules are connected but not how or what they exchange.',
+    review: 'Review the architecture diagram I Do section. Look at the teacher\'s example of how to label each connection line, and make sure your own diagram has labeled lines on every connection.'
+  },
+  {
+    question: 'The 42197 scores high on functional independence but low on replaceability. What does this most likely mean?',
+    options: [
+      'The modules each do their own complete job, but swapping one out requires modifying other parts of the machine.',
+      'The modules are independent but the machine is too complicated to reassemble after disassembly.',
+      'The front loader works independently but the rear digger depends on the front loader to function.',
+      'High independence means the machine doesn\\\'t need the chassis to hold it together.'
+    ],
+    correct: 0,
+    reinforcement: 'Correct! Functional independence means each module can do its job without the others. Low replaceability means the interfaces aren\'t standardised enough to swap modules without changes elsewhere. These two properties can exist independently — a module can have a clear job but still be hard to replace.',
+    review: 'Review the five modular design properties and the scoring table. Make sure you understand each property separately before connecting your score to the evidence from the backhoe.'
+  },
+  {
+    question: 'Your redesigned module must \'use the same interface as the original.\' Why is this constraint essential to the task?',
+    options: [
+      'It makes the redesign easier because you don\\\'t have to design the attachment point from scratch.',
+      'It ensures the redesigned module is actually interchangeable with the original — demonstrating replaceability, which is a core modular design property.',
+      'It is required by the LEGO building instructions and cannot be changed.',
+      'Interface compatibility is a safety requirement to prevent the module from falling off.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! Keeping the same interface is what makes replaceability real. If your new module uses a different attachment point, it\'s not actually replacing the original — it\'s a new design that happens to do a similar job. True modular design means a module can be swapped out without changing anything else in the system.',
+    review: 'Review the redesign constraints in Part 6 and the definition of replaceability from Part 1. The interface constraint isn\'t arbitrary — it\'s the engineering definition of what it means to replace rather than redesign.'
+  }
+];
+
+var _selectedOption = null;
+
+function checkAndAdvance() {{
+  var qIdx = typeof current !== 'undefined' ? current : 0;
+  if (qIdx >= QUIZ_DATA.length) {{ lessonNav(1); return; }}
+  _selectedOption = null;
+  showPopup(qIdx);
+}}
+
+function showPopup(idx) {{
+  var data = QUIZ_DATA[idx];
+  document.getElementById('popup-question').innerHTML = data.question;
+  var optDiv = document.getElementById('popup-options');
+  optDiv.innerHTML = '';
+  data.options.forEach(function(opt, i) {{
+    var btn = document.createElement('button');
+    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
+    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
+    btn.onclick = function() {{ selectOption(i, btn); }};
+    optDiv.appendChild(btn);
+  }});
+  document.getElementById('popup-feedback').style.display = 'none';
+  document.getElementById('popup-submit').style.display = 'inline-block';
+  document.getElementById('popup-continue').style.display = 'none';
+  document.getElementById('popup-review').style.display = 'none';
+  document.getElementById('popup-header').style.background = '#1a4f82';
+  document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '🎯';
+  document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Quick Check — Before You Continue';
+  var overlay = document.getElementById('check-overlay');
+  overlay.style.display = 'flex';
+  var modal = document.getElementById('check-modal');
+  modal.style.transform = 'scale(0.93)'; modal.style.opacity = '0';
+  modal.style.transition = 'transform .18s, opacity .18s';
+  requestAnimationFrame(function() {{
+    requestAnimationFrame(function() {{
+      modal.style.transform = 'scale(1)'; modal.style.opacity = '1';
+    }});
+  }});
+}}
+
+function selectOption(i, btn) {{
+  _selectedOption = i;
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b) {{
+    b.style.background = '#f7f6f3'; b.style.borderColor = '#d0d0cc'; b.style.color = '#222';
+    var c = b.querySelector('span'); if (c) {{ c.style.background = ''; c.style.borderColor = '#d0d0cc'; }}
+  }});
+  btn.style.background = '#e8f0f9'; btn.style.borderColor = '#1a4f82'; btn.style.color = '#1a4f82';
+  var c = btn.querySelector('span');
+  if (c) {{ c.style.background = '#1a4f82'; c.style.borderColor = '#1a4f82'; }}
+}}
+
+function submitAnswer() {{
+  if (_selectedOption === null) {{
+    var sb = document.getElementById('popup-submit');
+    sb.style.transform = 'translateX(-4px)';
+    setTimeout(function(){{ sb.style.transform = 'translateX(4px)'; }}, 80);
+    setTimeout(function(){{ sb.style.transform = ''; }}, 160);
+    return;
+  }}
+  var qIdx = typeof current !== 'undefined' ? current : 0;
+  var data = QUIZ_DATA[qIdx];
+  var correct = _selectedOption === data.correct;
+  var feedback = document.getElementById('popup-feedback');
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b, i) {{
+    b.style.pointerEvents = 'none';
+    if (i === data.correct) {{
+      b.style.background = '#e8f4ee'; b.style.borderColor = '#2d6a4f'; b.style.color = '#2d6a4f';
+      var c = b.querySelector('span'); if (c) {{ c.style.background = '#2d6a4f'; c.style.borderColor = '#2d6a4f'; }}
+    }} else if (i === _selectedOption && !correct) {{
+      b.style.background = '#fdf2f2'; b.style.borderColor = '#8b1a1a'; b.style.color = '#8b1a1a';
+      var c = b.querySelector('span'); if (c) {{ c.style.background = '#8b1a1a'; c.style.borderColor = '#8b1a1a'; }}
+    }}
+  }});
+  document.getElementById('popup-submit').style.display = 'none';
+  if (correct) {{
+    feedback.style.cssText = 'display:block;background:#e8f4ee;border:1.5px solid #2d6a4f;color:#1a3a1a;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
+    document.getElementById('popup-continue').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#2d6a4f';
+    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '✓';
+    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Correct — keep going!';
+  }} else {{
+    feedback.style.cssText = 'display:block;background:#fdf3e3;border:1.5px solid #c8860a;color:#3a2a00;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
+    document.getElementById('popup-review').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#7d4e00';
+    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '↩';
+    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Review before continuing';
+  }}
+}}
+
+function closePopupAndAdvance() {{
+  document.getElementById('check-overlay').style.display = 'none';
+  lessonNav(1);
+}}
+
+function closePopup() {{
+  document.getElementById('check-overlay').style.display = 'none';
+}}
+
+document.addEventListener('DOMContentLoaded', function() {{
+  document.getElementById('check-overlay').addEventListener('click', function(e) {{
+    if (e.target === this) closePopup();
+  }});
+}});
+
 </script>
 
 </head>
@@ -476,7 +659,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" disabled>← Back</button>
   <span class="nav-center">Section 1 of 7</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 2 · Meet the Model →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 2 · Meet the Model →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-1">
@@ -526,7 +709,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 1 · Modular Design</button>
   <span class="nav-center">Section 2 of 7</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 3 · Build & Document →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 3 · Build & Document →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-2">
@@ -711,7 +894,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 2 · Meet the Model</button>
   <span class="nav-center">Section 3 of 7</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 4 · Architecture →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 4 · Architecture →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-3">
@@ -768,7 +951,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 3 · Build & Document</button>
   <span class="nav-center">Section 4 of 7</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 5 · Evaluate →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 5 · Evaluate →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-4">
@@ -810,7 +993,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 4 · Architecture</button>
   <span class="nav-center">Section 5 of 7</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 6 · Redesign →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 6 · Redesign →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-5">
@@ -903,7 +1086,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 5 · Evaluate</button>
   <span class="nav-center">Section 6 of 7</span>
-  <button class="nav-btn" onclick="lessonNav(1)" >Part 7 · Notebook →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" >Part 7 · Notebook →</button>
 </div>
   </div>
   <div class="lesson-section" id="section-6">
@@ -946,7 +1129,7 @@ body {
 <div class="section-nav">
   <button class="nav-btn secondary" onclick="lessonNav(-1)" >← Part 6 · Redesign</button>
   <span class="nav-center">Section 7 of 7</span>
-  <button class="nav-btn" onclick="lessonNav(1)" disabled>Finish →</button>
+  <button class="nav-btn" onclick="checkAndAdvance()" disabled>Finish →</button>
 </div>
   </div>
 </main>
@@ -958,6 +1141,27 @@ body {
 </div>
 
 
+
+
+<!-- CHECK POPUP -->
+<div id="check-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+  <div id="check-modal" style="background:#fff; border-radius:10px; max-width:540px; width:100%; box-shadow:0 8px 40px rgba(0,0,0,0.25); overflow:hidden; font-family:\'Source Sans 3\',Arial,sans-serif;">
+    <div id="popup-header" style="background:#1a4f82; padding:14px 20px; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:16px;">🎯</span>
+      <span style="font-size:11pt; font-weight:700; color:#fff; letter-spacing:.02em;">Quick Check — Before You Continue</span>
+    </div>
+    <div style="padding:20px 22px 6px;">
+      <p id="popup-question" style="font-size:11.5pt; color:#111; line-height:1.6; margin-bottom:18px; font-weight:600;"></p>
+      <div id="popup-options" style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;"></div>
+      <div id="popup-feedback" style="display:none; border-radius:7px; padding:12px 16px; margin-bottom:14px; font-size:10.5pt; line-height:1.6;"></div>
+    </div>
+    <div id="popup-footer" style="padding:0 22px 18px; display:flex; gap:10px; justify-content:flex-end;">
+      <button id="popup-submit" onclick="submitAnswer()" style="background:#1a4f82; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Check Answer</button>
+      <button id="popup-continue" onclick="closePopupAndAdvance()" style="display:none; background:#2d6a4f; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Continue →</button>
+      <button id="popup-review" onclick="closePopup()" style="display:none; background:#fff; color:#7d4e00; border:1.5px solid #c8860a; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Review Section</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
