@@ -202,6 +202,11 @@
   .btn-teal:hover { background:#0a4a4a; border-color:#0a4a4a; }
   .btn-teal-outline { background:#fff; color:#0f5f5f; border:1.5px solid #0f5f5f; }
   .btn-teal-outline:hover { background:#e0f4f4; }
+  .quiz-card { background:#fff; border:1.5px solid #c8860a; border-radius:var(--radius); padding:12px 18px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .quiz-card-left { display:flex; align-items:center; gap:14px; }
+  .quiz-badge { background:#c8860a; color:#fff; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; padding:3px 10px; border-radius:100px; white-space:nowrap; }
+  .quiz-title { font-size:13px; font-weight:700; color:#3a2a00; }
+  .quiz-meta { font-size:11px; color:#888; margin-top:2px; }
   .project-card { background:#fff; border:1.5px solid #0f5f5f; border-radius:var(--radius); overflow:hidden; margin-bottom:20px; }
   .project-card .project-header { background:#0f5f5f; padding:14px 20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
   .project-card .project-header .ph-title { font-size:16px; font-weight:700; color:#fff; margin-bottom:3px; }
@@ -284,6 +289,14 @@
 
     <hr class="sidebar-divider">
 
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Exit Quizzes</span>
+      <a href="#class1"><span class="sicon">📝</span> Quiz 1 — Purposeful Design</a>
+      <a href="#class2"><span class="sicon">📝</span> Quiz 2 — EDP</a>
+      <a href="#class3"><span class="sicon">📝</span> Quiz 3 — Documentation</a>
+      <a href="#class4"><span class="sicon">📝</span> Quiz 4 — Servo Claw</a>
+      <a href="#class5"><span class="sicon">📝</span> Quiz 5 — Modular Design</a>
+    </div>
     <div class="sidebar-section">
       <span class="sidebar-section-label">Assessment</span>
       <a href="#project">
@@ -383,6 +396,21 @@
       </div>
     </div>
 
+    <!-- QUIZ 1 -->
+    <div class="quiz-card">
+      <div class="quiz-card-left">
+        <span class="quiz-badge">Exit Quiz</span>
+        <div>
+          <div class="quiz-title">Quiz 1 — Purposeful Design</div>
+          <div class="quiz-meta">5 questions &nbsp;·&nbsp; Fill in the blank &nbsp;·&nbsp; 10-item answer bank (5 distractors)</div>
+        </div>
+      </div>
+      <a class="btn btn-secondary" href="quiz1_purposeful_design.html" style="white-space:nowrap;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Open quiz
+      </a>
+    </div>
+
     <!-- CLASS 2 -->
     <div class="class-card" id="class2">
       <div class="class-top">
@@ -422,6 +450,21 @@
         <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div><span><strong>Intermediate:</strong> Write root-cause analysis; calculate improvement percentage</span></div>
         <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div><span><strong>Proficient:</strong> Predict Attempt 3 height from A1→A2 trend; write formal iteration log</span></div>
       </div>
+    </div>
+
+    <!-- QUIZ 2 -->
+    <div class="quiz-card">
+      <div class="quiz-card-left">
+        <span class="quiz-badge">Exit Quiz</span>
+        <div>
+          <div class="quiz-title">Quiz 2 — Engineering Design Process</div>
+          <div class="quiz-meta">5 questions &nbsp;·&nbsp; Fill in the blank &nbsp;·&nbsp; 10-item answer bank (5 distractors)</div>
+        </div>
+      </div>
+      <a class="btn btn-secondary" href="quiz2_engineering_design_process.html" style="white-space:nowrap;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Open quiz
+      </a>
     </div>
 
     <!-- CLASS 3 -->
@@ -465,6 +508,21 @@
       </div>
     </div>
 
+    <!-- QUIZ 3 -->
+    <div class="quiz-card">
+      <div class="quiz-card-left">
+        <span class="quiz-badge">Exit Quiz</span>
+        <div>
+          <div class="quiz-title">Quiz 3 — Engineering Documentation &amp; Sketching</div>
+          <div class="quiz-meta">5 questions &nbsp;·&nbsp; Fill in the blank &nbsp;·&nbsp; 10-item answer bank (5 distractors)</div>
+        </div>
+      </div>
+      <a class="btn btn-secondary" href="quiz3_documentation_sketching.html" style="white-space:nowrap;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Open quiz
+      </a>
+    </div>
+
     <!-- CLASS 4 -->
     <div class="class-card" id="class4">
       <div class="class-top">
@@ -506,6 +564,21 @@
       </div>
     </div>
 
+    <!-- QUIZ 4 -->
+    <div class="quiz-card">
+      <div class="quiz-card-left">
+        <span class="quiz-badge">Exit Quiz</span>
+        <div>
+          <div class="quiz-title">Quiz 4 — REV Servo Claw Design</div>
+          <div class="quiz-meta">5 questions &nbsp;·&nbsp; Fill in the blank &nbsp;·&nbsp; 10-item answer bank (5 distractors)</div>
+        </div>
+      </div>
+      <a class="btn btn-secondary" href="quiz4_servo_claw_design.html" style="white-space:nowrap;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Open quiz
+      </a>
+    </div>
+
     <!-- CLASS 5 -->
     <div class="class-card" id="class5">
       <div class="class-top">
@@ -545,6 +618,21 @@
         <div class="sk-item"><div class="sk-dot" style="background:#1a4f82"></div><span><strong>Intermediate:</strong> Draw architecture diagram; evaluate 2 modular properties with evidence</span></div>
         <div class="sk-item"><div class="sk-dot" style="background:#3d2a99"></div><span><strong>Proficient:</strong> Full interface map; knob-to-arm power transmission analysis; ISS modularity extension</span></div>
       </div>
+    </div>
+
+    <!-- QUIZ 5 -->
+    <div class="quiz-card">
+      <div class="quiz-card-left">
+        <span class="quiz-badge">Exit Quiz</span>
+        <div>
+          <div class="quiz-title">Quiz 5 — Modular Design</div>
+          <div class="quiz-meta">5 questions &nbsp;·&nbsp; Fill in the blank &nbsp;·&nbsp; 10-item answer bank (5 distractors)</div>
+        </div>
+      </div>
+      <a class="btn btn-secondary" href="quiz5_modular_design.html" style="white-space:nowrap;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Open quiz
+      </a>
     </div>
 
     <!-- ── UNIT PROJECT ── -->
@@ -709,9 +797,28 @@
         </div>
       </div>
 
-      <span class="dl-group-label">Assessment</span>
+      <span class="dl-group-label">Exit Quizzes</span>
       <div class="resource-row">
-        <div class="resource-info">Unit 1 Capstone Project — REV MiniBot Build &amp; Analysis<small>.html · Project sheet · 200 points · 6 phases · 8 notebook entries</small></div>
+        <div class="resource-info">Quiz 1 — Purposeful Design<small>.html · 5 fill-in-the-blank · 10-item answer bank</small></div>
+        <a class="btn btn-secondary" href="quiz1_purposeful_design.html">Open</a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Quiz 2 — Engineering Design Process<small>.html · 5 fill-in-the-blank · 10-item answer bank</small></div>
+        <a class="btn btn-secondary" href="quiz2_engineering_design_process.html">Open</a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Quiz 3 — Documentation &amp; Sketching<small>.html · 5 fill-in-the-blank · 10-item answer bank</small></div>
+        <a class="btn btn-secondary" href="quiz3_documentation_sketching.html">Open</a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Quiz 4 — REV Servo Claw Design<small>.html · 5 fill-in-the-blank · 10-item answer bank</small></div>
+        <a class="btn btn-secondary" href="quiz4_servo_claw_design.html">Open</a>
+      </div>
+      <div class="resource-row">
+        <div class="resource-info">Quiz 5 — Modular Design<small>.html · 5 fill-in-the-blank · 10-item answer bank</small></div>
+        <a class="btn btn-secondary" href="quiz5_modular_design.html">Open</a>
+      </div>
+      <span class="dl-group-label">Assessment</span> — REV MiniBot Build &amp; Analysis<small>.html · Project sheet · 200 points · 6 phases · 8 notebook entries</small></div>
         <a class="btn btn-teal" href="unit1_minibot_project.html">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           Open

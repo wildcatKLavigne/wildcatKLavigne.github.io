@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Class 5 Exit Quiz — Unit 1 Robotics</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+:root {
+  --blue:#1a4f82; --blue-lt:#e8f0f9;
+  --green:#2d6a4f; --green-lt:#e8f4ee;
+  --amber:#7d4e00; --amber-lt:#fdf3e3;
+  --red:#8b1a1a; --red-lt:#fdf2f2;
+  --purple:#3d2a99; --purple-lt:#f0ecff;
+  --border:#d0d0cc; --r:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#222;background:#fff;max-width:800px;margin:0 auto;padding:0.5in 0.75in;}
+
+.ws-header{border-top:5px solid var(--blue);padding-top:14px;margin-bottom:22px;}
+.ws-header .course-label{font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:4px;}
+.ws-header h1{font-family:'Source Serif 4',Georgia,serif;font-size:20pt;color:#111;line-height:1.2;margin-bottom:4px;}
+.ws-header .subtitle{font-size:10pt;color:#666;margin-bottom:14px;}
+.ws-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.ws-meta-item{padding:8px 12px;border-right:1px solid var(--border);}
+.ws-meta-item:last-child{border-right:none;}
+.meta-label{font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:2px;}
+.meta-value{font-size:10pt;font-weight:600;color:#222;}
+
+.directions-box{background:var(--blue-lt);border-left:4px solid var(--blue);border-radius:0 var(--r) var(--r) 0;padding:12px 16px;margin-bottom:22px;font-size:10.5pt;color:#1a1a3a;line-height:1.65;}
+.directions-box strong{color:var(--blue);}
+
+.answer-bank{background:var(--amber-lt);border:1.5px solid #c8860a;border-radius:var(--r);padding:14px 18px;margin-bottom:26px;}
+.ab-label{font-size:9pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--amber);margin-bottom:12px;}
+.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 32px;}
+.ab-item{font-size:10.5pt;color:#3a2a00;padding:3px 0;display:flex;align-items:baseline;gap:8px;}
+.ab-item::before{content:"";display:inline-block;width:14px;height:14px;border:1.5px solid #c8860a;border-radius:3px;flex-shrink:0;margin-top:1px;}
+
+.questions-section{margin-bottom:28px;}
+.qs-label{font-size:9pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--blue);padding-bottom:5px;border-bottom:2px solid var(--blue-lt);margin-bottom:18px;}
+
+.question{margin-bottom:20px;}
+.q-num{display:inline-block;font-size:9pt;font-weight:700;color:#fff;background:var(--blue);width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;margin-right:6px;flex-shrink:0;}
+.q-row{display:flex;align-items:flex-start;gap:0;}
+.q-text{font-size:10.5pt;line-height:1.7;color:#222;flex:1;}
+.blank{display:inline-block;border-bottom:1.5px solid #555;min-width:140px;height:20px;vertical-align:bottom;margin:0 4px;}
+.blank-wide{min-width:200px;}
+.blank-narrow{min-width:90px;}
+
+hr.section-rule{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+.score-box{border:1.5px solid var(--border);border-radius:var(--r);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;margin-top:28px;}
+.score-item{padding:10px 14px;border-right:1px solid var(--border);}
+.score-item:nth-child(even){border-right:none;}
+.score-item:nth-child(3),.score-item:nth-child(4){border-top:1px solid var(--border);}
+.score-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:4px;}
+.score-line{border-bottom:1px solid #aaa;height:24px;display:block;width:80%;}
+
+.nav-links{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:14px;border-top:2px solid var(--blue);font-size:10pt;}
+.nav-links a{color:var(--blue);text-decoration:none;font-weight:600;}
+.nav-links a:hover{text-decoration:underline;}
+
+@media print{
+  .nav-links{display:none;}
+  body{padding:0.4in 0.6in;}
+}
+</style>
+
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
+  <h1>Class 5 Exit Quiz<br><span style="font-size:14pt;font-weight:400;color:#555;">Modular Design</span></h1>
+  <div class="subtitle">Fill in the blank &nbsp;·&nbsp; Use the answer bank below &nbsp;·&nbsp; Each answer is used once</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="score-line"></span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="score-line"></span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="score-line"></span></div>
+    <div class="ws-meta-item"><span class="meta-label">Score</span><span class="meta-value">&nbsp;&nbsp;&nbsp;&nbsp; / 5</span></div>
+  </div>
+</div>
+
+<div class="directions-box">
+  <strong>Directions:</strong> Choose the correct term from the answer bank for each blank. Each answer is used exactly once. Five answers in the bank will not be used.
+</div>
+
+<div class="answer-bank">
+  <div class="ab-label">Answer Bank</div>
+  <div class="ab-grid">
+    <div class="ab-item">architecture diagram</div>
+<div class="ab-item">aspect ratio</div>
+<div class="ab-item">constraint</div>
+<div class="ab-item">coupling</div>
+<div class="ab-item">failure mode</div>
+<div class="ab-item">interface</div>
+<div class="ab-item">module</div>
+<div class="ab-item">replaceability</div>
+<div class="ab-item">stall torque</div>
+<div class="ab-item">title block</div>
+
+  </div>
+</div>
+
+<div class="questions-section">
+  <div class="qs-label">Questions — Fill in the Blank</div>
+  
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">1</span>
+        <span class="q-text">A self-contained unit with a clearly defined job that connects to the rest of a system through a standardised connection point is called a <span class='blank'></span>.</span>
+      </div>
+      <div style="font-size:9.5pt;color:#666;margin-top:3px;margin-left:28px;">It can be designed, built, tested, and replaced independently</div>
+    </div>
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">2</span>
+        <span class="q-text">The standardised connection point between two modules — where they exchange force, motion, or signals — is called an <span class='blank'></span>.</span>
+      </div>
+      <div style="font-size:9.5pt;color:#666;margin-top:3px;margin-left:28px;">The REV hole pattern is an example of this standard</div>
+    </div>
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">3</span>
+        <span class="q-text">A diagram showing all modules as labeled boxes with labeled connection lines between them is called an <span class='blank'></span>.</span>
+      </div>
+      <div style="font-size:9.5pt;color:#666;margin-top:3px;margin-left:28px;">Each connection line is labeled with the interface type: mechanical, power, or data</div>
+    </div>
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">4</span>
+        <span class="q-text">The modular design property that allows you to swap one module for another without redesigning the whole system is called <span class='blank'></span>.</span>
+      </div>
+      <div style="font-size:9.5pt;color:#666;margin-top:3px;margin-left:28px;">Example: changing the LEGO bucket without modifying the digger arm</div>
+    </div>
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">5</span>
+        <span class="q-text">How much modules depend on each other is called <span class='blank'></span>; tight versions force redesign when one changes, while loose versions do not.</span>
+      </div>
+      <div style="font-size:9.5pt;color:#666;margin-top:3px;margin-left:28px;">Good modular design aims for the 'loose' version of this</div>
+    </div>
+</div>
+
+<hr class="section-rule">
+
+<div class="score-box">
+  <div class="score-item"><span class="score-label">Total correct</span><span class="score-line"></span></div>
+  <div class="score-item"><span class="score-label">Score (×20)</span><span class="score-line"></span></div>
+  <div class="score-item"><span class="score-label">Teacher initials</span><span class="score-line"></span></div>
+  <div class="score-item"><span class="score-label">Date returned</span><span class="score-line"></span></div>
+</div>
+
+<div class="nav-links">
+  <a href="class5_lesson.html">← Class 5 worksheet</a>
+  <a href="index.html">Unit 1 index</a>
+  <a href="unit1_minibot_project.html">Unit 1 project →</a>
+</div>
+
+</body>
+</html>
