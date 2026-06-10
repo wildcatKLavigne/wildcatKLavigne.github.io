@@ -331,9 +331,10 @@ body {
     if (idx < 0 || idx >= TOTAL) return;
     // Hide all
     var sections = document.querySelectorAll('.lesson-section');
-    sections.forEach(function(s) { s.classList.remove('active'); });
+    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
     // Show target
     sections[idx].classList.add('active');
+    sections[idx].style.display = 'block';
     current = idx;
     sessionStorage.setItem(storageKey, idx);
     // Update sidebar
@@ -353,6 +354,7 @@ body {
   // Expose globally for button onclick
   window.lessonNav = function(delta) { showSection(current + delta); };
   window.lessonGoto = function(idx) { showSection(idx); };
+  window.lessonCurrent = function() { return current; };
 
   // Init on DOM ready
   document.addEventListener('DOMContentLoaded', function() {
@@ -439,7 +441,7 @@ var QUIZ_DATA = [
 var _selectedOption = null;
 
 function checkAndAdvance() {{
-  var qIdx = typeof current !== 'undefined' ? current : 0;
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
   if (qIdx >= QUIZ_DATA.length) {{ lessonNav(1); return; }}
   _selectedOption = null;
   showPopup(qIdx);
@@ -495,7 +497,7 @@ function submitAnswer() {{
     setTimeout(function(){{ sb.style.transform = ''; }}, 160);
     return;
   }}
-  var qIdx = typeof current !== 'undefined' ? current : 0;
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
   var data = QUIZ_DATA[qIdx];
   var correct = _selectedOption === data.correct;
   var feedback = document.getElementById('popup-feedback');
@@ -598,7 +600,7 @@ document.addEventListener('DOMContentLoaded', function() {{
 
 <main id="lesson-content">
   
-  <div class="lesson-section" id="section-0">
+  <div class="lesson-section" id="section-0" style="display:none">
     <h1>Modular Design Thinking</h1>
   <div class="subtitle">Class 5 of 5 &nbsp;·&nbsp; 74 minutes &nbsp;·&nbsp; Activity: LEGO® Technic™ 42197 Backhoe Loader</div>
   <div class="ws-meta">
@@ -662,7 +664,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 2 · Meet the Model →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-1">
+  <div class="lesson-section" id="section-1" style="display:none">
     <!-- ═══════════════════════════════════════════════════════════════════════
      PART 2 — MEET THE BACKHOE LOADER
      ═══════════════════════════════════════════════════════════════════════ -->
@@ -712,7 +714,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 3 · Build & Document →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-2">
+  <div class="lesson-section" id="section-2" style="display:none">
     <!-- ═══════════════════════════════════════════════════════════════════════
      PART 3 — BUILD & DOCUMENT: REVERSE ENGINEERING THE MODULES
      ═══════════════════════════════════════════════════════════════════════ -->
@@ -897,7 +899,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 4 · Architecture →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-3">
+  <div class="lesson-section" id="section-3" style="display:none">
     <!-- ═══════════════════════════════════════════════════════════════════════
      PART 4 — ARCHITECTURE DIAGRAM & INTERFACE MAP
      ═══════════════════════════════════════════════════════════════════════ -->
@@ -954,7 +956,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 5 · Evaluate →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-4">
+  <div class="lesson-section" id="section-4" style="display:none">
     <!-- ═══════════════════════════════════════════════════════════════════════
      PART 5 — EVALUATE: DOES IT PASS THE MODULAR DESIGN TEST?
      ═══════════════════════════════════════════════════════════════════════ -->
@@ -996,7 +998,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 6 · Redesign →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-5">
+  <div class="lesson-section" id="section-5" style="display:none">
     <!-- ═══════════════════════════════════════════════════════════════════════
      PART 6 — REDESIGN ONE MODULE: FULL EDP WITH SKETCHING
      ═══════════════════════════════════════════════════════════════════════ -->
@@ -1089,7 +1091,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 7 · Notebook →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-6">
+  <div class="lesson-section" id="section-6" style="display:none">
     <!-- ═══════════════════════════════════════════════════════════════════════
      PART 7 — NOTEBOOK ENTRY & CONNECTING ALL FOUR CLASSES
      ═══════════════════════════════════════════════════════════════════════ -->

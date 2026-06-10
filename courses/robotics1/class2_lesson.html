@@ -316,9 +316,10 @@ body {
     if (idx < 0 || idx >= TOTAL) return;
     // Hide all
     var sections = document.querySelectorAll('.lesson-section');
-    sections.forEach(function(s) { s.classList.remove('active'); });
+    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
     // Show target
     sections[idx].classList.add('active');
+    sections[idx].style.display = 'block';
     current = idx;
     sessionStorage.setItem(storageKey, idx);
     // Update sidebar
@@ -338,6 +339,7 @@ body {
   // Expose globally for button onclick
   window.lessonNav = function(delta) { showSection(current + delta); };
   window.lessonGoto = function(idx) { showSection(idx); };
+  window.lessonCurrent = function() { return current; };
 
   // Init on DOM ready
   document.addEventListener('DOMContentLoaded', function() {
@@ -412,7 +414,7 @@ var QUIZ_DATA = [
 var _selectedOption = null;
 
 function checkAndAdvance() {{
-  var qIdx = typeof current !== 'undefined' ? current : 0;
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
   if (qIdx >= QUIZ_DATA.length) {{ lessonNav(1); return; }}
   _selectedOption = null;
   showPopup(qIdx);
@@ -468,7 +470,7 @@ function submitAnswer() {{
     setTimeout(function(){{ sb.style.transform = ''; }}, 160);
     return;
   }}
-  var qIdx = typeof current !== 'undefined' ? current : 0;
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
   var data = QUIZ_DATA[qIdx];
   var correct = _selectedOption === data.correct;
   var feedback = document.getElementById('popup-feedback');
@@ -566,7 +568,7 @@ document.addEventListener('DOMContentLoaded', function() {{
 
 <main id="lesson-content">
   
-  <div class="lesson-section" id="section-0">
+  <div class="lesson-section" id="section-0" style="display:none">
     <h1>The Engineering Design Process</h1>
   <div class="subtitle">Class 2 of 4 &nbsp;·&nbsp; 74 minutes</div>
   <div class="ws-meta">
@@ -641,7 +643,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 2 · Define →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-1">
+  <div class="lesson-section" id="section-1" style="display:none">
     <!-- PART 2: CHALLENGE SETUP -->
 <div class="section">
   <div class="section-label">Part 2 &nbsp;·&nbsp; Challenge Setup: Define &amp; Research (8 min)</div>
@@ -687,7 +689,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 3 · Ideate →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-2">
+  <div class="lesson-section" id="section-2" style="display:none">
     <!-- PART 3: IDEATION — 3 sketches -->
 <div class="section">
   <div class="section-label">Part 3 &nbsp;·&nbsp; Stage 3 — Ideate: Three Designs (10 min)</div>
@@ -753,7 +755,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 4 · Build & Test →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-3">
+  <div class="lesson-section" id="section-3" style="display:none">
     <!-- PART 4: THREE ITERATIONS -->
 <div class="section">
   <div class="section-label">Part 4 &nbsp;·&nbsp; Stages 4–6 — Build, Test &amp; Iterate × 3 (35 min total)</div>
@@ -949,7 +951,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 5 · Analysis →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-4">
+  <div class="lesson-section" id="section-4" style="display:none">
     <!-- PART 5: ANALYSIS -->
 <div class="section">
   <div class="section-label">Part 5 &nbsp;·&nbsp; Analysis &amp; EDP Connection (6 min)</div>
@@ -992,7 +994,7 @@ document.addEventListener('DOMContentLoaded', function() {{
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 6 · Notebook →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-5">
+  <div class="lesson-section" id="section-5" style="display:none">
     <!-- PART 6: NOTEBOOK + REFLECTION -->
 <div class="section">
   <div class="section-label">Part 6 &nbsp;·&nbsp; Notebook Entry &amp; Exit Reflection (5 min)</div>

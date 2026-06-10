@@ -646,9 +646,10 @@ body {
     if (idx < 0 || idx >= TOTAL) return;
     // Hide all
     var sections = document.querySelectorAll('.lesson-section');
-    sections.forEach(function(s) { s.classList.remove('active'); });
+    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
     // Show target
     sections[idx].classList.add('active');
+    sections[idx].style.display = 'block';
     current = idx;
     sessionStorage.setItem(storageKey, idx);
     // Update sidebar
@@ -668,13 +669,13 @@ body {
   // Expose globally for button onclick
   window.lessonNav = function(delta) { showSection(current + delta); };
   window.lessonGoto = function(idx) { showSection(idx); };
+  window.lessonCurrent = function() { return current; };
 
   // Init on DOM ready
   document.addEventListener('DOMContentLoaded', function() {
     showSection(current);
   });
 })();
-
 var QUIZ_DATA = [
   // Leaving section 0 (Part 1 — What Makes a Design Purposeful?)
   {
@@ -736,7 +737,7 @@ var _pendingAdvance = false;
 
 function checkAndAdvance() {
   // Only show popup when going forward (Next), not on the last section
-  var qIdx = typeof current !== 'undefined' ? current : 0;
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
   if (qIdx >= QUIZ_DATA.length) {
     // No question for this transition — just advance
     lessonNav(1);
@@ -808,7 +809,7 @@ function submitAnswer() {
     setTimeout(function(){ sb.style.transform = ''; }, 160);
     return;
   }
-  var qIdx = typeof current !== 'undefined' ? current : 0;
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
   var data = QUIZ_DATA[qIdx];
   var correct = _selectedOption === data.correct;
   var feedback = document.getElementById('popup-feedback');
@@ -874,6 +875,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+
 </script>
 
 </head>
@@ -920,7 +922,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <main id="lesson-content">
   
-  <div class="lesson-section" id="section-0">
+  <div class="lesson-section" id="section-0" style="display:none">
     <h1>What is Engineering?<br>Purposeful Design</h1>
   <div class="subtitle">Class 1 of 4 &nbsp;·&nbsp; 74 minutes</div>
   <div class="ws-meta">
@@ -967,7 +969,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <button class="nav-btn" onclick="checkAndAdvance()" >Experiment · Stability →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-1">
+  <div class="lesson-section" id="section-1" style="display:none">
     <!-- STABILITY EXPERIMENT -->
 <div class="section">
   <div class="section-label">Quick Experiment &nbsp;·&nbsp; Stability &amp; Weight Placement (5 min)</div>
@@ -1036,7 +1038,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 2 · Robot Analysis →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-2">
+  <div class="lesson-section" id="section-2" style="display:none">
     <!-- PART 2 -->
 <div class="section">
   <div class="section-label">Part 2 &nbsp;·&nbsp; Robot Photo Analysis (20 min)</div>
@@ -1338,7 +1340,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 3 · Notebook →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-3">
+  <div class="lesson-section" id="section-3" style="display:none">
     <!-- PART 3 -->
 <div class="section">
   <div class="section-label">Part 3 &nbsp;·&nbsp; Engineering Notebook Setup (15 min)</div>
@@ -1372,7 +1374,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <button class="nav-btn" onclick="checkAndAdvance()" >Part 4 · Reflection →</button>
 </div>
   </div>
-  <div class="lesson-section" id="section-4">
+  <div class="lesson-section" id="section-4" style="display:none">
     <!-- PART 4 — REFLECTION -->
 <div class="section">
   <div class="section-label">Part 4 &nbsp;·&nbsp; Exit Reflection (10 min)</div>
@@ -1436,7 +1438,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
 <!-- CHECK POPUP -->
 <div id="check-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9999; align-items:center; justify-content:center; padding:20px;">
   <div id="check-modal" style="background:#fff; border-radius:10px; max-width:540px; width:100%; box-shadow:0 8px 40px rgba(0,0,0,0.25); overflow:hidden; font-family:'Source Sans 3',Arial,sans-serif;">
@@ -1445,20 +1446,6 @@ document.addEventListener('DOMContentLoaded', function() {
       <span style="font-size:16px;">🎯</span>
       <span style="font-size:11pt; font-weight:700; color:#fff; letter-spacing:.02em;">Quick Check — Before You Continue</span>
     </div>
-    <!-- Question area -->
-    <div style="padding:20px 22px 6px;">
-      <p id="popup-question" style="font-size:11.5pt; color:#111; line-height:1.6; margin-bottom:18px; font-weight:600;"></p>
-      <div id="popup-options" style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;"></div>
-      <div id="popup-feedback" style="display:none; border-radius:7px; padding:12px 16px; margin-bottom:14px; font-size:10.5pt; line-height:1.6;"></div>
-    </div>
-    <!-- Footer buttons -->
-    <div id="popup-footer" style="padding:0 22px 18px; display:flex; gap:10px; justify-content:flex-end;">
-      <button id="popup-submit" onclick="submitAnswer()" style="background:#1a4f82; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Check Answer</button>
-      <button id="popup-continue" onclick="closePopupAndAdvance()" style="display:none; background:#2d6a4f; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Continue →</button>
-      <button id="popup-review" onclick="closePopup()" style="display:none; background:#fff; color:#7d4e00; border:1.5px solid #c8860a; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Review Section</button>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
