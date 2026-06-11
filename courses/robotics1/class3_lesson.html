@@ -181,7 +181,7 @@
   hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 
   /* FOOTER */
-  .ws-footer { margin-top: 28px; padding-top: 10px; border-top: 2px solid var(--blue); display: flex; justify-content: space-between; font-size: 8.5pt; color: #888; }
+  .ws-footer { font-size: 8.5pt; color: #888; } /* neutralised by paginator layout */
 
   @media print {
     body { padding: 0.4in 0.6in; }
@@ -324,6 +324,14 @@ body {
   background: #fff;
   border-top: 1px solid #d0d0cc;
   padding: 8px 32px !important;
+  /* Override original lesson styles that treat footer as scroll content */
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 8.5pt;
+  color: #888;
+  position: static !important;
 }
 
 /* ── PRINT: restore single-scroll layout ── */
@@ -349,233 +357,7 @@ body {
 
 </style>
 
-<script>
-(function() {
-  var TOTAL = 7;
-  var storageKey = 'lesson_class3_lesson_html_section';
 
-  // Restore position from sessionStorage
-  var saved = parseInt(sessionStorage.getItem(storageKey) || '0');
-  var current = (saved >= 0 && saved < TOTAL) ? saved : 0;
-
-  function showSection(idx) {
-    if (idx < 0 || idx >= TOTAL) return;
-    // Hide all
-    var sections = document.querySelectorAll('.lesson-section');
-    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
-    // Show target
-    sections[idx].classList.add('active');
-    sections[idx].style.display = 'block';
-    current = idx;
-    sessionStorage.setItem(storageKey, idx);
-    // Update sidebar
-    var items = document.querySelectorAll('.sb-item');
-    items.forEach(function(it, i) {
-      it.classList.toggle('active', i === idx);
-      if (i < idx) { it.classList.add('completed'); it.querySelector('.sb-check').textContent = '✓'; }
-    });
-    // Update progress
-    var prog = document.getElementById('sb-progress');
-    if (prog) prog.textContent = 'Section ' + (idx + 1) + ' of ' + TOTAL;
-    // Scroll top
-    window.scrollTo(0, 0);
-    document.getElementById('lesson-content') && document.getElementById('lesson-content').scrollTo(0, 0);
-  }
-
-  // Expose globally for button onclick
-  window.lessonNav = function(delta) { showSection(current + delta); };
-  window.lessonGoto = function(idx) { showSection(idx); };
-  window.lessonCurrent = function() { return current; };
-
-  // Init on DOM ready
-  document.addEventListener('DOMContentLoaded', function() {
-    showSection(current);
-  });
-})();
-
-// ── POPUP LOGIC ──
-var QUIZ_DATA = [
-  {
-    question: 'An engineering sketch shows a dimension written as \'12\' with no other information. What is wrong with this?',
-    options: [
-      'The number should be written vertically along the dimension line.',
-      'There is no unit — \'12\' with no unit is not a valid engineering dimension.',
-      'Dimension numbers must always be placed inside the object outline.',
-      'The number is too small — engineering drawings require numbers larger than 14pt.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! A dimension without a unit is meaningless — 12 what? Centimetres? Millimetres? Inches? Every dimension must include a unit. This is one of the core sketching rules: always state units, always write numbers horizontally, and always use a ruler for dimension lines.',
-    review: 'Review the Sketching Rules box and the dimensions video section. The rule \'always state units\' is absolute — there are no exceptions in engineering drawing.'
-  },
-  {
-    question: 'In the dimension check activity, you watched a video on engineering dimensions and then returned to your block sketch. What was the purpose of returning to the sketch?',
-    options: [
-      'To redraw the entire sketch using the new techniques from the video.',
-      'To apply or verify dimension standards directly on work you had already produced — connecting the rule to your own drawing.',
-      'To add colour coding so different dimensions are easier to read.',
-      'To practice drawing faster before the paper airplane challenge.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! Watching a video about dimensions only builds understanding if you immediately apply it. Returning to your own sketch to check and fix dimension lines turns passive knowledge into active skill — and any corrections you made are real evidence of learning.',
-    review: 'Review the \'Return to Your Block Sketch\' activity section. Focus on the five-point checklist and what each standard requires — especially horizontal numbers and arrowheads pointing to extension lines, not the object.'
-  },
-  {
-    question: 'Plane T (narrow dart) consistently flew farther than Plane W (wide glider) in the distance test. Which feature most directly explains this?',
-    options: [
-      'Plane T had more dihedral — the upward wing angle gave it more speed.',
-      'Plane T had a higher aspect ratio — its narrow shape reduced drag, letting it cut through air more efficiently.',
-      'Plane T was lighter because it used less paper.',
-      'Plane W\\\'s wide wings created more lift, which slowed it down.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! Plane T\'s high aspect ratio (long and narrow relative to width) reduces drag — it pushes less air out of the way as it flies. Less drag means more of the initial throw energy goes into forward distance. This is why narrow shapes are used in designs optimised for distance.',
-    review: 'Review the design vocabulary callout box at the end of the fly-first experiment. It defines aspect ratio, dihedral, and drag in plain language tied to what you observed.'
-  },
-  {
-    question: 'A student produces three paper airplane sketches that all show the same basic dart shape with slightly different wing lengths. What is the problem?',
-    options: [
-      'The sketches need a revision box — they are missing documentation.',
-      'The designs are not genuinely different — small variations of one idea don\\\'t satisfy the three-design requirement.',
-      'Three designs is too many — one good sketch is more useful than three weak ones.',
-      'Wing length is not a dimension that needs to be labeled on a sketch.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! The three-design rule requires genuinely different mechanism types or approaches — not the same concept with slight changes. A dart, a delta wing, and a glider are genuinely different. Three slightly different darts are one idea with variations.',
-    review: 'Review the Ideate section and the I Do teacher model. Notice how the teacher generates three structurally different approaches, and why the phrase \'genuinely different\' matters.'
-  },
-  {
-    question: 'Between distance attempts A1 and A2, a student changes both the nose fold and the wing angle at the same time. Their distance improves. What is the engineering problem with this?',
-    options: [
-      'Changing two things at once is not allowed in the paper airplane challenge rules.',
-      'They cannot know which change caused the improvement — they have no reliable data to guide the next iteration.',
-      'Two changes means double the improvement — this is good iteration strategy.',
-      'The revision box only has room for one change per entry.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! Changing two variables at once makes it impossible to know which change caused the result. If the plane improved, was it the nose or the wing? If it got worse, which change hurt it? Good iteration changes one thing at a time so the data is interpretable.',
-    review: 'Review the distance iteration section. Look for the guidance on documenting the specific change you made between attempts and why that traceability matters for the next decision.'
-  },
-  {
-    question: 'Your distance plane scored 0 on the accuracy challenge but flew 8 metres. Your accuracy plane scored 7/9 but only reached 2.5 metres. This illustrates:',
-    options: [
-      'A manufacturing variation — the planes were folded differently each time.',
-      'A design tension — the features that maximise distance directly conflict with the features that maximise accuracy.',
-      'A tolerance problem — the dimensions weren\\\'t precise enough.',
-      'An iteration failure — you should have used the same design for both challenges.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! This is design tension in action: the narrow high-aspect-ratio shape that produces distance also makes the plane fast and hard to aim. The wider, dihedral-stabilised shape that produces accuracy sacrifices distance. You can\'t fully optimise for both at once — you have to choose which matters more.',
-    review: 'Review the design tension concept from Part 6\'s analysis section. Think about what specific physical features conflict between the two objectives, and why a single design can\'t fully satisfy both.'
-  }
-];
-
-var _selectedOption = null;
-
-function checkAndAdvance() {{
-  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
-  if (qIdx >= QUIZ_DATA.length) {{ lessonNav(1); return; }}
-  _selectedOption = null;
-  showPopup(qIdx);
-}}
-
-function showPopup(idx) {{
-  var data = QUIZ_DATA[idx];
-  document.getElementById('popup-question').innerHTML = data.question;
-  var optDiv = document.getElementById('popup-options');
-  optDiv.innerHTML = '';
-  data.options.forEach(function(opt, i) {{
-    var btn = document.createElement('button');
-    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
-    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
-    btn.onclick = function() {{ selectOption(i, btn); }};
-    optDiv.appendChild(btn);
-  }});
-  document.getElementById('popup-feedback').style.display = 'none';
-  document.getElementById('popup-submit').style.display = 'inline-block';
-  document.getElementById('popup-continue').style.display = 'none';
-  document.getElementById('popup-review').style.display = 'none';
-  document.getElementById('popup-header').style.background = '#1a4f82';
-  document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '🎯';
-  document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Quick Check — Before You Continue';
-  var overlay = document.getElementById('check-overlay');
-  overlay.style.display = 'flex';
-  var modal = document.getElementById('check-modal');
-  modal.style.transform = 'scale(0.93)'; modal.style.opacity = '0';
-  modal.style.transition = 'transform .18s, opacity .18s';
-  requestAnimationFrame(function() {{
-    requestAnimationFrame(function() {{
-      modal.style.transform = 'scale(1)'; modal.style.opacity = '1';
-    }});
-  }});
-}}
-
-function selectOption(i, btn) {{
-  _selectedOption = i;
-  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b) {{
-    b.style.background = '#f7f6f3'; b.style.borderColor = '#d0d0cc'; b.style.color = '#222';
-    var c = b.querySelector('span'); if (c) {{ c.style.background = ''; c.style.borderColor = '#d0d0cc'; }}
-  }});
-  btn.style.background = '#e8f0f9'; btn.style.borderColor = '#1a4f82'; btn.style.color = '#1a4f82';
-  var c = btn.querySelector('span');
-  if (c) {{ c.style.background = '#1a4f82'; c.style.borderColor = '#1a4f82'; }}
-}}
-
-function submitAnswer() {{
-  if (_selectedOption === null) {{
-    var sb = document.getElementById('popup-submit');
-    sb.style.transform = 'translateX(-4px)';
-    setTimeout(function(){{ sb.style.transform = 'translateX(4px)'; }}, 80);
-    setTimeout(function(){{ sb.style.transform = ''; }}, 160);
-    return;
-  }}
-  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
-  var data = QUIZ_DATA[qIdx];
-  var correct = _selectedOption === data.correct;
-  var feedback = document.getElementById('popup-feedback');
-  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b, i) {{
-    b.style.pointerEvents = 'none';
-    if (i === data.correct) {{
-      b.style.background = '#e8f4ee'; b.style.borderColor = '#2d6a4f'; b.style.color = '#2d6a4f';
-      var c = b.querySelector('span'); if (c) {{ c.style.background = '#2d6a4f'; c.style.borderColor = '#2d6a4f'; }}
-    }} else if (i === _selectedOption && !correct) {{
-      b.style.background = '#fdf2f2'; b.style.borderColor = '#8b1a1a'; b.style.color = '#8b1a1a';
-      var c = b.querySelector('span'); if (c) {{ c.style.background = '#8b1a1a'; c.style.borderColor = '#8b1a1a'; }}
-    }}
-  }});
-  document.getElementById('popup-submit').style.display = 'none';
-  if (correct) {{
-    feedback.style.cssText = 'display:block;background:#e8f4ee;border:1.5px solid #2d6a4f;color:#1a3a1a;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
-    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
-    document.getElementById('popup-continue').style.display = 'inline-block';
-    document.getElementById('popup-header').style.background = '#2d6a4f';
-    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '✓';
-    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Correct — keep going!';
-  }} else {{
-    feedback.style.cssText = 'display:block;background:#fdf3e3;border:1.5px solid #c8860a;color:#3a2a00;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
-    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
-    document.getElementById('popup-review').style.display = 'inline-block';
-    document.getElementById('popup-header').style.background = '#7d4e00';
-    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '↩';
-    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Review before continuing';
-  }}
-}}
-
-function closePopupAndAdvance() {{
-  document.getElementById('check-overlay').style.display = 'none';
-  lessonNav(1);
-}}
-
-function closePopup() {{
-  document.getElementById('check-overlay').style.display = 'none';
-}}
-
-document.addEventListener('DOMContentLoaded', function() {{
-  document.getElementById('check-overlay').addEventListener('click', function(e) {{
-    if (e.target === this) closePopup();
-  }});
-}});
-
-</script>
 
 </head>
 <body>
@@ -1514,5 +1296,226 @@ document.addEventListener('DOMContentLoaded', function() {{
 
 
 
+<script>
+(function() {
+  var TOTAL = 7;
+  var storageKey = 'lesson_class3_lesson_html_section';
+
+  // Restore position from sessionStorage
+  var saved = parseInt(sessionStorage.getItem(storageKey) || '0');
+  var current = (saved >= 0 && saved < TOTAL) ? saved : 0;
+
+  function showSection(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+    // Hide all
+    var sections = document.querySelectorAll('.lesson-section');
+    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
+    // Show target
+    sections[idx].classList.add('active');
+    sections[idx].style.display = 'block';
+    current = idx;
+    sessionStorage.setItem(storageKey, idx);
+    // Update sidebar
+    var items = document.querySelectorAll('.sb-item');
+    items.forEach(function(it, i) {
+      it.classList.toggle('active', i === idx);
+      if (i < idx) { it.classList.add('completed'); it.querySelector('.sb-check').textContent = '✓'; }
+    });
+    // Update progress
+    var prog = document.getElementById('sb-progress');
+    if (prog) prog.textContent = 'Section ' + (idx + 1) + ' of ' + TOTAL;
+    // Scroll top
+    window.scrollTo(0, 0);
+    document.getElementById('lesson-content') && document.getElementById('lesson-content').scrollTo(0, 0);
+  }
+
+  // Expose globally for button onclick
+  window.lessonNav = function(delta) { showSection(current + delta); };
+  window.lessonGoto = function(idx) { showSection(idx); };
+  window.lessonCurrent = function() { return current; };
+
+  // Init immediately — script is at end of body
+  showSection(current);
+})();
+
+// ── POPUP LOGIC ──
+var QUIZ_DATA = [
+  {
+    question: 'An engineering sketch shows a dimension written as \'12\' with no other information. What is wrong with this?',
+    options: [
+      'The number should be written vertically along the dimension line.',
+      'There is no unit — \'12\' with no unit is not a valid engineering dimension.',
+      'Dimension numbers must always be placed inside the object outline.',
+      'The number is too small — engineering drawings require numbers larger than 14pt.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! A dimension without a unit is meaningless — 12 what? Centimetres? Millimetres? Inches? Every dimension must include a unit. This is one of the core sketching rules: always state units, always write numbers horizontally, and always use a ruler for dimension lines.',
+    review: 'Review the Sketching Rules box and the dimensions video section. The rule \'always state units\' is absolute — there are no exceptions in engineering drawing.'
+  },
+  {
+    question: 'In the dimension check activity, you watched a video on engineering dimensions and then returned to your block sketch. What was the purpose of returning to the sketch?',
+    options: [
+      'To redraw the entire sketch using the new techniques from the video.',
+      'To apply or verify dimension standards directly on work you had already produced — connecting the rule to your own drawing.',
+      'To add colour coding so different dimensions are easier to read.',
+      'To practice drawing faster before the paper airplane challenge.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! Watching a video about dimensions only builds understanding if you immediately apply it. Returning to your own sketch to check and fix dimension lines turns passive knowledge into active skill — and any corrections you made are real evidence of learning.',
+    review: 'Review the \'Return to Your Block Sketch\' activity section. Focus on the five-point checklist and what each standard requires — especially horizontal numbers and arrowheads pointing to extension lines, not the object.'
+  },
+  {
+    question: 'Plane T (narrow dart) consistently flew farther than Plane W (wide glider) in the distance test. Which feature most directly explains this?',
+    options: [
+      'Plane T had more dihedral — the upward wing angle gave it more speed.',
+      'Plane T had a higher aspect ratio — its narrow shape reduced drag, letting it cut through air more efficiently.',
+      'Plane T was lighter because it used less paper.',
+      'Plane W\\\'s wide wings created more lift, which slowed it down.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! Plane T\'s high aspect ratio (long and narrow relative to width) reduces drag — it pushes less air out of the way as it flies. Less drag means more of the initial throw energy goes into forward distance. This is why narrow shapes are used in designs optimised for distance.',
+    review: 'Review the design vocabulary callout box at the end of the fly-first experiment. It defines aspect ratio, dihedral, and drag in plain language tied to what you observed.'
+  },
+  {
+    question: 'A student produces three paper airplane sketches that all show the same basic dart shape with slightly different wing lengths. What is the problem?',
+    options: [
+      'The sketches need a revision box — they are missing documentation.',
+      'The designs are not genuinely different — small variations of one idea don\\\'t satisfy the three-design requirement.',
+      'Three designs is too many — one good sketch is more useful than three weak ones.',
+      'Wing length is not a dimension that needs to be labeled on a sketch.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! The three-design rule requires genuinely different mechanism types or approaches — not the same concept with slight changes. A dart, a delta wing, and a glider are genuinely different. Three slightly different darts are one idea with variations.',
+    review: 'Review the Ideate section and the I Do teacher model. Notice how the teacher generates three structurally different approaches, and why the phrase \'genuinely different\' matters.'
+  },
+  {
+    question: 'Between distance attempts A1 and A2, a student changes both the nose fold and the wing angle at the same time. Their distance improves. What is the engineering problem with this?',
+    options: [
+      'Changing two things at once is not allowed in the paper airplane challenge rules.',
+      'They cannot know which change caused the improvement — they have no reliable data to guide the next iteration.',
+      'Two changes means double the improvement — this is good iteration strategy.',
+      'The revision box only has room for one change per entry.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! Changing two variables at once makes it impossible to know which change caused the result. If the plane improved, was it the nose or the wing? If it got worse, which change hurt it? Good iteration changes one thing at a time so the data is interpretable.',
+    review: 'Review the distance iteration section. Look for the guidance on documenting the specific change you made between attempts and why that traceability matters for the next decision.'
+  },
+  {
+    question: 'Your distance plane scored 0 on the accuracy challenge but flew 8 metres. Your accuracy plane scored 7/9 but only reached 2.5 metres. This illustrates:',
+    options: [
+      'A manufacturing variation — the planes were folded differently each time.',
+      'A design tension — the features that maximise distance directly conflict with the features that maximise accuracy.',
+      'A tolerance problem — the dimensions weren\\\'t precise enough.',
+      'An iteration failure — you should have used the same design for both challenges.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! This is design tension in action: the narrow high-aspect-ratio shape that produces distance also makes the plane fast and hard to aim. The wider, dihedral-stabilised shape that produces accuracy sacrifices distance. You can\'t fully optimise for both at once — you have to choose which matters more.',
+    review: 'Review the design tension concept from Part 6\'s analysis section. Think about what specific physical features conflict between the two objectives, and why a single design can\'t fully satisfy both.'
+  }
+];
+
+var _selectedOption = null;
+
+function checkAndAdvance() {{
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  if (qIdx >= QUIZ_DATA.length) {{ lessonNav(1); return; }}
+  _selectedOption = null;
+  showPopup(qIdx);
+}}
+
+function showPopup(idx) {{
+  var data = QUIZ_DATA[idx];
+  document.getElementById('popup-question').innerHTML = data.question;
+  var optDiv = document.getElementById('popup-options');
+  optDiv.innerHTML = '';
+  data.options.forEach(function(opt, i) {{
+    var btn = document.createElement('button');
+    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
+    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
+    btn.onclick = function() {{ selectOption(i, btn); }};
+    optDiv.appendChild(btn);
+  }});
+  document.getElementById('popup-feedback').style.display = 'none';
+  document.getElementById('popup-submit').style.display = 'inline-block';
+  document.getElementById('popup-continue').style.display = 'none';
+  document.getElementById('popup-review').style.display = 'none';
+  document.getElementById('popup-header').style.background = '#1a4f82';
+  document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '🎯';
+  document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Quick Check — Before You Continue';
+  var overlay = document.getElementById('check-overlay');
+  overlay.style.display = 'flex';
+  var modal = document.getElementById('check-modal');
+  modal.style.transform = 'scale(0.93)'; modal.style.opacity = '0';
+  modal.style.transition = 'transform .18s, opacity .18s';
+  requestAnimationFrame(function() {{
+    requestAnimationFrame(function() {{
+      modal.style.transform = 'scale(1)'; modal.style.opacity = '1';
+    }});
+  }});
+}}
+
+function selectOption(i, btn) {{
+  _selectedOption = i;
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b) {{
+    b.style.background = '#f7f6f3'; b.style.borderColor = '#d0d0cc'; b.style.color = '#222';
+    var c = b.querySelector('span'); if (c) {{ c.style.background = ''; c.style.borderColor = '#d0d0cc'; }}
+  }});
+  btn.style.background = '#e8f0f9'; btn.style.borderColor = '#1a4f82'; btn.style.color = '#1a4f82';
+  var c = btn.querySelector('span');
+  if (c) {{ c.style.background = '#1a4f82'; c.style.borderColor = '#1a4f82'; }}
+}}
+
+function submitAnswer() {{
+  if (_selectedOption === null) {{
+    var sb = document.getElementById('popup-submit');
+    sb.style.transform = 'translateX(-4px)';
+    setTimeout(function(){{ sb.style.transform = 'translateX(4px)'; }}, 80);
+    setTimeout(function(){{ sb.style.transform = ''; }}, 160);
+    return;
+  }}
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  var data = QUIZ_DATA[qIdx];
+  var correct = _selectedOption === data.correct;
+  var feedback = document.getElementById('popup-feedback');
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b, i) {{
+    b.style.pointerEvents = 'none';
+    if (i === data.correct) {{
+      b.style.background = '#e8f4ee'; b.style.borderColor = '#2d6a4f'; b.style.color = '#2d6a4f';
+      var c = b.querySelector('span'); if (c) {{ c.style.background = '#2d6a4f'; c.style.borderColor = '#2d6a4f'; }}
+    }} else if (i === _selectedOption && !correct) {{
+      b.style.background = '#fdf2f2'; b.style.borderColor = '#8b1a1a'; b.style.color = '#8b1a1a';
+      var c = b.querySelector('span'); if (c) {{ c.style.background = '#8b1a1a'; c.style.borderColor = '#8b1a1a'; }}
+    }}
+  }});
+  document.getElementById('popup-submit').style.display = 'none';
+  if (correct) {{
+    feedback.style.cssText = 'display:block;background:#e8f4ee;border:1.5px solid #2d6a4f;color:#1a3a1a;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
+    document.getElementById('popup-continue').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#2d6a4f';
+    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '✓';
+    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Correct — keep going!';
+  }} else {{
+    feedback.style.cssText = 'display:block;background:#fdf3e3;border:1.5px solid #c8860a;color:#3a2a00;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
+    document.getElementById('popup-review').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#7d4e00';
+    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '↩';
+    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Review before continuing';
+  }}
+}}
+
+function closePopupAndAdvance() {{
+  document.getElementById('check-overlay').style.display = 'none';
+  lessonNav(1);
+}}
+
+function closePopup() {{
+  document.getElementById('check-overlay').style.display = 'none';
+}}
+
+document.getElementById('check-overlay').addEventListener('click', function(e) { if (e.target === this) closePopup(); });
+
+</script>
 </body>
 </html>

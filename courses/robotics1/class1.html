@@ -455,14 +455,8 @@
     margin: 22px 0;
   }
 
-  /* --- FOOTER --- */
+  /* --- FOOTER --- neutralised by paginator layout */
   .ws-footer {
-    margin-top: 28px;
-    padding-top: 10px;
-    border-top: 2px solid var(--blue);
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
     font-size: 8.5pt;
     color: #888;
   }
@@ -608,6 +602,14 @@ body {
   background: #fff;
   border-top: 1px solid #d0d0cc;
   padding: 8px 32px !important;
+  /* Override original lesson styles that treat footer as scroll content */
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 8.5pt;
+  color: #888;
+  position: static !important;
 }
 
 /* ── PRINT: restore single-scroll layout ── */
@@ -633,250 +635,7 @@ body {
 
 </style>
 
-<script>
-(function() {
-  var TOTAL = 5;
-  var storageKey = 'lesson_class1_html_section';
 
-  // Restore position from sessionStorage
-  var saved = parseInt(sessionStorage.getItem(storageKey) || '0');
-  var current = (saved >= 0 && saved < TOTAL) ? saved : 0;
-
-  function showSection(idx) {
-    if (idx < 0 || idx >= TOTAL) return;
-    // Hide all
-    var sections = document.querySelectorAll('.lesson-section');
-    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
-    // Show target
-    sections[idx].classList.add('active');
-    sections[idx].style.display = 'block';
-    current = idx;
-    sessionStorage.setItem(storageKey, idx);
-    // Update sidebar
-    var items = document.querySelectorAll('.sb-item');
-    items.forEach(function(it, i) {
-      it.classList.toggle('active', i === idx);
-      if (i < idx) { it.classList.add('completed'); it.querySelector('.sb-check').textContent = '✓'; }
-    });
-    // Update progress
-    var prog = document.getElementById('sb-progress');
-    if (prog) prog.textContent = 'Section ' + (idx + 1) + ' of ' + TOTAL;
-    // Scroll top
-    window.scrollTo(0, 0);
-    document.getElementById('lesson-content') && document.getElementById('lesson-content').scrollTo(0, 0);
-  }
-
-  // Expose globally for button onclick
-  window.lessonNav = function(delta) { showSection(current + delta); };
-  window.lessonGoto = function(idx) { showSection(idx); };
-  window.lessonCurrent = function() { return current; };
-
-  // Init on DOM ready
-  document.addEventListener('DOMContentLoaded', function() {
-    showSection(current);
-  });
-})();
-var QUIZ_DATA = [
-  // Leaving section 0 (Part 1 — What Makes a Design Purposeful?)
-  {
-    question: "A robot team mounts their battery high on the frame because there is space there. This is an example of:",
-    options: [
-      "Purposeful design — they chose a location that works",
-      "Trial-and-error — they tried it and it worked, so they kept it",
-      "A constraint — the battery had to go there",
-      "An interface — the battery connects to the frame"
-    ],
-    correct: 1,
-    reinforcement: "Correct! Choosing a location because there's space — without an engineering reason — is trial-and-error thinking, not purposeful design. Purposeful design requires a documented reason for every decision.",
-    review: "Go back and re-read the section on purposeful design vs. trial-and-error. Key question: does the team know <em>why</em> the battery is there?"
-  },
-  // Leaving section 1 (Stability Experiment)
-  {
-    question: "In the stability experiment, placing the heavy book <strong>on top of</strong> the water bottle made it easier to tip. What engineering concept does this demonstrate?",
-    options: [
-      "A high center of gravity creates a less stable structure",
-      "Heavier objects always tip more easily than lighter ones",
-      "The bottle's constraint prevented it from standing upright",
-      "Dihedral angle increases when mass is added to the top"
-    ],
-    correct: 0,
-    reinforcement: "Correct! The book raised the center of gravity — the point where the object's weight is balanced. When that point is high, small forces can tip the structure. This is why robot designers mount heavy components like batteries as low as possible.",
-    review: "Review the stability experiment results. Focus on the key term callout box that defines <em>center of gravity</em> and explains what happens when it is high vs. low."
-  },
-  // Leaving section 2 (Robot Photo Analysis)
-  {
-    question: "When analyzing a robot photo, you notice the wheels are very large. Which response best demonstrates purposeful design thinking?",
-    options: [
-      "\"The wheels are large.\"",
-      "\"The wheels are large — they probably chose that because they look good.\"",
-      "\"The wheels are large — larger diameter means more distance per motor revolution, trading off higher chassis height.\"",
-      "\"The wheels are large — that means the robot is fast.\""
-    ],
-    correct: 2,
-    reinforcement: "Correct! Strong purposeful design analysis names the observation, explains the engineering reason (more distance per revolution), and identifies the trade-off (higher chassis height raises the center of gravity). Observation alone or vague guesses aren't engineering thinking.",
-    review: "Review the I Do section showing the three-part observation structure: <em>I notice / I ask why / Trade-off</em>. Your answer needs all three parts to count as purposeful design analysis."
-  },
-  // Leaving section 3 (Notebook Setup)
-  {
-    question: "A student sketches a robot arm in their notebook but doesn't write the date or their name. What is the main problem with this?",
-    options: [
-      "The sketch won't look professional",
-      "The entry cannot be used as a legal record — it can't be traced back to who made it or when",
-      "The student will forget which class period it was from",
-      "Notebook judges prefer pencil sketches with dates written in pen"
-    ],
-    correct: 1,
-    reinforcement: "Correct! An engineering notebook is a legal record of the design process. Without a date and signature, the entry can't be verified — it has no traceability. In FTC competition, judges use the notebook to understand how the team thinks, and undated entries cannot be relied upon.",
-    review: "Review the notebook setup section. Pay attention to the checklist of what every entry must include, and why the notebook functions as a <em>legal record</em> of your design process."
-  }
-];
-
-// ── POPUP LOGIC ──────────────────────────────────────────────────────────────
-var _selectedOption = null;
-var _pendingAdvance = false;
-
-function checkAndAdvance() {
-  // Only show popup when going forward (Next), not on the last section
-  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
-  if (qIdx >= QUIZ_DATA.length) {
-    // No question for this transition — just advance
-    lessonNav(1);
-    return;
-  }
-  _pendingAdvance = true;
-  _selectedOption = null;
-  showPopup(qIdx);
-}
-
-function showPopup(idx) {
-  var data = QUIZ_DATA[idx];
-  // Reset state
-  document.getElementById('popup-question').innerHTML = data.question;
-  var optDiv = document.getElementById('popup-options');
-  optDiv.innerHTML = '';
-  data.options.forEach(function(opt, i) {
-    var btn = document.createElement('button');
-    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
-    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
-    btn.onclick = function() { selectOption(i, btn); };
-    optDiv.appendChild(btn);
-  });
-  document.getElementById('popup-feedback').style.display = 'none';
-  document.getElementById('popup-submit').style.display = 'inline-block';
-  document.getElementById('popup-continue').style.display = 'none';
-  document.getElementById('popup-review').style.display = 'none';
-
-  var overlay = document.getElementById('check-overlay');
-  overlay.style.display = 'flex';
-  // Animate in
-  var modal = document.getElementById('check-modal');
-  modal.style.transform = 'scale(0.93)';
-  modal.style.opacity = '0';
-  modal.style.transition = 'transform .18s, opacity .18s';
-  requestAnimationFrame(function() {
-    requestAnimationFrame(function() {
-      modal.style.transform = 'scale(1)';
-      modal.style.opacity = '1';
-    });
-  });
-}
-
-function selectOption(i, btn) {
-  _selectedOption = i;
-  // Reset all buttons
-  var btns = document.getElementById('popup-options').querySelectorAll('button');
-  btns.forEach(function(b) {
-    b.style.background = '#f7f6f3';
-    b.style.borderColor = '#d0d0cc';
-    b.style.color = '#222';
-    var circle = b.querySelector('span');
-    if (circle) { circle.style.background = ''; circle.style.borderColor = '#d0d0cc'; }
-  });
-  // Highlight selected
-  btn.style.background = '#e8f0f9';
-  btn.style.borderColor = '#1a4f82';
-  btn.style.color = '#1a4f82';
-  var circle = btn.querySelector('span');
-  if (circle) { circle.style.background = '#1a4f82'; circle.style.borderColor = '#1a4f82'; }
-}
-
-function submitAnswer() {
-  if (_selectedOption === null) {
-    // Shake the submit button
-    var sb = document.getElementById('popup-submit');
-    sb.style.transform = 'translateX(-4px)';
-    setTimeout(function(){ sb.style.transform = 'translateX(4px)'; }, 80);
-    setTimeout(function(){ sb.style.transform = ''; }, 160);
-    return;
-  }
-  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
-  var data = QUIZ_DATA[qIdx];
-  var correct = _selectedOption === data.correct;
-  var feedback = document.getElementById('popup-feedback');
-  var optBtns = document.getElementById('popup-options').querySelectorAll('button');
-
-  // Colour all options
-  optBtns.forEach(function(b, i) {
-    b.style.pointerEvents = 'none';
-    if (i === data.correct) {
-      b.style.background = '#e8f4ee';
-      b.style.borderColor = '#2d6a4f';
-      b.style.color = '#2d6a4f';
-      var circle = b.querySelector('span');
-      if (circle) { circle.style.background = '#2d6a4f'; circle.style.borderColor = '#2d6a4f'; }
-    } else if (i === _selectedOption && !correct) {
-      b.style.background = '#fdf2f2';
-      b.style.borderColor = '#8b1a1a';
-      b.style.color = '#8b1a1a';
-      var circle = b.querySelector('span');
-      if (circle) { circle.style.background = '#8b1a1a'; circle.style.borderColor = '#8b1a1a'; }
-    }
-  });
-
-  document.getElementById('popup-submit').style.display = 'none';
-
-  if (correct) {
-    feedback.style.background = '#e8f4ee';
-    feedback.style.border = '1.5px solid #2d6a4f';
-    feedback.style.color = '#1a3a1a';
-    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
-    document.getElementById('popup-continue').style.display = 'inline-block';
-    // Update popup header
-    document.getElementById('popup-header').style.background = '#2d6a4f';
-    document.getElementById('popup-header').querySelector('span:first-child').textContent = '✓';
-    document.getElementById('popup-header').querySelector('span:last-child').textContent = 'Correct — keep going!';
-  } else {
-    feedback.style.background = '#fdf3e3';
-    feedback.style.border = '1.5px solid #c8860a';
-    feedback.style.color = '#3a2a00';
-    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
-    document.getElementById('popup-review').style.display = 'inline-block';
-    document.getElementById('popup-header').style.background = '#7d4e00';
-    document.getElementById('popup-header').querySelector('span:first-child').textContent = '↩';
-    document.getElementById('popup-header').querySelector('span:last-child').textContent = 'Review before continuing';
-  }
-  feedback.style.display = 'block';
-}
-
-function closePopupAndAdvance() {
-  document.getElementById('check-overlay').style.display = 'none';
-  lessonNav(1);
-}
-
-function closePopup() {
-  document.getElementById('check-overlay').style.display = 'none';
-  _pendingAdvance = false;
-}
-
-// Close on overlay click (outside modal)
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('check-overlay').addEventListener('click', function(e) {
-    if (e.target === this) closePopup();
-  });
-});
-
-
-</script>
 
 </head>
 <body>
@@ -1454,5 +1213,243 @@ document.addEventListener('DOMContentLoaded', function() {
   <span>Page 1 of 1</span>
 </div>
 
+<script>
+(function() {
+  var TOTAL = 5;
+  var storageKey = 'lesson_class1_html_section';
+
+  // Restore position from sessionStorage
+  var saved = parseInt(sessionStorage.getItem(storageKey) || '0');
+  var current = (saved >= 0 && saved < TOTAL) ? saved : 0;
+
+  function showSection(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+    // Hide all
+    var sections = document.querySelectorAll('.lesson-section');
+    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
+    // Show target
+    sections[idx].classList.add('active');
+    sections[idx].style.display = 'block';
+    current = idx;
+    sessionStorage.setItem(storageKey, idx);
+    // Update sidebar
+    var items = document.querySelectorAll('.sb-item');
+    items.forEach(function(it, i) {
+      it.classList.toggle('active', i === idx);
+      if (i < idx) { it.classList.add('completed'); it.querySelector('.sb-check').textContent = '✓'; }
+    });
+    // Update progress
+    var prog = document.getElementById('sb-progress');
+    if (prog) prog.textContent = 'Section ' + (idx + 1) + ' of ' + TOTAL;
+    // Scroll top
+    window.scrollTo(0, 0);
+    document.getElementById('lesson-content') && document.getElementById('lesson-content').scrollTo(0, 0);
+  }
+
+  // Expose globally for button onclick
+  window.lessonNav = function(delta) { showSection(current + delta); };
+  window.lessonGoto = function(idx) { showSection(idx); };
+  window.lessonCurrent = function() { return current; };
+
+  // Init immediately — script is at end of body
+  showSection(current);
+})();
+var QUIZ_DATA = [
+  // Leaving section 0 (Part 1 — What Makes a Design Purposeful?)
+  {
+    question: "A robot team mounts their battery high on the frame because there is space there. This is an example of:",
+    options: [
+      "Purposeful design — they chose a location that works",
+      "Trial-and-error — they tried it and it worked, so they kept it",
+      "A constraint — the battery had to go there",
+      "An interface — the battery connects to the frame"
+    ],
+    correct: 1,
+    reinforcement: "Correct! Choosing a location because there's space — without an engineering reason — is trial-and-error thinking, not purposeful design. Purposeful design requires a documented reason for every decision.",
+    review: "Go back and re-read the section on purposeful design vs. trial-and-error. Key question: does the team know <em>why</em> the battery is there?"
+  },
+  // Leaving section 1 (Stability Experiment)
+  {
+    question: "In the stability experiment, placing the heavy book <strong>on top of</strong> the water bottle made it easier to tip. What engineering concept does this demonstrate?",
+    options: [
+      "A high center of gravity creates a less stable structure",
+      "Heavier objects always tip more easily than lighter ones",
+      "The bottle's constraint prevented it from standing upright",
+      "Dihedral angle increases when mass is added to the top"
+    ],
+    correct: 0,
+    reinforcement: "Correct! The book raised the center of gravity — the point where the object's weight is balanced. When that point is high, small forces can tip the structure. This is why robot designers mount heavy components like batteries as low as possible.",
+    review: "Review the stability experiment results. Focus on the key term callout box that defines <em>center of gravity</em> and explains what happens when it is high vs. low."
+  },
+  // Leaving section 2 (Robot Photo Analysis)
+  {
+    question: "When analyzing a robot photo, you notice the wheels are very large. Which response best demonstrates purposeful design thinking?",
+    options: [
+      "\"The wheels are large.\"",
+      "\"The wheels are large — they probably chose that because they look good.\"",
+      "\"The wheels are large — larger diameter means more distance per motor revolution, trading off higher chassis height.\"",
+      "\"The wheels are large — that means the robot is fast.\""
+    ],
+    correct: 2,
+    reinforcement: "Correct! Strong purposeful design analysis names the observation, explains the engineering reason (more distance per revolution), and identifies the trade-off (higher chassis height raises the center of gravity). Observation alone or vague guesses aren't engineering thinking.",
+    review: "Review the I Do section showing the three-part observation structure: <em>I notice / I ask why / Trade-off</em>. Your answer needs all three parts to count as purposeful design analysis."
+  },
+  // Leaving section 3 (Notebook Setup)
+  {
+    question: "A student sketches a robot arm in their notebook but doesn't write the date or their name. What is the main problem with this?",
+    options: [
+      "The sketch won't look professional",
+      "The entry cannot be used as a legal record — it can't be traced back to who made it or when",
+      "The student will forget which class period it was from",
+      "Notebook judges prefer pencil sketches with dates written in pen"
+    ],
+    correct: 1,
+    reinforcement: "Correct! An engineering notebook is a legal record of the design process. Without a date and signature, the entry can't be verified — it has no traceability. In FTC competition, judges use the notebook to understand how the team thinks, and undated entries cannot be relied upon.",
+    review: "Review the notebook setup section. Pay attention to the checklist of what every entry must include, and why the notebook functions as a <em>legal record</em> of your design process."
+  }
+];
+
+// ── POPUP LOGIC ──────────────────────────────────────────────────────────────
+var _selectedOption = null;
+var _pendingAdvance = false;
+
+function checkAndAdvance() {
+  // Only show popup when going forward (Next), not on the last section
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  if (qIdx >= QUIZ_DATA.length) {
+    // No question for this transition — just advance
+    lessonNav(1);
+    return;
+  }
+  _pendingAdvance = true;
+  _selectedOption = null;
+  showPopup(qIdx);
+}
+
+function showPopup(idx) {
+  var data = QUIZ_DATA[idx];
+  // Reset state
+  document.getElementById('popup-question').innerHTML = data.question;
+  var optDiv = document.getElementById('popup-options');
+  optDiv.innerHTML = '';
+  data.options.forEach(function(opt, i) {
+    var btn = document.createElement('button');
+    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
+    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
+    btn.onclick = function() { selectOption(i, btn); };
+    optDiv.appendChild(btn);
+  });
+  document.getElementById('popup-feedback').style.display = 'none';
+  document.getElementById('popup-submit').style.display = 'inline-block';
+  document.getElementById('popup-continue').style.display = 'none';
+  document.getElementById('popup-review').style.display = 'none';
+
+  var overlay = document.getElementById('check-overlay');
+  overlay.style.display = 'flex';
+  // Animate in
+  var modal = document.getElementById('check-modal');
+  modal.style.transform = 'scale(0.93)';
+  modal.style.opacity = '0';
+  modal.style.transition = 'transform .18s, opacity .18s';
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      modal.style.transform = 'scale(1)';
+      modal.style.opacity = '1';
+    });
+  });
+}
+
+function selectOption(i, btn) {
+  _selectedOption = i;
+  // Reset all buttons
+  var btns = document.getElementById('popup-options').querySelectorAll('button');
+  btns.forEach(function(b) {
+    b.style.background = '#f7f6f3';
+    b.style.borderColor = '#d0d0cc';
+    b.style.color = '#222';
+    var circle = b.querySelector('span');
+    if (circle) { circle.style.background = ''; circle.style.borderColor = '#d0d0cc'; }
+  });
+  // Highlight selected
+  btn.style.background = '#e8f0f9';
+  btn.style.borderColor = '#1a4f82';
+  btn.style.color = '#1a4f82';
+  var circle = btn.querySelector('span');
+  if (circle) { circle.style.background = '#1a4f82'; circle.style.borderColor = '#1a4f82'; }
+}
+
+function submitAnswer() {
+  if (_selectedOption === null) {
+    // Shake the submit button
+    var sb = document.getElementById('popup-submit');
+    sb.style.transform = 'translateX(-4px)';
+    setTimeout(function(){ sb.style.transform = 'translateX(4px)'; }, 80);
+    setTimeout(function(){ sb.style.transform = ''; }, 160);
+    return;
+  }
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  var data = QUIZ_DATA[qIdx];
+  var correct = _selectedOption === data.correct;
+  var feedback = document.getElementById('popup-feedback');
+  var optBtns = document.getElementById('popup-options').querySelectorAll('button');
+
+  // Colour all options
+  optBtns.forEach(function(b, i) {
+    b.style.pointerEvents = 'none';
+    if (i === data.correct) {
+      b.style.background = '#e8f4ee';
+      b.style.borderColor = '#2d6a4f';
+      b.style.color = '#2d6a4f';
+      var circle = b.querySelector('span');
+      if (circle) { circle.style.background = '#2d6a4f'; circle.style.borderColor = '#2d6a4f'; }
+    } else if (i === _selectedOption && !correct) {
+      b.style.background = '#fdf2f2';
+      b.style.borderColor = '#8b1a1a';
+      b.style.color = '#8b1a1a';
+      var circle = b.querySelector('span');
+      if (circle) { circle.style.background = '#8b1a1a'; circle.style.borderColor = '#8b1a1a'; }
+    }
+  });
+
+  document.getElementById('popup-submit').style.display = 'none';
+
+  if (correct) {
+    feedback.style.background = '#e8f4ee';
+    feedback.style.border = '1.5px solid #2d6a4f';
+    feedback.style.color = '#1a3a1a';
+    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
+    document.getElementById('popup-continue').style.display = 'inline-block';
+    // Update popup header
+    document.getElementById('popup-header').style.background = '#2d6a4f';
+    document.getElementById('popup-header').querySelector('span:first-child').textContent = '✓';
+    document.getElementById('popup-header').querySelector('span:last-child').textContent = 'Correct — keep going!';
+  } else {
+    feedback.style.background = '#fdf3e3';
+    feedback.style.border = '1.5px solid #c8860a';
+    feedback.style.color = '#3a2a00';
+    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
+    document.getElementById('popup-review').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#7d4e00';
+    document.getElementById('popup-header').querySelector('span:first-child').textContent = '↩';
+    document.getElementById('popup-header').querySelector('span:last-child').textContent = 'Review before continuing';
+  }
+  feedback.style.display = 'block';
+}
+
+function closePopupAndAdvance() {
+  document.getElementById('check-overlay').style.display = 'none';
+  lessonNav(1);
+}
+
+function closePopup() {
+  document.getElementById('check-overlay').style.display = 'none';
+  _pendingAdvance = false;
+}
+
+// Close on overlay click (outside modal)
+document.getElementById('check-overlay').addEventListener('click', function(e) { if (e.target === this) closePopup(); });
+
+
+</script>
 </body>
 </html>

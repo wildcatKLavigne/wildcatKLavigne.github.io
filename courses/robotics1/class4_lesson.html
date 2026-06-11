@@ -151,7 +151,7 @@
   hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 
   /* FOOTER */
-  .ws-footer { margin-top: 28px; padding-top: 10px; border-top: 2px solid var(--blue); display: flex; justify-content: space-between; font-size: 8.5pt; color: #888; }
+  .ws-footer { font-size: 8.5pt; color: #888; } /* neutralised by paginator layout */
 
   @media print {
     body { padding: 0.4in 0.6in; }
@@ -294,6 +294,14 @@ body {
   background: #fff;
   border-top: 1px solid #d0d0cc;
   padding: 8px 32px !important;
+  /* Override original lesson styles that treat footer as scroll content */
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 8.5pt;
+  color: #888;
+  position: static !important;
 }
 
 /* ── PRINT: restore single-scroll layout ── */
@@ -319,245 +327,7 @@ body {
 
 </style>
 
-<script>
-(function() {
-  var TOTAL = 8;
-  var storageKey = 'lesson_class4_lesson_html_section';
 
-  // Restore position from sessionStorage
-  var saved = parseInt(sessionStorage.getItem(storageKey) || '0');
-  var current = (saved >= 0 && saved < TOTAL) ? saved : 0;
-
-  function showSection(idx) {
-    if (idx < 0 || idx >= TOTAL) return;
-    // Hide all
-    var sections = document.querySelectorAll('.lesson-section');
-    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
-    // Show target
-    sections[idx].classList.add('active');
-    sections[idx].style.display = 'block';
-    current = idx;
-    sessionStorage.setItem(storageKey, idx);
-    // Update sidebar
-    var items = document.querySelectorAll('.sb-item');
-    items.forEach(function(it, i) {
-      it.classList.toggle('active', i === idx);
-      if (i < idx) { it.classList.add('completed'); it.querySelector('.sb-check').textContent = '✓'; }
-    });
-    // Update progress
-    var prog = document.getElementById('sb-progress');
-    if (prog) prog.textContent = 'Section ' + (idx + 1) + ' of ' + TOTAL;
-    // Scroll top
-    window.scrollTo(0, 0);
-    document.getElementById('lesson-content') && document.getElementById('lesson-content').scrollTo(0, 0);
-  }
-
-  // Expose globally for button onclick
-  window.lessonNav = function(delta) { showSection(current + delta); };
-  window.lessonGoto = function(idx) { showSection(idx); };
-  window.lessonCurrent = function() { return current; };
-
-  // Init on DOM ready
-  document.addEventListener('DOMContentLoaded', function() {
-    showSection(current);
-  });
-})();
-
-// ── POPUP LOGIC ──
-var QUIZ_DATA = [
-  {
-    question: 'Why must you set the weights in a weighted decision matrix BEFORE sketching your designs?',
-    options: [
-      'Because the weights affect how long each sketch takes to complete.',
-      'To prevent your knowledge of the designs from unconsciously biasing which criteria you make important.',
-      'Because the rubric requires weights to be submitted with the sketches.',
-      'Setting weights first makes the maths easier when calculating the final scores.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! If you set weights after you\'ve already designed, your brain will unconsciously inflate the importance of criteria your favourite design happens to score well on. Setting weights first forces you to define what matters most before any design bias exists.',
-    review: 'Review the weighted decision matrix section. The key rule is explicit: assign weights before you sketch — they are non-negotiable once set.'
-  },
-  {
-    question: 'A student wants to use a servo to spin a wheel continuously so the robot can drive. Is this the right component for that job?',
-    options: [
-      'Yes — servos can spin continuously if commanded to position 270°.',
-      'No — a servo moves to a specific angle and holds it; continuous spinning requires a DC motor.',
-      'Yes — the REV Smart Robot Servo has a special continuous rotation mode built in.',
-      'No — servos can only move in one direction, so driving would only work in reverse.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! A servo is designed to move to a specific angle and hold position — it\'s ideal for a claw (open/close) or an arm (move to angle and hold). Continuous spinning for driving requires a DC motor. Using the wrong actuator type is a common design mistake.',
-    review: 'Review the servo introduction in Part 2. Focus on the key difference: servo = position control (specific angle, holds), DC motor = speed control (spins continuously).'
-  },
-  {
-    question: 'In the servo arm experiment, doubling the arm length from 3 cm to 6 cm caused the weight held before stalling to:',
-    options: [
-      'Double — a longer arm multiplies the servo\\\'s force.',
-      'Stay the same — arm length doesn\\\'t affect holding force.',
-      'Decrease — a longer arm means less force at the tip for the same servo torque.',
-      'Increase by a fixed amount regardless of length.'
-    ],
-    correct: 2,
-    reinforcement: 'Correct! This is torque in action: force × distance = a constant (the servo\'s stall torque). So force = torque ÷ distance. When distance increases, force decreases. A shorter arm puts more force at the tip; a longer arm gives you more reach but less grip force.',
-    review: 'Review your experiment data table and the key term callout at the end of Experiment A. The rule you wrote in your own words about arm length and force is the key concept.'
-  },
-  {
-    question: 'When closing a single-pivot claw, the fingers arc through a curve. When closing a 4-bar linkage claw, the fingers stay roughly parallel. Why does this matter for gripping a foam cube?',
-    options: [
-      'It doesn\\\'t matter — both designs grip the cube as long as the servo has enough torque.',
-      'Parallel fingers distribute gripping force evenly across the cube\\\'s face; arcing fingers only contact at two points.',
-      'The 4-bar linkage is always stronger because it has more parts.',
-      'Parallel motion means the servo needs to rotate further to close the claw.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! When fingers stay parallel, they make full-face contact with the cube\'s flat sides, distributing grip force evenly. When fingers arc, they meet the cube at a point or edge, concentrating force and making the grip less secure — especially if the cube is smooth.',
-    review: 'Review your linkage experiment observations and the key term callout. Focus on what \'parallel motion\' means for contact area, and why that matters when gripping an object with flat faces.'
-  },
-  {
-    question: 'The claw design brief says it must pick up a 10 cm foam cube. A student designs a claw that grips objects up to 8 cm wide. This design:',
-    options: [
-      'Meets the requirement — 8 cm is close enough to 10 cm for a prototype.',
-      'Fails the constraint — the opening width is insufficient to fit around the 10 cm cube.',
-      'Exceeds the requirement — smaller grip width means more precision.',
-      'Meets the requirement only if the cube is compressed slightly during gripping.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! This is a constraint failure — the design cannot perform its required function. A claw with an 8 cm maximum opening cannot fit around a 10 cm cube. Constraints are non-negotiable: a design that fails a constraint is not a valid solution, regardless of how well it scores on other criteria.',
-    review: 'Review the Define section and the claw requirements. The opening width constraint is explicit — re-read it and make sure your own design sketches satisfy it before moving on.'
-  },
-  {
-    question: 'After completing the weighted matrix, a student ignores the highest-scoring design and chooses a different one because they prefer it. What is wrong with this?',
-    options: [
-      'Nothing — personal preference is a valid engineering criterion.',
-      'It undermines the purpose of the matrix: to make decisions based on pre-set priorities rather than post-design bias.',
-      'The student should add their preference as a new criterion and re-score all designs.',
-      'Nothing, as long as the chosen design still scores above 50% of the maximum possible.'
-    ],
-    correct: 1,
-    reinforcement: 'Correct! The point of the weighted matrix is to externalise the decision — to make it based on criteria you agreed were important before you saw the designs. Overriding the result because of preference introduces exactly the bias the matrix was designed to prevent.',
-    review: 'Review the weighted matrix section and the note about weights being non-negotiable. Think about what would happen to every design process if engineers could simply override their own evaluation criteria.'
-  },
-  {
-    question: 'A student\'s final claw drawing has three views and labeled dimensions but no title block or revision box. What is the problem?',
-    options: [
-      'The drawing cannot be used to build the claw — it is missing traceability and change history.',
-      'The drawing needs colour coding to be a proper engineering document.',
-      'Three views is too many — a final drawing only needs front and top view.',
-      'Dimensions without a title block are still valid as long as units are included.'
-    ],
-    correct: 0,
-    reinforcement: 'Correct! Without a title block, the drawing can\'t be traced back to who made it, when, or at what scale. Without a revision box, there\'s no record of how the design evolved. These aren\'t formatting niceties — they\'re what make an engineering drawing a usable, verifiable document.',
-    review: 'Review the final drawing requirements in Part 7 and the Class 3 documentation standards. Every required element has a specific reason — re-read what the title block and revision box each provide.'
-  }
-];
-
-var _selectedOption = null;
-
-function checkAndAdvance() {{
-  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
-  if (qIdx >= QUIZ_DATA.length) {{ lessonNav(1); return; }}
-  _selectedOption = null;
-  showPopup(qIdx);
-}}
-
-function showPopup(idx) {{
-  var data = QUIZ_DATA[idx];
-  document.getElementById('popup-question').innerHTML = data.question;
-  var optDiv = document.getElementById('popup-options');
-  optDiv.innerHTML = '';
-  data.options.forEach(function(opt, i) {{
-    var btn = document.createElement('button');
-    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
-    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
-    btn.onclick = function() {{ selectOption(i, btn); }};
-    optDiv.appendChild(btn);
-  }});
-  document.getElementById('popup-feedback').style.display = 'none';
-  document.getElementById('popup-submit').style.display = 'inline-block';
-  document.getElementById('popup-continue').style.display = 'none';
-  document.getElementById('popup-review').style.display = 'none';
-  document.getElementById('popup-header').style.background = '#1a4f82';
-  document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '🎯';
-  document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Quick Check — Before You Continue';
-  var overlay = document.getElementById('check-overlay');
-  overlay.style.display = 'flex';
-  var modal = document.getElementById('check-modal');
-  modal.style.transform = 'scale(0.93)'; modal.style.opacity = '0';
-  modal.style.transition = 'transform .18s, opacity .18s';
-  requestAnimationFrame(function() {{
-    requestAnimationFrame(function() {{
-      modal.style.transform = 'scale(1)'; modal.style.opacity = '1';
-    }});
-  }});
-}}
-
-function selectOption(i, btn) {{
-  _selectedOption = i;
-  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b) {{
-    b.style.background = '#f7f6f3'; b.style.borderColor = '#d0d0cc'; b.style.color = '#222';
-    var c = b.querySelector('span'); if (c) {{ c.style.background = ''; c.style.borderColor = '#d0d0cc'; }}
-  }});
-  btn.style.background = '#e8f0f9'; btn.style.borderColor = '#1a4f82'; btn.style.color = '#1a4f82';
-  var c = btn.querySelector('span');
-  if (c) {{ c.style.background = '#1a4f82'; c.style.borderColor = '#1a4f82'; }}
-}}
-
-function submitAnswer() {{
-  if (_selectedOption === null) {{
-    var sb = document.getElementById('popup-submit');
-    sb.style.transform = 'translateX(-4px)';
-    setTimeout(function(){{ sb.style.transform = 'translateX(4px)'; }}, 80);
-    setTimeout(function(){{ sb.style.transform = ''; }}, 160);
-    return;
-  }}
-  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
-  var data = QUIZ_DATA[qIdx];
-  var correct = _selectedOption === data.correct;
-  var feedback = document.getElementById('popup-feedback');
-  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b, i) {{
-    b.style.pointerEvents = 'none';
-    if (i === data.correct) {{
-      b.style.background = '#e8f4ee'; b.style.borderColor = '#2d6a4f'; b.style.color = '#2d6a4f';
-      var c = b.querySelector('span'); if (c) {{ c.style.background = '#2d6a4f'; c.style.borderColor = '#2d6a4f'; }}
-    }} else if (i === _selectedOption && !correct) {{
-      b.style.background = '#fdf2f2'; b.style.borderColor = '#8b1a1a'; b.style.color = '#8b1a1a';
-      var c = b.querySelector('span'); if (c) {{ c.style.background = '#8b1a1a'; c.style.borderColor = '#8b1a1a'; }}
-    }}
-  }});
-  document.getElementById('popup-submit').style.display = 'none';
-  if (correct) {{
-    feedback.style.cssText = 'display:block;background:#e8f4ee;border:1.5px solid #2d6a4f;color:#1a3a1a;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
-    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
-    document.getElementById('popup-continue').style.display = 'inline-block';
-    document.getElementById('popup-header').style.background = '#2d6a4f';
-    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '✓';
-    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Correct — keep going!';
-  }} else {{
-    feedback.style.cssText = 'display:block;background:#fdf3e3;border:1.5px solid #c8860a;color:#3a2a00;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
-    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
-    document.getElementById('popup-review').style.display = 'inline-block';
-    document.getElementById('popup-header').style.background = '#7d4e00';
-    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '↩';
-    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Review before continuing';
-  }}
-}}
-
-function closePopupAndAdvance() {{
-  document.getElementById('check-overlay').style.display = 'none';
-  lessonNav(1);
-}}
-
-function closePopup() {{
-  document.getElementById('check-overlay').style.display = 'none';
-}}
-
-document.addEventListener('DOMContentLoaded', function() {{
-  document.getElementById('check-overlay').addEventListener('click', function(e) {{
-    if (e.target === this) closePopup();
-  }});
-}});
-
-</script>
 
 </head>
 <body>
@@ -1271,5 +1041,238 @@ document.addEventListener('DOMContentLoaded', function() {{
 
 
 
+<script>
+(function() {
+  var TOTAL = 8;
+  var storageKey = 'lesson_class4_lesson_html_section';
+
+  // Restore position from sessionStorage
+  var saved = parseInt(sessionStorage.getItem(storageKey) || '0');
+  var current = (saved >= 0 && saved < TOTAL) ? saved : 0;
+
+  function showSection(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+    // Hide all
+    var sections = document.querySelectorAll('.lesson-section');
+    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
+    // Show target
+    sections[idx].classList.add('active');
+    sections[idx].style.display = 'block';
+    current = idx;
+    sessionStorage.setItem(storageKey, idx);
+    // Update sidebar
+    var items = document.querySelectorAll('.sb-item');
+    items.forEach(function(it, i) {
+      it.classList.toggle('active', i === idx);
+      if (i < idx) { it.classList.add('completed'); it.querySelector('.sb-check').textContent = '✓'; }
+    });
+    // Update progress
+    var prog = document.getElementById('sb-progress');
+    if (prog) prog.textContent = 'Section ' + (idx + 1) + ' of ' + TOTAL;
+    // Scroll top
+    window.scrollTo(0, 0);
+    document.getElementById('lesson-content') && document.getElementById('lesson-content').scrollTo(0, 0);
+  }
+
+  // Expose globally for button onclick
+  window.lessonNav = function(delta) { showSection(current + delta); };
+  window.lessonGoto = function(idx) { showSection(idx); };
+  window.lessonCurrent = function() { return current; };
+
+  // Init immediately — script is at end of body
+  showSection(current);
+})();
+
+// ── POPUP LOGIC ──
+var QUIZ_DATA = [
+  {
+    question: 'Why must you set the weights in a weighted decision matrix BEFORE sketching your designs?',
+    options: [
+      'Because the weights affect how long each sketch takes to complete.',
+      'To prevent your knowledge of the designs from unconsciously biasing which criteria you make important.',
+      'Because the rubric requires weights to be submitted with the sketches.',
+      'Setting weights first makes the maths easier when calculating the final scores.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! If you set weights after you\'ve already designed, your brain will unconsciously inflate the importance of criteria your favourite design happens to score well on. Setting weights first forces you to define what matters most before any design bias exists.',
+    review: 'Review the weighted decision matrix section. The key rule is explicit: assign weights before you sketch — they are non-negotiable once set.'
+  },
+  {
+    question: 'A student wants to use a servo to spin a wheel continuously so the robot can drive. Is this the right component for that job?',
+    options: [
+      'Yes — servos can spin continuously if commanded to position 270°.',
+      'No — a servo moves to a specific angle and holds it; continuous spinning requires a DC motor.',
+      'Yes — the REV Smart Robot Servo has a special continuous rotation mode built in.',
+      'No — servos can only move in one direction, so driving would only work in reverse.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! A servo is designed to move to a specific angle and hold position — it\'s ideal for a claw (open/close) or an arm (move to angle and hold). Continuous spinning for driving requires a DC motor. Using the wrong actuator type is a common design mistake.',
+    review: 'Review the servo introduction in Part 2. Focus on the key difference: servo = position control (specific angle, holds), DC motor = speed control (spins continuously).'
+  },
+  {
+    question: 'In the servo arm experiment, doubling the arm length from 3 cm to 6 cm caused the weight held before stalling to:',
+    options: [
+      'Double — a longer arm multiplies the servo\\\'s force.',
+      'Stay the same — arm length doesn\\\'t affect holding force.',
+      'Decrease — a longer arm means less force at the tip for the same servo torque.',
+      'Increase by a fixed amount regardless of length.'
+    ],
+    correct: 2,
+    reinforcement: 'Correct! This is torque in action: force × distance = a constant (the servo\'s stall torque). So force = torque ÷ distance. When distance increases, force decreases. A shorter arm puts more force at the tip; a longer arm gives you more reach but less grip force.',
+    review: 'Review your experiment data table and the key term callout at the end of Experiment A. The rule you wrote in your own words about arm length and force is the key concept.'
+  },
+  {
+    question: 'When closing a single-pivot claw, the fingers arc through a curve. When closing a 4-bar linkage claw, the fingers stay roughly parallel. Why does this matter for gripping a foam cube?',
+    options: [
+      'It doesn\\\'t matter — both designs grip the cube as long as the servo has enough torque.',
+      'Parallel fingers distribute gripping force evenly across the cube\\\'s face; arcing fingers only contact at two points.',
+      'The 4-bar linkage is always stronger because it has more parts.',
+      'Parallel motion means the servo needs to rotate further to close the claw.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! When fingers stay parallel, they make full-face contact with the cube\'s flat sides, distributing grip force evenly. When fingers arc, they meet the cube at a point or edge, concentrating force and making the grip less secure — especially if the cube is smooth.',
+    review: 'Review your linkage experiment observations and the key term callout. Focus on what \'parallel motion\' means for contact area, and why that matters when gripping an object with flat faces.'
+  },
+  {
+    question: 'The claw design brief says it must pick up a 10 cm foam cube. A student designs a claw that grips objects up to 8 cm wide. This design:',
+    options: [
+      'Meets the requirement — 8 cm is close enough to 10 cm for a prototype.',
+      'Fails the constraint — the opening width is insufficient to fit around the 10 cm cube.',
+      'Exceeds the requirement — smaller grip width means more precision.',
+      'Meets the requirement only if the cube is compressed slightly during gripping.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! This is a constraint failure — the design cannot perform its required function. A claw with an 8 cm maximum opening cannot fit around a 10 cm cube. Constraints are non-negotiable: a design that fails a constraint is not a valid solution, regardless of how well it scores on other criteria.',
+    review: 'Review the Define section and the claw requirements. The opening width constraint is explicit — re-read it and make sure your own design sketches satisfy it before moving on.'
+  },
+  {
+    question: 'After completing the weighted matrix, a student ignores the highest-scoring design and chooses a different one because they prefer it. What is wrong with this?',
+    options: [
+      'Nothing — personal preference is a valid engineering criterion.',
+      'It undermines the purpose of the matrix: to make decisions based on pre-set priorities rather than post-design bias.',
+      'The student should add their preference as a new criterion and re-score all designs.',
+      'Nothing, as long as the chosen design still scores above 50% of the maximum possible.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! The point of the weighted matrix is to externalise the decision — to make it based on criteria you agreed were important before you saw the designs. Overriding the result because of preference introduces exactly the bias the matrix was designed to prevent.',
+    review: 'Review the weighted matrix section and the note about weights being non-negotiable. Think about what would happen to every design process if engineers could simply override their own evaluation criteria.'
+  },
+  {
+    question: 'A student\'s final claw drawing has three views and labeled dimensions but no title block or revision box. What is the problem?',
+    options: [
+      'The drawing cannot be used to build the claw — it is missing traceability and change history.',
+      'The drawing needs colour coding to be a proper engineering document.',
+      'Three views is too many — a final drawing only needs front and top view.',
+      'Dimensions without a title block are still valid as long as units are included.'
+    ],
+    correct: 0,
+    reinforcement: 'Correct! Without a title block, the drawing can\'t be traced back to who made it, when, or at what scale. Without a revision box, there\'s no record of how the design evolved. These aren\'t formatting niceties — they\'re what make an engineering drawing a usable, verifiable document.',
+    review: 'Review the final drawing requirements in Part 7 and the Class 3 documentation standards. Every required element has a specific reason — re-read what the title block and revision box each provide.'
+  }
+];
+
+var _selectedOption = null;
+
+function checkAndAdvance() {{
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  if (qIdx >= QUIZ_DATA.length) {{ lessonNav(1); return; }}
+  _selectedOption = null;
+  showPopup(qIdx);
+}}
+
+function showPopup(idx) {{
+  var data = QUIZ_DATA[idx];
+  document.getElementById('popup-question').innerHTML = data.question;
+  var optDiv = document.getElementById('popup-options');
+  optDiv.innerHTML = '';
+  data.options.forEach(function(opt, i) {{
+    var btn = document.createElement('button');
+    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
+    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
+    btn.onclick = function() {{ selectOption(i, btn); }};
+    optDiv.appendChild(btn);
+  }});
+  document.getElementById('popup-feedback').style.display = 'none';
+  document.getElementById('popup-submit').style.display = 'inline-block';
+  document.getElementById('popup-continue').style.display = 'none';
+  document.getElementById('popup-review').style.display = 'none';
+  document.getElementById('popup-header').style.background = '#1a4f82';
+  document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '🎯';
+  document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Quick Check — Before You Continue';
+  var overlay = document.getElementById('check-overlay');
+  overlay.style.display = 'flex';
+  var modal = document.getElementById('check-modal');
+  modal.style.transform = 'scale(0.93)'; modal.style.opacity = '0';
+  modal.style.transition = 'transform .18s, opacity .18s';
+  requestAnimationFrame(function() {{
+    requestAnimationFrame(function() {{
+      modal.style.transform = 'scale(1)'; modal.style.opacity = '1';
+    }});
+  }});
+}}
+
+function selectOption(i, btn) {{
+  _selectedOption = i;
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b) {{
+    b.style.background = '#f7f6f3'; b.style.borderColor = '#d0d0cc'; b.style.color = '#222';
+    var c = b.querySelector('span'); if (c) {{ c.style.background = ''; c.style.borderColor = '#d0d0cc'; }}
+  }});
+  btn.style.background = '#e8f0f9'; btn.style.borderColor = '#1a4f82'; btn.style.color = '#1a4f82';
+  var c = btn.querySelector('span');
+  if (c) {{ c.style.background = '#1a4f82'; c.style.borderColor = '#1a4f82'; }}
+}}
+
+function submitAnswer() {{
+  if (_selectedOption === null) {{
+    var sb = document.getElementById('popup-submit');
+    sb.style.transform = 'translateX(-4px)';
+    setTimeout(function(){{ sb.style.transform = 'translateX(4px)'; }}, 80);
+    setTimeout(function(){{ sb.style.transform = ''; }}, 160);
+    return;
+  }}
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  var data = QUIZ_DATA[qIdx];
+  var correct = _selectedOption === data.correct;
+  var feedback = document.getElementById('popup-feedback');
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b, i) {{
+    b.style.pointerEvents = 'none';
+    if (i === data.correct) {{
+      b.style.background = '#e8f4ee'; b.style.borderColor = '#2d6a4f'; b.style.color = '#2d6a4f';
+      var c = b.querySelector('span'); if (c) {{ c.style.background = '#2d6a4f'; c.style.borderColor = '#2d6a4f'; }}
+    }} else if (i === _selectedOption && !correct) {{
+      b.style.background = '#fdf2f2'; b.style.borderColor = '#8b1a1a'; b.style.color = '#8b1a1a';
+      var c = b.querySelector('span'); if (c) {{ c.style.background = '#8b1a1a'; c.style.borderColor = '#8b1a1a'; }}
+    }}
+  }});
+  document.getElementById('popup-submit').style.display = 'none';
+  if (correct) {{
+    feedback.style.cssText = 'display:block;background:#e8f4ee;border:1.5px solid #2d6a4f;color:#1a3a1a;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
+    document.getElementById('popup-continue').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#2d6a4f';
+    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '✓';
+    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Correct — keep going!';
+  }} else {{
+    feedback.style.cssText = 'display:block;background:#fdf3e3;border:1.5px solid #c8860a;color:#3a2a00;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
+    document.getElementById('popup-review').style.display = 'inline-block';
+    document.getElementById('popup-header').style.background = '#7d4e00';
+    document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '↩';
+    document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Review before continuing';
+  }}
+}}
+
+function closePopupAndAdvance() {{
+  document.getElementById('check-overlay').style.display = 'none';
+  lessonNav(1);
+}}
+
+function closePopup() {{
+  document.getElementById('check-overlay').style.display = 'none';
+}}
+
+document.getElementById('check-overlay').addEventListener('click', function(e) { if (e.target === this) closePopup(); });
+
+</script>
 </body>
 </html>
