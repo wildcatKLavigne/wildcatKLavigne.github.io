@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Unit 1 Timeline — Engineering Foundations</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap');
+:root {
+  --blue:#1a4f82; --blue-lt:#e8f0f9; --blue-md:#b5d4f4;
+  --green:#2d6a4f; --green-lt:#e3f0eb; --green-md:#9fd4b8;
+  --teal:#0f5f5f; --teal-lt:#e0f4f4;
+  --amber:#7d4e00; --amber-lt:#fdf3e3; --amber-md:#fac775;
+  --purple:#3d2a99; --purple-lt:#f0ecff; --purple-md:#b8a8f0;
+  --red:#8b1a1a; --red-lt:#fdf2f2; --red-md:#f0b8b8;
+  --border:#d0d0cc; --radius:7px; --muted:#666; --bg:#f7f6f3;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#1a1a1a;background:var(--bg);max-width:900px;margin:0 auto;padding:0.5in 0.6in;}
+
+/* ── Header ── */
+.ws-header{border-top:5px solid var(--blue);padding-top:14px;margin-bottom:22px;}
+.course-label{font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:4px;}
+.ws-header h1{font-size:22pt;font-weight:700;color:#111;line-height:1.2;margin-bottom:4px;}
+.ws-header .subtitle{font-size:10pt;color:var(--muted);}
+.ws-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:12px;}
+.ws-meta-item{padding:8px 12px;border-right:1px solid var(--border);}
+.ws-meta-item:last-child{border-right:none;}
+.meta-label{font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:3px;}
+.meta-line{border-bottom:1px solid #aaa;height:22px;}
+
+/* ── Legend ── */
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:9.5pt;color:var(--muted);}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+
+/* ── Gantt ── */
+.gantt-wrap{overflow-x:auto;margin-bottom:26px;}
+.gantt{width:100%;border-collapse:collapse;min-width:700px;}
+.gantt th,.gantt td{border:1px solid var(--border);padding:0;}
+
+/* Week header */
+.wk-hdr{background:var(--blue);color:#fff;font-size:10pt;font-weight:700;text-align:center;padding:7px 6px;}
+
+/* Class number sub-header */
+.cls-hdr{background:var(--blue-lt);color:var(--blue);font-size:9pt;font-weight:700;text-align:center;padding:5px 4px;}
+.cls-hdr.label-col{text-align:left;padding-left:10px;font-size:9pt;color:var(--muted);}
+.cls-hdr.status-col{font-size:9pt;}
+
+/* Row label */
+.row-label{font-size:10pt;font-weight:700;padding:8px 10px;background:#fff;white-space:nowrap;min-width:170px;}
+.row-sub{font-size:8.5pt;font-weight:400;color:var(--muted);display:block;margin-top:1px;}
+
+/* Activity cells */
+.empty-cell{background:var(--bg);}
+.status-cell{background:#fafaf8;text-align:center;padding:4px;width:80px;}
+.status-cell input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--green);}
+.date-cell{background:#fafaf8;min-width:90px;}
+.date-cell input{width:100%;border:none;background:transparent;font-family:inherit;font-size:9pt;color:#333;padding:6px 8px;outline:none;}
+.date-cell input:focus{background:var(--blue-lt);}
+
+/* Colored blocks */
+.block-lesson{text-align:center;padding:7px 4px;font-size:8.5pt;font-weight:700;cursor:pointer;transition:filter .12s;}
+.block-lesson:hover{filter:brightness(0.92);}
+
+/* Progress indicator overlay */
+.progress-wrap{position:relative;}
+.progress-bar{position:absolute;top:0;left:0;height:100%;opacity:0.35;pointer-events:none;border-radius:2px;}
+
+/* ── Progress Log ── */
+.prog-section{margin-bottom:28px;}
+.prog-section h2{font-size:13pt;font-weight:700;color:var(--blue);border-bottom:2px solid var(--blue-lt);padding-bottom:5px;margin-bottom:12px;}
+
+.prog-table{width:100%;border-collapse:collapse;font-size:9.5pt;}
+.prog-table th{background:var(--blue);color:#fff;padding:7px 10px;text-align:left;font-size:9pt;font-weight:700;letter-spacing:.04em;}
+.prog-table td{border:1px solid var(--border);padding:6px 10px;vertical-align:top;}
+.prog-table tr:nth-child(even) td{background:#fafaf8;}
+.prog-table tr:nth-child(odd) td{background:#fff;}
+.prog-table td.activity-cell{font-weight:600;color:var(--blue);background:var(--blue-lt)!important;white-space:nowrap;}
+.prog-table td.sched-cell{color:var(--muted);white-space:nowrap;background:var(--bg)!important;}
+.prog-table td.write-cell{background:#fafaf8!important;min-width:90px;}
+.prog-table td.notes-cell{min-width:200px;background:#fafaf8!important;}
+.prog-table td.notes-cell textarea{width:100%;border:none;background:transparent;font-family:inherit;font-size:9pt;resize:vertical;min-height:30px;outline:none;padding:0;}
+.prog-table td.date-input input,.prog-table td.score-input input{width:100%;border:none;background:transparent;font-family:inherit;font-size:9pt;outline:none;}
+.prog-table td.date-input input:focus,.prog-table td.score-input input:focus{background:var(--blue-lt);}
+.prog-checkbox{display:flex;align-items:center;justify-content:center;}
+.prog-checkbox input{width:16px;height:16px;cursor:pointer;accent-color:var(--green);}
+.completed td{opacity:0.6;}
+.completed td.activity-cell{text-decoration:line-through;}
+
+/* ── Reflection ── */
+.reflect-table{width:100%;border-collapse:collapse;font-size:9.5pt;margin-top:12px;}
+.reflect-table td{border:1px solid var(--border);padding:8px 10px;vertical-align:top;}
+.reflect-table td.prompt{background:var(--blue-lt);color:var(--blue);font-style:italic;width:34%;font-size:9pt;}
+.reflect-table td.response{background:#fafaf8;}
+.reflect-table td.response textarea{width:100%;border:none;background:transparent;font-family:inherit;font-size:9pt;resize:vertical;min-height:50px;outline:none;}
+
+/* ── Print ── */
+@media print{
+  body{max-width:none;padding:.3in .4in;background:#fff;}
+  .gantt-wrap{overflow:visible;}
+  textarea,input{border-bottom:1px solid #ccc!important;}
+  .block-lesson:hover{filter:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 1: Engineering Foundations</div>
+  <h1>Unit Timeline &amp; Progress Tracker</h1>
+  <div class="subtitle">5 weeks &nbsp;·&nbsp; 13 classes &nbsp;·&nbsp; Fill in dates and scores as you complete each activity</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><div class="meta-line"></div></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><div class="meta-line"></div></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><div class="meta-line"></div></div>
+    <div class="ws-meta-item"><span class="meta-label">Year</span><div class="meta-line"></div></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <strong style="font-size:9.5pt;color:#333;">Key:</strong>
+  <div class="legend-item"><div class="legend-dot" style="background:#b5d4f4;"></div>Lesson (74 min)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#9fd4b8;"></div>Exit quiz</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fac775;"></div>Capstone project</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f0b8b8;"></div>Unit test</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f7f6f3;border:1px solid #d0d0cc;"></div>Not scheduled</div>
+  <div class="legend-item" style="margin-left:auto;">
+    <a href="../downloads/unit1_lesson_gantts.docx" download
+       style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;text-decoration:none;font-size:9.5pt;font-weight:700;padding:6px 14px;border-radius:var(--radius);">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download .docx
+    </a>
+  </div>
+</div>
+
+<!-- GANTT CHART -->
+<div class="gantt-wrap">
+<table class="gantt">
+  <colgroup>
+    <col style="width:170px">
+    <col><col><col><!-- W1 -->
+    <col><col><col><!-- W2 -->
+    <col><col><col><!-- W3 -->
+    <col><col><!-- W4 -->
+    <col><col><!-- W5 -->
+    <col style="width:52px"><!-- done -->
+    <col style="width:90px"><!-- date -->
+  </colgroup>
+  <thead>
+    <tr>
+      <th class="wk-hdr" style="text-align:left;padding-left:10px;">Activity</th>
+      <th class="wk-hdr" colspan="3">Week 1</th>
+      <th class="wk-hdr" colspan="3">Week 2</th>
+      <th class="wk-hdr" colspan="3">Week 3</th>
+      <th class="wk-hdr" colspan="2">Week 4</th>
+      <th class="wk-hdr" colspan="2">Week 5</th>
+      <th class="wk-hdr">✓</th>
+      <th class="wk-hdr">Completed</th>
+    </tr>
+    <tr>
+      <th class="cls-hdr label-col">Class →</th>
+      <th class="cls-hdr">1</th><th class="cls-hdr">2</th><th class="cls-hdr">3</th>
+      <th class="cls-hdr">4</th><th class="cls-hdr">5</th><th class="cls-hdr">6</th>
+      <th class="cls-hdr">7</th><th class="cls-hdr">8</th><th class="cls-hdr">9</th>
+      <th class="cls-hdr">10</th><th class="cls-hdr">11</th>
+      <th class="cls-hdr">12</th><th class="cls-hdr">13</th>
+      <th class="cls-hdr status-col">Done</th>
+      <th class="cls-hdr status-col">Date</th>
+    </tr>
+  </thead>
+  <tbody id="gantt-body">
+    <!-- Rows injected by JS -->
+  </tbody>
+</table>
+</div>
+
+<!-- PROGRESS LOG -->
+<div class="prog-section">
+  <h2>Progress log</h2>
+  <table class="prog-table">
+    <thead>
+      <tr>
+        <th style="width:28%">Activity</th>
+        <th style="width:10%">Scheduled</th>
+        <th style="width:8%">Done</th>
+        <th style="width:12%">Date</th>
+        <th style="width:12%">Score</th>
+        <th>Notes &amp; observations</th>
+      </tr>
+    </thead>
+    <tbody id="prog-body">
+    </tbody>
+  </table>
+</div>
+
+<!-- REFLECTION -->
+<div class="prog-section">
+  <h2>End-of-unit reflection</h2>
+  <table class="reflect-table">
+    <tbody>
+      <tr>
+        <td class="prompt">Which class or activity was most challenging, and why?</td>
+        <td class="response"><textarea rows="2" placeholder="Write your response here…"></textarea></td>
+      </tr>
+      <tr>
+        <td class="prompt">Which concept from Unit 1 will be most useful in the capstone project?</td>
+        <td class="response"><textarea rows="2" placeholder="Write your response here…"></textarea></td>
+      </tr>
+      <tr>
+        <td class="prompt">What would you do differently if you could restart Unit 1?</td>
+        <td class="response"><textarea rows="2" placeholder="Write your response here…"></textarea></td>
+      </tr>
+      <tr>
+        <td class="prompt">Rate your overall confidence (1–5) and justify your rating.</td>
+        <td class="response"><textarea rows="2" placeholder="Rating: ___ / 5   Because…"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+// ── Data ─────────────────────────────────────────────────────────────────────
+// pattern: 13 slots, null=empty, or {label, color, textColor}
+const L = (t) => ({ label:t, fill:'#b5d4f4', tx:'#0c447c' });
+const Q = (t) => ({ label:t, fill:'#9fd4b8', tx:'#1a3a2e' });
+const K = (t) => ({ label:t, fill:'#fac775', tx:'#633806' });
+const T = (t) => ({ label:t, fill:'#f0b8b8', tx:'#712b13' });
+const _ = null;
+
+const GANTT_ROWS = [
+  { label:'Class 1', sub:'Purposeful design',            pattern:[L('Lesson 1'),_,_,_,_,_,_,_,_,_,_,_,_] },
+  { label:'Quiz 1',  sub:'After Class 1',                pattern:[_,Q('Quiz 1'),_,_,_,_,_,_,_,_,_,_,_]  },
+  { label:'Class 2', sub:'Eng. Design Process',          pattern:[_,_,L('Lesson 2'),_,_,_,_,_,_,_,_,_,_] },
+  { label:'Quiz 2',  sub:'After Class 2',                pattern:[_,_,_,Q('Quiz 2'),_,_,_,_,_,_,_,_,_]  },
+  { label:'Class 3', sub:'Documentation & sketching',    pattern:[_,_,_,_,L('Lesson 3'),_,_,_,_,_,_,_,_] },
+  { label:'Quiz 3',  sub:'After Class 3',                pattern:[_,_,_,_,_,Q('Quiz 3'),_,_,_,_,_,_,_]  },
+  { label:'Class 4', sub:'Servo claw design',            pattern:[_,_,_,_,_,_,L('Lesson 4'),_,_,_,_,_,_] },
+  { label:'Quiz 4',  sub:'After Class 4',                pattern:[_,_,_,_,_,_,_,Q('Quiz 4'),_,_,_,_,_]  },
+  { label:'Class 5', sub:'Modular design',               pattern:[_,_,_,_,_,_,_,_,L('Lesson 5'),_,_,_,_] },
+  { label:'Quiz 5',  sub:'After Class 5',                pattern:[_,_,_,_,_,_,_,_,_,Q('Quiz 5'),_,_,_]  },
+  { label:'Capstone',sub:'MiniBot build & analysis',     pattern:[_,_,_,_,_,_,_,_,_,_,K('Capstone'),K('Capstone'),_] },
+  { label:'Unit test',sub:'Engineering Foundations',     pattern:[_,_,_,_,_,_,_,_,_,_,_,_,T('Unit test')] },
+];
+
+const PROG_ROWS = [
+  { activity:'Class 1 — Lesson',           sched:'Class 1'  },
+  { activity:'Quiz 1',                      sched:'Class 2'  },
+  { activity:'Class 2 — Lesson',           sched:'Class 3'  },
+  { activity:'Quiz 2',                      sched:'Class 4'  },
+  { activity:'Class 3 — Lesson',           sched:'Class 5'  },
+  { activity:'Quiz 3',                      sched:'Class 6'  },
+  { activity:'Class 4 — Lesson',           sched:'Class 7'  },
+  { activity:'Quiz 4',                      sched:'Class 8'  },
+  { activity:'Class 5 — Lesson',           sched:'Class 9'  },
+  { activity:'Quiz 5',                      sched:'Class 10' },
+  { activity:'Capstone — Build day 1',     sched:'Class 11' },
+  { activity:'Capstone — Build day 2',     sched:'Class 12' },
+  { activity:'Unit 1 Test',                sched:'Class 13' },
+];
+
+// ── Render Gantt ──────────────────────────────────────────────────────────────
+const ganttBody = document.getElementById('gantt-body');
+GANTT_ROWS.forEach((row, ri) => {
+  const tr = document.createElement('tr');
+
+  // Label cell
+  const labelTd = document.createElement('td');
+  labelTd.className = 'row-label';
+  labelTd.innerHTML = row.label + (row.sub ? '<span class="row-sub">' + row.sub + '</span>' : '');
+  tr.appendChild(labelTd);
+
+  // 13 pattern cells — merge consecutive same blocks
+  let ci = 0;
+  while (ci < 13) {
+    const item = row.pattern[ci];
+    if (item) {
+      let span = 1;
+      while (ci + span < 13 && row.pattern[ci + span] &&
+             row.pattern[ci + span].label === item.label &&
+             row.pattern[ci + span].fill  === item.fill) span++;
+      const td = document.createElement('td');
+      td.colSpan = span;
+      td.className = 'block-lesson';
+      td.style.background  = item.fill;
+      td.style.color        = item.tx;
+      td.textContent        = item.label;
+      tr.appendChild(td);
+      ci += span;
+    } else {
+      const td = document.createElement('td');
+      td.className = 'empty-cell';
+      tr.appendChild(td);
+      ci++;
+    }
+  }
+
+  // Done checkbox
+  const doneTd = document.createElement('td');
+  doneTd.className = 'status-cell';
+  const cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.addEventListener('change', () => {
+    tr.style.opacity = cb.checked ? '0.55' : '';
+    saveState();
+  });
+  doneTd.appendChild(cb);
+  tr.appendChild(doneTd);
+
+  // Date input
+  const dateTd = document.createElement('td');
+  dateTd.className = 'date-cell';
+  const dateInput = document.createElement('input');
+  dateInput.type = 'text';
+  dateInput.placeholder = 'MM/DD';
+  dateInput.addEventListener('input', saveState);
+  dateTd.appendChild(dateInput);
+  tr.appendChild(dateTd);
+
+  ganttBody.appendChild(tr);
+});
+
+// ── Render Progress Log ───────────────────────────────────────────────────────
+const progBody = document.getElementById('prog-body');
+PROG_ROWS.forEach((row) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="activity-cell">${row.activity}</td>
+    <td class="sched-cell">${row.sched}</td>
+    <td class="prog-checkbox"><input type="checkbox"></td>
+    <td class="date-input"><input type="text" placeholder="MM/DD"></td>
+    <td class="score-input"><input type="text" placeholder="—"></td>
+    <td class="notes-cell"><textarea rows="1" placeholder="Notes…"></textarea></td>
+  `;
+  const cb = tr.querySelector('input[type=checkbox]');
+  cb.addEventListener('change', () => {
+    tr.classList.toggle('completed', cb.checked);
+    saveState();
+  });
+  tr.querySelectorAll('input, textarea').forEach(el => el.addEventListener('input', saveState));
+  progBody.appendChild(tr);
+});
+
+// ── Persistence (sessionStorage) ─────────────────────────────────────────────
+function saveState() {
+  const state = { gantt: [], prog: [] };
+
+  document.querySelectorAll('#gantt-body tr').forEach(tr => {
+    const cb    = tr.querySelector('input[type=checkbox]');
+    const date  = tr.querySelector('input[type=text]');
+    state.gantt.push({ checked: cb ? cb.checked : false, date: date ? date.value : '' });
+  });
+  document.querySelectorAll('#prog-body tr').forEach(tr => {
+    const cb    = tr.querySelector('input[type=checkbox]');
+    const inputs = tr.querySelectorAll('input[type=text]');
+    const ta    = tr.querySelector('textarea');
+    state.prog.push({
+      checked: cb ? cb.checked : false,
+      date:    inputs[0] ? inputs[0].value : '',
+      score:   inputs[1] ? inputs[1].value : '',
+      notes:   ta ? ta.value : '',
+    });
+  });
+  sessionStorage.setItem('unit1_timeline', JSON.stringify(state));
+}
+
+function loadState() {
+  const raw = sessionStorage.getItem('unit1_timeline');
+  if (!raw) return;
+  try {
+    const state = JSON.parse(raw);
+    const ganttRows = document.querySelectorAll('#gantt-body tr');
+    state.gantt.forEach((s, i) => {
+      if (!ganttRows[i]) return;
+      const cb   = ganttRows[i].querySelector('input[type=checkbox]');
+      const date = ganttRows[i].querySelector('input[type=text]');
+      if (cb)   { cb.checked = s.checked; if (s.checked) ganttRows[i].style.opacity = '0.55'; }
+      if (date)   date.value = s.date;
+    });
+    const progRows = document.querySelectorAll('#prog-body tr');
+    state.prog.forEach((s, i) => {
+      if (!progRows[i]) return;
+      const cb     = progRows[i].querySelector('input[type=checkbox]');
+      const inputs = progRows[i].querySelectorAll('input[type=text]');
+      const ta     = progRows[i].querySelector('textarea');
+      if (cb)       { cb.checked = s.checked; if (s.checked) progRows[i].classList.add('completed'); }
+      if (inputs[0])  inputs[0].value = s.date;
+      if (inputs[1])  inputs[1].value = s.score;
+      if (ta)         ta.value = s.notes;
+    });
+  } catch(e) {}
+}
+
+loadState();
+</script>
+</body>
+</html>
