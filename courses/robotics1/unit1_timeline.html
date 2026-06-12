@@ -126,7 +126,9 @@ body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#1a1a1a;b
   <div class="legend-item"><div class="legend-dot" style="background:#fac775;"></div>Capstone project</div>
   <div class="legend-item"><div class="legend-dot" style="background:#f0b8b8;"></div>Unit test</div>
   <div class="legend-item"><div class="legend-dot" style="background:#f7f6f3;border:1px solid #d0d0cc;"></div>Not scheduled</div>
-  <div class="legend-item" style="margin-left:auto;">
+  <div class="legend-item" style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+    <span id="saved-badge" style="font-size:9pt;color:#2d6a4f;opacity:0;transition:opacity .4s;">✓ Saved</span>
+    <button onclick="clearData()" style="font-size:9pt;padding:5px 10px;border:1px solid #d0d0cc;background:#fff;border-radius:5px;cursor:pointer;color:#888;" title="Clear all saved data">Clear data</button>
     <a href="../downloads/unit1_lesson_gantts.docx" download
        style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;text-decoration:none;font-size:9.5pt;font-weight:700;padding:6px 14px;border-radius:var(--radius);">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -342,7 +344,7 @@ PROG_ROWS.forEach((row) => {
   progBody.appendChild(tr);
 });
 
-// ── Persistence (sessionStorage) ─────────────────────────────────────────────
+// ── Persistence (localStorage — survives tab close and browser restart) ────────
 function saveState() {
   const state = { gantt: [], prog: [] };
 
@@ -362,11 +364,11 @@ function saveState() {
       notes:   ta ? ta.value : '',
     });
   });
-  sessionStorage.setItem('unit1_timeline', JSON.stringify(state));
+  try { localStorage.setItem('unit1_timeline', JSON.stringify(state)); } catch(e) {}
 }
 
 function loadState() {
-  const raw = sessionStorage.getItem('unit1_timeline');
+  const raw = localStorage.getItem('unit1_timeline');
   if (!raw) return;
   try {
     const state = JSON.parse(raw);
