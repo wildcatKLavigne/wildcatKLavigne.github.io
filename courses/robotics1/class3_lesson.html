@@ -181,7 +181,7 @@
   hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 
   /* FOOTER */
-  .ws-footer { font-size: 8.5pt; color: #888; } /* neutralised by paginator layout */
+  
 
   @media print {
     body { padding: 0.4in 0.6in; }
@@ -198,8 +198,7 @@ body {
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
     "sidebar header"
-    "sidebar content"
-    "sidebar footer";
+    "sidebar content";
   min-height: 100vh;
   max-width: none;
   padding: 0;
@@ -319,20 +318,7 @@ body {
 }
 
 /* ── FOOTER ── */
-.ws-footer {
-  grid-area: footer;
-  background: #fff;
-  border-top: 1px solid #d0d0cc;
-  padding: 8px 32px !important;
-  /* Override original lesson styles that treat footer as scroll content */
-  margin: 0 !important;
-  display: flex !important;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 8.5pt;
-  color: #888;
-  position: static !important;
-}
+
 
 /* ── PRINT: restore single-scroll layout ── */
 @media print {
@@ -1287,11 +1273,7 @@ body {
   </div>
 </main>
 
-<div class="ws-footer">
-  <span>Introductory Robotics &nbsp;·&nbsp; Unit 1, Class 3</span>
-  <span>Engineering Documentation, Sketching &amp; Paper Airplane Challenge</span>
-  <span>Page 1 of 1</span>
-</div>
+
 
 
 
@@ -1334,7 +1316,7 @@ body {
   window.lessonGoto = function(idx) { showSection(idx); };
   window.lessonCurrent = function() { return current; };
 
-  // Init immediately — script is at end of body
+  // Script at end of body — DOM ready, call directly
   showSection(current);
 })();
 
