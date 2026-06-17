@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 Vocabulary — Introductory Robotics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --blue: #1a4f82;     --blue-lt: #e8f0f9;
+    --green: #2d6a4f;    --green-lt: #e8f4ee;
+    --amber: #7d4e00;    --amber-lt: #fdf3e3;
+    --purple: #3d2a99;   --purple-lt: #f0ecff;
+    --red: #8b1a1a;      --red-lt: #fdf2f2;
+    --orange: #8c3a00;   --orange-lt: #fef0e7;
+    --teal: #0f5f5f;     --teal-lt: #e0f4f4;
+    --border: #d0d0cc;
+    --r: 8px;
+    --body-bg: #f7f6f3;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 15px; color: #222; background: var(--body-bg); min-height: 100vh; }
+
+  /* ── TOP NAV ── */
+  .top-nav { background: var(--orange); padding: 0 32px; display: flex; align-items: center; height: 44px; border-bottom: 1px solid #6a2b00; gap: 0; }
+  .top-nav a { color: #f5d0b0; text-decoration: none; font-size: 13px; padding: 0 4px; line-height: 44px; }
+  .top-nav a:hover { color: #fff; }
+  .top-nav .sep { color: #c08050; font-size: 11px; padding: 0 8px; }
+  .top-nav .current { color: #fff; font-weight: 600; }
+
+  /* ── LAYOUT ── */
+  .page-body { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 44px); }
+
+  /* ── SIDEBAR ── */
+  .sidebar { background: #fff; border-right: 1px solid var(--border); padding: 24px 0; position: sticky; top: 44px; height: calc(100vh - 44px); overflow-y: auto; }
+  .sidebar-section-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #aaa; padding: 10px 20px 4px; display: block; }
+  .sidebar a { display: flex; align-items: center; gap: 10px; padding: 7px 20px; font-size: 13px; color: #444; text-decoration: none; border-left: 3px solid transparent; transition: all .12s; }
+  .sidebar a:hover { background: #f5f5f3; color: var(--orange); border-left-color: #f0c8a0; }
+  .sidebar a.active { background: var(--orange-lt); color: var(--orange); font-weight: 600; border-left-color: var(--orange); }
+  .sidebar-divider { border: none; border-top: 1px solid var(--border); margin: 8px 20px; }
+  .cat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── MAIN ── */
+  .main-content { padding: 32px 40px 80px; max-width: 960px; }
+
+  /* ── HERO ── */
+  .hero-block { background: #fff; border: 1px solid var(--border); border-radius: var(--r); padding: 28px 32px; margin-bottom: 28px; border-left: 5px solid var(--orange); }
+  .unit-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--orange); margin-bottom: 6px; }
+  .hero-block h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 26px; color: #111; line-height: 1.2; margin-bottom: 8px; }
+  .hero-block .desc { font-size: 14px; color: #555; line-height: 1.65; margin-bottom: 18px; max-width: 680px; }
+  .hero-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+  .hero-meta-item { font-size: 13px; color: #666; }
+  .hero-meta-item strong { color: #333; }
+
+  /* ── SEARCH BAR ── */
+  .search-wrap { margin-bottom: 24px; position: relative; }
+  .search-wrap input { width: 100%; padding: 10px 16px 10px 40px; border: 1.5px solid var(--border); border-radius: var(--r); font-family: inherit; font-size: 14px; color: #222; background: #fff; outline: none; transition: border .15s; }
+  .search-wrap input:focus { border-color: var(--orange); }
+  .search-wrap input::placeholder { color: #aaa; }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 15px; pointer-events: none; }
+  .search-count { font-size: 12px; color: #888; margin-top: 6px; }
+
+  /* ── SECTION HEADING ── */
+  .cat-heading { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; margin: 32px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .cat-heading:first-of-type { margin-top: 0; }
+  .cat-count { font-size: 11px; color: #aaa; font-weight: 400; margin-left: auto; }
+
+  /* ── VOCAB CARD GRID ── */
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-bottom: 8px; }
+
+  /* ── VOCAB CARD ── */
+  .vocab-card { background: #fff; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; transition: box-shadow .15s, transform .1s; }
+  .vocab-card:hover { box-shadow: 0 2px 14px rgba(0,0,0,.08); transform: translateY(-1px); }
+
+  .card-header { padding: 10px 14px 8px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .card-term { font-size: 14px; font-weight: 700; color: #111; line-height: 1.3; }
+  .card-class-badge { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 2px 7px; border-radius: 100px; white-space: nowrap; flex-shrink: 0; color: #fff; margin-top: 2px; }
+
+  .card-body { padding: 10px 14px 12px; }
+  .card-def { font-size: 13px; line-height: 1.6; color: #333; margin-bottom: 0; }
+
+  .card-example { margin-top: 8px; padding: 8px 10px; background: var(--body-bg); border-radius: 5px; font-size: 12px; color: #555; line-height: 1.55; border-left: 3px solid var(--border); font-style: italic; }
+  .card-example strong { font-style: normal; font-weight: 700; color: #333; }
+
+  /* hidden for search filtering */
+  .vocab-card.hidden { display: none; }
+
+  /* ── NO RESULTS ── */
+  .no-results { display: none; padding: 32px; text-align: center; color: #aaa; font-size: 14px; }
+  .no-results.visible { display: block; }
+
+  /* ── PRINT ── */
+  @media print {
+    .sidebar, .top-nav, .search-wrap { display: none; }
+    .page-body { grid-template-columns: 1fr; }
+    .main-content { padding: 0.5in; }
+    .vocab-card { break-inside: avoid; }
+    .vocab-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .page-body { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .main-content { padding: 20px; }
+    .vocab-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <a href="../index.html">Robotics Curriculum</a>
+  <span class="sep">›</span>
+  <a href="index.html">Unit 2: Project Management for Engineering Teams</a>
+  <span class="sep">›</span>
+  <span class="current">Vocabulary</span>
+</nav>
+
+<div class="page-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <span class="sidebar-section-label">Jump to category</span>
+    <a href="#cat-roles"><div class="cat-dot" style="background:#8c3a00"></div> Team Roles &amp; Norms</a>
+    <a href="#cat-planning"><div class="cat-dot" style="background:#1a4f82"></div> Project Planning</a>
+    <a href="#cat-risk"><div class="cat-dot" style="background:#3d2a99"></div> Risk &amp; Iteration</a>
+    <a href="#cat-comm"><div class="cat-dot" style="background:#7d4e00"></div> Team Communication</a>
+    <a href="#cat-challenge"><div class="cat-dot" style="background:#0f5f5f"></div> Mini Challenge Terms</a>
+    <div class="sidebar-divider"></div>
+    <a href="index.html"><span style="font-size:13px;">← Back to Unit 2</span></a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- HERO -->
+    <div class="hero-block">
+      <div class="unit-tag">Unit 2 · Project Management for Engineering Teams</div>
+      <h1>Vocabulary Reference</h1>
+      <p class="desc">Every term and concept introduced across Classes 6–8 and the MiniBot Mini Challenge. Use this page to look up words before, during, or after class. Terms are organized by topic — or use the search bar to find any word instantly.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><strong>34 terms</strong> across 5 categories</div>
+        <div class="hero-meta-item"><strong>Classes 6–8</strong> + Mini Challenge</div>
+        <div class="hero-meta-item">Each card shows which class introduces the term</div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search any term or definition…" oninput="filterVocab()">
+      <div class="search-count" id="searchCount"></div>
+    </div>
+
+    <div id="no-results" class="no-results">No terms match your search. Try a different word.</div>
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 1 — TEAM ROLES & NORMS (Class 6)
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-roles">
+      <div class="cat-dot" style="background:#8c3a00; width:12px; height:12px;"></div>
+      <span style="color:#8c3a00;">Team Roles &amp; Norms</span>
+      <span class="cat-count">8 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-roles">
+
+      <div class="vocab-card" data-terms="role task">
+        <div class="card-header">
+          <div class="card-term">Role</div>
+          <div class="card-class-badge" style="background:#8c3a00;">Class 6</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">An ongoing responsibility you own for the life of a project — not a one-time job. Roles create accountability: when something goes wrong, the team knows exactly who owns the fix.</p>
+          <div class="card-example"><strong>Contrast:</strong> A <em>task</em> is a one-time job ("attach this bracket"). A <em>role</em> is a standing responsibility ("own the schedule for the whole project") — that's the Project Manager's role, not just a task.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="accountability">
+        <div class="card-header">
+          <div class="card-term">Accountability</div>
+          <div class="card-class-badge" style="background:#8c3a00;">Class 6</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Knowing exactly who owns the fix when something goes wrong. Roles exist to create accountability — without defined roles, problems get noticed but no one is responsible for solving them.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="project manager pm">
+        <div class="card-header">
+          <div class="card-term">Project Manager</div>
+          <div class="card-class-badge" style="background:#8c3a00;">Class 6</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The team role that owns the schedule and Gantt chart, runs check-ins, and makes the call on non-technical decisions like task priority. Has final say on scheduling questions.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="lead engineer">
+        <div class="card-header">
+          <div class="card-term">Lead Engineer</div>
+          <div class="card-class-badge" style="background:#8c3a00;">Class 6</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The team role with final say on all technical and design decisions — which parts to use, how to attach them, and what the design specification requires.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="builder fabricator">
+        <div class="card-header">
+          <div class="card-term">Builder / Fabricator</div>
+          <div class="card-class-badge" style="background:#8c3a00;">Class 6</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The team role responsible for build quality and fit. Reports interface problems to the Lead Engineer immediately and flags the Project Manager if the build is running behind schedule.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="documenter analyst">
+        <div class="card-header">
+          <div class="card-term">Documenter / Analyst</div>
+          <div class="card-class-badge" style="background:#8c3a00;">Class 6</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The team role that maintains the engineering notebook in real time, records test data and iteration decisions, and logs trial times and scores. Owns the risk register (Class 8).</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="team charter charter">
+        <div class="card-header">
+          <div class="card-term">Team charter</div>
+          <div class="card-class-badge" style="background:#8c3a00;">Class 6</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A written agreement about how a team operates — covering communication norms, decision-making, and accountability. Drafted before any work begins so conflict has a defined resolution process.</p>
+          <div class="card-example"><strong>Key idea:</strong> A charter is a protection document, not a punishment document. It removes personal conflict from technical disagreements by deciding the process in advance.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="decision-making protocol decision making protocol">
+        <div class="card-header">
+          <div class="card-term">Decision-making protocol</div>
+          <div class="card-class-badge" style="background:#8c3a00;">Class 6</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The section of a team charter that defines who makes which type of decision and what happens when team members disagree. The single most important section of the charter.</p>
+          <div class="card-example"><strong>Example:</strong> "Technical decisions belong to the Lead Engineer. Schedule decisions belong to the Project Manager. If they disagree, each states a reason once with a 90-second limit, then the Lead Engineer decides technical questions."</div>
+        </div>
+      </div>
+
+    </div><!-- /grid-roles -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 2 — PROJECT PLANNING (Class 7)
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-planning">
+      <div class="cat-dot" style="background:#1a4f82; width:12px; height:12px;"></div>
+      <span style="color:#1a4f82;">Project Planning</span>
+      <span class="cat-count">11 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-planning">
+
+      <div class="vocab-card" data-terms="project management">
+        <div class="card-header">
+          <div class="card-term">Project management</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 6</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A system for organizing who does what and who decides what on an engineering team. Even a brilliant design fails when the team doesn't know who is building which parts or who makes the final call.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="concept sketch">
+        <div class="card-header">
+          <div class="card-term">Concept sketch</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 6</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A drawing with annotations made before any building begins, showing one possible approach to a design problem. Teams generate three genuinely different concept sketches before selecting one — your first idea is usually the most obvious, not the most effective.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="work breakdown structure wbs">
+        <div class="card-header">
+          <div class="card-term">Work Breakdown Structure (WBS)</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 7</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A breakdown of a project into phases, then tasks, then subtasks — until every piece of work is small enough that one person can own it, estimate it, and complete it.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="gantt chart">
+        <div class="card-header">
+          <div class="card-term">Gantt chart</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 7</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A timeline that puts each task from a WBS into a visual schedule so the whole team can see what is happening now, what is next, and what is at risk of running late.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="dependency dependencies">
+        <div class="card-header">
+          <div class="card-term">Dependency</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 7</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A relationship where Task B cannot start until Task A is finished. You can't attach a collector mechanism before the mount bracket is built — that's a dependency.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="critical path">
+        <div class="card-header">
+          <div class="card-term">Critical path</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 7</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The chain of dependent tasks that determines how long a project takes. If any task on the critical path slips, the whole project is late. It matters more than the total number of tasks.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="float slack">
+        <div class="card-header">
+          <div class="card-term">Float</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 7</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The amount of time a task <em>not</em> on the critical path can slip without delaying the project's end date. Tasks with float give the team breathing room; tasks without it don't.</p>
+          <div class="card-example"><strong>Don't confuse with buffer:</strong> Float is a mathematical property of the schedule — you discover it, you don't add it. Buffer is a deliberate planning choice.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="milestone">
+        <div class="card-header">
+          <div class="card-term">Milestone</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 7</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A specific, verifiable checkpoint — not a task. Either the condition is met or it isn't. "Module attached to MiniBot and robot drives normally" is a milestone, not a task you can be partway through.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="buffer">
+        <div class="card-header">
+          <div class="card-term">Buffer</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 7</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Extra time added to task estimates — typically 10%, planned in advance — to absorb unexpected problems without delaying the milestone. A dropped screw or a wrong-size bracket each cost a few minutes; buffer accounts for this.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="weighted decision matrix decision matrix weight criterion criteria">
+        <div class="card-header">
+          <div class="card-term">Weighted decision matrix</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 7</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A tool that removes personal preference from concept selection. Criteria are set, a <strong>weight</strong> is assigned to each based on importance — <em>before</em> scoring — then each concept is scored against every criterion. The highest weighted total wins.</p>
+          <div class="card-example"><strong>Override rule:</strong> The Lead Engineer may choose a concept that didn't win the matrix, but must document specific reasoning in the notebook before the build begins. Changing weights after seeing scores is bias, not engineering.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="design specification design spec">
+        <div class="card-header">
+          <div class="card-term">Design specification</div>
+          <div class="card-class-badge" style="background:#1a4f82;">Class 7</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A written contract for the build: what the module must do, every constraint it must satisfy, and a complete parts list. A good spec means the Builder can start assembling without asking any questions — any question asked during the build is a spec gap.</p>
+        </div>
+      </div>
+
+    </div><!-- /grid-planning -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 3 — RISK & ITERATION (Class 8)
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-risk">
+      <div class="cat-dot" style="background:#3d2a99; width:12px; height:12px;"></div>
+      <span style="color:#3d2a99;">Risk &amp; Iteration</span>
+      <span class="cat-count">9 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-risk">
+
+      <div class="vocab-card" data-terms="risk">
+        <div class="card-header">
+          <div class="card-term">Risk</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 8</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Anything that might prevent a project from succeeding. Not all risks are equally dangerous — some are very likely but low impact; others are unlikely but catastrophic.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="risk register">
+        <div class="card-header">
+          <div class="card-term">Risk register</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 8</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A living document that lists every identified risk, scores it on likelihood and impact, calculates a priority score, and assigns a mitigation strategy. Updated in real time as risks materialize during the project.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="likelihood">
+        <div class="card-header">
+          <div class="card-term">Likelihood</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 8</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A score from 1 to 3 measuring how likely a risk is to happen. Combined with impact to calculate a priority score (likelihood × impact).</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="impact">
+        <div class="card-header">
+          <div class="card-term">Impact</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 8</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A score from 1 to 3 measuring how serious a risk would be if it happened. Combined with likelihood to calculate a priority score (likelihood × impact).</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="priority score risk priority">
+        <div class="card-header">
+          <div class="card-term">Priority score</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 8</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Likelihood multiplied by impact (L × I). Scores of 1–3 are "Monitor," 4–6 are "Significant," and 7–9 are "Critical." Higher-priority risks need a mitigation strategy before the build begins.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="mitigation strategy mitigation">
+        <div class="card-header">
+          <div class="card-term">Mitigation strategy</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 8</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A specific action taken <em>before</em> a risk happens to reduce its likelihood or impact. "Hope it doesn't happen" is not a mitigation strategy — a real one is a deliberate, purposeful choice.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="hypothesis">
+        <div class="card-header">
+          <div class="card-term">Hypothesis</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 8</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A testable prediction that connects test data to a proposed design change. "The intake is misaligned, causing left-edge misses" is a hypothesis — it predicts a specific cause that a change can target.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="iteration">
+        <div class="card-header">
+          <div class="card-term">Iteration</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 8</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A deliberate, data-driven change made to improve performance between trials — not a random fix. A hypothesis-driven iteration connects Trial 1 data to a specific predicted mechanism, so Trial 2 can confirm or deny it.</p>
+          <div class="card-example"><strong>Why it matters even when scores don't improve:</strong> A denied hypothesis is still useful data — it rules out one explanation and narrows down where the real cause might be.</div>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="status update">
+        <div class="card-header">
+          <div class="card-term">Status update</div>
+          <div class="card-class-badge" style="background:#3d2a99;">Class 8</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A written summary using a traffic-light system (🟢 on track, 🟡 at risk, 🔴 blocked) that communicates progress, blockers, and next steps to the team and teacher. A Red status is not failure — it's honest engineering.</p>
+        </div>
+      </div>
+
+    </div><!-- /grid-risk -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 4 — TEAM COMMUNICATION (Class 8)
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-comm">
+      <div class="cat-dot" style="background:#7d4e00; width:12px; height:12px;"></div>
+      <span style="color:#7d4e00;">Team Communication</span>
+      <span class="cat-count">1 term</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-comm">
+
+      <div class="vocab-card" data-terms="stand-up meeting standup">
+        <div class="card-header">
+          <div class="card-term">Stand-up meeting</div>
+          <div class="card-class-badge" style="background:#7d4e00;">Class 8</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A short, structured check-in (3 minutes) where each team member answers: what I completed, what I'm working on now, and any blocker. Blockers are noted, not debated — they go on a follow-up list.</p>
+        </div>
+      </div>
+
+    </div><!-- /grid-comm -->
+
+
+    <!-- ══════════════════════════════════════════
+         CATEGORY 5 — MINI CHALLENGE TERMS
+    ══════════════════════════════════════════ -->
+    <div class="cat-heading" id="cat-challenge">
+      <div class="cat-dot" style="background:#0f5f5f; width:12px; height:12px;"></div>
+      <span style="color:#0f5f5f;">Mini Challenge Terms</span>
+      <span class="cat-count">11 terms</span>
+    </div>
+
+    <div class="vocab-grid" id="grid-challenge">
+
+      <div class="vocab-card" data-terms="control">
+        <div class="card-header">
+          <div class="card-term">Control</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A game element is being held, gripped, carried, pushed, or otherwise directly manipulated by a robot's collector module — not merely touching the robot by accident.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="game element">
+        <div class="card-header">
+          <div class="card-term">Game element</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A 4-inch foam cube or 4-inch rubber ball used in the Mini Challenge. Scored identically regardless of type.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="common area">
+        <div class="card-header">
+          <div class="card-term">Common area</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The shared region of the playing field where all game elements are prepositioned before a match and are accessible to both robots.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="scoring depot depot">
+        <div class="card-header">
+          <div class="card-term">Scoring depot</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The team-specific destination location where a delivered game element must come to rest to count for scoring.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="match">
+        <div class="card-header">
+          <div class="card-term">Match</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A single 90-second, teleop-only contest between exactly two teams. There is no autonomous period in the MiniBot Mini Challenge.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="single delivery">
+        <div class="card-header">
+          <div class="card-term">Single Delivery</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Delivering exactly one game element to a team's scoring depot in one scoring action. Worth 1 point.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="double delivery">
+        <div class="card-header">
+          <div class="card-term">Double Delivery</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Delivering exactly two game elements to a team's scoring depot at the same time, in one scoring action. Worth 3 points.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="continuous control bonus">
+        <div class="card-header">
+          <div class="card-term">Continuous Control Bonus</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A bonus earned when a robot maintains uninterrupted control of a game element from collection to delivery. Worth 2 points, earned <em>in addition to</em> the delivery points — not instead of them.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="excess control violation">
+        <div class="card-header">
+          <div class="card-term">Excess Control Violation</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">Controlling 3 or more game elements at once, where the excess persists 3+ continuous seconds, 3+ cumulative seconds across multiple segments, or shows no effort to relinquish. A Minor Penalty — 5 points to the opponent.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="round robin">
+        <div class="card-header">
+          <div class="card-term">Round Robin</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">A tournament format in which every team plays a match against every other team. No team sits out more matches than any other.</p>
+        </div>
+      </div>
+
+      <div class="vocab-card" data-terms="challenge winner">
+        <div class="card-header">
+          <div class="card-term">Challenge Winner</div>
+          <div class="card-class-badge" style="background:#0f5f5f;">Challenge</div>
+        </div>
+        <div class="card-body">
+          <p class="card-def">The team with the highest total accumulated points across all of its matches in the round robin — determined by total points, not total match wins.</p>
+          <div class="card-example"><strong>Why this matters:</strong> A team that wins fewer matches but scores more total points across the tournament can still win the overall challenge.</div>
+        </div>
+      </div>
+
+    </div><!-- /grid-challenge -->
+
+  </main>
+</div><!-- /page-body -->
+
+<script>
+function filterVocab() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const cards = document.querySelectorAll('.vocab-card');
+  const headings = document.querySelectorAll('.cat-heading');
+  const grids = document.querySelectorAll('.vocab-grid');
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const term = (card.getAttribute('data-terms') || '').toLowerCase();
+    const text = card.innerText.toLowerCase();
+    const match = !query || term.includes(query) || text.includes(query);
+    card.classList.toggle('hidden', !match);
+    if (match) visibleCount++;
+  });
+
+  grids.forEach(grid => {
+    const id = grid.id;
+    const catId = 'cat-' + id.replace('grid-', '');
+    const heading = document.getElementById(catId);
+    const hasVisible = [...grid.querySelectorAll('.vocab-card')].some(c => !c.classList.contains('hidden'));
+    if (heading) heading.style.display = hasVisible ? '' : 'none';
+    grid.style.display = hasVisible ? '' : 'none';
+  });
+
+  const countEl = document.getElementById('searchCount');
+  const noResults = document.getElementById('no-results');
+
+  if (query) {
+    countEl.textContent = `${visibleCount} term${visibleCount !== 1 ? 's' : ''} found`;
+    noResults.classList.toggle('visible', visibleCount === 0);
+  } else {
+    countEl.textContent = '';
+    noResults.classList.remove('visible');
+    headings.forEach(h => h.style.display = '');
+    grids.forEach(g => g.style.display = '');
+  }
+}
+</script>
+
+</body>
+</html>

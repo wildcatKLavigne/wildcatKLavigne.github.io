@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Class 7 Exit Quiz — Unit 2 Robotics</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+:root {
+  --orange:#8c3a00; --orange-lt:#fef0e7;
+  --green:#2d6a4f;  --green-lt:#e8f4ee;
+  --amber:#7d4e00;  --amber-lt:#fdf3e3;
+  --red:#8b1a1a;    --red-lt:#fdf2f2;
+  --purple:#3d2a99; --purple-lt:#f0ecff;
+  --border:#d0d0cc; --r:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#222;background:#fff;max-width:800px;margin:0 auto;padding:0.5in 0.75in;}
+
+.ws-header{border-top:5px solid var(--orange);padding-top:14px;margin-bottom:22px;}
+.ws-header .course-label{font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:4px;}
+.ws-header h1{font-family:'Source Serif 4',Georgia,serif;font-size:20pt;color:#111;line-height:1.2;margin-bottom:4px;}
+.ws-header .subtitle{font-size:10pt;color:#666;margin-bottom:14px;}
+.ws-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.ws-meta-item{padding:8px 12px;border-right:1px solid var(--border);}
+.ws-meta-item:last-child{border-right:none;}
+.meta-label{font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:2px;}
+.meta-value{font-size:10pt;font-weight:600;color:#222;}
+
+.directions-box{background:var(--orange-lt);border-left:4px solid var(--orange);border-radius:0 var(--r) var(--r) 0;padding:12px 16px;margin-bottom:22px;font-size:10.5pt;color:#3a1a00;line-height:1.65;}
+.directions-box strong{color:var(--orange);}
+
+.answer-bank{background:var(--amber-lt);border:1.5px solid #c8860a;border-radius:var(--r);padding:14px 18px;margin-bottom:26px;}
+.ab-label{font-size:9pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--amber);margin-bottom:12px;}
+.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 32px;}
+.ab-item{font-size:10.5pt;color:#3a2a00;padding:3px 0;display:flex;align-items:baseline;gap:8px;}
+.ab-item::before{content:"";display:inline-block;width:14px;height:14px;border:1.5px solid #c8860a;border-radius:3px;flex-shrink:0;margin-top:1px;}
+
+.questions-section{margin-bottom:28px;}
+.qs-label{font-size:9pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--orange);padding-bottom:5px;border-bottom:2px solid var(--orange-lt);margin-bottom:18px;}
+
+.section-group{margin-bottom:26px;}
+.sg-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:#888;margin-bottom:12px;padding-left:4px;}
+
+.question{margin-bottom:20px;}
+.q-row{display:flex;align-items:flex-start;gap:0;}
+.q-num{display:inline-block;font-size:9pt;font-weight:700;color:#fff;background:var(--orange);width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;margin-right:6px;flex-shrink:0;}
+.q-text{font-size:10.5pt;line-height:1.7;color:#222;flex:1;}
+.blank{display:inline-block;border-bottom:1.5px solid #555;min-width:150px;height:20px;vertical-align:bottom;margin:0 4px;}
+.blank-wide{min-width:220px;}
+.blank-narrow{min-width:90px;}
+.hint{font-size:9.5pt;color:#666;margin-top:3px;margin-left:28px;}
+
+/* Matching section */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:4px;}
+.match-col-label{font-size:8.5pt;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--orange);margin-bottom:6px;}
+.match-term{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:10.5pt;}
+.match-blank{display:inline-block;border-bottom:1.5px solid #555;min-width:32px;height:20px;vertical-align:bottom;margin-right:4px;}
+.match-def{font-size:10pt;color:#444;padding:5px 0;border-bottom:1px solid #eee;display:flex;gap:6px;margin-bottom:4px;}
+.match-letter{font-weight:700;color:var(--orange);flex-shrink:0;}
+
+.short-answer-box{border:1px solid var(--border);border-radius:var(--r);width:100%;min-height:56px;display:block;background:transparent;resize:none;padding:8px 10px;font-family:inherit;font-size:10.5pt;color:#222;line-height:1.6;margin-top:6px;}
+
+hr.section-rule{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+.score-box{border:1.5px solid var(--border);border-radius:var(--r);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;margin-top:28px;}
+.score-item{padding:10px 14px;border-right:1px solid var(--border);}
+.score-item:nth-child(even){border-right:none;}
+.score-item:nth-child(3),.score-item:nth-child(4){border-top:1px solid var(--border);}
+.score-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:4px;}
+.score-line{border-bottom:1px solid #aaa;height:24px;display:block;width:80%;}
+
+.nav-links{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:14px;border-top:2px solid var(--orange);font-size:10pt;}
+.nav-links a{color:var(--orange);text-decoration:none;font-weight:600;}
+.nav-links a:hover{text-decoration:underline;}
+
+@media print{
+  .nav-links{display:none;}
+  body{padding:0.4in 0.6in;}
+}
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management</div>
+  <h1>Class 7 Exit Quiz<br><span style="font-size:14pt;font-weight:400;color:#555;">Project Planning — Decision Matrix, WBS &amp; Gantt Chart</span></h1>
+  <div class="subtitle">Fill in the blank · Matching · Short answer &nbsp;·&nbsp; Use the answer bank where indicated</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="score-line"></span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="score-line"></span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="score-line"></span></div>
+    <div class="ws-meta-item"><span class="meta-label">Score</span><span class="meta-value">&nbsp;&nbsp;&nbsp;&nbsp; / 10</span></div>
+  </div>
+</div>
+
+<div class="directions-box">
+  <strong>Directions:</strong> Parts A and B use the answer bank — choose the correct term for each blank. Each answer is used exactly once; three terms will not be used. Part C (Q9–10) is short answer — no answer bank needed. Write directly in the space provided.
+</div>
+
+<div class="answer-bank">
+  <div class="ab-label">Answer Bank</div>
+  <div class="ab-grid">
+    <div class="ab-item">buffer</div>
+    <div class="ab-item">constraint</div>
+    <div class="ab-item">critical path</div>
+    <div class="ab-item">dependency</div>
+    <div class="ab-item">design specification</div>
+    <div class="ab-item">float</div>
+    <div class="ab-item">Gantt chart</div>
+    <div class="ab-item">milestone</div>
+    <div class="ab-item">override</div>
+    <div class="ab-item">parallel</div>
+    <div class="ab-item">weight</div>
+    <div class="ab-item">Work Breakdown Structure</div>
+  </div>
+</div>
+
+<div class="questions-section">
+  <div class="qs-label">Part A — Fill in the Blank (Questions 1–7)</div>
+
+  <div class="section-group">
+    <div class="sg-label">WBS, Gantt &amp; Critical Path</div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">1</span>
+        <span class="q-text">A <span class="blank-wide"></span> breaks a project into phases, tasks, and subtasks until every piece of work is small enough that one person can own it, estimate it, and complete it.</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">2</span>
+        <span class="q-text">A <span class="blank"></span> puts each task on a timeline so the whole team can see what is happening now, what is next, and which tasks are at risk of making the project late.</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">3</span>
+        <span class="q-text">When Task B cannot start until Task A is finished, the relationship between them is called a <span class="blank"></span>. A chain of these relationships that determines the total project duration is called the <span class="blank"></span>.</span>
+      </div>
+      <div class="hint">Two blanks — two different terms from the answer bank</div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">4</span>
+        <span class="q-text">Tasks that do not block each other can run <span class="blank"></span> — two people working on different subtasks simultaneously — which is how engineering teams finish faster.</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">5</span>
+        <span class="q-text">A <span class="blank"></span> is a specific, verifiable checkpoint — not a task — that confirms a phase is truly complete. "Module attached to MiniBot and robot drives normally" is an example.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-group">
+    <div class="sg-label">Decision Matrix &amp; Design Specification</div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">6</span>
+        <span class="q-text">In a weighted decision matrix, a <span class="blank"></span> is a number assigned to each criterion before scoring begins. It reflects how important that criterion is relative to the others. It must be set before any concept scores are entered.</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">7</span>
+        <span class="q-text">The <span class="blank-wide"></span> is a written statement of what the module must do, every physical constraint it must satisfy, and a complete parts list — detailed enough that the Builder can start assembling without asking any questions.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<div class="questions-section">
+  <div class="qs-label">Part B — Matching (Question 8)</div>
+
+  <p style="font-size:10pt;color:#555;margin-bottom:12px;font-style:italic;">Write the letter of the correct definition next to each term. Each definition is used once.</p>
+
+  <div class="match-grid">
+    <div>
+      <div class="match-col-label">Terms</div>
+      <div class="match-term"><span class="match-blank"></span> <strong>Buffer</strong></div>
+      <div class="match-term"><span class="match-blank"></span> <strong>Float</strong></div>
+      <div class="match-term"><span class="match-blank"></span> <strong>Override</strong></div>
+      <div class="match-term"><span class="match-blank"></span> <strong>Constraint</strong></div>
+    </div>
+    <div>
+      <div class="match-col-label">Definitions</div>
+      <div class="match-def"><span class="match-letter">A.</span> A limit the design must satisfy — for this project, the 6-inch extension rule and REV-hardware-only requirement are examples.</div>
+      <div class="match-def"><span class="match-letter">B.</span> When the Lead Engineer chooses a concept that did not win the decision matrix, documented with specific written reasoning before the build begins.</div>
+      <div class="match-def"><span class="match-letter">C.</span> Extra time added to task estimates — typically 10–20% — to absorb unexpected problems without delaying the project milestone.</div>
+      <div class="match-def"><span class="match-letter">D.</span> The amount of time a non-critical-path task can slip before it starts to delay the project end date.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<div class="questions-section">
+  <div class="qs-label">Part C — Short Answer (Questions 9–10)</div>
+
+  <div class="question">
+    <div class="q-row">
+      <span class="q-num">9</span>
+      <span class="q-text">Your team's decision matrix gives Concept A a total weighted score of 94 and Concept B a score of 81. Your Lead Engineer says she prefers Concept B because it collects balls more reliably. Using what you know about the decision matrix and the Lead Engineer's role, describe exactly what must happen for this preference to be acted on — and what would make it invalid.</span>
+    </div>
+    <textarea class="short-answer-box" rows="4" placeholder="For the Lead Engineer's preference to be valid, she must... This would be invalid if..."></textarea>
+  </div>
+
+  <div class="question" style="margin-top:18px;">
+    <div class="q-row">
+      <span class="q-num">10</span>
+      <span class="q-text">Halfway through the Class 8 build, the Builder asks the Lead Engineer: "Should we use M3×8mm or M3×12mm bolts for the bracket?" What does this question reveal about your Class 7 work, and what should the team do differently next time?</span>
+    </div>
+    <textarea class="short-answer-box" rows="4" placeholder="This question reveals that our ___ was incomplete because... Next time, the team should..."></textarea>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<div class="score-box">
+  <div class="score-item"><span class="score-label">Part A correct (Q1–7, note Q3 = 2 blanks)</span><span class="score-line"></span></div>
+  <div class="score-item"><span class="score-label">Part B correct (Q8, 4 matches)</span><span class="score-line"></span></div>
+  <div class="score-item"><span class="score-label">Part C score (Q9–10)</span><span class="score-line"></span></div>
+  <div class="score-item"><span class="score-label">Teacher initials</span><span class="score-line"></span></div>
+</div>
+
+<div class="nav-links">
+  <a href="class7_lesson.html">← Class 7 lesson</a>
+  <a href="index.html">Unit 2 index</a>
+  <a href="class8_lesson.html">Class 8 lesson →</a>
+</div>
+
+</body>
+</html>

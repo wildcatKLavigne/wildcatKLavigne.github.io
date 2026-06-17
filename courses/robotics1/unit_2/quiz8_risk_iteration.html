@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Class 8 Exit Quiz — Unit 2 Robotics</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+:root {
+  --orange:#8c3a00; --orange-lt:#fef0e7;
+  --green:#2d6a4f;  --green-lt:#e8f4ee;
+  --amber:#7d4e00;  --amber-lt:#fdf3e3;
+  --red:#8b1a1a;    --red-lt:#fdf2f2;
+  --purple:#3d2a99; --purple-lt:#f0ecff;
+  --border:#d0d0cc; --r:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#222;background:#fff;max-width:800px;margin:0 auto;padding:0.5in 0.75in;}
+
+.ws-header{border-top:5px solid var(--orange);padding-top:14px;margin-bottom:22px;}
+.ws-header .course-label{font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:4px;}
+.ws-header h1{font-family:'Source Serif 4',Georgia,serif;font-size:20pt;color:#111;line-height:1.2;margin-bottom:4px;}
+.ws-header .subtitle{font-size:10pt;color:#666;margin-bottom:14px;}
+.ws-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.ws-meta-item{padding:8px 12px;border-right:1px solid var(--border);}
+.ws-meta-item:last-child{border-right:none;}
+.meta-label{font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:2px;}
+.meta-value{font-size:10pt;font-weight:600;color:#222;}
+
+.directions-box{background:var(--orange-lt);border-left:4px solid var(--orange);border-radius:0 var(--r) var(--r) 0;padding:12px 16px;margin-bottom:22px;font-size:10.5pt;color:#3a1a00;line-height:1.65;}
+.directions-box strong{color:var(--orange);}
+
+.answer-bank{background:var(--amber-lt);border:1.5px solid #c8860a;border-radius:var(--r);padding:14px 18px;margin-bottom:26px;}
+.ab-label{font-size:9pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--amber);margin-bottom:12px;}
+.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 32px;}
+.ab-item{font-size:10.5pt;color:#3a2a00;padding:3px 0;display:flex;align-items:baseline;gap:8px;}
+.ab-item::before{content:"";display:inline-block;width:14px;height:14px;border:1.5px solid #c8860a;border-radius:3px;flex-shrink:0;margin-top:1px;}
+
+.questions-section{margin-bottom:28px;}
+.qs-label{font-size:9pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--orange);padding-bottom:5px;border-bottom:2px solid var(--orange-lt);margin-bottom:18px;}
+
+.section-group{margin-bottom:26px;}
+.sg-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:#888;margin-bottom:12px;padding-left:4px;}
+
+.question{margin-bottom:20px;}
+.q-row{display:flex;align-items:flex-start;gap:0;}
+.q-num{display:inline-block;font-size:9pt;font-weight:700;color:#fff;background:var(--orange);width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;margin-right:6px;flex-shrink:0;}
+.q-text{font-size:10.5pt;line-height:1.7;color:#222;flex:1;}
+.blank{display:inline-block;border-bottom:1.5px solid #555;min-width:150px;height:20px;vertical-align:bottom;margin:0 4px;}
+.blank-wide{min-width:220px;}
+.blank-narrow{min-width:90px;}
+.hint{font-size:9.5pt;color:#666;margin-top:3px;margin-left:28px;}
+
+/* RISK SCORING TABLE */
+.risk-calc-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:10pt;}
+.risk-calc-table th{background:var(--orange);color:#fff;padding:7px 10px;text-align:center;font-size:9pt;font-weight:600;}
+.risk-calc-table th.desc-col{text-align:left;}
+.risk-calc-table td{border:1px solid var(--border);padding:6px 10px;text-align:center;}
+.risk-calc-table td.desc-col{text-align:left;}
+.risk-calc-table tr:nth-child(even) td{background:var(--orange-lt);}
+.risk-calc-table .blank-cell{height:24px;}
+
+.short-answer-box{border:1px solid var(--border);border-radius:var(--r);width:100%;min-height:56px;display:block;background:transparent;resize:none;padding:8px 10px;font-family:inherit;font-size:10.5pt;color:#222;line-height:1.6;margin-top:6px;}
+
+hr.section-rule{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+.score-box{border:1.5px solid var(--border);border-radius:var(--r);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;margin-top:28px;}
+.score-item{padding:10px 14px;border-right:1px solid var(--border);}
+.score-item:nth-child(even){border-right:none;}
+.score-item:nth-child(3),.score-item:nth-child(4){border-top:1px solid var(--border);}
+.score-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:4px;}
+.score-line{border-bottom:1px solid #aaa;height:24px;display:block;width:80%;}
+
+.nav-links{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:14px;border-top:2px solid var(--orange);font-size:10pt;}
+.nav-links a{color:var(--orange);text-decoration:none;font-weight:600;}
+.nav-links a:hover{text-decoration:underline;}
+
+@media print{
+  .nav-links{display:none;}
+  body{padding:0.4in 0.6in;}
+}
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management</div>
+  <h1>Class 8 Exit Quiz<br><span style="font-size:14pt;font-weight:400;color:#555;">Risk Management, Build &amp; Iterate</span></h1>
+  <div class="subtitle">Fill in the blank · Risk scoring · Short answer &nbsp;·&nbsp; Use the answer bank where indicated</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="score-line"></span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="score-line"></span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="score-line"></span></div>
+    <div class="ws-meta-item"><span class="meta-label">Score</span><span class="meta-value">&nbsp;&nbsp;&nbsp;&nbsp; / 10</span></div>
+  </div>
+</div>
+
+<div class="directions-box">
+  <strong>Directions:</strong> Part A uses the answer bank — each answer is used exactly once; three terms will not be used. Part B asks you to calculate priority scores using the risk matrix from class. Part C (Q9–10) is short answer.
+</div>
+
+<div class="answer-bank">
+  <div class="ab-label">Answer Bank</div>
+  <div class="ab-grid">
+    <div class="ab-item">buffer</div>
+    <div class="ab-item">contingency plan</div>
+    <div class="ab-item">design specification</div>
+    <div class="ab-item">hypothesis</div>
+    <div class="ab-item">impact</div>
+    <div class="ab-item">iteration</div>
+    <div class="ab-item">likelihood</div>
+    <div class="ab-item">mitigation strategy</div>
+    <div class="ab-item">priority score</div>
+    <div class="ab-item">risk</div>
+    <div class="ab-item">risk register</div>
+    <div class="ab-item">status update</div>
+  </div>
+</div>
+
+<div class="questions-section">
+  <div class="qs-label">Part A — Fill in the Blank (Questions 1–6)</div>
+
+  <div class="section-group">
+    <div class="sg-label">Risk Management Vocabulary</div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">1</span>
+        <span class="q-text">Anything that might prevent a project from succeeding is called a <span class="blank"></span>. A living document that lists every one of these, scores it, and assigns a response is called a <span class="blank-wide"></span>.</span>
+      </div>
+      <div class="hint">Two blanks — first is the general term, second is the document that tracks them</div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">2</span>
+        <span class="q-text">In risk scoring, <span class="blank-narrow"></span> measures how likely a problem is to happen (1–3), and <span class="blank-narrow"></span> measures how serious it would be if it did (1–3). Multiplying the two gives the <span class="blank-wide"></span>.</span>
+      </div>
+      <div class="hint">Three blanks total</div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">3</span>
+        <span class="q-text">A <span class="blank-wide"></span> is a specific action taken <em>before</em> a risk happens to reduce its likelihood or impact. Simply hoping a problem won't occur does not meet this definition.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-group">
+    <div class="sg-label">Build, Test &amp; Iterate</div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">4</span>
+        <span class="q-text">A testable prediction that connects test data to a proposed design change — such as "the intake is misaligned, causing left-edge misses" — is called a <span class="blank"></span>.</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">5</span>
+        <span class="q-text">A deliberate, data-driven change made to improve performance between trials is called an <span class="blank"></span>. This differs from a random fix because it is connected to a specific prediction.</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">6</span>
+        <span class="q-text">A written summary using a traffic-light system (green/yellow/red) that communicates progress, blockers, and next steps to the team and teacher is called a <span class="blank-wide"></span>.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<div class="questions-section">
+  <div class="qs-label">Part B — Risk Scoring (Question 7)</div>
+
+  <p style="font-size:10pt;color:#555;margin-bottom:12px;font-style:italic;">Using likelihood (1–3) × impact (1–3) = priority score, calculate the missing values below. Then label each priority score as Monitor (1–3), Significant (4–6), or Critical (7–9).</p>
+
+  <table class="risk-calc-table">
+    <thead>
+      <tr><th class="desc-col">Risk description</th><th>Likelihood</th><th>Impact</th><th>Priority Score</th><th>Category</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="desc-col">Driver hasn't practiced teleop controls before Trial 1</td>
+        <td>2</td><td>2</td>
+        <td class="blank-cell"></td>
+        <td class="blank-cell"></td>
+      </tr>
+      <tr>
+        <td class="desc-col">Module uses a single bolt and has detached in testing before</td>
+        <td>3</td><td>3</td>
+        <td class="blank-cell"></td>
+        <td class="blank-cell"></td>
+      </tr>
+      <tr>
+        <td class="desc-col">A spare part is slightly the wrong color (cosmetic only)</td>
+        <td>1</td><td>1</td>
+        <td class="blank-cell"></td>
+        <td class="blank-cell"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-rule">
+
+<div class="questions-section">
+  <div class="qs-label">Part C — Short Answer (Questions 8–9)</div>
+
+  <div class="question">
+    <div class="q-row">
+      <span class="q-num">8</span>
+      <span class="q-text">Trial 1 shows the collector missed every ball attempt but successfully collected all cube attempts. A team proposes: "Let's just make the whole intake bigger." Using what you learned about hypothesis-driven iteration, explain what is missing from this proposed change and what a better-formed hypothesis might look like instead.</span>
+    </div>
+    <textarea class="short-answer-box" rows="4" placeholder="This proposed change is missing... A better hypothesis would specifically connect..."></textarea>
+  </div>
+
+  <div class="question" style="margin-top:18px;">
+    <div class="q-row">
+      <span class="q-num">9</span>
+      <span class="q-text">A team's Trial 2 score is the same as their Trial 1 score after they made a change based on a clear hypothesis. One team member says, "That was a waste of time — nothing changed." Explain why this team member is incorrect, using the lesson's concept of confirming or denying a hypothesis.</span>
+    </div>
+    <textarea class="short-answer-box" rows="4" placeholder="This team member is incorrect because... Even though the score didn't change, the team learned..."></textarea>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<div class="score-box">
+  <div class="score-item"><span class="score-label">Part A correct (Q1–6, note multi-blank questions)</span><span class="score-line"></span></div>
+  <div class="score-item"><span class="score-label">Part B correct (Q7, 6 values)</span><span class="score-line"></span></div>
+  <div class="score-item"><span class="score-label">Part C score (Q8–9)</span><span class="score-line"></span></div>
+  <div class="score-item"><span class="score-label">Teacher initials</span><span class="score-line"></span></div>
+</div>
+
+<div class="nav-links">
+  <a href="class8_lesson.html">← Class 8 lesson</a>
+  <a href="index.html">Unit 2 index</a>
+  <a href="unit2_minibot_challenge.html">Mini Challenge project →</a>
+</div>
+
+</body>
+</html>

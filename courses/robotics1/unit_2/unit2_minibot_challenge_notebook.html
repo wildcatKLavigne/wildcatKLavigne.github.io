@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiniBot Mini Challenge — Notebook Entry Template</title>
+
+<style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --orange: #8c3a00;
+    --orange-light: #fef0e7;
+    --green: #2d6a4f;
+    --green-light: #e8f4ee;
+    --amber: #7d4e00;
+    --amber-light: #fdf3e3;
+    --red: #8b1a1a;
+    --red-light: #fdf2f2;
+    --blue: #1a4f82;
+    --blue-light: #e8f0f9;
+    --purple: #3d2a99;
+    --purple-light: #f0ecff;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 11pt; color: #222; background: #fff; max-width: 850px; margin: 0 auto; padding: 0.5in 0.75in; }
+
+  .ws-header { border-top: 5px solid var(--orange); padding-top: 14px; margin-bottom: 20px; }
+  .ws-header .course-label { font-size: 9pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); font-weight: 700; margin-bottom: 4px; }
+  .ws-header h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 22pt; color: #111; line-height: 1.2; margin-bottom: 4px; }
+  .ws-header .subtitle { font-size: 10pt; color: #666; margin-bottom: 14px; }
+  .ws-meta { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .ws-meta-item { padding: 8px 10px; border-right: 1px solid var(--border); }
+  .ws-meta-item:last-child { border-right: none; }
+  .ws-meta-item .meta-label { font-size: 7.5pt; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 2px; }
+  .ws-meta-item .meta-value { font-size: 9.5pt; font-weight: 600; color: #222; }
+
+  .howto-box { background: var(--orange-light); border-left: 4px solid var(--orange); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin: 18px 0; }
+  .howto-box h3 { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.07em; color: var(--orange); font-weight: 700; margin-bottom: 6px; }
+  .howto-box p { font-size: 10pt; color: #3a1a00; line-height: 1.6; }
+
+  .section { margin-bottom: 22px; }
+  .section-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; color: var(--orange); margin-bottom: 6px; padding-bottom: 3px; border-bottom: 1.5px solid var(--orange-light); }
+  .section h2 { font-size: 13pt; font-weight: 700; color: #111; margin-bottom: 8px; }
+
+  .reading-block { background: var(--gray-light); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; font-size: 10.5pt; line-height: 1.7; color: #333; }
+  .reading-block p { margin-bottom: 8px; }
+  .reading-block p:last-child { margin-bottom: 0; }
+  .key-term { font-weight: 700; color: var(--orange); }
+
+  .write-area { border: 1px solid var(--border); border-radius: var(--radius); width: 100%; min-height: 60px; display: block; background: transparent; resize: none; padding: 8px 10px; font-family: inherit; font-size: 10.5pt; color: #222; line-height: 1.6; margin-bottom: 14px; }
+
+  .vocab-table, .data-table, .analysis-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 10pt; }
+  .vocab-table th, .data-table th, .analysis-table th { background: var(--orange); color: #fff; padding: 8px 10px; text-align: left; font-size: 9pt; font-weight: 600; letter-spacing: 0.02em; }
+  .vocab-table td, .data-table td, .analysis-table td { border: 1px solid var(--border); padding: 7px 10px; vertical-align: top; }
+  .vocab-table tr:nth-child(even) td, .data-table tr:nth-child(even) td, .analysis-table tr:nth-child(even) td { background: var(--orange-light); }
+  .write-cell { height: 40px; }
+  .placeholder-text { font-style: italic; color: #888; font-size: 9.5pt; }
+
+  .match-card { border: 2px solid var(--orange); border-radius: var(--radius); margin-bottom: 16px; overflow: hidden; }
+  .match-card-header { background: var(--orange); color: #fff; padding: 8px 16px; font-size: 11pt; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+  .match-card-body { padding: 14px 16px; background: #fffaf7; }
+
+  .notebook-prompt { background: var(--amber-light); border-left: 4px solid #c8860a; border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 14px; }
+  .notebook-prompt .nb-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--amber); margin-bottom: 6px; }
+  .notebook-prompt p { font-size: 10.5pt; color: #3a2a00; line-height: 1.6; }
+
+  .checklist-box { background: var(--amber-light); border-left: 4px solid #c8860a; border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 16px; margin-bottom: 16px; }
+  .checklist-box .cl-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--amber); margin-bottom: 8px; }
+  .checklist-box ul { list-style: none; padding: 0; }
+  .checklist-box li { font-size: 10.5pt; color: #3a2a00; margin-bottom: 6px; padding-left: 22px; position: relative; line-height: 1.5; }
+  .checklist-box li::before { content: "☐"; position: absolute; left: 0; color: #c8860a; font-size: 11pt; }
+
+  .signoff-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 10pt; }
+  .signoff-table th { background: var(--orange); color: #fff; padding: 8px 10px; text-align: left; font-size: 9pt; }
+  .signoff-table td { border: 1px solid var(--border); padding: 14px 10px; vertical-align: top; height: 50px; }
+
+  hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+
+  .nav-links { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 14px; border-top: 2px solid var(--orange); font-size: 10pt; }
+  .nav-links a { color: var(--orange); text-decoration: none; font-weight: 600; }
+  .nav-links a:hover { text-decoration: underline; }
+
+  @media print {
+    .nav-links { display: none; }
+    body { padding: 0.4in 0.6in; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management &nbsp;·&nbsp; End-of-Unit Challenge</div>
+  <h1>Engineering Notebook — MiniBot Mini Challenge</h1>
+  <div class="subtitle">Tournament Entry Template &nbsp;·&nbsp; Round-Robin Match Log &amp; Reflection</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Team Name</span><span class="meta-value">________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Entry #</span><span class="meta-value">________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Page #</span><span class="meta-value">________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Total Matches</span><span class="meta-value">________</span></div>
+  </div>
+</div>
+
+<div class="howto-box">
+  <h3>How to Use This Template</h3>
+  <p>Complete the pre-tournament section before your first match. Log every match immediately after it ends — not from memory later. Remember: the challenge winner is the team with the most <strong>total accumulated points across all matches</strong>, not the team with the most match wins. Track your running total carefully. The Documenter owns this notebook entry during the tournament.</p>
+</div>
+
+<!-- ═══════════ SECTION V — VOCABULARY ═══════════ -->
+<div class="section">
+  <div class="section-label">Section V &nbsp;·&nbsp; Vocabulary — Look Up &amp; Define Before You Begin</div>
+  <p style="font-size:10pt; color:#555; font-style:italic; margin-bottom:10px;">Before the tournament, look up each defined term below in the MiniBot Mini Challenge game manual. Write a definition in your own words — do not copy the manual's exact wording.</p>
+
+  <table class="vocab-table">
+    <thead><tr><th style="width:20%">Term</th><th style="width:40%">My definition — in my own words</th><th>Why this term matters during a match</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Control</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Scoring Depot</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Single Delivery</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Double Delivery</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Continuous Control Bonus</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Excess Control Violation</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td><strong>Round Robin</strong></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 1 — PRE-TOURNAMENT STRATEGY ═══════════ -->
+<div class="section">
+  <div class="section-label">Section 1 &nbsp;·&nbsp; Pre-Tournament Strategy</div>
+  <h2>Plan Before You Play</h2>
+
+  <div class="reading-block">
+    <p>Remember the scoring values: <span class="key-term">Single Delivery</span> = 1 pt, <span class="key-term">Double Delivery</span> = 3 pts, <span class="key-term">Continuous Control Bonus</span> = 2 pts (stacks with delivery points). A clean double delivery with continuous control is worth 5 points in one action — nearly as much as five single deliveries without the bonus.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Given the scoring values above, what is your team's primary strategy — maximize the number of deliveries, or maximize double-deliveries with continuous control? Explain your reasoning.</p>
+  <textarea class="write-area" rows="3" placeholder="Our primary strategy is... because the math works out to..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Because the challenge winner is decided by total accumulated points (not total wins), how does this change how your team should play a match it is already winning by a wide margin in the final 15 seconds?</p>
+  <textarea class="write-area" rows="3" placeholder="Even if we are winning by a lot, we should... because every additional point counts toward..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> What is your team's plan for staying under the two-element control limit and avoiding an Excess Control Violation?</p>
+  <textarea class="write-area" rows="3" placeholder="Our plan to avoid an Excess Control Violation is..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 2 — MATCH LOG ═══════════ -->
+<div class="section">
+  <div class="section-label">Section 2 &nbsp;·&nbsp; Match-by-Match Log</div>
+  <h2>Log Every Match Immediately After It Ends</h2>
+
+  <div class="match-card">
+    <div class="match-card-header"><span>Match 1</span><span>vs. Team: _______________</span></div>
+    <div class="match-card-body">
+      <table class="data-table" style="margin-bottom:10px;">
+        <thead><tr><th>Single Deliveries (×1 pt)</th><th>Double Deliveries (×3 pts)</th><th>Continuous Control Bonuses (×2 pts)</th><th>Excess Control Violations committed (×−5 pts to opponent)</th><th>Excess Control Violations earned (×+5 pts)</th></tr></thead>
+        <tbody><tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr></tbody>
+      </table>
+      <table class="data-table" style="margin-bottom:10px;">
+        <thead><tr><th>Our final match score</th><th>Opponent's final match score</th><th>Result (Win / Loss / Tie)</th><th>Running tournament point total</th></tr></thead>
+        <tbody><tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr></tbody>
+      </table>
+      <p style="font-size:10pt; font-weight:600; margin-bottom:4px;">What worked, what didn't, one change for next match:</p>
+      <textarea class="write-area" rows="2" placeholder="What worked: ... What didn't: ... Next match we will..."></textarea>
+    </div>
+  </div>
+
+  <div class="match-card">
+    <div class="match-card-header"><span>Match 2</span><span>vs. Team: _______________</span></div>
+    <div class="match-card-body">
+      <table class="data-table" style="margin-bottom:10px;">
+        <thead><tr><th>Single Deliveries (×1 pt)</th><th>Double Deliveries (×3 pts)</th><th>Continuous Control Bonuses (×2 pts)</th><th>Excess Control Violations committed (×−5 pts to opponent)</th><th>Excess Control Violations earned (×+5 pts)</th></tr></thead>
+        <tbody><tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr></tbody>
+      </table>
+      <table class="data-table" style="margin-bottom:10px;">
+        <thead><tr><th>Our final match score</th><th>Opponent's final match score</th><th>Result (Win / Loss / Tie)</th><th>Running tournament point total</th></tr></thead>
+        <tbody><tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr></tbody>
+      </table>
+      <p style="font-size:10pt; font-weight:600; margin-bottom:4px;">What worked, what didn't, one change for next match:</p>
+      <textarea class="write-area" rows="2" placeholder="What worked: ... What didn't: ... Next match we will..."></textarea>
+    </div>
+  </div>
+
+  <div class="match-card">
+    <div class="match-card-header"><span>Match 3</span><span>vs. Team: _______________</span></div>
+    <div class="match-card-body">
+      <table class="data-table" style="margin-bottom:10px;">
+        <thead><tr><th>Single Deliveries (×1 pt)</th><th>Double Deliveries (×3 pts)</th><th>Continuous Control Bonuses (×2 pts)</th><th>Excess Control Violations committed (×−5 pts to opponent)</th><th>Excess Control Violations earned (×+5 pts)</th></tr></thead>
+        <tbody><tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr></tbody>
+      </table>
+      <table class="data-table" style="margin-bottom:10px;">
+        <thead><tr><th>Our final match score</th><th>Opponent's final match score</th><th>Result (Win / Loss / Tie)</th><th>Running tournament point total</th></tr></thead>
+        <tbody><tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr></tbody>
+      </table>
+      <p style="font-size:10pt; font-weight:600; margin-bottom:4px;">What worked, what didn't, one change for next match:</p>
+      <textarea class="write-area" rows="2" placeholder="What worked: ... What didn't: ... Next match we will..."></textarea>
+    </div>
+  </div>
+
+  <p style="font-size:9.5pt; color:#888; font-style:italic; margin-bottom:14px;">Add additional match cards on a continuation page as needed — copy the table format above for each remaining round-robin match.</p>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 3 — TOURNAMENT SUMMARY ═══════════ -->
+<div class="section">
+  <div class="section-label">Section 3 &nbsp;·&nbsp; Tournament Summary</div>
+  <h2>Final Standing</h2>
+
+  <table class="analysis-table">
+    <thead><tr><th>Total matches played</th><th>Total wins</th><th>Total losses</th><th>Total ties</th><th>Total accumulated points (all matches)</th></tr></thead>
+    <tbody><tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr></tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>4.</strong> Compare your team's total match wins to your total accumulated points. Did the round-robin scoring system (total points, not total wins) change your final tournament outcome compared to what it would have been under a "most wins" system? Explain.</p>
+  <textarea class="write-area" rows="4" placeholder="Under a most-wins system, our outcome would have been... Under the total-points system, our outcome was... This is because..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>5.</strong> Looking across all of your matches, which scoring action (Single Delivery, Double Delivery, or Continuous Control Bonus) contributed the most to your total point count? Was this the result of a deliberate strategy or something you discovered along the way?</p>
+  <textarea class="write-area" rows="4" placeholder="The scoring action that contributed most was... This was a result of..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 4 — CONNECTING TO UNIT 2 ═══════════ -->
+<div class="section">
+  <div class="section-label">Section 4 &nbsp;·&nbsp; Connecting to Unit 2</div>
+  <h2>From Risk Register to Race Day</h2>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>6.</strong> Look back at your Class 8 risk register. Did any of the risks you identified actually occur during a tournament match? Which one, and how did your mitigation strategy hold up?</p>
+  <textarea class="write-area" rows="4" placeholder="The risk that occurred was... Our mitigation strategy (held up / did not hold up) because..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>7.</strong> If your team had one more class period to iterate on your collector module before a rematch, what single change would have the biggest impact on your total point count? Use real match data to justify your answer.</p>
+  <textarea class="write-area" rows="4" placeholder="The change with the biggest impact would be... Our match data shows this because..."></textarea>
+
+  <div class="checklist-box">
+    <div class="cl-label">Notebook Checklist — complete before signing</div>
+    <ul>
+      <li>Pre-tournament strategy questions (Section 1) completed before your first match</li>
+      <li>Every match logged immediately after it ended, with running point total updated</li>
+      <li>Tournament summary table completed with final totals</li>
+      <li>Section 3 and Section 4 reflection questions answered in complete sentences</li>
+      <li>All four team members sign and date the entry below</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SIGN-OFF ═══════════ -->
+<div class="section">
+  <div class="section-label">Entry Sign-Off</div>
+  <p style="font-size:10pt; color:#555; font-style:italic; margin-bottom:10px;">All team members sign and date, confirming this entry accurately represents the team's tournament performance.</p>
+
+  <table class="signoff-table">
+    <thead><tr><th style="width:25%">Member 1</th><th style="width:25%">Member 2</th><th style="width:25%">Member 3</th><th style="width:25%">Member 4</th></tr></thead>
+    <tbody>
+      <tr><td>Signature: __________________<br><br>Date: __________________</td><td>Signature: __________________<br><br>Date: __________________</td><td>Signature: __________________<br><br>Date: __________________</td><td>Signature: __________________<br><br>Date: __________________</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav-links">
+  <a href="unit2_minibot_challenge.html">← Game manual</a>
+  <a href="index.html">Unit 2 index</a>
+</div>
+
+</body>
+</html>

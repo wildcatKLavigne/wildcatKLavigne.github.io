@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 Test: Project Management for Engineering Teams</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --orange: #8c3a00;  --orange-light: #fef0e7;
+    --green: #2d6a4f;   --green-light: #e8f4ee;
+    --amber: #7d4e00;   --amber-light: #fdf3e3;
+    --red: #8b1a1a;     --red-light: #fdf2f2;
+    --purple: #3d2a99;  --purple-light: #f0ecff;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 11pt; color: #222; background: #fff; max-width: 850px; margin: 0 auto; padding: 0.5in 0.75in; }
+
+  .test-header { border-top: 6px solid var(--orange); padding-top: 16px; margin-bottom: 22px; }
+  .test-header .course-label { font-size: 9pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); font-weight: 700; margin-bottom: 4px; }
+  .test-header h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 24pt; color: #111; line-height: 1.2; margin-bottom: 6px; }
+  .test-header .subtitle { font-size: 10pt; color: #666; margin-bottom: 16px; }
+
+  .student-info { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; }
+  .info-cell { padding: 8px 12px; border-right: 1px solid var(--border); }
+  .info-cell:last-child { border-right: none; }
+  .info-cell .info-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 3px; }
+  .info-cell .info-line { border-bottom: 1px solid #aaa; height: 22px; display: block; }
+
+  .score-box { background: var(--gray-light); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; font-size: 9.5pt; }
+  .score-cell { text-align: center; }
+  .score-cell .s-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.05em; color: #888; display: block; margin-bottom: 4px; }
+  .score-cell .s-box { border: 1px solid var(--border); border-radius: 4px; height: 30px; background: #fff; }
+
+  .instructions-box { background: var(--amber-light); border-left: 4px solid #c8860a; border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 22px; }
+  .instructions-box h3 { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--amber); margin-bottom: 8px; }
+  .instructions-box ul { padding-left: 18px; font-size: 10pt; color: #3a2a00; line-height: 1.7; }
+  .instructions-box li { margin-bottom: 3px; }
+
+  .section-banner { padding: 8px 14px; border-radius: var(--radius); margin-bottom: 14px; margin-top: 24px; }
+  .section-banner.mc   { background: var(--orange); color: #fff; }
+  .section-banner.fr   { background: var(--green);  color: #fff; }
+  .section-banner.task { background: var(--purple); color: #fff; }
+  .section-banner .sec-title { font-size: 11pt; font-weight: 700; }
+  .section-banner .sec-points { font-size: 9pt; opacity: 0.8; margin-left: 8px; }
+
+  .mc-question { margin-bottom: 22px; }
+  .mc-question .q-stem { font-size: 10.5pt; line-height: 1.65; margin-bottom: 10px; }
+  .mc-question .q-stem .q-num { font-weight: 700; color: var(--orange); margin-right: 4px; }
+  .mc-figure { border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; background: var(--gray-light); }
+  .mc-figure .fig-label { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #666; margin-bottom: 8px; }
+
+  .fr-question { margin-bottom: 28px; }
+  .fr-question .q-stem { font-size: 10.5pt; line-height: 1.65; margin-bottom: 10px; }
+  .fr-question .q-stem .q-num { font-weight: 700; color: var(--green); margin-right: 4px; }
+  .fr-question .points { font-size: 9pt; color: #888; font-style: italic; margin-left: 6px; }
+  .fr-lines { margin-bottom: 0; }
+  .fr-line { border-bottom: 1px solid #ccc; height: 30px; margin-bottom: 2px; }
+  .fr-sub { margin-left: 20px; margin-bottom: 14px; }
+  .fr-sub .sub-label { font-size: 10pt; font-weight: 600; color: var(--green); margin-bottom: 6px; }
+
+  .task-question { margin-bottom: 28px; }
+  .task-question .q-stem { font-size: 10.5pt; line-height: 1.65; margin-bottom: 10px; }
+  .task-question .q-stem .q-num { font-weight: 700; color: var(--purple); margin-right: 4px; }
+  .task-question .points { font-size: 9pt; color: #888; font-style: italic; margin-left: 6px; }
+  .task-context { background: var(--gray-light); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 14px; font-size: 10pt; line-height: 1.7; }
+  .task-context p { margin-bottom: 8px; }
+  .task-context p:last-child { margin-bottom: 0; }
+  .task-context strong { color: var(--orange); }
+
+  .sketch-area { border: 1.5px dashed #bbb; border-radius: var(--radius); width: 100%; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 9pt; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
+  .sketch-area.xl     { height: 280px; }
+  .sketch-area.tall   { height: 220px; }
+  .sketch-area.medium { height: 160px; }
+  .sketch-area.short  { height: 100px; }
+
+  .task-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 10pt; }
+  .task-table th { background: var(--purple); color: #fff; padding: 7px 10px; text-align: left; font-size: 9pt; font-weight: 600; }
+  .task-table td { border: 1px solid var(--border); padding: 6px 10px; vertical-align: top; }
+  .task-table tr:nth-child(even) td { background: var(--purple-light); }
+  .task-table .write-cell { height: 50px; }
+
+  .write-area { border: 1px solid var(--border); border-radius: var(--radius); width: 100%; min-height: 70px; display: block; background: transparent; resize: none; padding: 8px 10px; font-family: inherit; font-size: 10.5pt; color: #222; line-height: 1.6; margin-bottom: 12px; }
+
+  .grading-checklist { background: var(--purple-light); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; font-size: 9.5pt; }
+  .grading-checklist .gc-label { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--purple); margin-bottom: 6px; }
+  .grading-checklist ul { padding-left: 16px; color: #2a1a55; line-height: 1.8; }
+
+  .score-strip { display: flex; align-items: center; gap: 8px; justify-content: flex-end; margin-top: 6px; font-size: 9pt; color: #888; }
+  .score-strip .pts-box { border: 1px solid var(--border); border-radius: 4px; min-width: 50px; height: 24px; background: #fff; display: inline-block; }
+
+  hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  .test-footer { margin-top: 30px; padding-top: 10px; border-top: 2px solid var(--orange); display: flex; justify-content: space-between; font-size: 8.5pt; color: #888; }
+
+  @media print {
+    body { padding: 0.4in 0.6in; }
+    .write-area, .fr-line { border: 1px solid #aaa; }
+    .sketch-area { border: 1.5px dashed #999; }
+    .section-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="test-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management for Engineering Teams</div>
+  <h1>Unit 2 Assessment</h1>
+  <div class="subtitle">Project Management for Engineering Teams: Roles &amp; Charters · Decision Matrix · WBS &amp; Gantt Chart · Risk Management &amp; Iteration</div>
+</div>
+
+<div class="student-info">
+  <div class="info-cell"><span class="info-label">Name</span><span class="info-line"></span></div>
+  <div class="info-cell"><span class="info-label">Team</span><span class="info-line"></span></div>
+  <div class="info-cell"><span class="info-label">Date</span><span class="info-line"></span></div>
+  <div class="info-cell"><span class="info-label">Period</span><span class="info-line"></span></div>
+</div>
+
+<div class="score-box">
+  <div class="score-cell"><span class="s-label">Section 1: Bank (20 pts)</span><div class="s-box"></div></div>
+  <div class="score-cell"><span class="s-label">Section 2: FR (30 pts)</span><div class="s-box"></div></div>
+  <div class="score-cell"><span class="s-label">Section 3: Task (50 pts)</span><div class="s-box"></div></div>
+  <div class="score-cell"><span class="s-label">Total (100 pts)</span><div class="s-box"></div></div>
+  <div class="score-cell"><span class="s-label">Grade</span><div class="s-box"></div></div>
+</div>
+
+<div class="instructions-box">
+  <h3>Instructions</h3>
+  <ul>
+    <li><strong>Section 1 — Answer Bank (20 pts):</strong> Write the letter of the best answer on the line next to each question number. Each answer may be used only once. Two answers in the bank will not be used.</li>
+    <li><strong>Section 2 — Free Response (30 pts):</strong> Answer in complete sentences. Points are shown next to each question.</li>
+    <li><strong>Section 3 — Performance Task (50 pts):</strong> Complete the task fully. Partial credit is awarded. All diagrams must be labeled to receive full credit.</li>
+    <li>You may use your engineering notebook as a reference.</li>
+    <li>Show all calculations in Section 3.</li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 1 — ANSWER BANK
+     ══════════════════════════════════════════════════════════════════════ -->
+<div class="section-banner mc">
+  <span class="sec-title">Section 1 — Answer Bank</span>
+  <span class="sec-points">10 questions · 2 points each · 20 points total</span>
+</div>
+
+<p style="font-size:10pt; color:#555; margin-bottom:14px;"><em>Directions: Choose the best answer for each question from the Answer Bank below. Write the letter of your answer on the line provided. Each answer may be used only once. Two answers in the bank will not be used.</em></p>
+
+<!-- ANSWER BANK -->
+<div style="border: 2px solid var(--orange); border-radius: var(--radius); margin-bottom: 22px; overflow: hidden;">
+  <div style="background: var(--orange); color: #fff; padding: 7px 14px; font-size: 9pt; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;">Answer Bank</div>
+  <div style="padding: 12px 16px; background: var(--orange-light);">
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 16px; font-size: 10pt;">
+      <div><strong style="color:var(--orange);">A.</strong> &nbsp;The Lead Engineer, with documented reasoning written before the build begins</div>
+      <div><strong style="color:var(--orange);">B.</strong> &nbsp;Likelihood × Impact</div>
+      <div><strong style="color:var(--orange);">C.</strong> &nbsp;A team charter</div>
+      <div><strong style="color:var(--orange);">D.</strong> &nbsp;Critical path</div>
+      <div><strong style="color:var(--orange);">E.</strong> &nbsp;Milestone</div>
+      <div><strong style="color:var(--orange);">F.</strong> &nbsp;Float</div>
+      <div><strong style="color:var(--orange);">G.</strong> &nbsp;Mitigation strategy</div>
+      <div><strong style="color:var(--orange);">H.</strong> &nbsp;Project Manager</div>
+      <div><strong style="color:var(--orange);">I.</strong> &nbsp;Hypothesis</div>
+      <div><strong style="color:var(--orange);">J.</strong> &nbsp;The change does not target the specific failure pattern shown in the data</div>
+      <div><strong style="color:var(--orange);">K.</strong> &nbsp;Buffer</div>
+      <div><strong style="color:var(--orange);">L.</strong> &nbsp;Design specification</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q1 -->
+<div class="mc-question">
+  <p class="q-stem"><span class="q-num">1. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--orange); vertical-align:bottom;">&nbsp;</span></span> A team is deciding who has final say over scheduling conflicts versus technical design conflicts. What document should they have written before this question ever came up?</p>
+</div>
+
+<!-- Q2 -->
+<div class="mc-question">
+  <p class="q-stem"><span class="q-num">2. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--orange); vertical-align:bottom;">&nbsp;</span></span> A team's decision matrix gives Concept A the highest weighted score, but the team builds Concept B instead. According to the rules of a valid override, who is allowed to make this call, and what must happen first?</p>
+</div>
+
+<!-- Q3 -->
+<div class="mc-question">
+  <p class="q-stem"><span class="q-num">3. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--orange); vertical-align:bottom;">&nbsp;</span></span> A WBS shows five sequential, dependent tasks and one task that can run in parallel without blocking the others. If any of the five sequential tasks slips, the whole project is late. What is this chain of five tasks called?</p>
+</div>
+
+<!-- Q4 -->
+<div class="mc-question">
+  <p class="q-stem"><span class="q-num">4. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--orange); vertical-align:bottom;">&nbsp;</span></span> "Module attached to the robot and the robot drives normally" is written on a Gantt chart as a verifiable checkpoint, not a task with a duration. What is this called?</p>
+</div>
+
+<!-- Q5 -->
+<div class="mc-question">
+  <p class="q-stem"><span class="q-num">5. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--orange); vertical-align:bottom;">&nbsp;</span></span> A task is not on the critical path and can slip by two days without delaying the project's end date. What is this slack time called?</p>
+</div>
+
+<!-- Q6 -->
+<div class="mc-question">
+  <p class="q-stem"><span class="q-num">6. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--orange); vertical-align:bottom;">&nbsp;</span></span> A team adds 10% extra time to every build task estimate, planned in advance, to absorb small unexpected problems like a dropped screw or a wrong-size bracket. What is this practice called?</p>
+</div>
+
+<!-- Q7 -->
+<div class="mc-question">
+  <p class="q-stem"><span class="q-num">7. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--orange); vertical-align:bottom;">&nbsp;</span></span> In a risk register, a risk is scored on a 1–3 scale for how likely it is to happen and a separate 1–3 scale for how serious it would be. How is the overall priority score calculated?</p>
+</div>
+
+<!-- Q8 -->
+<div class="mc-question">
+  <p class="q-stem"><span class="q-num">8. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--orange); vertical-align:bottom;">&nbsp;</span></span> A team writes in their risk register: "Risk: module might detach during a trial. Action: add a second mounting bolt and hand-test before Trial 1." What is this written action called?</p>
+</div>
+
+<!-- Q9 -->
+<div class="mc-question">
+  <p class="q-stem"><span class="q-num">9. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--orange); vertical-align:bottom;">&nbsp;</span></span> Trial 1 data shows a robot's collector missed every ball attempt but successfully grabbed every cube attempt. A team proposes simply making the entire intake bigger without addressing why balls specifically failed. What is the core problem with this proposed iteration?</p>
+</div>
+
+<!-- Q10 -->
+<div class="mc-question">
+  <p class="q-stem"><span class="q-num">10. <span style="display:inline-block; min-width:28px; border-bottom:2px solid var(--orange); vertical-align:bottom;">&nbsp;</span></span> A team writes: "We believe the claw's closing angle is too narrow for the ball's diameter, causing the grip to fail before fully surrounding it." This is a testable prediction connecting test data to a proposed change. What is this called?</p>
+</div>
+
+<div class="score-strip">Section 1 score: <span class="pts-box"></span> / 20</div>
+
+<hr class="section-rule">
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 2 — FREE RESPONSE
+     ══════════════════════════════════════════════════════════════════════ -->
+<div class="section-banner fr">
+  <span class="sec-title">Section 2 — Free Response</span>
+  <span class="sec-points">3 questions · 30 points total</span>
+</div>
+
+<!-- FR1 -->
+<div class="fr-question">
+  <p class="q-stem">
+    <span class="q-num">11.</span> <strong>Team Decision-Making &amp; the Charter</strong> <span class="points">(10 pts)</span>
+  </p>
+
+  <div class="fr-sub">
+    <div class="sub-label">(a) Explain, in your own words, why a team should write its decision-making protocol <em>before</em> any disagreement happens — rather than figuring it out in the moment when a conflict arises. <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(b) Your team's decision matrix gives Concept A a score of 94 and Concept B a score of 81. The Lead Engineer says she prefers Concept B because it handles balls more reliably. Describe exactly what must happen for this preference to be a valid override — and what would make it invalid. <em>(4 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(c) Describe a real or hypothetical moment where your team's decision-making protocol was tested — either during this unit or in a scenario you can imagine. What happened, and how did the protocol guide the outcome? <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+  <div class="score-strip">Q11 score: <span class="pts-box"></span> / 10</div>
+</div>
+
+<!-- FR2 -->
+<div class="fr-question">
+  <p class="q-stem">
+    <span class="q-num">12.</span> <strong>Hypothesis-Driven Iteration</strong> <span class="points">(10 pts)</span>
+  </p>
+
+  <div class="fr-sub">
+    <div class="sub-label">(a) Explain the difference between a random fix and a hypothesis-driven iteration. Use a specific example from your collector module build to illustrate the difference. <em>(4 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(b) A team's Trial 2 score is identical to their Trial 1 score after making a hypothesis-driven change. One team member says, "That was a waste of time." Explain why this team member is incorrect, using the concept of confirming or denying a hypothesis. <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(c) Describe one iteration your team made during Class 8 — your hypothesis, your change, and whether the result confirmed or denied your hypothesis. <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+  <div class="score-strip">Q12 score: <span class="pts-box"></span> / 10</div>
+</div>
+
+<!-- FR3 -->
+<div class="fr-question">
+  <p class="q-stem">
+    <span class="q-num">13.</span> <strong>Risk Management as Purposeful Design</strong> <span class="points">(10 pts)</span>
+  </p>
+
+  <div class="fr-sub">
+    <div class="sub-label">(a) Explain why "hope it doesn't happen" fails as a mitigation strategy. Connect your answer to the concept of purposeful design from Unit 1. <em>(4 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(b) A risk has a likelihood of 3 and an impact of 2. Calculate its priority score and explain whether the team should treat this risk as "Monitor," "Significant," or "Critical," using the risk matrix from class. <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+
+  <div class="fr-sub">
+    <div class="sub-label">(c) Describe one risk that actually occurred (materialized) during your team's build or testing, and explain how your risk register's mitigation strategy held up — or what you would change about it next time. <em>(3 pts)</em></div>
+    <div class="fr-lines">
+      <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+    </div>
+  </div>
+  <div class="score-strip">Q13 score: <span class="pts-box"></span> / 10</div>
+</div>
+
+<div class="score-strip">Section 2 score: <span class="pts-box"></span> / 30</div>
+
+<hr class="section-rule">
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 3 — PERFORMANCE TASK
+     ══════════════════════════════════════════════════════════════════════ -->
+<div class="section-banner task">
+  <span class="sec-title">Section 3 — Performance Task</span>
+  <span class="sec-points">1 task · 50 points total</span>
+</div>
+
+<!-- TASK 1 -->
+<div class="task-question">
+  <p class="q-stem">
+    <span class="q-num">Task 1.</span> <strong>Risk Register &amp; Partial Gantt Chart for a Novel Scenario</strong> <span class="points">(50 pts)</span>
+  </p>
+
+  <div class="task-context">
+    <p><strong>Scenario:</strong> A different robotics team is designing a brand-new attachment: a "flag deployer" module that must raise a small flag to a height of 12 inches within the last 10 seconds of a match. The module attaches to their robot using REV hardware, must not exceed a 4-inch footprint, and must be triggered by a single button press from the driver. The team has one 74-minute class period to design, build, and test this module before their first competition match.</p>
+    <p><strong>Your task:</strong> Using everything you learned in Unit 2, build a risk register for this new project and create a partial Gantt chart showing how the team should plan their single class period.</p>
+  </div>
+
+  <div class="grading-checklist">
+    <div class="gc-label">Grading criteria — Task 1</div>
+    <ul>
+      <li>Risk register: at least 6 distinct risks identified across at least 3 categories (design, parts, build, driver, or time) — <strong>12 pts</strong></li>
+      <li>Risk register: likelihood and impact correctly scored (1–3 each) and priority score correctly calculated (L × I) for every risk — <strong>10 pts</strong></li>
+      <li>Risk register: every risk with a priority score of 6 or higher has a specific, actionable mitigation strategy (not "hope it doesn't happen") — <strong>10 pts</strong></li>
+      <li>Gantt chart: at least 4 phases or tasks placed on a timeline within the single 74-minute period, with at least 1 milestone marked — <strong>10 pts</strong></li>
+      <li>Written justification: explains why one specific risk is the highest priority and how it shaped the Gantt chart's timing — <strong>8 pts</strong></li>
+    </ul>
+  </div>
+
+  <!-- Part A: Risk Register -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--purple); margin-bottom:8px;">Part A — Risk Register</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Identify at least 6 risks for the flag deployer project. Score each on likelihood (1–3) and impact (1–3), calculate the priority score, and write a specific mitigation strategy for any risk scoring 6 or higher.</p>
+
+  <table class="task-table" style="font-size:9.5pt;">
+    <thead>
+      <tr>
+        <th style="width:30%">Risk description</th>
+        <th style="width:10%">Likelihood</th>
+        <th style="width:10%">Impact</th>
+        <th style="width:12%">Priority (L×I)</th>
+        <th>Mitigation strategy (required if priority ≥ 6)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Part B: Partial Gantt -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--purple); margin-bottom:8px; margin-top:14px;">Part B — Partial Gantt Chart (single 74-minute class period)</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Plan the team's single class period. List at least 4 phases or tasks in the order they should happen, with a rough time estimate for each. Mark at least one milestone with a ◆ symbol.</p>
+
+  <table class="task-table">
+    <thead>
+      <tr>
+        <th style="width:8%">Order</th>
+        <th style="width:42%">Phase / task</th>
+        <th style="width:20%">Time estimate</th>
+        <th>Milestone? (mark with ◆ if yes)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Part C: Justification -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--purple); margin-bottom:8px; margin-top:14px;">Part C — Written Justification</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Identify which single risk from your register has the highest priority score. Explain why, and describe specifically how this risk influenced the order or timing of tasks in your Gantt chart above.</p>
+  <div class="fr-lines">
+    <div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div><div class="fr-line"></div>
+  </div>
+
+  <div class="score-strip">Task 1 score: <span class="pts-box"></span> / 50</div>
+</div>
+
+<div class="score-strip" style="font-size:10pt;">
+  <strong>Section 3 total: <span class="pts-box" style="min-width:60px;"></span> / 50</strong>
+</div>
+
+<hr class="section-rule">
+
+<div style="background:var(--gray-light); border-radius:var(--radius); padding:12px 16px; font-size:9.5pt; color:#555; margin-bottom:20px;">
+  <strong style="color:#333;">Answer Key &amp; Scoring Notes (Teacher Copy)</strong><br>
+  <strong>Section 1 Answer Bank:</strong> 1-C, 2-A, 3-D, 4-E, 5-F, 6-K, 7-B, 8-G, 9-J, 10-I &nbsp;·&nbsp; Unused answers: H (Project Manager) and L (Design specification)<br>
+  <strong>Section 2:</strong> See rubric. FR11b: full credit requires both halves — documented reasoning AND that the documentation happens before the build begins. FR12b: full credit requires identifying that a denied hypothesis is still useful data, not wasted effort. FR13a: full credit requires connecting the lack of action to the absence of purposeful reasoning, mirroring Unit 1's "why did you build it that way?" standard.<br>
+  <strong>Section 3:</strong> Task 1 — any 6 distinct, plausible risks for a flag-deployer project are acceptable (design risk: mechanism doesn't reach 12"; parts risk: missing 4" footprint fasteners; build risk: button trigger circuit not seated; driver risk: button pressed too early/late; time risk: 74 minutes is tight for design+build+test). Do not award mitigation credit for vague entries like "be careful" or "hope it works" — a valid mitigation names a specific action taken before the risk occurs. Gantt chart should show roughly: design/plan → build → attach → test, with the test-and-confirm milestone clearly marked given the 10-second end-of-match trigger window is itself a risk worth flagging.
+</div>
+
+<div class="test-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 2 Assessment</span>
+  <span>Project Management for Engineering Teams</span>
+  <span>Page 1 of 1 &nbsp;·&nbsp; 100 points total</span>
+</div>
+
+</body>
+</html>

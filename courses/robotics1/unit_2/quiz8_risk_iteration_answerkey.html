@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Class 8 Exit Quiz — Answer Key</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+:root{--orange:#8c3a00;--orange-lt:#fef0e7;--green:#2d6a4f;--green-lt:#e8f4ee;--amber:#7d4e00;--amber-lt:#fdf3e3;--red:#8b1a1a;--red-lt:#fdf2f2;--purple:#3d2a99;--purple-lt:#f0ecff;--border:#d0d0cc;--r:6px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#222;background:#fff;max-width:800px;margin:0 auto;padding:0.5in 0.75in;}
+.ws-header{border-top:5px solid var(--orange);padding-top:14px;margin-bottom:22px;}
+.ws-header .course-label{font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:4px;}
+.ws-header h1{font-family:'Source Serif 4',Georgia,serif;font-size:20pt;color:#111;line-height:1.2;margin-bottom:4px;}
+.ws-header .subtitle{font-size:10pt;color:#666;margin-bottom:14px;}
+.ws-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.ws-meta-item{padding:8px 12px;border-right:1px solid var(--border);}
+.ws-meta-item:last-child{border-right:none;}
+.meta-label{font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:2px;}
+.meta-value{font-size:10pt;font-weight:600;color:#222;}
+.ak-banner{background:var(--green);color:#fff;border-radius:var(--r);padding:10px 16px;margin-bottom:22px;font-size:10pt;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;gap:10px;}
+.questions-section{margin-bottom:28px;}
+.qs-label{font-size:9pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--orange);padding-bottom:5px;border-bottom:2px solid var(--orange-lt);margin-bottom:18px;}
+.section-group{margin-bottom:26px;}
+.sg-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:#888;margin-bottom:12px;padding-left:4px;}
+.question{margin-bottom:18px;}
+.q-row{display:flex;align-items:flex-start;gap:0;}
+.q-num{display:inline-block;font-size:9pt;font-weight:700;color:#fff;background:var(--orange);width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;margin-right:6px;flex-shrink:0;}
+.q-text{font-size:10.5pt;line-height:1.7;color:#222;flex:1;}
+.answer{display:inline-block;background:var(--green-lt);border:1.5px solid var(--green);border-radius:4px;color:#1a3a1a;font-weight:700;padding:1px 8px;margin:0 3px;font-size:10pt;}
+.hint{font-size:9.5pt;color:#666;margin-top:3px;margin-left:28px;}
+.rubric-box{background:#fafaf8;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-top:6px;margin-left:28px;}
+.rubric-box .rb-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--green);margin-bottom:8px;}
+.rubric-row{display:grid;grid-template-columns:60px 1fr;gap:8px;margin-bottom:6px;font-size:10pt;}
+.rubric-row:last-child{margin-bottom:0;}
+.pts{font-weight:700;color:var(--orange);}
+.criteria{color:#333;line-height:1.55;}
+.unused-box{background:var(--amber-lt);border:1px solid #c8860a;border-radius:var(--r);padding:12px 16px;margin-bottom:22px;}
+.unused-box .u-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--amber);margin-bottom:6px;}
+.risk-calc-table{width:100%;border-collapse:collapse;margin-top:6px;margin-left:28px;font-size:10pt;max-width:calc(100% - 28px);}
+.risk-calc-table th{background:var(--orange);color:#fff;padding:6px 10px;text-align:center;font-size:9pt;}
+.risk-calc-table th.desc-col{text-align:left;}
+.risk-calc-table td{border:1px solid var(--border);padding:6px 10px;text-align:center;}
+.risk-calc-table td.desc-col{text-align:left;font-size:9.5pt;}
+.risk-calc-table tr:nth-child(even) td{background:var(--orange-lt);}
+hr.section-rule{border:none;border-top:1px solid var(--border);margin:28px 0;}
+.nav-links{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:14px;border-top:2px solid var(--orange);font-size:10pt;}
+.nav-links a{color:var(--orange);text-decoration:none;font-weight:600;}
+.nav-links a:hover{text-decoration:underline;}
+@media print{.nav-links{display:none;}body{padding:0.4in 0.6in;}}
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management</div>
+  <h1>Class 8 Exit Quiz — Answer Key<br><span style="font-size:14pt;font-weight:400;color:#555;">Risk Management, Build &amp; Iterate</span></h1>
+  <div class="subtitle">Teacher copy &nbsp;·&nbsp; Not for student distribution</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Total points</span><span class="meta-value">84</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Part A (Q1–6)</span><span class="meta-value">multi-blank, see notes</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Part B (Q7)</span><span class="meta-value">6 values, 4 pts each</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Part C (Q8–9)</span><span class="meta-value">8 pts each</span></div>
+  </div>
+</div>
+
+<div class="ak-banner">✓ &nbsp;Answer Key — Class 8 Exit Quiz</div>
+
+<div class="unused-box">
+  <div class="u-label">Unused answer bank terms (3 of 12 not used)</div>
+  <p style="font-size:10pt;color:#3a2a00;"><strong>buffer</strong> · <strong>contingency plan</strong> · <strong>design specification</strong><br>
+  <span style="font-size:9.5pt;color:#666;margin-top:4px;display:block;">All three are real Unit 2 terms from Class 7 — included to test whether students can distinguish Class 7 vocabulary (planning/scheduling) from Class 8 vocabulary (risk/iteration/communication). "Contingency plan" is especially tempting here since it's risk-adjacent but distinct from "mitigation strategy" — a mitigation acts before the risk happens; a contingency plan acts after.</span></p>
+</div>
+
+<div class="questions-section">
+  <div class="qs-label">Part A — Fill in the Blank Answers</div>
+
+  <div class="section-group">
+    <div class="sg-label">Risk Management Vocabulary</div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">1</span>
+        <span class="q-text">Anything that might prevent a project from succeeding is called a <span class="answer">risk</span>. A living document that lists every one, scores it, and assigns a response is called a <span class="answer">risk register</span>.</span>
+      </div>
+      <div class="hint">8 pts total: 4 pts per blank.</div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">2</span>
+        <span class="q-text"><span class="answer">Likelihood</span> measures how likely a problem is to happen, and <span class="answer">impact</span> measures how serious it would be. Multiplying gives the <span class="answer">priority score</span>.</span>
+      </div>
+      <div class="hint">12 pts total: 4 pts per blank. Order matters — likelihood first, impact second, matching the L × I formula taught in class.</div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">3</span>
+        <span class="q-text">A <span class="answer">mitigation strategy</span> is a specific action taken before a risk happens to reduce its likelihood or impact.</span>
+      </div>
+      <div class="hint">8 pts. Do not accept "contingency plan" — that is a response AFTER the risk happens, not before.</div>
+    </div>
+  </div>
+
+  <div class="section-group">
+    <div class="sg-label">Build, Test &amp; Iterate</div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">4</span>
+        <span class="q-text">A testable prediction connecting test data to a proposed change is called a <span class="answer">hypothesis</span>.</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">5</span>
+        <span class="q-text">A deliberate, data-driven change made between trials is called an <span class="answer">iteration</span>.</span>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-row">
+        <span class="q-num">6</span>
+        <span class="q-text">A written summary using a traffic-light system that communicates progress, blockers, and next steps is called a <span class="answer">status update</span>.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<div class="questions-section">
+  <div class="qs-label">Part B — Risk Scoring Answers (Question 7)</div>
+
+  <table class="risk-calc-table">
+    <thead><tr><th class="desc-col">Risk description</th><th>Likelihood</th><th>Impact</th><th>Priority Score</th><th>Category</th></tr></thead>
+    <tbody>
+      <tr><td class="desc-col">Driver hasn't practiced teleop controls before Trial 1</td><td>2</td><td>2</td><td><span class="answer">4</span></td><td><span class="answer">Significant</span></td></tr>
+      <tr><td class="desc-col">Module uses a single bolt and has detached in testing before</td><td>3</td><td>3</td><td><span class="answer">9</span></td><td><span class="answer">Critical</span></td></tr>
+      <tr><td class="desc-col">A spare part is slightly the wrong color (cosmetic only)</td><td>1</td><td>1</td><td><span class="answer">1</span></td><td><span class="answer">Monitor</span></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:9.5pt;color:#666;margin-top:8px;margin-left:28px;"><strong>Scoring:</strong> 4 pts per correct value (3 priority scores + 3 categories = 24 pts total). Category boundaries: 1–3 = Monitor, 4–6 = Significant, 7–9 = Critical, per the risk matrix used in class.</p>
+</div>
+
+<hr class="section-rule">
+
+<div class="questions-section">
+  <div class="qs-label">Part C — Short Answer Rubrics (8 pts each)</div>
+
+  <div class="question">
+    <div class="q-row">
+      <span class="q-num">8</span>
+      <span class="q-text"><strong>Hypothesis-driven iteration — missing element</strong></span>
+    </div>
+    <div class="rubric-box">
+      <div class="rb-label">Scoring Rubric (8 pts)</div>
+      <div class="rubric-row"><span class="pts">4 pts</span><span class="criteria">Identifies that "make the intake bigger" is a general change with no specific hypothesis connecting it to the actual data pattern (ball-specific failure, not size-related necessarily).</span></div>
+      <div class="rubric-row"><span class="pts">4 pts</span><span class="criteria">Proposes a better-formed hypothesis that targets the ball-specific failure pattern — e.g., "the intake shape works for the flat-sided cube but the curved ball surface rolls out before being secured; we should add a lip or curved backstop specifically for balls." Full credit requires the hypothesis to connect the data (cubes succeed, balls fail) to a specific proposed mechanism.</span></div>
+      <div style="margin-top:8px;font-size:9.5pt;color:#666;border-top:1px solid var(--border);padding-top:8px;"><strong>Model answer:</strong> "This proposed change has no specific hypothesis — it doesn't explain why a bigger intake would fix a ball-specific problem when cubes already work fine. A better hypothesis: 'cubes have flat sides that catch on the current intake lip, but balls are round and roll back out — we should add a curved backstop or rubber grip strip that catches round objects specifically.' This connects the actual failure pattern (balls only) to a targeted mechanism."</span></div>
+    </div>
+  </div>
+
+  <div class="question" style="margin-top:20px;">
+    <div class="q-row">
+      <span class="q-num">9</span>
+      <span class="q-text"><strong>Unchanged score still represents learning</strong></span>
+    </div>
+    <div class="rubric-box">
+      <div class="rb-label">Scoring Rubric (8 pts)</div>
+      <div class="rubric-row"><span class="pts">4 pts</span><span class="criteria">Explains that an unchanged score means the hypothesis was likely <strong>denied</strong> — the change made did not address the real cause of the original problem.</span></div>
+      <div class="rubric-row"><span class="pts">4 pts</span><span class="criteria">Explains the value of this: the team now knows their original theory was wrong, which narrows down where the real cause might be for future iterations. Full credit requires connecting this explicitly to "useful data" or "ruling out a cause," not just restating that the hypothesis was wrong.</span></div>
+      <div style="margin-top:8px;font-size:9.5pt;color:#666;border-top:1px solid var(--border);padding-top:8px;"><strong>Model answer:</strong> "This team member is incorrect because an unchanged score doesn't mean nothing happened — it means the hypothesis was denied. The team now knows the change they made (and their theory about why it would help) was probably not the actual cause of the original problem. That's useful: it rules out one explanation and tells future iterations where NOT to look, which is real engineering progress even without a score improvement."</span></div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<div style="background:#f5f5f3;border-radius:var(--r);padding:14px 16px;font-size:10pt;color:#444;line-height:1.7;">
+  <strong style="color:var(--orange);display:block;margin-bottom:6px;font-size:8.5pt;text-transform:uppercase;letter-spacing:.08em;">Grading Notes</strong>
+  <strong>Q1</strong> = 8 pts (2 blanks × 4). <strong>Q2</strong> = 12 pts (3 blanks × 4). <strong>Q3–Q6</strong> = 8 pts each = 32 pts. Part A total = 52 pts.<br>
+  <strong>Q7</strong> = 24 pts (6 values × 4 pts). Do not award partial credit for a correct score paired with the wrong category, or vice versa — both halves test understanding of the matrix.<br>
+  <strong>Q8–Q9</strong> = 8 pts each = 16 pts, per rubric above.<br>
+  <strong>Raw total = 92 pts.</strong> Adjust to a /10 or /100 scale as needed for the gradebook (92/92 × 10, or report raw out of 92).<br>
+  <strong>Suggested follow-up:</strong> Students who miss Q8 or Q9 should revisit the I Do modeling section in Part 3 of the lesson before the Mini Challenge official run — these two questions test the central skill the entire unit builds toward.
+</div>
+
+<div class="nav-links">
+  <a href="quiz8_risk_iteration.html">← Student quiz</a>
+  <a href="index.html">Unit 2 index</a>
+  <a href="unit2_minibot_challenge.html">Mini Challenge project →</a>
+</div>
+
+</body>
+</html>
