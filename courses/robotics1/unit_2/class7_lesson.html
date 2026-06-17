@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 7: Project Planning — Milestones, Timelines & Task Breakdown</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root{
+    --blue:#1a4f82;    --blue-light:#e8f0f9;
+    --green:#2d6a4f;   --green-light:#e8f4ee;
+    --amber:#7d4e00;   --amber-light:#fdf3e3;
+    --red:#8b1a1a;     --red-light:#fdf2f2;
+    --orange:#8c3a00;  --orange-light:#fef0e7;
+    --purple:#3d2a99;  --purple-light:#f0ecff;
+    --gray-light:#f5f5f3;
+    --border:#d0d0cc;  --radius:6px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#222;background:#fff;max-width:850px;margin:0 auto;padding:.5in .75in;}
+
+  .ws-header{border-top:5px solid var(--orange);padding-top:14px;margin-bottom:20px;}
+  .ws-header .course-label{font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:4px;}
+  .ws-header h1{font-family:'Source Serif 4',Georgia,serif;font-size:22pt;color:#111;line-height:1.2;margin-bottom:4px;}
+  .ws-header .subtitle{font-size:10pt;color:#666;margin-bottom:14px;}
+  .ws-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .ws-meta-item{padding:8px 12px;border-right:1px solid var(--border);}
+  .ws-meta-item:last-child{border-right:none;}
+  .ws-meta-item .meta-label{font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:2px;}
+  .ws-meta-item .meta-value{font-size:10pt;font-weight:600;}
+
+  .objectives-box{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin:18px 0;}
+  .objectives-box h3{font-size:9pt;text-transform:uppercase;letter-spacing:.07em;color:var(--orange);font-weight:700;margin-bottom:8px;}
+  .objectives-box ol{padding-left:18px;margin:0;}
+  .objectives-box li{font-size:10pt;margin-bottom:4px;color:#3a1a00;}
+
+  .review-callout{background:var(--blue-light);border:1px solid #aac5e5;border-radius:var(--radius);padding:8px 12px;margin-bottom:12px;font-size:9.5pt;color:#1a3055;line-height:1.6;}
+  .review-callout strong{font-weight:700;}
+
+  .section{margin-bottom:22px;}
+  .section-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--orange);margin-bottom:6px;padding-bottom:3px;border-bottom:1.5px solid var(--orange-light);}
+  .section h2{font-size:13pt;font-weight:700;color:#111;margin-bottom:8px;}
+
+  .reading-block{background:var(--gray-light);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.7;color:#333;}
+  .reading-block p{margin-bottom:10px;}
+  .reading-block p:last-child{margin-bottom:0;}
+  .key-term{font-weight:700;color:var(--orange);}
+
+  .write-area{border:1px solid var(--border);border-radius:var(--radius);width:100%;min-height:70px;display:block;background:transparent;resize:none;padding:8px 10px;font-family:inherit;font-size:10.5pt;color:#222;line-height:1.6;margin-bottom:14px;}
+
+  .analysis-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:10pt;}
+  .analysis-table th{background:var(--orange);color:#fff;padding:8px 10px;text-align:left;font-size:9pt;font-weight:600;letter-spacing:.04em;}
+  .analysis-table td{border:1px solid var(--border);padding:6px 10px;vertical-align:top;}
+  .analysis-table tr:nth-child(even) td{background:var(--orange-light);}
+  .analysis-table .write-cell{height:46px;vertical-align:top;}
+
+  .scaffold-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+  .scaffold-tab{border-radius:var(--radius);padding:10px 12px;font-size:9.5pt;}
+  .scaffold-tab .tab-label{font-size:8pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:5px;display:block;}
+  .scaffold-tab.novice{background:var(--green-light);}
+  .scaffold-tab.novice .tab-label{color:var(--green);}
+  .scaffold-tab.intermediate{background:var(--blue-light);}
+  .scaffold-tab.intermediate .tab-label{color:var(--blue);}
+  .scaffold-tab.proficient{background:var(--purple-light);}
+  .scaffold-tab.proficient .tab-label{color:var(--purple);}
+
+  .notebook-prompt{background:var(--amber-light);border-left:4px solid #c8860a;border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:14px;}
+  .notebook-prompt .nb-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--amber);margin-bottom:6px;}
+  .notebook-prompt p{font-size:10.5pt;color:#3a2a00;line-height:1.6;}
+
+  .extension-box{background:var(--purple-light);border:1px solid #c5b8f5;border-radius:var(--radius);padding:12px 16px;margin-top:6px;}
+  .extension-box .ext-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--purple);margin-bottom:6px;}
+  .extension-box p{font-size:10pt;color:#2a1a55;line-height:1.6;}
+
+  .ido-section{border:2px solid var(--red);border-radius:var(--radius);margin-bottom:18px;overflow:hidden;}
+  .ido-header{background:var(--red);color:#fff;padding:8px 14px;display:flex;align-items:center;gap:10px;}
+  .ido-header .ido-badge{font-size:9pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:100px;}
+  .ido-header .ido-title{font-size:10.5pt;font-weight:600;}
+  .ido-body{padding:14px 16px;background:var(--red-light);}
+  .ido-body p{font-size:10.5pt;line-height:1.7;color:#3a1a1a;margin-bottom:8px;}
+  .ido-body p:last-child{margin-bottom:0;}
+  .ido-body .think-prefix{font-style:italic;color:#666;}
+
+  .ydo-header{background:var(--green);color:#fff;border-radius:var(--radius);padding:7px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+  .ydo-header .ydo-badge{font-size:9pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:100px;}
+  .ydo-header .ydo-title{font-size:10.5pt;font-weight:600;}
+
+  /* WBS TABLE */
+  .wbs-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:10pt;}
+  .wbs-table th{background:var(--orange);color:#fff;padding:7px 10px;text-align:left;font-size:9pt;font-weight:600;}
+  .wbs-table td{border:1px solid var(--border);padding:6px 10px;vertical-align:top;}
+  .wbs-table .phase-row td{background:#fde8d8;font-weight:700;color:var(--orange);font-size:10pt;}
+  .wbs-table .task-row td{height:40px;}
+  .wbs-table .task-row:nth-child(even) td{background:var(--orange-light);}
+  .wbs-table .subtask-row td{padding-left:24px;font-size:9.5pt;color:#555;height:36px;}
+  .wbs-table .subtask-row:nth-child(even) td{background:var(--orange-light);}
+
+  /* GANTT */
+  .gantt-wrapper{overflow-x:auto;margin-bottom:14px;}
+  .gantt-table{border-collapse:collapse;font-size:9pt;min-width:700px;}
+  .gantt-table th{background:var(--orange);color:#fff;padding:5px 8px;text-align:center;white-space:nowrap;}
+  .gantt-table th.task-col{text-align:left;min-width:180px;}
+  .gantt-table th.owner-col{min-width:80px;}
+  .gantt-table td{border:1px solid var(--border);padding:5px 8px;vertical-align:middle;height:34px;}
+  .gantt-table .phase-label{background:#fde8d8;font-weight:700;color:var(--orange);}
+  .gantt-table .week-cell{background:#f9f9f7;text-align:center;}
+  .gantt-bar{background:var(--orange);border-radius:3px;height:16px;display:block;opacity:.7;}
+  .critical-bar{background:var(--red);opacity:.85;}
+  .dep-note{font-size:8pt;color:#888;font-style:italic;}
+
+  hr.section-rule{border:none;border-top:1px solid var(--border);margin:22px 0;}
+  .ws-footer{margin-top:28px;padding-top:10px;border-top:2px solid var(--orange);display:flex;justify-content:space-between;font-size:8.5pt;color:#888;}
+  @media print{body{padding:.4in .6in;}.write-area{border:1px solid #aaa;}}
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management</div>
+  <h1>Project Planning: Gantt Charts &amp; Milestones</h1>
+  <div class="subtitle">Class 7 of 40 &nbsp;·&nbsp; Unit 2, Class 2 of 3 &nbsp;·&nbsp; 74 min (+ continuation into Class 8)</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><span class="meta-value">_______________________</span></div>
+  </div>
+</div>
+
+<div class="objectives-box">
+  <h3>Learning Objectives</h3>
+  <ol>
+    <li>Build and use a minute-level Gantt chart to plan, execute, and track a real engineering build — comparing planned time to actual time for every EDP stage.</li>
+    <li>Define milestones with specific, verifiable completion criteria and assign an owner to each.</li>
+    <li>Explain what the WBS and Gantt tools are and why they exist — as preparation for planning a full robot build in a later dedicated session.</li>
+    <li>Use the chassis build data to identify which EDP stages are hardest to estimate, and carry that insight forward into future planning.</li>
+  </ol>
+</div>
+
+<div class="review-callout"><strong>Class 6 connection:</strong> The team charter you wrote last class defines roles and decision-making. Today you apply those role assignments to a real build — and you practise the planning and tracking tools (Gantt chart, milestones) that your team will use when planning the full robot later in the course. The Documentation Lead ensures the Gantt and milestone table live in the notebook.</div>
+
+<!-- PART 1: READING -->
+<div class="section">
+  <div class="section-label">Part 1 &nbsp;·&nbsp; What Is a Work Breakdown Structure? (12 min)</div>
+  <h2>Breaking a Robot Build Into Manageable Pieces</h2>
+
+  <div class="reading-block">
+    <p>A <span class="key-term">Work Breakdown Structure (WBS)</span> is a hierarchical decomposition of a project into progressively smaller pieces of work. At the top is the project goal. Below it are major phases. Below each phase are tasks. Below each task are subtasks. Every leaf of the tree is something one person can own, estimate, and complete.</p>
+    <p>The WBS answers: <em>What needs to happen?</em> A <span class="key-term">Gantt chart</span> answers: <em>When does each thing happen, and in what order?</em> Tasks often depend on other tasks — you can't wire motors before the motors are mounted. These <span class="key-term">dependencies</span> create a sequence. The longest chain of dependent tasks is called the <span class="key-term">critical path</span>: if any task on the critical path slips, the whole project is late.</p>
+    <p>Some tasks can happen in parallel — two people working on different subsystems simultaneously. Identifying which tasks are independent (parallelizable) and which are dependent (sequential) is one of the highest-leverage decisions a project manager makes. In FTC, teams that build in parallel — different members working on drivetrain and mechanism simultaneously — consistently finish earlier and with more time to iterate.</p>
+  </div>
+
+  <!-- I DO: Teacher models WBS decomposition -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model decomposing one phase of the robot build into a WBS</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">Starting at the project level:</span> "The project is 'Build a competition-ready robot.' That's too big to work with. I decompose it into 5 phases: (1) Engineering Foundations, (2) Hardware Build, (3) Electronics & Wiring, (4) Software, (5) Integration & Testing. Each phase has a milestone — a moment when I can confirm that phase is complete before the next begins."</p>
+      <p><span class="think-prefix">Decomposing one phase — Hardware Build:</span> "Tasks: Design drivetrain, Build chassis, Design mechanism, Build mechanism, Mount mechanism to chassis. Each task has subtasks. 'Build chassis' = (a) Cut extrusions to length, (b) Assemble frame, (c) Verify squareness, (d) Attach wheels and axles. Each subtask has an owner and an estimate: (a) Parts Manager — 15 min, (b) Build Lead — 30 min, (c) Quality Lead — 10 min, (d) Build Lead — 20 min."</p>
+      <p><span class="think-prefix">Identifying the critical path:</span> "Design drivetrain must happen before Build chassis. Build chassis must happen before Mount mechanism. These are sequential — if Design drivetrain takes longer than expected, everything shifts. But: while the chassis is being built, the Documentation Lead can be preparing the wiring diagram in parallel. That's not on the critical path because it doesn't block chassis construction."</p>
+      <p><span class="think-prefix">Buffer time — the thing teams always skip:</span> "Every estimate is wrong. Budget 20% extra on every task. If a task is estimated at 1 class period, plan for 1.2. This buffer is not sloppiness — it's engineering reality. The teams that schedule buffer time into their Gantt chart are the teams that have time to iterate before competitions."</p>
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> What is the critical path, and why does it matter more than the total amount of work in a project?</p>
+  <textarea class="write-area" rows="3" placeholder="The critical path is... It matters more than total work because... An example of a critical path dependency in robot building would be..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Name two tasks in a robot build that could be done in parallel (at the same time by different people) and explain why they don't depend on each other.</p>
+  <textarea class="write-area" rows="3" placeholder="Task A: ___. Task B: ___. These can happen in parallel because..."></textarea>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Answer Q1 using the sentence: "The critical path matters because if task X slips, then task Y and task Z also slip, which means..."</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Answer both questions. Draw a simple arrow diagram showing 4 tasks: 2 sequential, 2 parallel, and identify which pair is on the critical path.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Answer both questions. Calculate: if the critical path has 5 tasks each taking 1 class period with 20% buffer added, how many class periods does the project need? Show your calculation.</div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PART 3B — CHASSIS MINI-PROJECT GANTT
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Part 2 &nbsp;·&nbsp; Practice Activity: Chassis Mini-Project Gantt (remainder of this class + all of next class &nbsp;≈ 105 min total)</div>
+  <h2>Plan Before You Build — A Micro-Scale Gantt in Minutes, Not Classes</h2>
+
+  <div class="reading-block">
+    <p>The course-level Gantt you just completed uses <em>classes</em> as its time unit. Real engineering projects often need finer resolution — when you have 105 minutes to design and build something, you need a plan in <em>minutes</em>, not weeks. This mini-project gives you exactly that: you will plan a chassis build at minute-level resolution, execute the plan, and then compare what actually happened to what you predicted.</p>
+    <p>The chassis is a structural-elements-only build — no motors, no motor mounts. Your team will choose between REV 15mm extrusion and REV C Channel as your primary structural material and design a frame that could accept all the robot's subsystems later. The chassis is the integration layer: every other module the team builds this semester will connect to it. That means getting it square, sturdy, and well-documented matters as much as getting it built.</p>
+    <p>You will work through all seven EDP stages used throughout this course: <strong>Define → Research → Ideate → Prototype → Test &amp; Measure → Analyse → Iterate.</strong> Your Gantt chart allocates minutes to each stage before you start. At the end of each stage you mark the <em>actual</em> time used. The gap between planned and actual is data — and data about your own planning is the most useful kind.</p>
+  </div>
+
+  <!-- CONSTRAINT BOX -->
+  <div style="border:2px solid var(--orange); border-radius:var(--radius); overflow:hidden; margin-bottom:16px;">
+    <div style="background:var(--orange); color:#fff; padding:7px 14px; font-size:9pt; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">Challenge Constraints &amp; Success Criteria</div>
+    <div style="background:var(--orange-light); padding:12px 16px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px 24px; font-size:10pt; color:#3a1a00;">
+        <div><strong>Material:</strong> REV 15mm extrusion <em>or</em> REV C Channel — choose one, justify the choice</div>
+        <div><strong>Scope:</strong> All structural elements for a full robot frame — no motors or motor mounts</div>
+        <div><strong>Interface standard:</strong> Must accept future modules (drivetrain, mechanism, electronics tray)</div>
+        <div><strong>Total time budget:</strong> ~105 minutes across two class sessions</div>
+        <div><strong>Squareness test:</strong> Both diagonals within 3 mm of each other (Quality Lead measures)</div>
+        <div><strong>Documentation:</strong> Build log entry + as-built sketch in notebook before end of second session</div>
+        <div><strong>Repairability:</strong> Any joint can be accessed and tightened with standard tools</div>
+        <div><strong>Modular interfaces:</strong> At least 2 clearly marked module attachment points on as-built sketch</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 1: PLAN YOUR TIME — THE CHASSIS GANTT -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--orange); margin-bottom:4px;">Step 1 — Plan your time allocation before starting any design work</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">Fill in the <strong>Planned (min)</strong> column for every EDP stage before the timer starts. Your planned totals must add up to 105 minutes or less — leave at least 5 minutes of buffer. The <strong>Actual (min)</strong> column is filled in as you complete each stage. The <strong>Role owner</strong> column names which team role leads that stage. The <strong>Done when</strong> column is your milestone — the specific, observable condition that tells you the stage is complete.</p>
+
+  <!-- THE GANTT CHART — minute-level columns, planned vs actual -->
+  <div style="overflow-x:auto; margin-bottom:16px;">
+  <table style="border-collapse:collapse; font-size:9pt; width:100%; min-width:680px;">
+    <thead>
+      <tr>
+        <!-- Row labels -->
+        <th style="background:var(--orange); color:#fff; padding:6px 10px; text-align:left; min-width:130px; border:1px solid #6b2900;">EDP Stage</th>
+        <th style="background:var(--orange); color:#fff; padding:6px 8px; text-align:center; width:72px; border:1px solid #6b2900;">Planned<br>(min)</th>
+        <th style="background:var(--orange); color:#fff; padding:6px 8px; text-align:center; width:72px; border:1px solid #6b2900;">Actual<br>(min)</th>
+        <th style="background:var(--orange); color:#fff; padding:6px 8px; text-align:center; width:72px; border:1px solid #6b2900;">Role<br>owner</th>
+        <!-- 15-min time blocks: 7 × 15 = 105 min -->
+        <th style="background:#6b2900; color:#fff; padding:5px 4px; text-align:center; width:38px; font-size:8pt; border:1px solid #6b2900;">0–15<br>min</th>
+        <th style="background:#6b2900; color:#fff; padding:5px 4px; text-align:center; width:38px; font-size:8pt; border:1px solid #6b2900;">15–30<br>min</th>
+        <th style="background:#6b2900; color:#fff; padding:5px 4px; text-align:center; width:38px; font-size:8pt; border:1px solid #6b2900;">30–45<br>min</th>
+        <th style="background:#6b2900; color:#fff; padding:5px 4px; text-align:center; width:38px; font-size:8pt; border:1px solid #6b2900;">45–60<br>min</th>
+        <th style="background:#6b2900; color:#fff; padding:5px 4px; text-align:center; width:38px; font-size:8pt; border:1px solid #6b2900;">60–75<br>min</th>
+        <th style="background:#6b2900; color:#fff; padding:5px 4px; text-align:center; width:38px; font-size:8pt; border:1px solid #6b2900;">75–90<br>min</th>
+        <th style="background:#6b2900; color:#fff; padding:5px 4px; text-align:center; width:38px; font-size:8pt; border:1px solid #6b2900;">90–105<br>min</th>
+        <th style="background:var(--orange); color:#fff; padding:6px 8px; text-align:left; border:1px solid #6b2900;">Done when… (your milestone for this stage)</th>
+      </tr>
+      <tr>
+        <td colspan="4" style="background:#f9f4f0; border:1px solid var(--border); padding:4px 10px; font-size:8.5pt; color:#888; font-style:italic;">
+          Shade cells with a pen/pencil: <strong style="color:var(--orange);">▓ orange = planned</strong> &nbsp;·&nbsp; <strong style="color:var(--green);">✓ green = completed on time</strong> &nbsp;·&nbsp; <strong style="color:var(--red);">✗ red = ran over</strong>
+        </td>
+        <td colspan="7" style="background:#f9f4f0; border:1px solid var(--border); padding:4px 6px; font-size:8pt; color:#888; text-align:center; font-style:italic;">
+          ← Class 7 (this class) &nbsp;·&nbsp; class break &nbsp;·&nbsp; Class 8 (next class) →
+        </td>
+        <td style="background:#f9f4f0; border:1px solid var(--border);"></td>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- DEFINE -->
+      <tr style="background:#fff;">
+        <td style="border:1px solid var(--border); padding:6px 10px; font-weight:700; color:var(--orange);">
+          1 · Define
+          <div style="font-size:8pt; font-weight:400; color:#888; margin-top:2px;">Requirements, constraints, success criteria. Choose extrusion or C Channel.</div>
+        </td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#f9f9f9;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; font-size:8.5pt; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); height:52px;"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; font-size:9pt;"></td>
+      </tr>
+
+      <!-- RESEARCH -->
+      <tr style="background:var(--orange-light);">
+        <td style="border:1px solid var(--border); padding:6px 10px; font-weight:700; color:var(--orange);">
+          2 · Research
+          <div style="font-size:8pt; font-weight:400; color:#888; margin-top:2px;">Material properties, available lengths, joint options, existing chassis references.</div>
+        </td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#f9f9f9;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; font-size:8.5pt; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); height:52px;"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; font-size:9pt;"></td>
+      </tr>
+
+      <!-- IDEATE -->
+      <tr style="background:#fff;">
+        <td style="border:1px solid var(--border); padding:6px 10px; font-weight:700; color:var(--orange);">
+          3 · Ideate
+          <div style="font-size:8pt; font-weight:400; color:#888; margin-top:2px;">3 sketches (top view + profile). Weighted matrix. Select one design before building.</div>
+        </td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#f9f9f9;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; font-size:8.5pt; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); height:52px;"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; font-size:9pt;"></td>
+      </tr>
+
+      <!-- PROTOTYPE -->
+      <tr style="background:var(--orange-light);">
+        <td style="border:1px solid var(--border); padding:6px 10px; font-weight:700; color:var(--orange);">
+          4 · Prototype
+          <div style="font-size:8pt; font-weight:400; color:#888; margin-top:2px;">Cut, assemble, fasten. Build log entry for every significant decision.</div>
+        </td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#f9f9f9;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; font-size:8.5pt; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); height:52px;"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; font-size:9pt;"></td>
+      </tr>
+
+      <!-- TEST & MEASURE -->
+      <tr style="background:#fff;">
+        <td style="border:1px solid var(--border); padding:6px 10px; font-weight:700; color:var(--orange);">
+          5 · Test &amp; Measure
+          <div style="font-size:8pt; font-weight:400; color:#888; margin-top:2px;">Squareness test (diagonals). Torsional rigidity. Joint strength. Record all numbers.</div>
+        </td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#f9f9f9;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; font-size:8.5pt; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); height:52px;"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; font-size:9pt;"></td>
+      </tr>
+
+      <!-- ANALYSE -->
+      <tr style="background:var(--orange-light);">
+        <td style="border:1px solid var(--border); padding:6px 10px; font-weight:700; color:var(--orange);">
+          6 · Analyse
+          <div style="font-size:8pt; font-weight:400; color:#888; margin-top:2px;">Root cause of any failures. Planned vs. actual time comparison. What does the data say?</div>
+        </td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#f9f9f9;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; font-size:8.5pt; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); height:52px;"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; font-size:9pt;"></td>
+      </tr>
+
+      <!-- ITERATE -->
+      <tr style="background:#fff;">
+        <td style="border:1px solid var(--border); padding:6px 10px; font-weight:700; color:var(--orange);">
+          7 · Iterate
+          <div style="font-size:8pt; font-weight:400; color:#888; margin-top:2px;">One targeted change based on test data. Retest. Update revision box.</div>
+        </td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; background:#f9f9f9;"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; font-size:8.5pt; background:#fffaf7;"></td>
+        <td style="border:1px solid var(--border); height:52px;"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border);"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; font-size:9pt;"></td>
+      </tr>
+
+      <!-- BUFFER ROW -->
+      <tr>
+        <td style="border:1px solid var(--border); padding:5px 10px; font-style:italic; font-size:9pt; color:#aaa;">Buffer (unallocated reserve)</td>
+        <td style="border:1px solid var(--border); padding:5px 8px; text-align:center; background:#f5f5f3; font-size:9pt; color:#888;"></td>
+        <td style="border:1px solid var(--border); background:#f5f5f3;"></td>
+        <td style="border:1px solid var(--border); background:#f5f5f3;"></td>
+        <td style="border:1px solid var(--border); background:#f5f5f3;"></td>
+        <td style="border:1px solid var(--border); background:#f5f5f3;"></td>
+        <td style="border:1px solid var(--border); background:#f5f5f3;"></td>
+        <td style="border:1px solid var(--border); background:#f5f5f3;"></td>
+        <td style="border:1px solid var(--border); background:#f5f5f3;"></td>
+        <td style="border:1px solid var(--border); background:#f5f5f3;"></td>
+        <td style="border:1px solid var(--border); background:#f5f5f3;"></td>
+        <td style="border:1px solid var(--border); padding:5px 8px; font-size:8.5pt; color:#aaa; font-style:italic;">105 − sum of planned = ___</td>
+      </tr>
+
+      <!-- TOTALS ROW -->
+      <tr style="background:var(--gray-light);">
+        <td style="border:1px solid var(--border); padding:6px 10px; font-weight:700;">Planned total</td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; font-weight:700; border-top:2px solid var(--orange);"></td>
+        <td style="border:1px solid var(--border); padding:6px 8px; text-align:center; font-weight:700; border-top:2px solid var(--orange);"></td>
+        <td colspan="8" style="border:1px solid var(--border); padding:6px 10px; font-size:8.5pt; color:#888; font-style:italic;">Planned total must be ≤ 100 min (leave ≥ 5 min buffer). Actual total filled in after completion.</td>
+        <td style="border:1px solid var(--border);"></td>
+      </tr>
+
+    </tbody>
+  </table>
+  </div>
+
+  <!-- CLASS BREAK MARKER -->
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+    <div style="flex:1; border-top:2px dashed var(--orange);"></div>
+    <div style="background:var(--orange); color:#fff; font-size:8.5pt; font-weight:700; padding:3px 12px; border-radius:100px; white-space:nowrap;">↑ Class 7 ends &nbsp;·&nbsp; Class 8 begins ↓</div>
+    <div style="flex:1; border-top:2px dashed var(--orange);"></div>
+  </div>
+  <p style="font-size:9pt; color:#888; margin-bottom:16px; font-style:italic;">Mark the class break on your Gantt with a vertical line between the two time blocks where it falls. Your Gantt shows whether you are on schedule when you arrive at Class 8.</p>
+
+  <!-- STEP 2: PLANNING DECISIONS (before building) -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--orange); margin-bottom:6px;">Step 2 — Planning decisions to make before any material is touched</p>
+
+  <p style="font-size:10pt; margin-bottom:6px;"><strong>Material choice: REV extrusion or C Channel?</strong> &nbsp; Selected: <span style="border-bottom:1px solid #aaa; display:inline-block; min-width:160px;">&nbsp;</span></p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:6px;">Justify your choice — reference at least one engineering property (rigidity, weight, ease of fastening, available lengths, joint options):</p>
+  <textarea class="write-area" rows="3" placeholder="We chose [material] because... The engineering property that matters most for a chassis is... The trade-off we accept with this choice is..."></textarea>
+
+  <p style="font-size:10pt; margin-bottom:6px;"><strong>Which stage are you most likely to underestimate?</strong> Write your prediction before starting — you will check it in the Analyse stage.</p>
+  <textarea class="write-area" rows="2" placeholder="We predict Stage ___ (___) will take longer than we planned because..."></textarea>
+
+  <!-- STEP 3: TRACKING SECTION (filled in during and after the build) -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--orange); margin-bottom:6px; margin-top:4px;">Step 3 — Track actual time as you complete each stage</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">At the end of each stage, record the time used in the Actual column of the Gantt chart above, then shade the cells. Use the build log below to record decisions made during <strong>Prototype</strong>. Record test numbers during <strong>Test &amp; Measure</strong>.</p>
+
+  <!-- BUILD LOG -->
+  <p style="font-size:10pt; font-weight:700; margin-bottom:5px;">Prototype build log — record each significant decision with its engineering reason:</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr>
+      <th style="width:14%">Time<br>(min elapsed)</th>
+      <th style="width:38%">Build decision made</th>
+      <th>Engineering reason — why this choice?</th>
+    </tr></thead>
+    <tbody>
+      <tr><td style="height:44px;"></td><td></td><td></td></tr>
+      <tr><td style="height:44px;"></td><td></td><td></td></tr>
+      <tr><td style="height:44px;"></td><td></td><td></td></tr>
+      <tr><td style="height:44px;"></td><td></td><td></td></tr>
+      <tr><td style="height:44px;"></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <!-- TEST RESULTS -->
+  <p style="font-size:10pt; font-weight:700; margin-bottom:5px;">Test &amp; Measure results — record every number:</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr>
+      <th style="width:28%">Test</th>
+      <th style="width:18%">Target</th>
+      <th style="width:20%">Result</th>
+      <th style="width:10%">Pass?</th>
+      <th>Root cause if fail</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td>Squareness — diagonal 1 vs diagonal 2</td>
+        <td style="font-size:9pt; color:#aaa;">Within 3 mm</td>
+        <td style="height:44px;"></td><td></td><td></td>
+      </tr>
+      <tr>
+        <td>Torsional rigidity — twist test</td>
+        <td style="font-size:9pt; color:#aaa;">No visible flex</td>
+        <td style="height:44px;"></td><td></td><td></td>
+      </tr>
+      <tr>
+        <td>Joint strength — hand-load test</td>
+        <td style="font-size:9pt; color:#aaa;">No movement at joints</td>
+        <td style="height:44px;"></td><td></td><td></td>
+      </tr>
+      <tr>
+        <td style="font-style:italic; color:#aaa;">Your criterion:</td>
+        <td style="height:44px;"></td><td></td><td></td><td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ANALYSE -->
+  <p style="font-size:10pt; font-weight:700; margin-bottom:5px;">Analyse — planned vs. actual comparison:</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr>
+      <th style="width:22%">EDP Stage</th>
+      <th style="width:18%">Planned (min)</th>
+      <th style="width:18%">Actual (min)</th>
+      <th style="width:18%">Variance<br>(+ over / − under)</th>
+      <th>Why? What caused the variance?</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>1 · Define</td><td style="height:40px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>2 · Research</td><td style="height:40px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>3 · Ideate</td><td style="height:40px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>4 · Prototype</td><td style="height:40px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>5 · Test &amp; Measure</td><td style="height:40px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>6 · Analyse</td><td style="height:40px;"></td><td></td><td></td><td></td></tr>
+      <tr><td>7 · Iterate</td><td style="height:40px;"></td><td></td><td></td><td></td></tr>
+      <tr style="background:var(--orange-light);">
+        <td style="font-weight:700;">Total</td>
+        <td style="font-weight:700;"></td>
+        <td style="font-weight:700;"></td>
+        <td style="font-weight:700;"></td>
+        <td style="font-size:9pt; color:#888; font-style:italic;">Largest single variance: Stage ___ by ___ min</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- REFLECTION QUESTIONS -->
+  <p style="font-size:10.5pt; font-weight:700; color:var(--orange); margin-bottom:6px;">Step 4 — Reflect on planning vs. reality</p>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Which stage had the largest variance between planned and actual time? Was your pre-build prediction (Step 2) correct? What does this tell you about how engineers estimate time for unfamiliar tasks?</p>
+  <textarea class="write-area" rows="4" placeholder="Stage ___ had the largest variance: planned ___ min, actual ___ min. My prediction (was / was not) correct because... This tells me that when estimating unfamiliar tasks, engineers should..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> The Gantt chart you just used has 15-minute columns. A full course Gantt (which you will build after Class 9) uses whole classes or units. What is the relationship between these two charts? How does the chassis mini-project Gantt help you build better estimates for the course Gantt?</p>
+  <textarea class="write-area" rows="4" placeholder="The chassis Gantt is a micro-scale version of the course Gantt because... The data from the chassis build tells me that my course Gantt estimate for [phase] should be (longer / shorter / the same) because... When I build the full course Gantt later, I will adjust my estimates for [phase] because..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> The Iterate stage is the last stage in the EDP, but your Gantt required you to allocate time for it <em>before you knew what would need fixing</em>. How did you decide how much time to plan for iteration? What does this reveal about why buffer time exists?</p>
+  <textarea class="write-area" rows="3" placeholder="We allocated ___ minutes to Iterate because we expected... We were (right / wrong) because the actual fix required... This reveals that buffer time exists to..."></textarea>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Fill in the Planned column with teacher support. After each stage, record the Actual time. Focus on Q1 for the reflection. Your Gantt is complete if all 7 stages have a planned time and an actual time filled in.</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Fill in all Gantt columns independently before starting. Complete the full variance analysis table. Answer all three reflection questions. Update your course Gantt when you complete the robot build planning activity (after Class 9).</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>All of the above. Additionally: shade the Gantt bars using the planned/actual colour system and mark the class break with a vertical line. Calculate which stage had the highest variance as a percentage of its planned time. Use that percentage to add a "planning risk factor" to your course Gantt estimates.</div>
+  </div>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry — Chassis Mini-Project (Documentation Lead)</div>
+    <p>The notebook for this activity must contain: (1) the material choice with justification, (2) three chassis design sketches with dimensions and material labelled (Ideate stage), (3) the selected design with a weighted matrix showing why it was chosen, (4) the build log with all decisions and reasons, (5) the test results table with all measurements, (6) the planned vs. actual analysis table, and (7) the as-built sketch with revision box. Date and sign the entry after the Iterate stage. All four team members sign.</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 4: MILESTONES -->
+<div class="section">
+  <div class="section-label">Part 3 &nbsp;·&nbsp; Milestones &amp; Stand-Up Practice (10 min)</div>
+  <h2>Checkpoints That Confirm a Phase Is Truly Done</h2>
+
+  <div class="reading-block">
+    <p>A <span class="key-term">milestone</span> is a specific, verifiable event that confirms a phase is complete. It is not "mostly done" or "about done" — it is either complete or not. Good milestones have a clear owner, a clear test, and a clear date. "Chassis built" is not a milestone. "Chassis passes squareness test (diagonals within 2mm) — Quality Lead signed off — Class 11" is a milestone.</p>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 3A — Define milestones for each major phase of your project</span>
+  </div>
+
+  <table class="analysis-table">
+    <thead>
+      <tr>
+        <th style="width:24%">Phase</th>
+        <th style="width:36%">Milestone — what "done" looks like (specific &amp; verifiable)</th>
+        <th style="width:20%">Owner (role)</th>
+        <th>Target class #</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Hardware research &amp; chassis design</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Control system</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Drivetrain</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Mechanism</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Autonomous</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td>Integration &amp; assessment</td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Stand-Up meeting — practice the format from Class 6:</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Each team member answers: (1) What I completed since last class. (2) What I'm working on before next class. (3) Any blocker — something preventing me from completing my task. Record below and in your notebook.</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr><th style="width:22%">Member</th><th>Completed since last class</th><th>Working on next</th><th style="width:28%">Any blockers?</th></tr></thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 5: NOTEBOOK + REFLECTION -->
+<div class="section">
+  <div class="section-label">Part 4 &nbsp;·&nbsp; Notebook Entry &amp; Exit Reflection (7 min)</div>
+  <h2>Record, Reflect, and Connect</h2>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry Requirements</div>
+    <p>Documentation Lead: the notebook for this class must contain — (1) the chassis mini-project Gantt chart (planned and actual columns both filled in), (2) the material choice with justification, (3) the build log, (4) the test results table, (5) the planned vs. actual analysis, (6) the milestone table, (7) the stand-up notes, and (8) the exit reflection answers below. Date and sign the entry. All four team members sign.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Look at your chassis Gantt chart. Was there any stage where one person's work became the bottleneck — the thing that blocked everyone else from moving forward? Name the stage, describe what happened, and explain what the team should build into any future Gantt to handle this.</p>
+  <textarea class="write-area" rows="3" placeholder="A bottleneck in our chassis build was... If the same bottleneck appeared in a longer project, the team should plan by..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Self-assessment:</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:62%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr></thead>
+    <tbody>
+      <tr><td>I can define Gantt chart, dependency, critical path, milestone, and buffer in my own words</td><td></td><td></td><td></td></tr>
+      <tr><td>Our chassis Gantt has planned and actual times for all 7 EDP stages, with variance recorded</td><td></td><td></td><td></td></tr>
+      <tr><td>Our milestone table has specific, verifiable "done when" statements — not vague descriptions</td><td></td><td></td><td></td></tr>
+      <tr><td>I can explain why the stage with the largest variance was hardest to estimate</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension / Exploration</div>
+    <p>Research PERT (Program Evaluation Review Technique) — a probabilistic scheduling tool used on the Apollo space program. A PERT chart shows three estimates for each task: optimistic, most likely, and pessimistic. Apply a basic PERT analysis to the EDP stage that had your largest planned vs. actual variance today. Using your actual data as the reference: estimate O (best case, if everything had gone perfectly), M (most likely, matching your actual time), and P (worst case). Calculate E = (O + 4M + P) ÷ 6. How does the PERT estimate compare to your original plan? Write 2 sentences explaining what this reveals about using historical data to improve future estimates.</p>
+  </div>
+</div>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 2, Class 2 (Class 7)</span>
+  <span>Project Planning: Gantt Charts, Milestones &amp; Chassis Build</span>
+  <span>Page 1 of 1</span>
+</div>
+
+</body>
+</html>

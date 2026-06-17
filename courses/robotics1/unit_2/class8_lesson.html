@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 8: Risk Management, Progress Tracking & Team Communication</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root{
+    --blue:#1a4f82;    --blue-light:#e8f0f9;
+    --green:#2d6a4f;   --green-light:#e8f4ee;
+    --amber:#7d4e00;   --amber-light:#fdf3e3;
+    --red:#8b1a1a;     --red-light:#fdf2f2;
+    --orange:#8c3a00;  --orange-light:#fef0e7;
+    --purple:#3d2a99;  --purple-light:#f0ecff;
+    --gray-light:#f5f5f3;
+    --border:#d0d0cc;  --radius:6px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#222;background:#fff;max-width:850px;margin:0 auto;padding:.5in .75in;}
+
+  .ws-header{border-top:5px solid var(--orange);padding-top:14px;margin-bottom:20px;}
+  .ws-header .course-label{font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:4px;}
+  .ws-header h1{font-family:'Source Serif 4',Georgia,serif;font-size:22pt;color:#111;line-height:1.2;margin-bottom:4px;}
+  .ws-header .subtitle{font-size:10pt;color:#666;margin-bottom:14px;}
+  .ws-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .ws-meta-item{padding:8px 12px;border-right:1px solid var(--border);}
+  .ws-meta-item:last-child{border-right:none;}
+  .ws-meta-item .meta-label{font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:2px;}
+  .ws-meta-item .meta-value{font-size:10pt;font-weight:600;}
+
+  .objectives-box{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin:18px 0;}
+  .objectives-box h3{font-size:9pt;text-transform:uppercase;letter-spacing:.07em;color:var(--orange);font-weight:700;margin-bottom:8px;}
+  .objectives-box ol{padding-left:18px;margin:0;}
+  .objectives-box li{font-size:10pt;margin-bottom:4px;color:#3a1a00;}
+
+  .review-callout{background:var(--blue-light);border:1px solid #aac5e5;border-radius:var(--radius);padding:8px 12px;margin-bottom:12px;font-size:9.5pt;color:#1a3055;line-height:1.6;}
+  .review-callout strong{font-weight:700;}
+
+  .section{margin-bottom:22px;}
+  .section-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--orange);margin-bottom:6px;padding-bottom:3px;border-bottom:1.5px solid var(--orange-light);}
+  .section h2{font-size:13pt;font-weight:700;color:#111;margin-bottom:8px;}
+
+  .reading-block{background:var(--gray-light);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.7;color:#333;}
+  .reading-block p{margin-bottom:10px;}
+  .reading-block p:last-child{margin-bottom:0;}
+  .key-term{font-weight:700;color:var(--orange);}
+
+  .write-area{border:1px solid var(--border);border-radius:var(--radius);width:100%;min-height:70px;display:block;background:transparent;resize:none;padding:8px 10px;font-family:inherit;font-size:10.5pt;color:#222;line-height:1.6;margin-bottom:14px;}
+
+  .analysis-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:10pt;}
+  .analysis-table th{background:var(--orange);color:#fff;padding:8px 10px;text-align:left;font-size:9pt;font-weight:600;letter-spacing:.04em;}
+  .analysis-table td{border:1px solid var(--border);padding:6px 10px;vertical-align:top;}
+  .analysis-table tr:nth-child(even) td{background:var(--orange-light);}
+  .analysis-table .write-cell{height:46px;vertical-align:top;}
+
+  .scaffold-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+  .scaffold-tab{border-radius:var(--radius);padding:10px 12px;font-size:9.5pt;}
+  .scaffold-tab .tab-label{font-size:8pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:5px;display:block;}
+  .scaffold-tab.novice{background:var(--green-light);}
+  .scaffold-tab.novice .tab-label{color:var(--green);}
+  .scaffold-tab.intermediate{background:var(--blue-light);}
+  .scaffold-tab.intermediate .tab-label{color:var(--blue);}
+  .scaffold-tab.proficient{background:var(--purple-light);}
+  .scaffold-tab.proficient .tab-label{color:var(--purple);}
+
+  .notebook-prompt{background:var(--amber-light);border-left:4px solid #c8860a;border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:14px;}
+  .notebook-prompt .nb-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--amber);margin-bottom:6px;}
+  .notebook-prompt p{font-size:10.5pt;color:#3a2a00;line-height:1.6;}
+
+  .extension-box{background:var(--purple-light);border:1px solid #c5b8f5;border-radius:var(--radius);padding:12px 16px;margin-top:6px;}
+  .extension-box .ext-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--purple);margin-bottom:6px;}
+  .extension-box p{font-size:10pt;color:#2a1a55;line-height:1.6;}
+
+  .ido-section{border:2px solid var(--red);border-radius:var(--radius);margin-bottom:18px;overflow:hidden;}
+  .ido-header{background:var(--red);color:#fff;padding:8px 14px;display:flex;align-items:center;gap:10px;}
+  .ido-header .ido-badge{font-size:9pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:100px;}
+  .ido-header .ido-title{font-size:10.5pt;font-weight:600;}
+  .ido-body{padding:14px 16px;background:var(--red-light);}
+  .ido-body p{font-size:10.5pt;line-height:1.7;color:#3a1a1a;margin-bottom:8px;}
+  .ido-body p:last-child{margin-bottom:0;}
+  .ido-body .think-prefix{font-style:italic;color:#666;}
+
+  .ydo-header{background:var(--green);color:#fff;border-radius:var(--radius);padding:7px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+  .ydo-header .ydo-badge{font-size:9pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:100px;}
+  .ydo-header .ydo-title{font-size:10.5pt;font-weight:600;}
+
+  /* RISK MATRIX HEATMAP */
+  .risk-matrix{display:grid;grid-template-columns:auto repeat(3,80px);gap:0;margin-bottom:16px;font-size:9pt;}
+  .rm-header{background:var(--orange);color:#fff;padding:6px 8px;text-align:center;font-weight:600;font-size:8.5pt;}
+  .rm-row-label{background:var(--orange-light);padding:6px 8px;font-weight:600;font-size:8.5pt;display:flex;align-items:center;}
+  .rm-cell{border:1px solid var(--border);padding:6px 4px;text-align:center;min-height:50px;font-size:9pt;display:flex;align-items:center;justify-content:center;}
+  .rm-low{background:#d4edda;color:#155724;}
+  .rm-med{background:#fff3cd;color:#856404;}
+  .rm-high{background:#f8d7da;color:#721c24;}
+  .rm-crit{background:#c82333;color:#fff;font-weight:700;}
+
+  /* STATUS UPDATE BOX */
+  .status-box{border:2px solid var(--orange);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;}
+  .status-header{background:var(--orange);color:#fff;padding:8px 16px;font-size:11pt;font-weight:700;}
+  .status-body{padding:14px 16px;background:#fffaf7;}
+  .status-field{margin-bottom:10px;}
+  .status-field label{font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--orange);display:block;margin-bottom:4px;}
+  .status-field .field-input{border:1px solid var(--border);border-radius:4px;width:100%;min-height:40px;background:#fff;padding:6px 8px;font-family:inherit;font-size:10pt;line-height:1.5;display:block;resize:none;}
+  .status-field .field-input.tall{min-height:56px;}
+
+  /* TRAFFIC LIGHT */
+  .traffic-lights{display:flex;gap:12px;margin-bottom:10px;align-items:center;}
+  .tl-option{display:flex;align-items:center;gap:6px;font-size:10pt;}
+  .tl-dot{width:18px;height:18px;border-radius:50%;flex-shrink:0;border:2px solid #ccc;}
+  .tl-dot.green{background:#28a745;border-color:#1e7e34;}
+  .tl-dot.yellow{background:#ffc107;border-color:#d39e00;}
+  .tl-dot.red{background:#dc3545;border-color:#bd2130;}
+
+  hr.section-rule{border:none;border-top:1px solid var(--border);margin:22px 0;}
+  .ws-footer{margin-top:28px;padding-top:10px;border-top:2px solid var(--orange);display:flex;justify-content:space-between;font-size:8.5pt;color:#888;}
+  @media print{body{padding:.4in .6in;}.write-area,.field-input{border:1px solid #aaa;}}
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management</div>
+  <h1>Risk Management, Progress Tracking &amp; Team Communication</h1>
+  <div class="subtitle">Class 8 of 40 &nbsp;·&nbsp; Unit 2, Class 3 of 3 &nbsp;·&nbsp; 74 minutes</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Date</span><span class="meta-value">_______________________</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Period</span><span class="meta-value">_______________________</span></div>
+  </div>
+</div>
+
+<div class="objectives-box">
+  <h3>Learning Objectives</h3>
+  <ol>
+    <li>Build a risk register: identify, score (likelihood × impact), and mitigate at least five engineering risks before they happen.</li>
+    <li>Write a weekly status update that communicates progress, blockers, and next steps clearly and without blame.</li>
+    <li>Practice a structured 3-minute stand-up meeting and explain why it is more effective than unstructured team check-ins.</li>
+    <li>Update the Gantt chart and milestone table from Class 7 to reflect any changes in scope or schedule.</li>
+  </ol>
+</div>
+
+<div class="review-callout"><strong>Class 7 connection:</strong> Your WBS and Gantt chart identified what work needs to happen and when. Today you build the safety net: a risk register that identifies what might go wrong, and communication tools that surface problems early — before they become crises. Keep your Gantt chart from Class 7 on your desk. You will update it at the end of class.</div>
+
+<!-- PART 1 -->
+<div class="section">
+  <div class="section-label">Part 1 &nbsp;·&nbsp; What Is Risk Management? (12 min)</div>
+  <h2>Seeing Problems Before They Happen</h2>
+
+  <div class="reading-block">
+    <p>A <span class="key-term">risk</span> is anything that might prevent your project from succeeding. Not all risks are equally dangerous. Some are very likely but have low impact. Others are unlikely but catastrophic if they occur. A <span class="key-term">risk register</span> is a living document that lists every identified risk, scores it on likelihood (1–3) and impact (1–3), calculates a priority score (likelihood × impact), and assigns a mitigation strategy.</p>
+    <p>A <span class="key-term">mitigation strategy</span> is what you do before the risk happens to reduce its likelihood or impact. "Hope it doesn't happen" is not a mitigation strategy. "Design a second mounting interface so we can swap the mechanism in under 5 minutes if the primary mount fails" is a mitigation strategy.</p>
+    <p>Risk management is not pessimism — it is intentional design applied to the project itself. Just as you design a claw with a trade-off between grip force and weight, you design your project plan with deliberate choices about which risks to eliminate, which to reduce, and which to accept. You can only manage risks you have named first.</p>
+  </div>
+
+  <!-- I DO -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher model identifying and scoring risks for a chassis build</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">How I identify risks:</span> "I ask: 'What could prevent us from completing this task on time and with good quality?' For the chassis build, I think through every step: design, parts, build, test. Design risk: we spend too long debating which design to use and don't leave enough time to build. Parts risk: a key bracket isn't in our stockpile and we can't source it quickly. Build risk: the chassis isn't square and we don't catch it until after wiring. Test risk: the first drive reveals a gear ratio problem that requires a complete rebuild."</p>
+      <p><span class="think-prefix">Scoring and prioritizing:</span> "I score Likelihood 1 (unlikely) to 3 (very likely) and Impact 1 (inconvenient) to 3 (project-threatening). Priority = L × I. Score 7–9: critical — address immediately. Score 4–6: significant — have a mitigation plan. Score 1–3: monitor only. The chassis-not-square risk: Likelihood=2 (we've seen this before), Impact=3 (have to redo mounting). Priority = 6. Significant. Mitigation: Quality Lead measures diagonals before any motors are installed."</p>
+      <p><span class="think-prefix">The risk register is a living document:</span> "When a risk becomes real — when the chassis isn't square — the Documentation Lead updates the risk register: 'Risk materialized Class 11. Mitigation implemented: rebuilt frame. Result: chassis now within spec. 1 class period lost.' This becomes part of the notebook's design history."</p>
+    </div>
+  </div>
+
+  <div style="margin-bottom:12px;">
+    <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">The risk priority matrix — use this to interpret your scores:</p>
+    <div class="risk-matrix">
+      <div></div>
+      <div class="rm-header">Impact 1<br>Minor inconvenience</div>
+      <div class="rm-header">Impact 2<br>Significant delay</div>
+      <div class="rm-header">Impact 3<br>Project-threatening</div>
+      <div class="rm-row-label">Likelihood 3<br>(Very likely)</div>
+      <div class="rm-cell rm-med">3 — Monitor</div>
+      <div class="rm-cell rm-high">6 — Significant</div>
+      <div class="rm-cell rm-crit">9 — Critical</div>
+      <div class="rm-row-label">Likelihood 2<br>(Possible)</div>
+      <div class="rm-cell rm-low">2 — Monitor</div>
+      <div class="rm-cell rm-med">4 — Significant</div>
+      <div class="rm-cell rm-high">6 — Significant</div>
+      <div class="rm-row-label">Likelihood 1<br>(Unlikely)</div>
+      <div class="rm-cell rm-low">1 — Monitor</div>
+      <div class="rm-cell rm-low">2 — Monitor</div>
+      <div class="rm-cell rm-med">3 — Monitor</div>
+    </div>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Why is "hope it doesn't happen" not a valid mitigation strategy? Use the intentional design vocabulary from Unit 1.</p>
+  <textarea class="write-area" rows="3" placeholder="'Hope it doesn't happen' fails the standard of intentional design because... A real mitigation strategy is intentional because..."></textarea>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 2: RISK REGISTER -->
+<div class="section">
+  <div class="section-label">Part 2 &nbsp;·&nbsp; Build Your Team Risk Register (20 min)</div>
+  <h2>Name Every Risk Before It Names You</h2>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 2A — Identify and score at least 8 risks for your robot project</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Think through every phase from your Gantt chart: what could go wrong? Include design risks (wrong design selected), parts risks (missing components), build risks (alignment, fasteners), software risks (bugs, connection issues), team risks (absence, disagreement), and time risks (underestimated tasks). Score each. Prioritize. Assign a mitigation owner.</p>
+
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead>
+      <tr>
+        <th style="width:24%">Risk description</th>
+        <th style="width:8%">Phase</th>
+        <th style="width:9%">Likelihood<br>(1–3)</th>
+        <th style="width:8%">Impact<br>(1–3)</th>
+        <th style="width:10%">Priority<br>(L × I)</th>
+        <th>Mitigation strategy — what will you do before the risk materializes?</th>
+        <th style="width:11%">Owner role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-size:9pt; color:#aaa; font-style:italic;">Chassis not square — missed during build</td>
+        <td style="font-size:9pt; color:#aaa; font-style:italic;">Phase 3</td>
+        <td style="text-align:center; color:#aaa; font-style:italic;">2</td>
+        <td style="text-align:center; color:#aaa; font-style:italic;">3</td>
+        <td style="text-align:center; font-weight:700; color:#721c24;">6</td>
+        <td style="font-size:9pt; color:#aaa; font-style:italic;">Quality Lead measures diagonals before motors installed</td>
+        <td style="font-size:9pt; color:#aaa; font-style:italic;">Quality Lead</td>
+      </tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Top 2 risks by priority score</strong> — describe your monitoring plan for these:</p>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+    <div>
+      <p style="font-size:9pt; font-weight:700; color:var(--orange); margin-bottom:4px;">Highest priority risk (score: ___)</p>
+      <textarea class="write-area" rows="3" style="min-height:60px;" placeholder="Risk: ... Monitoring plan: we will check for this every [class / phase] by..."></textarea>
+    </div>
+    <div>
+      <p style="font-size:9pt; font-weight:700; color:var(--orange); margin-bottom:4px;">Second highest (score: ___)</p>
+      <textarea class="write-area" rows="3" style="min-height:60px;" placeholder="Risk: ... Monitoring plan: we will check for this every [class / phase] by..."></textarea>
+    </div>
+  </div>
+
+  <div class="scaffold-tabs">
+    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Identify 5 risks using the provided example row as a guide. Write one mitigation strategy for each.</div>
+    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Identify 8 risks across at least 4 different categories (design, parts, build, team). Ensure every Critical (score 7–9) risk has a detailed mitigation.</div>
+    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Identify 8+ risks. For the top 2 by priority, describe both a preventive mitigation (before it happens) and a contingency plan (if it happens anyway). Calculate the expected impact reduction if your mitigation is implemented.</div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 3: COMMUNICATION TOOLS -->
+<div class="section">
+  <div class="section-label">Part 3 &nbsp;·&nbsp; Team Communication: Status Updates &amp; Stand-Ups (20 min)</div>
+  <h2>Raising Problems Early Enough to Solve Them</h2>
+
+  <div class="reading-block">
+    <p>The most common reason engineering teams fail isn't bad engineering — it's communication. A team member knows a part is missing and assumes someone else is handling it. A sub-assembly isn't going to fit and nobody says anything until build day. A team member is confused about their role responsibility and spends two classes doing the wrong task.</p>
+    <p>Two tools prevent these failures. The <span class="key-term">stand-up meeting</span> (practiced in Classes 6 and 7) is a 3-minute daily check-in: what did I do, what am I doing next, what is blocking me. The <span class="key-term">status update</span> is a written paragraph submitted at the end of each unit that communicates progress to the teacher and stakeholders. Both tools have one purpose: surface problems early, before they compound.</p>
+    <p>Effective status updates use a traffic light system: 🟢 Green = on track, 🟡 Yellow = at risk / needs attention, 🔴 Red = blocked / off track. A Red status is not failure — it is honest engineering. What fails teams is a Red status that nobody reports until it's too late to fix.</p>
+  </div>
+
+  <!-- I DO: Model status update -->
+  <div class="ido-section">
+    <div class="ido-header">
+      <span class="ido-badge">I Do</span>
+      <span class="ido-title">Watch the teacher write a model status update — good and bad versions</span>
+    </div>
+    <div class="ido-body">
+      <p><span class="think-prefix">Bad status update (vague, no action, no accountability):</span> "We are working on the chassis. It's going okay. We might be a bit behind. We'll try to catch up next class." This tells a reader nothing they can act on. What is the specific problem? Who owns the recovery? What is the new plan?</p>
+      <p><span class="think-prefix">Good status update (specific, with action items and owner):</span> "Status: 🟡 Yellow. The chassis frame was completed in Class 11, but the squareness test failed — diagonals were off by 8mm. Root cause: the corner bracket on the front-left was installed 90° rotated. Action taken: rebuilt the corner joint in Class 11, re-tested, now within 2mm tolerance. Impact to schedule: 0.5 class periods lost from the buffer allocation in Phase 3. Updated milestone: drivetrain wiring now targets Class 12 instead of Class 11. No impact to overall completion date. Owner: Build Lead."</p>
+      <p><span class="think-prefix">Why specificity matters:</span> "The good update gives the reader everything they need to understand the situation without asking follow-up questions. The bad update forces the teacher to stop class and interview the team. Specific status updates respect everyone's time and demonstrate engineering professionalism."</p>
+    </div>
+  </div>
+
+  <div class="ydo-header">
+    <span class="ydo-badge">You Do</span>
+    <span class="ydo-title">Part 3A — Write your Unit 2 status update as a team</span>
+  </div>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">This status update covers Unit 2 (Classes 6–8). The Documentation Lead writes it; all members contribute the facts for their role area. Be specific: dates, measurements, class numbers, and names. Reference your WBS and Gantt chart.</p>
+
+  <div class="status-box">
+    <div class="status-header">Unit 2 Status Update — Project Management Phase Complete</div>
+    <div class="status-body">
+
+      <div class="status-field">
+        <label>Overall status</label>
+        <div class="traffic-lights">
+          <label class="tl-option"><input type="radio" name="status"> <span class="tl-dot green"></span> Green — on track, no issues</label>
+          <label class="tl-option"><input type="radio" name="status"> <span class="tl-dot yellow"></span> Yellow — minor issues, have a plan</label>
+          <label class="tl-option"><input type="radio" name="status"> <span class="tl-dot red"></span> Red — significant blocker, need help</label>
+        </div>
+      </div>
+
+      <div class="status-field">
+        <label>What we completed in Unit 2</label>
+        <textarea class="field-input tall" placeholder="In Class 6 we completed... In Class 7 we completed... In Class 8 we completed..."></textarea>
+      </div>
+
+      <div class="status-field">
+        <label>Team charter — key norms we committed to</label>
+        <textarea class="field-input" placeholder="Our decision-making norm is... Our accountability norm is... Our role rotation schedule is..."></textarea>
+      </div>
+
+      <div class="status-field">
+        <label>Gantt chart status — are we on the schedule we set in Class 7?</label>
+        <textarea class="field-input tall" placeholder="Our Gantt chart targets [phase] for [class range]. We are currently on track / ahead / behind by [X class periods]. The main reason for any variance is..."></textarea>
+      </div>
+
+      <div class="status-field">
+        <label>Top risk from our register — status and mitigation update</label>
+        <textarea class="field-input" placeholder="Our highest priority risk (score ___) is... Our mitigation plan is... Current status of this risk is..."></textarea>
+      </div>
+
+      <div class="status-field">
+        <label>What we need for Unit 3 to start successfully</label>
+        <textarea class="field-input" placeholder="To begin Unit 3, we need to: (1) [list specific items — materials, decisions, teacher approvals]..."></textarea>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- PART 4: STAND-UP PRACTICE & GANTT UPDATE -->
+<div class="section">
+  <div class="section-label">Part 4 &nbsp;·&nbsp; Stand-Up Meeting Practice &amp; Gantt Update (12 min)</div>
+  <h2>Practice the Communication Habits You'll Use Every Class</h2>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Stand-Up meeting — run the Class 8 stand-up now:</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;"><strong>Format (keep to 3 minutes total):</strong> Each person answers: (1) What I completed since last class. (2) What I'm working on today. (3) Any blocker that needs team or teacher attention.<br>The Documentation Lead runs the clock and records notes. If someone raises a blocker, it gets noted — it is NOT debated or solved in the stand-up. It goes on the "park" list to address after the stand-up.</p>
+
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr><th style="width:22%">Member (role)</th><th>Completed since C7</th><th>Working on today</th><th style="width:30%">Blocker (if any)</th></tr></thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Parked items — blockers raised in the stand-up that need follow-up:</p>
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr><th style="width:44%">Blocker</th><th style="width:28%">Who addresses it</th><th>Target resolution class #</th></tr></thead>
+    <tbody>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Gantt chart update — review your Class 7 Gantt and make any needed changes:</p>
+  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Did anything in Class 6, 7, or 8 change your timeline? A task that took longer than expected, a resource that isn't available, or a risk that materialized? Update your Gantt chart in the notebook. Record the update reason in the revision box.</p>
+
+  <table class="analysis-table" style="font-size:9.5pt;">
+    <thead><tr><th style="width:36%">Task / phase affected</th><th style="width:36%">What changed and why</th><th>New target class #</th></tr></thead>
+    <tbody>
+      <tr><td style="font-style:italic; color:#aaa; font-size:9pt;">Example: Flapper design (Class 6) took longer than expected</td><td style="font-style:italic; color:#aaa; font-size:9pt;">30 min overrun due to materials sourcing; no impact to Phase 3</td><td style="font-style:italic; color:#aaa; font-size:9pt;">No change</td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-rule">
+
+<!-- PART 5: NOTEBOOK & REFLECTION -->
+<div class="section">
+  <div class="section-label">Part 5 &nbsp;·&nbsp; Notebook Entry, Synthesis &amp; Exit Reflection (10 min)</div>
+  <h2>Closing Unit 2 — Ready for Unit 3</h2>
+
+  <div class="notebook-prompt">
+    <div class="nb-label">Notebook Entry Requirements — Unit 2 Complete</div>
+    <p>Documentation Lead: the Unit 2 notebook section must contain — (1) signed team charter (Class 6), (2) full WBS with owners and estimates (Class 7), (3) completed Gantt chart (Class 7), (4) milestone table (Class 7), (5) risk register with at least 8 risks (Class 8), (6) Unit 2 status update (Class 8), (7) stand-up notes from all three classes, and (8) exit reflection answers. All four members sign the final entry. The Gantt chart should include one revision box entry if any update was made today.</p>
+  </div>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Unit 2 introduced three project management tools: team charter, Gantt chart + WBS, and risk register. Which one do you think will have the biggest impact on your team's performance over the rest of the course? Explain using a specific scenario from your plans.</p>
+  <textarea class="write-area" rows="4" placeholder="I think the [tool] will have the biggest impact because... A specific scenario where it will matter is when... Without this tool, what would likely happen is..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> The risk register asks you to name problems before they happen. Does doing this make you more or less confident about your project? Explain your answer honestly.</p>
+  <textarea class="write-area" rows="3" placeholder="Naming risks makes me feel [more / less / equally] confident because... The reason I feel this way is..."></textarea>
+
+  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Self-assessment:</p>
+  <table class="analysis-table">
+    <thead><tr><th style="width:62%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr></thead>
+    <tbody>
+      <tr><td>I can define risk, likelihood, impact, priority score, and mitigation strategy</td><td></td><td></td><td></td></tr>
+      <tr><td>Our risk register has 8+ risks with scores, mitigations, and owners</td><td></td><td></td><td></td></tr>
+      <tr><td>Our status update is specific — it references class numbers, measurements, and names</td><td></td><td></td><td></td></tr>
+      <tr><td>I ran a stand-up in under 3 minutes and kept blockers off the main discussion</td><td></td><td></td><td></td></tr>
+      <tr><td>Our Gantt chart has been updated with a revision box entry if anything changed</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="extension-box">
+    <div class="ext-label">Extension / Exploration</div>
+    <p>Research how NASA used FMEA (Failure Mode and Effects Analysis) in the Apollo program or Mars Rover missions. Find one real example where FMEA identified a risk that could have been catastrophic. Write a 1-page entry in your notebook: What was the risk? How was it identified? What mitigation was implemented? Then apply a simplified FMEA to your robot's most complex subsystem: list 3 potential failure modes, their effects, and a design change to prevent each.</p>
+  </div>
+</div>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 2, Class 3 (Class 8)</span>
+  <span>Risk Management, Progress Tracking &amp; Team Communication</span>
+  <span>Page 1 of 1</span>
+</div>
+
+</body>
+</html>
