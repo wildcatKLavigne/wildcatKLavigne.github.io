@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiniBot Mini Challenge — Official Game Manual</title>
+
+<style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
+
+  :root {
+    --orange: #8c3a00;
+    --orange-light: #fef0e7;
+    --green: #2d6a4f;
+    --green-light: #e8f4ee;
+    --amber: #7d4e00;
+    --amber-light: #fdf3e3;
+    --red: #8b1a1a;
+    --red-light: #fdf2f2;
+    --blue: #1a4f82;
+    --blue-light: #e8f0f9;
+    --purple: #3d2a99;
+    --purple-light: #f0ecff;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 11pt; color: #222; background: #fff; max-width: 850px; margin: 0 auto; padding: 0.5in 0.75in; }
+
+  .ws-header { border-top: 5px solid var(--orange); padding-top: 14px; margin-bottom: 22px; }
+  .ws-header .course-label { font-size: 9pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); font-weight: 700; margin-bottom: 4px; }
+  .ws-header h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 24pt; color: #111; line-height: 1.15; margin-bottom: 6px; }
+  .ws-header .subtitle { font-size: 10.5pt; color: #666; margin-bottom: 14px; }
+  .ws-meta { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .ws-meta-item { padding: 8px 12px; border-right: 1px solid var(--border); }
+  .ws-meta-item:last-child { border-right: none; }
+  .ws-meta-item .meta-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 2px; }
+  .ws-meta-item .meta-value { font-size: 10pt; font-weight: 600; color: #222; }
+
+  .toc { background: var(--gray-light); border-radius: var(--radius); padding: 14px 18px; margin: 20px 0 28px; }
+  .toc-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--orange); margin-bottom: 8px; }
+  .toc ol { list-style: none; counter-reset: toc-counter; padding: 0; }
+  .toc li { counter-increment: toc-counter; font-size: 10pt; margin-bottom: 5px; color: #333; }
+  .toc li::before { content: counter(toc-counter) ". "; font-weight: 700; color: var(--orange); }
+  .toc a { color: #333; text-decoration: none; }
+  .toc a:hover { color: var(--orange); text-decoration: underline; }
+
+  .section { margin-bottom: 26px; padding-top: 6px; }
+  .section-num-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; color: var(--orange); margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1.5px solid var(--orange-light); }
+  .section h2 { font-size: 14pt; font-weight: 700; color: #111; margin-bottom: 10px; font-family: 'Source Serif 4', Georgia, serif; }
+  .section h3 { font-size: 11.5pt; font-weight: 700; color: var(--orange); margin: 16px 0 8px; }
+
+  .lede { font-size: 11pt; line-height: 1.7; color: #333; margin-bottom: 14px; }
+  .lede strong { color: var(--orange); }
+
+  .info-block { background: var(--gray-light); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; font-size: 10.5pt; line-height: 1.7; color: #333; }
+  .info-block p { margin-bottom: 8px; }
+  .info-block p:last-child { margin-bottom: 0; }
+  .defined-term { font-weight: 700; color: var(--orange); }
+
+  .rule-block { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+  .rule-code { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; background: #fafaf8; }
+  .rule-tag { flex-shrink: 0; font-size: 9pt; font-weight: 700; color: #fff; background: var(--orange); padding: 2px 8px; border-radius: 4px; min-width: 38px; text-align: center; }
+  .rule-text { font-size: 10.5pt; line-height: 1.65; color: #222; }
+  .rule-text .dt { font-weight: 700; }
+
+  .scoring-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 10.5pt; }
+  .scoring-table th { background: var(--orange); color: #fff; padding: 9px 12px; text-align: left; font-size: 9.5pt; font-weight: 600; letter-spacing: 0.02em; }
+  .scoring-table th.pts-col { text-align: center; width: 18%; }
+  .scoring-table td { border: 1px solid var(--border); padding: 9px 12px; vertical-align: top; }
+  .scoring-table td.pts-col { text-align: center; font-weight: 700; font-size: 13pt; color: var(--orange); vertical-align: middle; }
+  .scoring-table tr:nth-child(even) td { background: var(--orange-light); }
+
+  .penalty-box { border: 2px solid var(--red); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+  .penalty-header { background: var(--red); color: #fff; padding: 9px 16px; font-size: 11pt; font-weight: 700; }
+  .penalty-body { padding: 14px 16px; background: var(--red-light); }
+  .penalty-body p { font-size: 10.5pt; line-height: 1.7; color: #3a1a1a; margin-bottom: 10px; }
+  .penalty-body p:last-child { margin-bottom: 0; }
+
+  .timing-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .timing-card { border-radius: var(--radius); padding: 12px 14px; text-align: center; }
+  .timing-card.pre { background: var(--blue-light); border: 1px solid #aac5e5; }
+  .timing-card.match { background: var(--orange-light); border: 1px solid #e0b080; }
+  .timing-card.post { background: var(--gray-light); border: 1px solid var(--border); }
+  .timing-card .tc-time { font-size: 18pt; font-weight: 700; color: var(--orange); font-family: 'Source Serif 4', Georgia, serif; }
+  .timing-card.pre .tc-time { color: var(--blue); }
+  .timing-card .tc-label { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: #555; margin-top: 4px; }
+  .timing-card .tc-desc { font-size: 9pt; color: #666; margin-top: 6px; line-height: 1.5; }
+
+  .field-diagram { border: 2px dashed #bbb; border-radius: var(--radius); padding: 24px; text-align: center; margin-bottom: 16px; background: #fafaf8; }
+  .field-diagram .fd-label { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.05em; color: #999; font-weight: 700; }
+
+  .glossary-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 10pt; }
+  .glossary-table td { border: 1px solid var(--border); padding: 8px 12px; vertical-align: top; }
+  .glossary-table td.term { font-weight: 700; color: var(--orange); width: 26%; background: var(--orange-light); }
+  .glossary-table tr:nth-child(even) td.def { background: #fafaf8; }
+
+  .ranking-box { background: var(--blue-light); border: 1px solid #aac5e5; border-radius: var(--radius); padding: 14px 18px; margin-bottom: 16px; }
+  .ranking-box p { font-size: 10.5pt; line-height: 1.7; color: #1a3055; margin-bottom: 8px; }
+  .ranking-box p:last-child { margin-bottom: 0; }
+
+  .example-box { background: var(--green-light); border-left: 4px solid var(--green); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 14px; }
+  .example-box .ex-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--green); margin-bottom: 6px; }
+  .example-box p { font-size: 10.5pt; color: #1a3a2a; line-height: 1.65; }
+
+  .checklist-box { background: var(--amber-light); border-left: 4px solid #c8860a; border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 16px; margin-bottom: 16px; }
+  .checklist-box .cl-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--amber); margin-bottom: 8px; }
+  .checklist-box ul { list-style: none; padding: 0; }
+  .checklist-box li { font-size: 10.5pt; color: #3a2a00; margin-bottom: 6px; padding-left: 22px; position: relative; line-height: 1.5; }
+  .checklist-box li::before { content: "☐"; position: absolute; left: 0; color: #c8860a; font-size: 11pt; }
+
+  hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 26px 0; }
+
+  .ws-footer { margin-top: 32px; padding-top: 12px; border-top: 2px solid var(--orange); display: flex; justify-content: space-between; font-size: 8.5pt; color: #888; }
+
+  .nav-links { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 10pt; }
+  .nav-links a { color: var(--orange); text-decoration: none; font-weight: 600; }
+  .nav-links a:hover { text-decoration: underline; }
+
+  @media print {
+    .nav-links { display: none; }
+    body { padding: 0.4in 0.6in; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ws-header">
+  <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management &nbsp;·&nbsp; End-of-Unit Challenge</div>
+  <h1>MiniBot Mini Challenge</h1>
+  <div class="subtitle">Official Game Manual — Abridged Edition &nbsp;·&nbsp; Round-Robin Tournament Format</div>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><span class="meta-label">Format</span><span class="meta-value">2-Team Round Robin</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Match length</span><span class="meta-value">90 seconds</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Drive mode</span><span class="meta-value">Teleop only</span></div>
+    <div class="ws-meta-item"><span class="meta-label">Robot platform</span><span class="meta-value">Unit 1 REV MiniBot</span></div>
+  </div>
+</div>
+
+<div class="toc">
+  <div class="toc-label">Table of Contents</div>
+  <ol>
+    <li><a href="#sec1">Game Overview</a></li>
+    <li><a href="#sec2">The Field &amp; Game Elements</a></li>
+    <li><a href="#sec3">The Robot</a></li>
+    <li><a href="#sec4">Match Structure &amp; Timing</a></li>
+    <li><a href="#sec5">Scoring</a></li>
+    <li><a href="#sec6">Control of Game Elements &amp; Penalties</a></li>
+    <li><a href="#sec7">Determining the Match Winner</a></li>
+    <li><a href="#sec8">Tournament Format &amp; Determining the Challenge Winner</a></li>
+    <li><a href="#sec9">Glossary of Defined Terms</a></li>
+    <li><a href="#sec10">Pre-Match Checklist</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════ SECTION 1 — OVERVIEW ═══════════ -->
+<div class="section" id="sec1">
+  <div class="section-num-label">Section 1</div>
+  <h2>Game Overview</h2>
+  <p class="lede">The <strong>MiniBot Mini Challenge</strong> is the capstone event of Unit 2. Two teams compete head-to-head in each match, each piloting the collector module they designed, built, and iterated across Classes 6–8. Teams earn points by collecting game elements and delivering them to their scoring depot — and earn bonus points for handling two elements at once and for keeping control of an element for its entire journey from pickup to delivery.</p>
+  <p class="lede">This manual is written in the style of an official FIRST Tech Challenge (FTC) game manual — the same kind of document real competitive robotics teams study before every season. Read it the way a competitive team would: carefully, and more than once.</p>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 2 — FIELD & GAME ELEMENTS ═══════════ -->
+<div class="section" id="sec2">
+  <div class="section-num-label">Section 2</div>
+  <h2>The Field &amp; Game Elements</h2>
+
+  <div class="field-diagram">
+    <div class="fd-label">Field Diagram — Common Area, Two Scoring Depots, Two Robot Start Zones</div>
+  </div>
+
+  <div class="info-block">
+    <p>The <span class="defined-term">PLAYING FIELD</span> consists of a shared <span class="defined-term">COMMON AREA</span> where all <span class="defined-term">GAME ELEMENTS</span> are <span class="defined-term">PREPOSITIONED</span> before the match begins, plus one <span class="defined-term">SCORING DEPOT</span> for each team, located on opposite sides of the field.</p>
+    <p><span class="defined-term">GAME ELEMENTS</span> are the 4-inch foam cubes and 4-inch rubber balls used throughout Unit 2 — the same objects referenced in your Class 6 design brief. Cubes and balls are scored identically; this manual does not distinguish between them for scoring purposes.</p>
+    <p>Game elements begin the match in the COMMON AREA, accessible to both robots. Either team's robot may collect any game element in the COMMON AREA — there is no ownership of an element until a robot establishes <span class="defined-term">CONTROL</span> of it (see Section 6).</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 3 — THE ROBOT ═══════════ -->
+<div class="section" id="sec3">
+  <div class="section-num-label">Section 3</div>
+  <h2>The Robot</h2>
+
+  <div class="info-block">
+    <p>Each team competes with the <span class="defined-term">ROBOT</span> built in Unit 1 — the REV MiniBot — fitted with the <span class="defined-term">COLLECTOR MODULE</span> designed, selected, built, and iterated in Unit 2, Classes 6 through 8.</p>
+    <p>All design constraints from the Class 6 brief remain in force during the challenge: the module must use REV hardware only, must attach and detach using bolts with no permanent modification to the MiniBot, must not extend more than 6 inches beyond the robot footprint in any direction, and the robot must drive normally with the module attached. A robot that does not meet these constraints at the start of a match is ineligible to compete until it is brought into compliance.</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 4 — MATCH STRUCTURE & TIMING ═══════════ -->
+<div class="section" id="sec4">
+  <div class="section-num-label">Section 4</div>
+  <h2>Match Structure &amp; Timing</h2>
+
+  <div class="info-block">
+    <p>Each <span class="defined-term">MATCH</span> is contested between exactly two teams and lasts <span class="defined-term">90 seconds</span>, driven entirely in <span class="defined-term">TELEOP</span> mode — there is no autonomous period in the MiniBot Mini Challenge. Game elements are prepositioned in the COMMON AREA identically for both teams before each match begins.</p>
+  </div>
+
+  <div class="timing-strip">
+    <div class="timing-card pre">
+      <div class="tc-time">Pre-Match</div>
+      <div class="tc-label">Setup</div>
+      <div class="tc-desc">Game elements prepositioned in COMMON AREA. Robots placed in start zones. Drivers ready.</div>
+    </div>
+    <div class="timing-card match">
+      <div class="tc-time">0:00–1:30</div>
+      <div class="tc-label">Match (Teleop)</div>
+      <div class="tc-desc">90 seconds of driver-controlled play. All scoring occurs during this window.</div>
+    </div>
+    <div class="timing-card post">
+      <div class="tc-time">1:30</div>
+      <div class="tc-label">End of Match</div>
+      <div class="tc-desc">Robots stop immediately. Referees finalize and announce the score.</div>
+    </div>
+  </div>
+
+  <div class="rule-block">
+    <div class="rule-code">
+      <span class="rule-tag">G1</span>
+      <span class="rule-text">Scoring actions that occur before the match timer starts or after it reaches <span class="dt">0:00</span> do not count toward a team's score.</span>
+    </div>
+  </div>
+  <div class="rule-block">
+    <div class="rule-code">
+      <span class="rule-tag">G2</span>
+      <span class="rule-text">If a robot is still in the act of delivering a game element when the timer expires, the delivery only counts if the element fully comes to rest in the SCORING DEPOT before the robot or driver makes any further deliberate action.</span>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 5 — SCORING ═══════════ -->
+<div class="section" id="sec5">
+  <div class="section-num-label">Section 5</div>
+  <h2>Scoring</h2>
+
+  <p class="lede">There are three ways to score points during a match. Each may be earned <span class="defined-term">any number of times</span> during a single 90-second match — there is no cap on repeated scoring.</p>
+
+  <table class="scoring-table">
+    <thead>
+      <tr><th>Scoring Achievement</th><th class="pts-col">Points</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Single Delivery</strong> — a robot delivers exactly one game element to its team's SCORING DEPOT.</td>
+        <td class="pts-col">1</td>
+      </tr>
+      <tr>
+        <td><strong>Double Delivery</strong> — a robot delivers exactly two game elements to its team's SCORING DEPOT at the same time, in the same scoring action.</td>
+        <td class="pts-col">3</td>
+      </tr>
+      <tr>
+        <td><strong>Continuous Control Bonus</strong> — a robot maintains uninterrupted CONTROL of a game element from the moment of collection until the moment of delivery, with no loss of control in between.</td>
+        <td class="pts-col">2</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>5.1 — How Scoring Achievements Combine</h3>
+  <div class="info-block">
+    <p>The Continuous Control Bonus is earned <span class="defined-term">in addition to</span> a Single or Double Delivery, not instead of it. A robot that collects one game element and carries it without interruption to the depot earns 1 (Single Delivery) + 2 (Continuous Control) = <strong>3 points</strong> for that delivery. A robot that drops the element mid-transit, recovers it, and still delivers it earns only the Single Delivery point — the Continuous Control Bonus requires unbroken control the entire way.</p>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-label">Worked Example</div>
+    <p>A robot collects two foam cubes at once in the COMMON AREA, never loses control of either, and delivers both to its depot simultaneously. This earns the Double Delivery (3 points) plus the Continuous Control Bonus (2 points) — <strong>5 points total</strong> for that one scoring action. If the team repeats this exact sequence three times in the same match, they earn 5 × 3 = <strong>15 points</strong> for the match from those deliveries alone.</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 6 — CONTROL & PENALTIES ═══════════ -->
+<div class="section" id="sec6">
+  <div class="section-num-label">Section 6</div>
+  <h2>Control of Game Elements &amp; Penalties</h2>
+
+  <div class="info-block">
+    <p><span class="defined-term">CONTROL</span> means a game element is being held, gripped, carried, pushed, or otherwise directly manipulated by a robot's collector module — not merely touching the robot by accident or resting against it without being acted upon.</p>
+  </div>
+
+  <h3>6.1 — The Two-Element Limit</h3>
+  <div class="info-block">
+    <p>A robot may control <span class="defined-term">up to two</span> game elements at the same time. Controlling more than two elements at once is a violation of this rule, but only once that excess control persists long enough — or is handled carelessly enough — to meet the definition of a <span class="defined-term">EXCESS CONTROL VIOLATION</span> below.</p>
+  </div>
+
+  <div class="penalty-box">
+    <div class="penalty-header">⚠ G3 — Excess Control Violation (Minor Penalty)</div>
+    <div class="penalty-body">
+      <p>A robot commits an <strong>Excess Control Violation</strong> if it controls three or more game elements at the same time, <em>and</em> any one of the following is true, as determined by a referee:</p>
+      <p><strong>(a)</strong> the excess control (control of the third element or beyond) persists for <strong>3 continuous seconds or more</strong>; or</p>
+      <p><strong>(b)</strong> the excess control persists across <strong>multiple shorter time segments that total 3 seconds or more</strong> within the match; or</p>
+      <p><strong>(c)</strong> the robot makes <strong>no effort to relinquish control</strong> of the extra element(s), regardless of how much time has elapsed.</p>
+      <p><strong>Violation:</strong> Minor Penalty. Points are awarded to the opposing team, per the Penalty Point Table below.</p>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-label">Worked Example</div>
+    <p>A robot's collector scoops up three cubes simultaneously and continues driving toward its depot for 4 seconds before a cube falls free on its own. This is an Excess Control Violation under condition (a) — the excess control lasted longer than 3 continuous seconds. If instead the robot had immediately begun shedding the third cube within the first second (visibly attempting to relinquish it, even if it took 4 more seconds to fully separate), a referee may rule that condition (c) was not met and decline to call a violation — the test is effort, not just elapsed time.</p>
+  </div>
+
+  <h3>6.2 — Penalty Point Table</h3>
+  <table class="scoring-table">
+    <thead>
+      <tr><th>Penalty</th><th class="pts-col">Points to Opponent</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Minor Penalty</strong> — single Excess Control Violation (G3).</td>
+        <td class="pts-col">5</td>
+      </tr>
+      <tr>
+        <td><strong>Repeated Minor Penalty</strong> — each additional Excess Control Violation by the same robot in the same match.</td>
+        <td class="pts-col">5 each</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:9.5pt; color:#666; margin-bottom:14px;">Penalty points are added directly to the opposing team's match score. There is no cap on the number of penalties a robot may incur in a single match.</p>
+
+  <div class="rule-block">
+    <div class="rule-code">
+      <span class="rule-tag">G4</span>
+      <span class="rule-text">The referee's determination of whether a robot made a genuine effort to relinquish control of excess game elements (condition 6.1c) is final and is not reviewable.</span>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 7 — DETERMINING THE MATCH WINNER ═══════════ -->
+<div class="section" id="sec7">
+  <div class="section-num-label">Section 7</div>
+  <h2>Determining the Match Winner</h2>
+
+  <div class="info-block">
+    <p>At the end of each 90-second match, each team's final score is calculated as the sum of all points earned through Single Deliveries, Double Deliveries, and Continuous Control Bonuses, plus any penalty points awarded due to the opposing robot's Excess Control Violations.</p>
+    <p>The team with the <span class="defined-term">higher final score</span> wins the match. If both teams finish with identical scores, the match is recorded as a <span class="defined-term">TIE</span> — no further tiebreaker is applied within a single match.</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 8 — TOURNAMENT FORMAT ═══════════ -->
+<div class="section" id="sec8">
+  <div class="section-num-label">Section 8</div>
+  <h2>Tournament Format &amp; Determining the Challenge Winner</h2>
+
+  <div class="info-block">
+    <p>The MiniBot Mini Challenge is contested as a <span class="defined-term">ROUND ROBIN</span>: every team plays a match against every other team in the competition, two teams at a time. No team sits out more matches than any other, and the schedule is set before the tournament begins.</p>
+  </div>
+
+  <div class="ranking-box">
+    <p><strong>Determining the Challenge Winner:</strong> the winner of the overall MiniBot Mini Challenge is the team that accumulates the most total points across <span class="defined-term">all of its matches</span> in the round robin — not the team with the most match wins. A team's challenge total is the sum of its final score (Section 7) from every match it plays, including any penalty points it was awarded due to opponents' violations.</p>
+    <p>This means a team that wins fewer matches but scores more total points across the tournament can still win the overall challenge. Teams should weigh this when deciding whether to play conservatively for a single-match win or aggressively for maximum points across every match.</p>
+  </div>
+
+  <h3>8.1 — Tiebreakers for the Overall Challenge</h3>
+  <div class="info-block">
+    <p>If two or more teams are tied on total accumulated points at the end of the round robin, the tiebreaker order is: (1) total number of Double Deliveries across all matches, (2) total number of Continuous Control Bonuses across all matches, (3) head-to-head result between the tied teams, if they played each other.</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 9 — GLOSSARY ═══════════ -->
+<div class="section" id="sec9">
+  <div class="section-num-label">Section 9</div>
+  <h2>Glossary of Defined Terms</h2>
+  <p style="font-size:9.5pt; color:#666; margin-bottom:10px;">Capitalized terms throughout this manual carry the specific meaning defined here — not their everyday meaning.</p>
+
+  <table class="glossary-table">
+    <tbody>
+      <tr><td class="term">CONTROL</td><td class="def">A game element is being held, gripped, carried, pushed, or otherwise directly manipulated by a robot's collector module.</td></tr>
+      <tr><td class="term">GAME ELEMENT</td><td class="def">A 4-inch foam cube or 4-inch rubber ball used in the challenge. Scored identically regardless of type.</td></tr>
+      <tr><td class="term">COMMON AREA</td><td class="def">The shared region of the playing field where all game elements are prepositioned before a match and are accessible to both robots.</td></tr>
+      <tr><td class="term">SCORING DEPOT</td><td class="def">The team-specific destination location where a delivered game element must come to rest to count for scoring.</td></tr>
+      <tr><td class="term">MATCH</td><td class="def">A single 90-second, teleop-only contest between exactly two teams.</td></tr>
+      <tr><td class="term">SINGLE DELIVERY</td><td class="def">Delivering exactly one game element to a team's scoring depot in one scoring action. Worth 1 point.</td></tr>
+      <tr><td class="term">DOUBLE DELIVERY</td><td class="def">Delivering exactly two game elements to a team's scoring depot at the same time, in one scoring action. Worth 3 points.</td></tr>
+      <tr><td class="term">CONTINUOUS CONTROL BONUS</td><td class="def">A bonus earned when a robot maintains uninterrupted control of a game element from collection to delivery. Worth 2 points, earned in addition to the delivery points.</td></tr>
+      <tr><td class="term">EXCESS CONTROL VIOLATION</td><td class="def">Controlling 3 or more game elements at once, where the excess persists 3+ continuous seconds, 3+ cumulative seconds across multiple segments, or shows no effort to relinquish. A Minor Penalty (5 points to the opponent).</td></tr>
+      <tr><td class="term">ROUND ROBIN</td><td class="def">A tournament format in which every team plays a match against every other team.</td></tr>
+      <tr><td class="term">CHALLENGE WINNER</td><td class="def">The team with the highest total accumulated points across all of its matches in the round robin — determined by total points, not total match wins.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="section-rule">
+
+<!-- ═══════════ SECTION 10 — PRE-MATCH CHECKLIST ═══════════ -->
+<div class="section" id="sec10">
+  <div class="section-num-label">Section 10</div>
+  <h2>Pre-Match Checklist</h2>
+
+  <div class="checklist-box">
+    <div class="cl-label">Confirm before every match</div>
+    <ul>
+      <li>Collector module is bolted on securely and meets the 6-inch extension constraint.</li>
+      <li>Robot drives normally (forward, reverse, turning) with the module attached.</li>
+      <li>Driver knows the two-element control limit and has practiced releasing extra elements quickly.</li>
+      <li>Team understands that both Single and Double Deliveries can stack with the Continuous Control Bonus.</li>
+      <li>Team has reviewed its Class 8 risk register for any unresolved risks that could affect this match.</li>
+      <li>Driver and Documenter agree on hand signals or call-outs for the 90-second countdown.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="ws-footer">
+  <span>Introductory Robotics &nbsp;·&nbsp; Unit 2 End-of-Unit Challenge</span>
+  <span>MiniBot Mini Challenge — Official Game Manual (Abridged)</span>
+  <span>Page 1 of 1</span>
+</div>
+
+<div class="nav-links">
+  <a href="class8_lesson.html">← Class 8 lesson</a>
+  <a href="index.html">Unit 2 index</a>
+</div>
+
+</body>
+</html>

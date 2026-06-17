@@ -3,127 +3,265 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Class 8: Risk Management, Progress Tracking & Team Communication</title>
+<title>Class 8: Risk Management, Build &amp; Iterate — MiniBot Mini Challenge</title>
+
 <style>
+
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap');
 
-  :root{
-    --blue:#1a4f82;    --blue-light:#e8f0f9;
-    --green:#2d6a4f;   --green-light:#e8f4ee;
-    --amber:#7d4e00;   --amber-light:#fdf3e3;
-    --red:#8b1a1a;     --red-light:#fdf2f2;
-    --orange:#8c3a00;  --orange-light:#fef0e7;
-    --purple:#3d2a99;  --purple-light:#f0ecff;
-    --gray-light:#f5f5f3;
-    --border:#d0d0cc;  --radius:6px;
+  :root {
+    --orange: #8c3a00;
+    --orange-light: #fef0e7;
+    --green: #2d6a4f;
+    --green-light: #e8f4ee;
+    --amber: #7d4e00;
+    --amber-light: #fdf3e3;
+    --red: #8b1a1a;
+    --red-light: #fdf2f2;
+    --blue: #1a4f82;
+    --blue-light: #e8f0f9;
+    --purple: #3d2a99;
+    --purple-light: #f0ecff;
+    --gray-light: #f5f5f3;
+    --border: #d0d0cc;
+    --radius: 6px;
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Source Sans 3',Arial,sans-serif;font-size:11pt;color:#222;background:#fff;max-width:850px;margin:0 auto;padding:.5in .75in;}
 
-  .ws-header{border-top:5px solid var(--orange);padding-top:14px;margin-bottom:20px;}
-  .ws-header .course-label{font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:4px;}
-  .ws-header h1{font-family:'Source Serif 4',Georgia,serif;font-size:22pt;color:#111;line-height:1.2;margin-bottom:4px;}
-  .ws-header .subtitle{font-size:10pt;color:#666;margin-bottom:14px;}
-  .ws-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-  .ws-meta-item{padding:8px 12px;border-right:1px solid var(--border);}
-  .ws-meta-item:last-child{border-right:none;}
-  .ws-meta-item .meta-label{font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:#888;display:block;margin-bottom:2px;}
-  .ws-meta-item .meta-value{font-size:10pt;font-weight:600;}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 11pt; color: #222; background: #fff; max-width: 850px; margin: 0 auto; padding: 0.5in 0.75in; }
 
-  .objectives-box{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin:18px 0;}
-  .objectives-box h3{font-size:9pt;text-transform:uppercase;letter-spacing:.07em;color:var(--orange);font-weight:700;margin-bottom:8px;}
-  .objectives-box ol{padding-left:18px;margin:0;}
-  .objectives-box li{font-size:10pt;margin-bottom:4px;color:#3a1a00;}
+  .ws-header { border-top: 5px solid var(--orange); padding-top: 14px; margin-bottom: 20px; }
+  .ws-header .course-label { font-size: 9pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); font-weight: 700; margin-bottom: 4px; }
+  .ws-header h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 22pt; color: #111; line-height: 1.2; margin-bottom: 4px; }
+  .ws-header .subtitle { font-size: 10pt; color: #666; margin-bottom: 14px; }
+  .ws-meta { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .ws-meta-item { padding: 8px 12px; border-right: 1px solid var(--border); }
+  .ws-meta-item:last-child { border-right: none; }
+  .ws-meta-item .meta-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; color: #888; display: block; margin-bottom: 2px; }
+  .ws-meta-item .meta-value { font-size: 10pt; font-weight: 600; color: #222; }
 
-  .review-callout{background:var(--blue-light);border:1px solid #aac5e5;border-radius:var(--radius);padding:8px 12px;margin-bottom:12px;font-size:9.5pt;color:#1a3055;line-height:1.6;}
-  .review-callout strong{font-weight:700;}
+  .objectives-box { background: var(--orange-light); border-left: 4px solid var(--orange); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin: 18px 0; }
+  .objectives-box h3 { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.07em; color: var(--orange); font-weight: 700; margin-bottom: 8px; }
+  .objectives-box ol { padding-left: 18px; margin: 0; }
+  .objectives-box li { font-size: 10pt; margin-bottom: 4px; color: #3a1a00; }
 
-  .section{margin-bottom:22px;}
-  .section-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--orange);margin-bottom:6px;padding-bottom:3px;border-bottom:1.5px solid var(--orange-light);}
-  .section h2{font-size:13pt;font-weight:700;color:#111;margin-bottom:8px;}
+  .section { margin-bottom: 22px; }
+  .section-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; color: var(--orange); margin-bottom: 6px; padding-bottom: 3px; border-bottom: 1.5px solid var(--orange-light); }
+  .section h2 { font-size: 13pt; font-weight: 700; color: #111; margin-bottom: 8px; }
 
-  .reading-block{background:var(--gray-light);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.7;color:#333;}
-  .reading-block p{margin-bottom:10px;}
-  .reading-block p:last-child{margin-bottom:0;}
-  .key-term{font-weight:700;color:var(--orange);}
+  .reading-block { background: var(--gray-light); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px; font-size: 10.5pt; line-height: 1.7; color: #333; }
+  .reading-block p { margin-bottom: 10px; }
+  .reading-block p:last-child { margin-bottom: 0; }
+  .key-term { font-weight: 700; color: var(--orange); }
 
-  .write-area{border:1px solid var(--border);border-radius:var(--radius);width:100%;min-height:70px;display:block;background:transparent;resize:none;padding:8px 10px;font-family:inherit;font-size:10.5pt;color:#222;line-height:1.6;margin-bottom:14px;}
+  .write-area { border: 1px solid var(--border); border-radius: var(--radius); width: 100%; min-height: 70px; display: block; background: transparent; resize: none; padding: 8px 10px; font-family: inherit; font-size: 10.5pt; color: #222; line-height: 1.6; margin-bottom: 14px; }
+  .write-line { border: none; border-bottom: 1px solid #999; display: block; width: 100%; margin: 8px 0 14px; height: 26px; background: transparent; }
 
-  .analysis-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:10pt;}
-  .analysis-table th{background:var(--orange);color:#fff;padding:8px 10px;text-align:left;font-size:9pt;font-weight:600;letter-spacing:.04em;}
-  .analysis-table td{border:1px solid var(--border);padding:6px 10px;vertical-align:top;}
-  .analysis-table tr:nth-child(even) td{background:var(--orange-light);}
-  .analysis-table .write-cell{height:46px;vertical-align:top;}
+  .analysis-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 10pt; }
+  .analysis-table th { background: var(--orange); color: #fff; padding: 8px 10px; text-align: left; font-size: 9pt; font-weight: 600; letter-spacing: 0.04em; }
+  .analysis-table td { border: 1px solid var(--border); padding: 6px 10px; vertical-align: top; }
+  .analysis-table tr:nth-child(even) td { background: var(--orange-light); }
+  .analysis-table .write-cell { height: 44px; vertical-align: top; }
 
-  .scaffold-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
-  .scaffold-tab{border-radius:var(--radius);padding:10px 12px;font-size:9.5pt;}
-  .scaffold-tab .tab-label{font-size:8pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:5px;display:block;}
-  .scaffold-tab.novice{background:var(--green-light);}
-  .scaffold-tab.novice .tab-label{color:var(--green);}
-  .scaffold-tab.intermediate{background:var(--blue-light);}
-  .scaffold-tab.intermediate .tab-label{color:var(--blue);}
-  .scaffold-tab.proficient{background:var(--purple-light);}
-  .scaffold-tab.proficient .tab-label{color:var(--purple);}
+  .scaffold-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .scaffold-tab { border-radius: var(--radius); padding: 10px 12px; font-size: 9.5pt; }
+  .scaffold-tab .tab-label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; margin-bottom: 5px; display: block; }
+  .scaffold-tab.novice { background: var(--green-light); }
+  .scaffold-tab.novice .tab-label { color: var(--green); }
+  .scaffold-tab.intermediate { background: var(--blue-light); }
+  .scaffold-tab.intermediate .tab-label { color: var(--blue); }
+  .scaffold-tab.proficient { background: var(--purple-light); }
+  .scaffold-tab.proficient .tab-label { color: var(--purple); }
 
-  .notebook-prompt{background:var(--amber-light);border-left:4px solid #c8860a;border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:14px;}
-  .notebook-prompt .nb-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--amber);margin-bottom:6px;}
-  .notebook-prompt p{font-size:10.5pt;color:#3a2a00;line-height:1.6;}
+  .notebook-prompt { background: var(--amber-light); border-left: 4px solid #c8860a; border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 14px; }
+  .notebook-prompt .nb-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--amber); margin-bottom: 6px; }
+  .notebook-prompt p { font-size: 10.5pt; color: #3a2a00; line-height: 1.6; }
 
-  .extension-box{background:var(--purple-light);border:1px solid #c5b8f5;border-radius:var(--radius);padding:12px 16px;margin-top:6px;}
-  .extension-box .ext-label{font-size:8.5pt;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--purple);margin-bottom:6px;}
-  .extension-box p{font-size:10pt;color:#2a1a55;line-height:1.6;}
+  .extension-box { background: var(--purple-light); border: 1px solid #c5b8f5; border-radius: var(--radius); padding: 12px 16px; margin-top: 6px; }
+  .extension-box .ext-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--purple); margin-bottom: 6px; }
+  .extension-box p { font-size: 10pt; color: #2a1a55; line-height: 1.6; }
 
-  .ido-section{border:2px solid var(--red);border-radius:var(--radius);margin-bottom:18px;overflow:hidden;}
-  .ido-header{background:var(--red);color:#fff;padding:8px 14px;display:flex;align-items:center;gap:10px;}
-  .ido-header .ido-badge{font-size:9pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:100px;}
-  .ido-header .ido-title{font-size:10.5pt;font-weight:600;}
-  .ido-body{padding:14px 16px;background:var(--red-light);}
-  .ido-body p{font-size:10.5pt;line-height:1.7;color:#3a1a1a;margin-bottom:8px;}
-  .ido-body p:last-child{margin-bottom:0;}
-  .ido-body .think-prefix{font-style:italic;color:#666;}
+  .ido-section { border: 2px solid var(--red); border-radius: var(--radius); margin-bottom: 18px; overflow: hidden; }
+  .ido-header { background: var(--red); color: #fff; padding: 8px 14px; display: flex; align-items: center; gap: 10px; }
+  .ido-header .ido-badge { font-size: 9pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .ido-header .ido-title { font-size: 10.5pt; font-weight: 600; }
+  .ido-body { padding: 14px 16px; background: var(--red-light); }
+  .ido-body p { font-size: 10.5pt; line-height: 1.7; color: #3a1a1a; margin-bottom: 8px; }
+  .ido-body p:last-child { margin-bottom: 0; }
+  .ido-body .think-prefix { font-style: italic; color: #666; }
 
-  .ydo-header{background:var(--green);color:#fff;border-radius:var(--radius);padding:7px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
-  .ydo-header .ydo-badge{font-size:9pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:100px;}
-  .ydo-header .ydo-title{font-size:10.5pt;font-weight:600;}
+  .ydo-header { background: var(--green); color: #fff; border-radius: var(--radius); padding: 7px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .ydo-header .ydo-badge { font-size: 9pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 100px; }
+  .ydo-header .ydo-title { font-size: 10.5pt; font-weight: 600; }
+
+  .review-callout { background: var(--blue-light); border: 1px solid #aac5e5; border-radius: var(--radius); padding: 8px 12px; margin-bottom: 14px; font-size: 9.5pt; color: #1a3055; line-height: 1.6; }
+  .challenge-callout { background: var(--orange-light); border: 2px solid var(--orange); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 16px; }
+  .challenge-callout .ch-label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; color: var(--orange); margin-bottom: 6px; }
+  .challenge-callout p { font-size: 10.5pt; color: #3a1a00; line-height: 1.6; }
 
   /* RISK MATRIX HEATMAP */
-  .risk-matrix{display:grid;grid-template-columns:auto repeat(3,80px);gap:0;margin-bottom:16px;font-size:9pt;}
-  .rm-header{background:var(--orange);color:#fff;padding:6px 8px;text-align:center;font-weight:600;font-size:8.5pt;}
-  .rm-row-label{background:var(--orange-light);padding:6px 8px;font-weight:600;font-size:8.5pt;display:flex;align-items:center;}
-  .rm-cell{border:1px solid var(--border);padding:6px 4px;text-align:center;min-height:50px;font-size:9pt;display:flex;align-items:center;justify-content:center;}
-  .rm-low{background:#d4edda;color:#155724;}
-  .rm-med{background:#fff3cd;color:#856404;}
-  .rm-high{background:#f8d7da;color:#721c24;}
-  .rm-crit{background:#c82333;color:#fff;font-weight:700;}
+  .risk-matrix { display: grid; grid-template-columns: auto repeat(3, 92px); gap: 0; margin-bottom: 16px; font-size: 9pt; }
+  .rm-header { background: var(--orange); color: #fff; padding: 6px 8px; text-align: center; font-weight: 600; font-size: 8.5pt; }
+  .rm-row-label { background: var(--orange-light); padding: 6px 8px; font-weight: 600; font-size: 8.5pt; display: flex; align-items: center; }
+  .rm-cell { border: 1px solid var(--border); padding: 6px 4px; text-align: center; min-height: 50px; font-size: 9pt; display: flex; align-items: center; justify-content: center; }
+  .rm-low { background: #d4edda; color: #155724; }
+  .rm-med { background: #fff3cd; color: #856404; }
+  .rm-high { background: #f8d7da; color: #721c24; }
+  .rm-crit { background: #c82333; color: #fff; font-weight: 700; }
 
-  /* STATUS UPDATE BOX */
-  .status-box{border:2px solid var(--orange);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;}
-  .status-header{background:var(--orange);color:#fff;padding:8px 16px;font-size:11pt;font-weight:700;}
-  .status-body{padding:14px 16px;background:#fffaf7;}
-  .status-field{margin-bottom:10px;}
-  .status-field label{font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--orange);display:block;margin-bottom:4px;}
-  .status-field .field-input{border:1px solid var(--border);border-radius:4px;width:100%;min-height:40px;background:#fff;padding:6px 8px;font-family:inherit;font-size:10pt;line-height:1.5;display:block;resize:none;}
-  .status-field .field-input.tall{min-height:56px;}
+  /* STATUS BOX */
+  .status-box { border: 2px solid var(--orange); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; }
+  .status-header { background: var(--orange); color: #fff; padding: 8px 16px; font-size: 11pt; font-weight: 700; }
+  .status-body { padding: 14px 16px; background: #fffaf7; }
+  .status-field { margin-bottom: 10px; }
+  .status-field label { font-size: 9pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); display: block; margin-bottom: 4px; }
+  .status-field .field-input { border: 1px solid var(--border); border-radius: 4px; width: 100%; min-height: 40px; background: #fff; padding: 6px 8px; font-family: inherit; font-size: 10pt; line-height: 1.5; display: block; resize: none; }
+  .status-field .field-input.tall { min-height: 56px; }
 
-  /* TRAFFIC LIGHT */
-  .traffic-lights{display:flex;gap:12px;margin-bottom:10px;align-items:center;}
-  .tl-option{display:flex;align-items:center;gap:6px;font-size:10pt;}
-  .tl-dot{width:18px;height:18px;border-radius:50%;flex-shrink:0;border:2px solid #ccc;}
-  .tl-dot.green{background:#28a745;border-color:#1e7e34;}
-  .tl-dot.yellow{background:#ffc107;border-color:#d39e00;}
-  .tl-dot.red{background:#dc3545;border-color:#bd2130;}
+  .traffic-lights { display: flex; gap: 12px; margin-bottom: 10px; align-items: center; flex-wrap: wrap; }
+  .tl-option { display: flex; align-items: center; gap: 6px; font-size: 9.5pt; }
+  .tl-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; border: 2px solid #ccc; }
+  .tl-dot.green { background: #28a745; border-color: #1e7e34; }
+  .tl-dot.yellow { background: #ffc107; border-color: #d39e00; }
+  .tl-dot.red { background: #dc3545; border-color: #bd2130; }
 
-  hr.section-rule{border:none;border-top:1px solid var(--border);margin:22px 0;}
-  .ws-footer{margin-top:28px;padding-top:10px;border-top:2px solid var(--orange);display:flex;justify-content:space-between;font-size:8.5pt;color:#888;}
-  @media print{body{padding:.4in .6in;}.write-area,.field-input{border:1px solid #aaa;}}
+  /* TRIAL DATA */
+  .trial-box { border: 2px solid var(--blue); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; }
+  .trial-header { background: var(--blue); color: #fff; padding: 8px 16px; font-size: 11pt; font-weight: 700; }
+  .trial-body { padding: 12px 16px; background: var(--blue-light); }
+
+  .iter-box { border: 2px solid var(--purple); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+  .iter-header { background: var(--purple); color: #fff; padding: 8px 14px; font-size: 10.5pt; font-weight: 700; }
+  .iter-body { padding: 12px 14px; background: var(--purple-light); }
+
+  hr.section-rule { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+
+  @media print {
+    body { padding: 0.4in 0.6in; }
+    .write-area, .field-input { border: 1px solid #aaa; }
+  }
+
+/* ── PAGINATED LAYOUT ── */
+html, body { height: 100%; margin: 0; padding: 0; }
+body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "sidebar header" "sidebar content";
+  min-height: 100vh;
+  max-width: none;
+  padding: 0;
+  background: #f7f6f3;
+}
+
+#lesson-sidebar {
+  grid-area: sidebar;
+  background: #fff;
+  border-right: 1px solid #d0d0cc;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 18px 0 32px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+#lesson-sidebar .sb-course { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #aaa; padding: 0 18px 10px; border-bottom: 1px solid #eee; margin-bottom: 8px; }
+#lesson-sidebar .sb-title { font-size: 11px; font-weight: 700; color: var(--orange); padding: 0 18px 12px; border-bottom: 1px solid #eee; margin-bottom: 8px; line-height: 1.4; }
+#lesson-sidebar .sb-progress { font-size: 9px; color: #aaa; padding: 0 18px 10px; font-weight: 600; letter-spacing: .05em; }
+#lesson-sidebar .sb-item { display: flex; align-items: center; gap: 10px; padding: 7px 18px; font-size: 12px; color: #555; cursor: pointer; border-left: 3px solid transparent; transition: all .12s; user-select: none; line-height: 1.35; text-decoration: none; }
+#lesson-sidebar .sb-item:hover { background: #f5f5f3; color: var(--orange); }
+#lesson-sidebar .sb-item.active { background: var(--orange-light); color: var(--orange); font-weight: 700; border-left-color: var(--orange); }
+#lesson-sidebar .sb-item.completed { color: #2d6a4f; }
+#lesson-sidebar .sb-item.completed .sb-check { opacity: 1; }
+#lesson-sidebar .sb-check { margin-left: auto; font-size: 11px; opacity: 0; flex-shrink: 0; color: #2d6a4f; }
+#lesson-sidebar .sb-icon { font-size: 14px; flex-shrink: 0; width: 18px; }
+#lesson-sidebar .sb-divider { border: none; border-top: 1px solid #eee; margin: 6px 18px; }
+#lesson-sidebar .sb-back-link { margin-top: auto; padding: 12px 18px 0; border-top: 1px solid #eee; }
+#lesson-sidebar .sb-back-link a { font-size: 11px; color: #888; text-decoration: none; font-weight: 600; }
+#lesson-sidebar .sb-back-link a:hover { color: var(--orange); }
+
+.ws-header {
+  grid-area: header;
+  background: #fff;
+  border-bottom: 1px solid #d0d0cc;
+  padding: 14px 32px 14px !important;
+  margin-bottom: 0 !important;
+  position: sticky; top: 0; z-index: 99;
+}
+.ws-header h1 { font-size: 16pt !important; }
+.ws-header .subtitle { margin-bottom: 0 !important; }
+.ws-meta { margin-top: 10px; }
+
+#lesson-content { grid-area: content; padding: 28px 40px 40px; max-width: 780px; min-height: 0; }
+
+.lesson-section { display: none; }
+.lesson-section.active { display: block; }
+
+.section-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 32px; padding-top: 16px; border-top: 2px solid var(--orange); gap: 12px; }
+.section-nav .nav-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--orange); color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-size: 11pt; font-weight: 600; cursor: pointer; font-family: inherit; text-decoration: none; transition: background .12s; }
+.section-nav .nav-btn:hover { background: #6a2b00; }
+.section-nav .nav-btn.secondary { background: #fff; color: var(--orange); border: 1.5px solid var(--orange); }
+.section-nav .nav-btn.secondary:hover { background: var(--orange-light); }
+.section-nav .nav-btn:disabled { opacity: 0.35; cursor: default; pointer-events: none; }
+.section-nav .nav-center { font-size: 10pt; color: #888; font-weight: 600; }
+
+@media print {
+  body { display: block !important; max-width: 850px !important; margin: 0 auto !important; padding: 0.4in 0.6in !important; }
+  #lesson-sidebar, .section-nav { display: none !important; }
+  .lesson-section { display: block !important; }
+  .ws-header { position: static !important; border-bottom: none !important; }
+  #lesson-content { padding: 0 !important; max-width: none !important; }
+}
+@media (max-width: 680px) {
+  body { grid-template-columns: 1fr; grid-template-areas: "header" "content"; }
+  #lesson-sidebar { display: none; }
+  #lesson-content { padding: 16px; }
+}
 </style>
+
 </head>
 <body>
 
+<!-- CHECK POPUP -->
+<div id="check-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+  <div id="check-modal" style="background:#fff; border-radius:10px; max-width:540px; width:100%; box-shadow:0 8px 40px rgba(0,0,0,0.25); overflow:hidden; font-family:'Source Sans 3',Arial,sans-serif;">
+    <div id="popup-header" style="background:#8c3a00; padding:14px 20px; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:16px;">🎯</span>
+      <span style="font-size:11pt; font-weight:700; color:#fff; letter-spacing:.02em;">Quick Check — Before You Continue</span>
+    </div>
+    <div style="padding:20px 22px 6px;">
+      <p id="popup-question" style="font-size:11.5pt; color:#111; line-height:1.6; margin-bottom:18px; font-weight:600;"></p>
+      <div id="popup-options" style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;"></div>
+      <div id="popup-feedback" style="display:none; border-radius:7px; padding:12px 16px; margin-bottom:14px; font-size:10.5pt; line-height:1.6;"></div>
+    </div>
+    <div id="popup-footer" style="padding:0 22px 18px; display:flex; gap:10px; justify-content:flex-end;">
+      <button id="popup-submit" onclick="submitAnswer()" style="background:#8c3a00; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Check Answer</button>
+      <button id="popup-continue" onclick="closePopupAndAdvance()" style="display:none; background:#2d6a4f; color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Continue →</button>
+      <button id="popup-review" onclick="closePopup()" style="display:none; background:#fff; color:#7d4e00; border:1.5px solid #c8860a; padding:9px 22px; border-radius:6px; font-size:11pt; font-weight:700; cursor:pointer; font-family:inherit;">Review Section</button>
+    </div>
+  </div>
+</div>
+
+<aside id="lesson-sidebar">
+  <div class="sb-course">Unit 2 · Project Management</div>
+  <div class="sb-title">Class 8: Risk Mgmt, Build &amp; Iterate</div>
+  <div class="sb-progress" id="sb-progress">Section 1 of 6</div>
+  <hr class="sb-divider">
+  <div class="sb-item" onclick="lessonGoto(0)"><span class="sb-icon">⚠️</span><span>Part 1 · Risk Register</span><span class="sb-check"></span></div>
+  <div class="sb-item" onclick="lessonGoto(1)"><span class="sb-icon">🔨</span><span>Part 2 · Build &amp; Attach</span><span class="sb-check"></span></div>
+  <div class="sb-item" onclick="lessonGoto(2)"><span class="sb-icon">⏱️</span><span>Part 3 · Trial 1 &amp; Iterate</span><span class="sb-check"></span></div>
+  <div class="sb-item" onclick="lessonGoto(3)"><span class="sb-icon">🏁</span><span>Part 4 · Trial 2 &amp; Compare</span><span class="sb-check"></span></div>
+  <div class="sb-item" onclick="lessonGoto(4)"><span class="sb-icon">📣</span><span>Part 5 · Status &amp; Stand-Up</span><span class="sb-check"></span></div>
+  <div class="sb-item" onclick="lessonGoto(5)"><span class="sb-icon">📓</span><span>Part 6 · Notebook &amp; Close-Out</span><span class="sb-check"></span></div>
+  <div class="sb-back-link"><a href="index.html">← Back to Unit 2</a></div>
+</aside>
+
 <div class="ws-header">
   <div class="course-label">Introductory Robotics &nbsp;·&nbsp; Unit 2: Project Management</div>
-  <h1>Risk Management, Progress Tracking &amp; Team Communication</h1>
-  <div class="subtitle">Class 8 of 40 &nbsp;·&nbsp; Unit 2, Class 3 of 3 &nbsp;·&nbsp; 74 minutes</div>
+  <h1>Risk Management, Build &amp; Iterate — MiniBot Mini Challenge</h1>
+  <div class="subtitle">Class 8 &nbsp;·&nbsp; Unit 2, Class 3 of 3 &nbsp;·&nbsp; 74 minutes</div>
   <div class="ws-meta">
     <div class="ws-meta-item"><span class="meta-label">Name</span><span class="meta-value">_______________________</span></div>
     <div class="ws-meta-item"><span class="meta-label">Team</span><span class="meta-value">_______________________</span></div>
@@ -132,44 +270,51 @@
   </div>
 </div>
 
-<div class="objectives-box">
-  <h3>Learning Objectives</h3>
-  <ol>
-    <li>Build a risk register: identify, score (likelihood × impact), and mitigate at least five engineering risks before they happen.</li>
-    <li>Write a weekly status update that communicates progress, blockers, and next steps clearly and without blame.</li>
-    <li>Practice a structured 3-minute stand-up meeting and explain why it is more effective than unstructured team check-ins.</li>
-    <li>Update the Gantt chart and milestone table from Class 7 to reflect any changes in scope or schedule.</li>
-  </ol>
-</div>
+<main id="lesson-content">
 
-<div class="review-callout"><strong>Class 7 connection:</strong> Your WBS and Gantt chart identified what work needs to happen and when. Today you build the safety net: a risk register that identifies what might go wrong, and communication tools that surface problems early — before they become crises. Keep your Gantt chart from Class 7 on your desk. You will update it at the end of class.</div>
+<!-- ═══════════ SECTION 0 — Part 1: Risk Register ═══════════ -->
+<div class="lesson-section" id="section-0" style="display:none">
 
-<!-- PART 1 -->
-<div class="section">
-  <div class="section-label">Part 1 &nbsp;·&nbsp; What Is Risk Management? (12 min)</div>
-  <h2>Seeing Problems Before They Happen</h2>
-
-  <div class="reading-block">
-    <p>A <span class="key-term">risk</span> is anything that might prevent your project from succeeding. Not all risks are equally dangerous. Some are very likely but have low impact. Others are unlikely but catastrophic if they occur. A <span class="key-term">risk register</span> is a living document that lists every identified risk, scores it on likelihood (1–3) and impact (1–3), calculates a priority score (likelihood × impact), and assigns a mitigation strategy.</p>
-    <p>A <span class="key-term">mitigation strategy</span> is what you do before the risk happens to reduce its likelihood or impact. "Hope it doesn't happen" is not a mitigation strategy. "Design a second mounting interface so we can swap the mechanism in under 5 minutes if the primary mount fails" is a mitigation strategy.</p>
-    <p>Risk management is not pessimism — it is intentional design applied to the project itself. Just as you design a claw with a trade-off between grip force and weight, you design your project plan with deliberate choices about which risks to eliminate, which to reduce, and which to accept. You can only manage risks you have named first.</p>
+  <div class="objectives-box">
+    <h3>Learning Objectives</h3>
+    <ol>
+      <li>Build a risk register that identifies, scores (likelihood × impact), and mitigates at least 8 risks before they happen.</li>
+      <li>Build and attach your collector module, then run a first teleop trial against your Class 7 design spec and Gantt.</li>
+      <li>Complete at least one documented design iteration based on Trial 1 data, then run and compare Trial 2.</li>
+      <li>Write a Unit 2 status update, run a structured stand-up, and update your Gantt chart to reflect what actually happened.</li>
+    </ol>
   </div>
 
-  <!-- I DO -->
-  <div class="ido-section">
-    <div class="ido-header">
-      <span class="ido-badge">I Do</span>
-      <span class="ido-title">Watch the teacher model identifying and scoring risks for a chassis build</span>
-    </div>
-    <div class="ido-body">
-      <p><span class="think-prefix">How I identify risks:</span> "I ask: 'What could prevent us from completing this task on time and with good quality?' For the chassis build, I think through every step: design, parts, build, test. Design risk: we spend too long debating which design to use and don't leave enough time to build. Parts risk: a key bracket isn't in our stockpile and we can't source it quickly. Build risk: the chassis isn't square and we don't catch it until after wiring. Test risk: the first drive reveals a gear ratio problem that requires a complete rebuild."</p>
-      <p><span class="think-prefix">Scoring and prioritizing:</span> "I score Likelihood 1 (unlikely) to 3 (very likely) and Impact 1 (inconvenient) to 3 (project-threatening). Priority = L × I. Score 7–9: critical — address immediately. Score 4–6: significant — have a mitigation plan. Score 1–3: monitor only. The chassis-not-square risk: Likelihood=2 (we've seen this before), Impact=3 (have to redo mounting). Priority = 6. Significant. Mitigation: Quality Lead measures diagonals before any motors are installed."</p>
-      <p><span class="think-prefix">The risk register is a living document:</span> "When a risk becomes real — when the chassis isn't square — the Documentation Lead updates the risk register: 'Risk materialized Class 11. Mitigation implemented: rebuilt frame. Result: chassis now within spec. 1 class period lost.' This becomes part of the notebook's design history."</p>
-    </div>
+  <div class="review-callout"><strong>From Class 7:</strong> Your team selected a concept with the decision matrix, built a WBS, plotted a Gantt chart, and wrote a complete design specification. Today is build day. Keep your Class 7 Gantt and design spec on your desk — you will update one and execute the other.</div>
+
+  <div class="challenge-callout">
+    <div class="ch-label">🤖 Today is the MiniBot Mini Challenge build &amp; test day</div>
+    <p>By the end of class your team should have: a built and attached collector module, two timed teleop trials with logged data, at least one documented iteration between trials, and a completed Unit 2 status update. This is the culmination of everything from Classes 6–8.</p>
   </div>
 
-  <div style="margin-bottom:12px;">
-    <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">The risk priority matrix — use this to interpret your scores:</p>
+  <div class="section">
+    <div class="section-label">Part 1 &nbsp;·&nbsp; What Is Risk Management? (10 min)</div>
+    <h2>Seeing Problems Before They Happen</h2>
+
+    <div class="reading-block">
+      <p>A <span class="key-term">risk</span> is anything that might prevent your project from succeeding. Not all risks are equally dangerous. Some are very likely but low impact. Others are unlikely but catastrophic. A <span class="key-term">risk register</span> is a living document that lists every identified risk, scores it on likelihood (1–3) and impact (1–3), calculates a <span class="key-term">priority score</span> (likelihood × impact), and assigns a <span class="key-term">mitigation strategy</span>.</p>
+      <p>A mitigation strategy is what you do <em>before</em> the risk happens to reduce its likelihood or impact. "Hope it doesn't happen" is not a mitigation strategy. "Pre-drill a second mounting hole so we can swap the bracket angle in under 2 minutes if the primary mount fails" is a mitigation strategy.</p>
+      <p>Risk management is not pessimism — it is purposeful design (Unit 1, Class 1) applied to the project itself. You can only manage risks you have named first.</p>
+    </div>
+
+    <div class="ido-section">
+      <div class="ido-header">
+        <span class="ido-badge">I Do</span>
+        <span class="ido-title">Watch the teacher model identifying and scoring risks for the collector module</span>
+      </div>
+      <div class="ido-body">
+        <p><span class="think-prefix">How I identify risks:</span> "I ask: 'What could prevent us from finishing the build, attaching it correctly, or getting a clean trial?' Design risk: the spec missed a dimension and the module doesn't fit. Parts risk: a bracket size isn't in our stockpile. Build risk: the mount isn't secure and the module detaches mid-trial. Test risk: the driver hasn't practiced and fumbles the controls during Trial 1."</p>
+        <p><span class="think-prefix">Scoring and prioritizing:</span> "Likelihood 1 (unlikely) to 3 (very likely). Impact 1 (inconvenient) to 3 (project-threatening). Priority = L × I. The module-detaching risk: Likelihood=2 (single-bolt mounts have failed before in this class), Impact=3 (zero score for that trial). Priority = 6 — significant. Mitigation: Builder adds a second mounting bolt and tests it by hand before the first trial."</p>
+        <p><span class="think-prefix">The register is a living document:</span> "When a risk becomes real — the module does detach in Trial 1 — the Documenter updates the register: 'Risk materialized Trial 1, T+22s. Mitigation implemented: second bolt added. Result: held through Trial 2.' This becomes part of the iteration log too."</p>
+      </div>
+    </div>
+
+    <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Risk priority matrix — use this to interpret your scores:</p>
     <div class="risk-matrix">
       <div></div>
       <div class="rm-header">Impact 1<br>Minor inconvenience</div>
@@ -188,232 +333,586 @@
       <div class="rm-cell rm-low">2 — Monitor</div>
       <div class="rm-cell rm-med">3 — Monitor</div>
     </div>
-  </div>
 
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Why is "hope it doesn't happen" not a valid mitigation strategy? Use the intentional design vocabulary from Unit 1.</p>
-  <textarea class="write-area" rows="3" placeholder="'Hope it doesn't happen' fails the standard of intentional design because... A real mitigation strategy is intentional because..."></textarea>
-</div>
+    <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Why is "hope it doesn't happen" not a valid mitigation strategy? Use the purposeful design vocabulary from Unit 1.</p>
+    <textarea class="write-area" rows="3" placeholder="'Hope it doesn't happen' fails the standard of purposeful design because... A real mitigation strategy is purposeful because..."></textarea>
 
-<hr class="section-rule">
-
-<!-- PART 2: RISK REGISTER -->
-<div class="section">
-  <div class="section-label">Part 2 &nbsp;·&nbsp; Build Your Team Risk Register (20 min)</div>
-  <h2>Name Every Risk Before It Names You</h2>
-
-  <div class="ydo-header">
-    <span class="ydo-badge">You Do</span>
-    <span class="ydo-title">Part 2A — Identify and score at least 8 risks for your robot project</span>
-  </div>
-  <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Think through every phase from your Gantt chart: what could go wrong? Include design risks (wrong design selected), parts risks (missing components), build risks (alignment, fasteners), software risks (bugs, connection issues), team risks (absence, disagreement), and time risks (underestimated tasks). Score each. Prioritize. Assign a mitigation owner.</p>
-
-  <table class="analysis-table" style="font-size:9.5pt;">
-    <thead>
-      <tr>
-        <th style="width:24%">Risk description</th>
-        <th style="width:8%">Phase</th>
-        <th style="width:9%">Likelihood<br>(1–3)</th>
-        <th style="width:8%">Impact<br>(1–3)</th>
-        <th style="width:10%">Priority<br>(L × I)</th>
-        <th>Mitigation strategy — what will you do before the risk materializes?</th>
-        <th style="width:11%">Owner role</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="font-size:9pt; color:#aaa; font-style:italic;">Chassis not square — missed during build</td>
-        <td style="font-size:9pt; color:#aaa; font-style:italic;">Phase 3</td>
-        <td style="text-align:center; color:#aaa; font-style:italic;">2</td>
-        <td style="text-align:center; color:#aaa; font-style:italic;">3</td>
-        <td style="text-align:center; font-weight:700; color:#721c24;">6</td>
-        <td style="font-size:9pt; color:#aaa; font-style:italic;">Quality Lead measures diagonals before motors installed</td>
-        <td style="font-size:9pt; color:#aaa; font-style:italic;">Quality Lead</td>
-      </tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-    </tbody>
-  </table>
-
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>Top 2 risks by priority score</strong> — describe your monitoring plan for these:</p>
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
-    <div>
-      <p style="font-size:9pt; font-weight:700; color:var(--orange); margin-bottom:4px;">Highest priority risk (score: ___)</p>
-      <textarea class="write-area" rows="3" style="min-height:60px;" placeholder="Risk: ... Monitoring plan: we will check for this every [class / phase] by..."></textarea>
+    <div class="ydo-header">
+      <span class="ydo-badge">You Do</span>
+      <span class="ydo-title">Build Your Team Risk Register — at least 8 risks</span>
     </div>
-    <div>
-      <p style="font-size:9pt; font-weight:700; color:var(--orange); margin-bottom:4px;">Second highest (score: ___)</p>
-      <textarea class="write-area" rows="3" style="min-height:60px;" placeholder="Risk: ... Monitoring plan: we will check for this every [class / phase] by..."></textarea>
+    <p style="font-size:9.5pt; color:#555; margin-bottom:10px;">Think through every phase from your Class 7 Gantt: what could go wrong? Include design risks (spec gap), parts risks (missing/wrong-size components), build risks (alignment, fasteners), driver risks (teleop control), and time risks (underestimated tasks). Score each. Prioritize. Assign a mitigation owner.</p>
+
+    <table class="analysis-table" style="font-size:9.5pt;">
+      <thead>
+        <tr>
+          <th style="width:24%">Risk description</th>
+          <th style="width:8%">Phase</th>
+          <th style="width:9%">Likelihood<br>(1–3)</th>
+          <th style="width:8%">Impact<br>(1–3)</th>
+          <th style="width:10%">Priority<br>(L × I)</th>
+          <th>Mitigation strategy — what will you do before it happens?</th>
+          <th style="width:11%">Owner role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-size:9pt; color:#aaa; font-style:italic;">Module detaches from robot mid-trial</td>
+          <td style="font-size:9pt; color:#aaa; font-style:italic;">Phase 3</td>
+          <td style="text-align:center; color:#aaa; font-style:italic;">2</td>
+          <td style="text-align:center; color:#aaa; font-style:italic;">3</td>
+          <td style="text-align:center; font-weight:700; color:#721c24;">6</td>
+          <td style="font-size:9pt; color:#aaa; font-style:italic;">Builder adds a second mounting bolt and hand-tests before Trial 1</td>
+          <td style="font-size:9pt; color:#aaa; font-style:italic;">Builder</td>
+        </tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Name your two highest-priority risks (by score) and your monitoring plan for each.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+      <div>
+        <p style="font-size:9pt; font-weight:700; color:var(--orange); margin-bottom:4px;">Highest priority risk (score: ___)</p>
+        <textarea class="write-area" rows="3" style="min-height:60px;" placeholder="Risk: ... Monitoring plan: we will check for this by..."></textarea>
+      </div>
+      <div>
+        <p style="font-size:9pt; font-weight:700; color:var(--orange); margin-bottom:4px;">Second highest (score: ___)</p>
+        <textarea class="write-area" rows="3" style="min-height:60px;" placeholder="Risk: ... Monitoring plan: we will check for this by..."></textarea>
+      </div>
+    </div>
+
+    <div class="scaffold-tabs">
+      <div class="scaffold-tab novice"><span class="tab-label">🟢 Novice</span>Identify 5 risks using the example row as a guide. Write one mitigation strategy for each.</div>
+      <div class="scaffold-tab intermediate"><span class="tab-label">🔵 Intermediate</span>Identify 8 risks across at least 4 categories (design, parts, build, driver). Every risk scoring 6+ must have a detailed mitigation.</div>
+      <div class="scaffold-tab proficient"><span class="tab-label">🟣 Proficient</span>Identify 8+ risks. For your top 2 by priority, write both a preventive mitigation AND a contingency plan if it happens anyway.</div>
     </div>
   </div>
 
-  <div class="scaffold-tabs">
-    <div class="scaffold-tab novice"><span class="tab-label">Novice</span>Identify 5 risks using the provided example row as a guide. Write one mitigation strategy for each.</div>
-    <div class="scaffold-tab intermediate"><span class="tab-label">Intermediate</span>Identify 8 risks across at least 4 different categories (design, parts, build, team). Ensure every Critical (score 7–9) risk has a detailed mitigation.</div>
-    <div class="scaffold-tab proficient"><span class="tab-label">Proficient</span>Identify 8+ risks. For the top 2 by priority, describe both a preventive mitigation (before it happens) and a contingency plan (if it happens anyway). Calculate the expected impact reduction if your mitigation is implemented.</div>
+  <div class="section-nav">
+    <button class="nav-btn secondary" onclick="lessonNav(-1)" disabled>← Back</button>
+    <span class="nav-center">Section 1 of 6</span>
+    <button class="nav-btn" onclick="checkAndAdvance()">Part 2 · Build &amp; Attach →</button>
   </div>
 </div>
 
-<hr class="section-rule">
 
-<!-- PART 3: COMMUNICATION TOOLS -->
-<div class="section">
-  <div class="section-label">Part 3 &nbsp;·&nbsp; Team Communication: Status Updates &amp; Stand-Ups (20 min)</div>
-  <h2>Raising Problems Early Enough to Solve Them</h2>
+<!-- ═══════════ SECTION 1 — Part 2: Build & Attach ═══════════ -->
+<div class="lesson-section" id="section-1" style="display:none">
 
-  <div class="reading-block">
-    <p>The most common reason engineering teams fail isn't bad engineering — it's communication. A team member knows a part is missing and assumes someone else is handling it. A sub-assembly isn't going to fit and nobody says anything until build day. A team member is confused about their role responsibility and spends two classes doing the wrong task.</p>
-    <p>Two tools prevent these failures. The <span class="key-term">stand-up meeting</span> (practiced in Classes 6 and 7) is a 3-minute daily check-in: what did I do, what am I doing next, what is blocking me. The <span class="key-term">status update</span> is a written paragraph submitted at the end of each unit that communicates progress to the teacher and stakeholders. Both tools have one purpose: surface problems early, before they compound.</p>
-    <p>Effective status updates use a traffic light system: 🟢 Green = on track, 🟡 Yellow = at risk / needs attention, 🔴 Red = blocked / off track. A Red status is not failure — it is honest engineering. What fails teams is a Red status that nobody reports until it's too late to fix.</p>
-  </div>
+  <div class="section">
+    <div class="section-label">Part 2 &nbsp;·&nbsp; Build &amp; Attach the Collector Module (20 min)</div>
+    <h2>Execute the Plan</h2>
 
-  <!-- I DO: Model status update -->
-  <div class="ido-section">
-    <div class="ido-header">
-      <span class="ido-badge">I Do</span>
-      <span class="ido-title">Watch the teacher write a model status update — good and bad versions</span>
+    <div class="reading-block">
+      <p>Follow your Class 7 WBS in order. The Builder leads construction; the Lead Engineer checks fit at each step against the design spec. If you hit a question the spec didn't answer, that is a spec gap — note it, make the best engineering call, and record the decision in the notebook so it's documented either way.</p>
     </div>
-    <div class="ido-body">
-      <p><span class="think-prefix">Bad status update (vague, no action, no accountability):</span> "We are working on the chassis. It's going okay. We might be a bit behind. We'll try to catch up next class." This tells a reader nothing they can act on. What is the specific problem? Who owns the recovery? What is the new plan?</p>
-      <p><span class="think-prefix">Good status update (specific, with action items and owner):</span> "Status: 🟡 Yellow. The chassis frame was completed in Class 11, but the squareness test failed — diagonals were off by 8mm. Root cause: the corner bracket on the front-left was installed 90° rotated. Action taken: rebuilt the corner joint in Class 11, re-tested, now within 2mm tolerance. Impact to schedule: 0.5 class periods lost from the buffer allocation in Phase 3. Updated milestone: drivetrain wiring now targets Class 12 instead of Class 11. No impact to overall completion date. Owner: Build Lead."</p>
-      <p><span class="think-prefix">Why specificity matters:</span> "The good update gives the reader everything they need to understand the situation without asking follow-up questions. The bad update forces the teacher to stop class and interview the team. Specific status updates respect everyone's time and demonstrate engineering professionalism."</p>
+
+    <div class="challenge-callout">
+      <div class="ch-label">⏱ Class 8 Build Sequence — Time Targets</div>
+      <p><strong>0–10 min:</strong> Risk register complete, parts retrieved and verified, roles confirmed. PM gives the green light to build.<br>
+      <strong>10–40 min:</strong> Build phase. Follow your WBS task order. Builder leads, Lead Engineer reviews fit at each step.<br>
+      <strong>40–45 min:</strong> Attach module to MiniBot. Function check: drive 3 feet, turn 90°, confirm module stays attached and doesn't block the drivetrain.<br>
+      <strong>45–55 min:</strong> <strong>Trial 1.</strong> Driver teleops through the collection course. Documenter logs everything.<br>
+      <strong>55–62 min:</strong> Debrief. Identify the top 1–2 changes. Implement the change.<br>
+      <strong>62–70 min:</strong> <strong>Trial 2</strong> and comparison.<br>
+      <strong>70–74 min:</strong> Status update, stand-up, Gantt revision, notebook close-out.</p>
+    </div>
+
+    <p style="font-size:10pt; font-weight:700; color:var(--orange); margin-bottom:8px;">Build progress log — check off each milestone as you hit it:</p>
+    <table class="analysis-table">
+      <thead><tr><th>Milestone</th><th style="width:16%">Target time</th><th style="width:16%">Actual time</th><th style="width:20%">Status / notes</th></tr></thead>
+      <tbody>
+        <tr><td>Risk register done, parts verified, build start</td><td style="text-align:center;">0–10 min</td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td></tr>
+        <tr><td>Mount bracket / frame assembled</td><td style="text-align:center;">10–20 min</td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td></tr>
+        <tr><td>Collector mechanism attached to frame</td><td style="text-align:center;">20–35 min</td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td></tr>
+        <tr><td style="font-weight:600; color:var(--orange);">◆ Milestone: module attached to MiniBot, function check pass</td><td style="text-align:center;">35–45 min</td><td class="write-cell" style="text-align:center;"></td><td class="write-cell"></td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Did anything during the build reveal a gap in your Class 7 design specification (a question the spec didn't answer)? What was it, and what did you decide?</p>
+    <textarea class="write-area" rows="3" placeholder="During the build, the spec didn't specify... We decided to... and documented it because..."></textarea>
+
+    <div class="notebook-prompt">
+      <div class="nb-label">📓 Engineering Notebook — Build Log</div>
+      <p>The Documenter logs the actual time for each milestone above as it happens — not from memory at the end of class. If any spec gap is discovered, write the decision and the reasoning immediately, while it's fresh.</p>
     </div>
   </div>
 
-  <div class="ydo-header">
-    <span class="ydo-badge">You Do</span>
-    <span class="ydo-title">Part 3A — Write your Unit 2 status update as a team</span>
+  <div class="section-nav">
+    <button class="nav-btn secondary" onclick="lessonNav(-1)">← Part 1 · Risk Register</button>
+    <span class="nav-center">Section 2 of 6</span>
+    <button class="nav-btn" onclick="checkAndAdvance()">Part 3 · Trial 1 &amp; Iterate →</button>
   </div>
-  <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">This status update covers Unit 2 (Classes 6–8). The Documentation Lead writes it; all members contribute the facts for their role area. Be specific: dates, measurements, class numbers, and names. Reference your WBS and Gantt chart.</p>
+</div>
 
-  <div class="status-box">
-    <div class="status-header">Unit 2 Status Update — Project Management Phase Complete</div>
-    <div class="status-body">
 
-      <div class="status-field">
-        <label>Overall status</label>
-        <div class="traffic-lights">
-          <label class="tl-option"><input type="radio" name="status"> <span class="tl-dot green"></span> Green — on track, no issues</label>
-          <label class="tl-option"><input type="radio" name="status"> <span class="tl-dot yellow"></span> Yellow — minor issues, have a plan</label>
-          <label class="tl-option"><input type="radio" name="status"> <span class="tl-dot red"></span> Red — significant blocker, need help</label>
+<!-- ═══════════ SECTION 2 — Part 3: Trial 1 & Iterate ═══════════ -->
+<div class="lesson-section" id="section-2" style="display:none">
+
+  <div class="section">
+    <div class="section-label">Part 3 &nbsp;·&nbsp; Trial 1 &amp; First Iteration (17 min)</div>
+    <h2>Test, Then Change On Purpose</h2>
+
+    <div class="reading-block">
+      <p>An <span class="key-term">iteration</span> is a deliberate change made to improve performance, based on test data — not a random fix. You have a hypothesis ("if we widen the intake by 2 cm, balls will enter more reliably"), you make the change, and you test again to confirm or deny the hypothesis. If you can't explain why a change worked, you can't repeat it next time.</p>
+    </div>
+
+    <div class="trial-box">
+      <div class="trial-header">⏱ Trial 1 — Data Log</div>
+      <div class="trial-body">
+        <table class="analysis-table" style="margin-bottom:0; background:#fff;">
+          <thead><tr><th>Time allowed</th><th>Cubes collected</th><th>Balls collected</th><th>Total score</th><th>Module stayed attached? (Y/N)</th></tr></thead>
+          <tbody>
+            <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p style="font-size:10.5pt; margin-bottom:6px;"><strong>4.</strong> Describe what happened during Trial 1 in specific terms — what worked, what didn't, and at what point (e.g., "T+15s, the module missed the first cube because...").</p>
+    <textarea class="write-area" rows="3" placeholder="During Trial 1, the module... At T+___ seconds..."></textarea>
+
+    <div class="ido-section">
+      <div class="ido-header">
+        <span class="ido-badge">I Do</span>
+        <span class="ido-title">Watch the teacher model writing a hypothesis-driven iteration</span>
+      </div>
+      <div class="ido-body">
+        <p><span class="think-prefix">Bad iteration (no hypothesis):</span> "The claw didn't grab the ball well, so we just made the opening bigger." This might work, but the team won't know why — if it fails, they have no data to learn from.</p>
+        <p><span class="think-prefix">Good iteration (hypothesis-driven):</span> "Trial 1 showed the claw closed before fully surrounding the ball — it grabbed 1 of 3 attempts. Hypothesis: the claw's closing angle is too narrow for the ball's 4-inch diameter. Change: widen the claw's resting angle by 15°. Predicted result: grip success rate increases because the ball has more room to seat before the claw closes."</p>
+        <p><span class="think-prefix">Why this matters:</span> "After Trial 2, we either confirm (grip rate went up — angle was the cause) or deny (grip rate stayed the same — something else is the cause, keep investigating) the hypothesis. Either way, we learned something we can write down and reuse."</p>
+      </div>
+    </div>
+
+    <div class="iter-box">
+      <div class="iter-header">🔄 Iteration 1</div>
+      <div class="iter-body">
+        <p style="font-size:9pt; font-weight:700; color:var(--purple); margin-bottom:4px;">What we changed:</p>
+        <textarea class="write-area" rows="2" style="min-height:50px;" placeholder="We changed..."></textarea>
+        <p style="font-size:9pt; font-weight:700; color:var(--purple); margin-bottom:4px;">Why (hypothesis):</p>
+        <textarea class="write-area" rows="2" style="min-height:50px;" placeholder="We expected this to help because..."></textarea>
+      </div>
+    </div>
+
+    <div class="scaffold-tabs">
+      <div class="scaffold-tab novice"><span class="tab-label">🟢 Novice</span>Make one change based on the most obvious Trial 1 problem. Write what you changed and why in 1–2 sentences.</div>
+      <div class="scaffold-tab intermediate"><span class="tab-label">🔵 Intermediate</span>Write a specific hypothesis connecting Trial 1 data to your change (e.g., "missed 2 of 3 cubes at the left edge because...").</div>
+      <div class="scaffold-tab proficient"><span class="tab-label">🟣 Proficient</span>Consider two possible changes, predict which has bigger expected impact, and justify choosing one given your remaining time budget.</div>
+    </div>
+  </div>
+
+  <div class="section-nav">
+    <button class="nav-btn secondary" onclick="lessonNav(-1)">← Part 2 · Build &amp; Attach</button>
+    <span class="nav-center">Section 3 of 6</span>
+    <button class="nav-btn" onclick="checkAndAdvance()">Part 4 · Trial 2 &amp; Compare →</button>
+  </div>
+</div>
+
+
+<!-- ═══════════ SECTION 3 — Part 4: Trial 2 & Compare ═══════════ -->
+<div class="lesson-section" id="section-3" style="display:none">
+
+  <div class="section">
+    <div class="section-label">Part 4 &nbsp;·&nbsp; Trial 2 &amp; Comparison (8 min)</div>
+    <h2>Confirm or Deny the Hypothesis</h2>
+
+    <div class="trial-box">
+      <div class="trial-header">⏱ Trial 2 — Data Log</div>
+      <div class="trial-body">
+        <table class="analysis-table" style="margin-bottom:0; background:#fff;">
+          <thead><tr><th>Time allowed</th><th>Cubes collected</th><th>Balls collected</th><th>Total score</th><th>Module stayed attached? (Y/N)</th></tr></thead>
+          <tbody>
+            <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <table class="analysis-table">
+      <thead><tr><th></th><th>Trial 1</th><th>Trial 2</th><th>Change (+/−)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Total score</strong></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td><td class="write-cell" style="text-align:center;"></td></tr>
+      </tbody>
+    </table>
+
+    <div class="iter-box">
+      <div class="iter-header">🔄 Iteration 1 — Result</div>
+      <div class="iter-body">
+        <p style="font-size:9pt; font-weight:700; color:var(--purple); margin-bottom:4px;">Was the hypothesis confirmed, denied, or inconclusive? Explain using the data above.</p>
+        <textarea class="write-area" rows="3" style="min-height:60px;" placeholder="The hypothesis was confirmed / denied / inconclusive because the score..."></textarea>
+      </div>
+    </div>
+
+    <p style="font-size:10.5pt; margin-bottom:6px;"><strong>5.</strong> If your score went down or stayed flat, explain why this iteration can still be a success — using what you learned about hypothesis testing today.</p>
+    <textarea class="write-area" rows="3" placeholder="Even if our score went down / stayed flat, this iteration was still useful because..."></textarea>
+
+    <p style="font-size:10.5pt; margin-bottom:6px;"><strong>6.</strong> If you had one more trial, what single change would you make and why?</p>
+    <textarea class="write-area" rows="2" placeholder="With one more trial, we would change... because the data from Trial 2 suggests..."></textarea>
+  </div>
+
+  <div class="section-nav">
+    <button class="nav-btn secondary" onclick="lessonNav(-1)">← Part 3 · Trial 1 &amp; Iterate</button>
+    <span class="nav-center">Section 4 of 6</span>
+    <button class="nav-btn" onclick="checkAndAdvance()">Part 5 · Status &amp; Stand-Up →</button>
+  </div>
+</div>
+
+
+<!-- ═══════════ SECTION 4 — Part 5: Status Update & Stand-Up ═══════════ -->
+<div class="lesson-section" id="section-4" style="display:none">
+
+  <div class="section">
+    <div class="section-label">Part 5 &nbsp;·&nbsp; Status Update, Stand-Up &amp; Gantt Revision (15 min)</div>
+    <h2>Communicate, Then Update the Plan</h2>
+
+    <div class="reading-block">
+      <p>The most common reason engineering teams fail isn't bad engineering — it's communication. A part is missing and everyone assumes someone else is handling it. A problem isn't mentioned until it's too late to fix. Two tools prevent this: the <span class="key-term">stand-up meeting</span> (a 3-minute check-in) and the <span class="key-term">status update</span> (a written summary using a traffic-light system: 🟢 on track, 🟡 at risk, 🔴 blocked). A Red status is not failure — it's honest engineering. What fails teams is a Red status nobody reports until it's too late.</p>
+    </div>
+
+    <div class="ido-section">
+      <div class="ido-header">
+        <span class="ido-badge">I Do</span>
+        <span class="ido-title">Teacher models a bad vs. a good status update</span>
+      </div>
+      <div class="ido-body">
+        <p><span class="think-prefix">Bad (vague, no action, no accountability):</span> "We finished the module. It mostly worked. We might try to improve it more."</p>
+        <p><span class="think-prefix">Good (specific, action items, owner):</span> "Status: 🟡 Yellow. Module attached and functional by 45 min. Trial 1 scored 3 cubes, 0 balls — claw angle too narrow for balls. Mitigation: widened claw angle 15° (Iteration 1). Trial 2 scored 3 cubes, 2 balls — hypothesis confirmed. Remaining risk: mount uses a single bolt, scored 'monitor' in risk register — recommend a second bolt before the official challenge run. Owner: Builder."</p>
+        <p><span class="think-prefix">Why specificity matters:</span> "The good update tells the reader everything they need without follow-up questions — respecting everyone's time and demonstrating professionalism."</p>
+      </div>
+    </div>
+
+    <div class="ydo-header">
+      <span class="ydo-badge">You Do</span>
+      <span class="ydo-title">Write Your Unit 2 Status Update</span>
+    </div>
+    <p style="font-size:9.5pt; color:#555; margin-bottom:12px;">This update covers all of Unit 2 (Classes 6–8). The Documenter writes it; everyone contributes facts for their role area. Be specific: class numbers, measurements, scores, names.</p>
+
+    <div class="status-box">
+      <div class="status-header">Unit 2 Status Update — Project Management Phase Complete</div>
+      <div class="status-body">
+
+        <div class="status-field">
+          <label>Overall status</label>
+          <div class="traffic-lights">
+            <span class="tl-option"><span class="tl-dot green"></span> Green — on track, no issues</span>
+            <span class="tl-option"><span class="tl-dot yellow"></span> Yellow — minor issues, have a plan</span>
+            <span class="tl-option"><span class="tl-dot red"></span> Red — significant blocker, need help</span>
+          </div>
         </div>
-      </div>
 
-      <div class="status-field">
-        <label>What we completed in Unit 2</label>
-        <textarea class="field-input tall" placeholder="In Class 6 we completed... In Class 7 we completed... In Class 8 we completed..."></textarea>
-      </div>
+        <div class="status-field">
+          <label>What we completed in Unit 2</label>
+          <textarea class="field-input tall" placeholder="In Class 6 we completed... In Class 7 we completed... In Class 8 we completed..."></textarea>
+        </div>
 
-      <div class="status-field">
-        <label>Team charter — key norms we committed to</label>
-        <textarea class="field-input" placeholder="Our decision-making norm is... Our accountability norm is... Our role rotation schedule is..."></textarea>
-      </div>
+        <div class="status-field">
+          <label>Mini Challenge results — Trial 1 vs. Trial 2</label>
+          <textarea class="field-input" placeholder="Trial 1 score: ___. Trial 2 score: ___. Iteration made: ..."></textarea>
+        </div>
 
-      <div class="status-field">
-        <label>Gantt chart status — are we on the schedule we set in Class 7?</label>
-        <textarea class="field-input tall" placeholder="Our Gantt chart targets [phase] for [class range]. We are currently on track / ahead / behind by [X class periods]. The main reason for any variance is..."></textarea>
-      </div>
+        <div class="status-field">
+          <label>Gantt status — were we on the schedule we set in Class 7?</label>
+          <textarea class="field-input tall" placeholder="We targeted [milestone] by [time]. We were on track / ahead / behind by ___ minutes. The main reason for any variance is..."></textarea>
+        </div>
 
-      <div class="status-field">
-        <label>Top risk from our register — status and mitigation update</label>
-        <textarea class="field-input" placeholder="Our highest priority risk (score ___) is... Our mitigation plan is... Current status of this risk is..."></textarea>
-      </div>
+        <div class="status-field">
+          <label>Top remaining risk and its current status</label>
+          <textarea class="field-input" placeholder="Our highest priority remaining risk (score ___) is... Current status: ..."></textarea>
+        </div>
 
-      <div class="status-field">
-        <label>What we need for Unit 3 to start successfully</label>
-        <textarea class="field-input" placeholder="To begin Unit 3, we need to: (1) [list specific items — materials, decisions, teacher approvals]..."></textarea>
       </div>
+    </div>
 
+    <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Stand-up — run the Class 8 stand-up now (3 minutes total):</p>
+    <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Each person answers: (1) what I completed since Class 7, (2) what I'm working on right now, (3) any blocker. The Documenter runs the clock. Blockers get noted, not debated — they go on the "park" list below.</p>
+
+    <table class="analysis-table" style="font-size:9.5pt;">
+      <thead><tr><th style="width:22%">Member (role)</th><th>Completed since C7</th><th>Working on now</th><th style="width:26%">Blocker (if any)</th></tr></thead>
+      <tbody>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Gantt revision — update your Class 7 Gantt to reflect what actually happened:</p>
+    <table class="analysis-table" style="font-size:9.5pt;">
+      <thead><tr><th style="width:36%">Task / milestone affected</th><th style="width:36%">What changed and why</th><th>Updated target</th></tr></thead>
+      <tbody>
+        <tr><td style="font-style:italic; color:#aaa; font-size:9pt;">Example: build took 38 min instead of planned 30</td><td style="font-style:italic; color:#aaa; font-size:9pt;">Bracket prep took longer than estimated; absorbed by buffer</td><td style="font-style:italic; color:#aaa; font-size:9pt;">No change to Trial 1 timing</td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+        <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-nav">
+    <button class="nav-btn secondary" onclick="lessonNav(-1)">← Part 4 · Trial 2 &amp; Compare</button>
+    <span class="nav-center">Section 5 of 6</span>
+    <button class="nav-btn" onclick="checkAndAdvance()">Part 6 · Notebook &amp; Close-Out →</button>
+  </div>
+</div>
+
+
+<!-- ═══════════ SECTION 5 — Part 6: Notebook & Close-Out ═══════════ -->
+<div class="lesson-section" id="section-5" style="display:none">
+
+  <div class="section">
+    <div class="section-label">Part 6 &nbsp;·&nbsp; Notebook Entry, Unit 2 Close-Out &amp; Reflection (4 min)</div>
+    <h2>Closing Unit 2 — Ready for the Mini Challenge and Beyond</h2>
+
+    <div class="notebook-prompt">
+      <div class="nb-label">📓 Notebook Entry Requirements — Unit 2 Complete</div>
+      <p>Documenter: the Unit 2 notebook section must contain — (1) signed team charter (Class 6), (2) full WBS with owners (Class 7), (3) Gantt chart with revision box (Class 7 + 8), (4) decision matrix with winner circled (Class 7), (5) design specification (Class 7), (6) risk register with 8+ risks (Class 8), (7) Trial 1 and Trial 2 data with iteration log (Class 8), (8) Unit 2 status update (Class 8), and (9) stand-up notes. All four members sign the final entry.</p>
+    </div>
+
+    <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Unit 2 introduced four PM tools: team charter, decision matrix, WBS/Gantt, and risk register. Which one do you think will matter most for your team going forward? Use a specific scenario from today.</p>
+    <textarea class="write-area" rows="4" placeholder="I think the [tool] will matter most because... A specific scenario from today where it mattered was..."></textarea>
+
+    <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> Naming risks before they happen — did this make your team feel more or less confident going into the build? Explain honestly.</p>
+    <textarea class="write-area" rows="3" placeholder="Naming our risks made our team feel [more / less / equally] confident because..."></textarea>
+
+    <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Self-assessment — circle one per row:</p>
+    <table class="analysis-table">
+      <thead><tr><th style="width:62%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr></thead>
+      <tbody>
+        <tr><td>I can define risk, likelihood, impact, priority score, and mitigation strategy</td><td></td><td></td><td></td></tr>
+        <tr><td>Our risk register has 8+ risks with scores, mitigations, and owners</td><td></td><td></td><td></td></tr>
+        <tr><td>We ran two trials and made at least one hypothesis-driven iteration between them</td><td></td><td></td><td></td></tr>
+        <tr><td>Our status update is specific — it references scores, times, and names</td><td></td><td></td><td></td></tr>
+        <tr><td>Our Gantt chart has a revision entry reflecting what actually happened today</td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div class="extension-box">
+      <div class="ext-label">🟣 Extension / Exploration</div>
+      <p>Research how NASA used FMEA (Failure Mode and Effects Analysis) in the Apollo program or a Mars Rover mission. Find one real example where FMEA caught a risk that could have been catastrophic. In your notebook: what was the risk, how was it found, and what mitigation was used? Then apply a simplified FMEA to your collector module: list 3 potential failure modes, their effects, and a design change that would prevent each.</p>
     </div>
   </div>
-</div>
 
-<!-- PART 4: STAND-UP PRACTICE & GANTT UPDATE -->
-<div class="section">
-  <div class="section-label">Part 4 &nbsp;·&nbsp; Stand-Up Meeting Practice &amp; Gantt Update (12 min)</div>
-  <h2>Practice the Communication Habits You'll Use Every Class</h2>
-
-  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Stand-Up meeting — run the Class 8 stand-up now:</p>
-  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;"><strong>Format (keep to 3 minutes total):</strong> Each person answers: (1) What I completed since last class. (2) What I'm working on today. (3) Any blocker that needs team or teacher attention.<br>The Documentation Lead runs the clock and records notes. If someone raises a blocker, it gets noted — it is NOT debated or solved in the stand-up. It goes on the "park" list to address after the stand-up.</p>
-
-  <table class="analysis-table" style="font-size:9.5pt;">
-    <thead><tr><th style="width:22%">Member (role)</th><th>Completed since C7</th><th>Working on today</th><th style="width:30%">Blocker (if any)</th></tr></thead>
-    <tbody>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-    </tbody>
-  </table>
-
-  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Parked items — blockers raised in the stand-up that need follow-up:</p>
-  <table class="analysis-table" style="font-size:9.5pt;">
-    <thead><tr><th style="width:44%">Blocker</th><th style="width:28%">Who addresses it</th><th>Target resolution class #</th></tr></thead>
-    <tbody>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-    </tbody>
-  </table>
-
-  <p style="font-size:10pt; font-weight:700; margin-bottom:6px;">Gantt chart update — review your Class 7 Gantt and make any needed changes:</p>
-  <p style="font-size:9.5pt; color:#555; margin-bottom:8px;">Did anything in Class 6, 7, or 8 change your timeline? A task that took longer than expected, a resource that isn't available, or a risk that materialized? Update your Gantt chart in the notebook. Record the update reason in the revision box.</p>
-
-  <table class="analysis-table" style="font-size:9.5pt;">
-    <thead><tr><th style="width:36%">Task / phase affected</th><th style="width:36%">What changed and why</th><th>New target class #</th></tr></thead>
-    <tbody>
-      <tr><td style="font-style:italic; color:#aaa; font-size:9pt;">Example: Flapper design (Class 6) took longer than expected</td><td style="font-style:italic; color:#aaa; font-size:9pt;">30 min overrun due to materials sourcing; no impact to Phase 3</td><td style="font-style:italic; color:#aaa; font-size:9pt;">No change</td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-      <tr><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td></tr>
-    </tbody>
-  </table>
-</div>
-
-<hr class="section-rule">
-
-<!-- PART 5: NOTEBOOK & REFLECTION -->
-<div class="section">
-  <div class="section-label">Part 5 &nbsp;·&nbsp; Notebook Entry, Synthesis &amp; Exit Reflection (10 min)</div>
-  <h2>Closing Unit 2 — Ready for Unit 3</h2>
-
-  <div class="notebook-prompt">
-    <div class="nb-label">Notebook Entry Requirements — Unit 2 Complete</div>
-    <p>Documentation Lead: the Unit 2 notebook section must contain — (1) signed team charter (Class 6), (2) full WBS with owners and estimates (Class 7), (3) completed Gantt chart (Class 7), (4) milestone table (Class 7), (5) risk register with at least 8 risks (Class 8), (6) Unit 2 status update (Class 8), (7) stand-up notes from all three classes, and (8) exit reflection answers. All four members sign the final entry. The Gantt chart should include one revision box entry if any update was made today.</p>
-  </div>
-
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>1.</strong> Unit 2 introduced three project management tools: team charter, Gantt chart + WBS, and risk register. Which one do you think will have the biggest impact on your team's performance over the rest of the course? Explain using a specific scenario from your plans.</p>
-  <textarea class="write-area" rows="4" placeholder="I think the [tool] will have the biggest impact because... A specific scenario where it will matter is when... Without this tool, what would likely happen is..."></textarea>
-
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>2.</strong> The risk register asks you to name problems before they happen. Does doing this make you more or less confident about your project? Explain your answer honestly.</p>
-  <textarea class="write-area" rows="3" placeholder="Naming risks makes me feel [more / less / equally] confident because... The reason I feel this way is..."></textarea>
-
-  <p style="font-size:10.5pt; margin-bottom:6px;"><strong>3.</strong> Self-assessment:</p>
-  <table class="analysis-table">
-    <thead><tr><th style="width:62%">Objective</th><th>Not yet</th><th>Getting there</th><th>Got it</th></tr></thead>
-    <tbody>
-      <tr><td>I can define risk, likelihood, impact, priority score, and mitigation strategy</td><td></td><td></td><td></td></tr>
-      <tr><td>Our risk register has 8+ risks with scores, mitigations, and owners</td><td></td><td></td><td></td></tr>
-      <tr><td>Our status update is specific — it references class numbers, measurements, and names</td><td></td><td></td><td></td></tr>
-      <tr><td>I ran a stand-up in under 3 minutes and kept blockers off the main discussion</td><td></td><td></td><td></td></tr>
-      <tr><td>Our Gantt chart has been updated with a revision box entry if anything changed</td><td></td><td></td><td></td></tr>
-    </tbody>
-  </table>
-
-  <div class="extension-box">
-    <div class="ext-label">Extension / Exploration</div>
-    <p>Research how NASA used FMEA (Failure Mode and Effects Analysis) in the Apollo program or Mars Rover missions. Find one real example where FMEA identified a risk that could have been catastrophic. Write a 1-page entry in your notebook: What was the risk? How was it identified? What mitigation was implemented? Then apply a simplified FMEA to your robot's most complex subsystem: list 3 potential failure modes, their effects, and a design change to prevent each.</p>
+  <div class="section-nav">
+    <button class="nav-btn secondary" onclick="lessonNav(-1)">← Part 5 · Status &amp; Stand-Up</button>
+    <span class="nav-center">Section 6 of 6</span>
+    <button class="nav-btn" onclick="checkAndAdvance()" disabled>Finish →</button>
   </div>
 </div>
 
-<div class="ws-footer">
-  <span>Introductory Robotics &nbsp;·&nbsp; Unit 2, Class 3 (Class 8)</span>
-  <span>Risk Management, Progress Tracking &amp; Team Communication</span>
-  <span>Page 1 of 1</span>
-</div>
+</main>
 
+
+<script>
+(function() {
+  var TOTAL = 6;
+  var storageKey = 'lesson_class8_html_section';
+
+  var saved = parseInt(sessionStorage.getItem(storageKey) || '0');
+  var current = (saved >= 0 && saved < TOTAL) ? saved : 0;
+
+  function showSection(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+    var sections = document.querySelectorAll('.lesson-section');
+    sections.forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
+    sections[idx].classList.add('active');
+    sections[idx].style.display = 'block';
+    current = idx;
+    sessionStorage.setItem(storageKey, idx);
+    var items = document.querySelectorAll('.sb-item');
+    items.forEach(function(it, i) {
+      it.classList.toggle('active', i === idx);
+      if (i < idx) { it.classList.add('completed'); it.querySelector('.sb-check').textContent = '✓'; }
+    });
+    var prog = document.getElementById('sb-progress');
+    if (prog) prog.textContent = 'Section ' + (idx + 1) + ' of ' + TOTAL;
+    window.scrollTo(0, 0);
+    document.getElementById('lesson-content') && document.getElementById('lesson-content').scrollTo(0, 0);
+  }
+
+  window.lessonNav = function(delta) { showSection(current + delta); };
+  window.lessonGoto = function(idx) { showSection(idx); };
+  window.lessonCurrent = function() { return current; };
+
+  showSection(current);
+})();
+
+// Correct answers distributed: 3 (D), 0 (A), 2 (C), 1 (B), 3 (D)
+var QUIZ_DATA = [
+  {
+    // Section 0 → 1. Correct: index 3 (D). Risk register reasoning.
+    question: 'A team writes in their risk register: "Risk: module might fail. Mitigation: hope it works." The teacher says this entry earns zero credit. Which is the most accurate explanation of why?',
+    options: [
+      'The risk description is too vague — it should specify which part of the module might fail.',
+      'The likelihood and impact scores are missing, so a priority score can\'t be calculated.',
+      'No owner role was assigned to the mitigation.',
+      'All three problems are real, but the deepest issue is that "hope it works" describes no action taken before the risk happens — a mitigation strategy must be a deliberate, purposeful choice, not a wish.'
+    ],
+    correct: 3,
+    reinforcement: 'Correct! All three smaller problems are true, but the fundamental issue is that "hope it works" isn\'t a strategy at all — it\'s the absence of one. A valid mitigation describes a specific action taken before the risk materializes, connecting directly to the purposeful design principle from Unit 1: choices need reasons, not wishes.',
+    review: 'Review the reading block in Part 1. The key distinction: a mitigation strategy is something you DO before the risk happens. "Hope it works" requires no action and changes nothing about the likelihood or impact — it fails the test of being a strategy at all.'
+  },
+  {
+    // Section 1 → 2. Correct: index 0 (A). Build day spec gap question.
+    question: 'During the build, the Builder discovers the design spec from Class 7 never specified how far the collector mechanism should extend below the chassis. The team makes a judgment call and keeps building. What is the correct project management response to this situation?',
+    options: [
+      'Record the decision and the reasoning in the notebook immediately, since this is a real-time spec gap that future teams (and this team, next iteration) need documented.',
+      'Stop the build entirely and wait until Class 9 to get the spec officially updated before continuing.',
+      'Ignore it since the team already made a reasonable call — documentation only matters for major decisions.',
+      'Assign the gap to the Project Manager to add to the Gantt chart as a new task for next class.'
+    ],
+    correct: 0,
+    reinforcement: 'Correct! Spec gaps discovered mid-build don\'t require stopping — but they do require documentation. Writing down the decision and reasoning while it\'s fresh means the team (and future teams) understand why that choice was made, can revisit it if it causes problems, and avoid the same ambiguity in future specs.',
+    review: 'Review Part 2\'s notebook prompt. The lesson explicitly states: "If you hit a question the spec didn\'t answer... record the decision and reasoning in the notebook so it\'s documented either way." Small decisions still need documentation — that\'s what separates an engineering notebook from a diary.'
+  },
+  {
+    // Section 2 → 3. Correct: index 2 (C). Iteration hypothesis question.
+    question: 'Trial 1 data shows the collector missed 2 of 3 cube attempts, both times when the cube was near the left edge of the collection zone. A team says: "Let\'s just make the whole intake bigger." Using the lesson\'s hypothesis-driven iteration model, what is missing from this proposed change?',
+    options: [
+      'Nothing is missing — making the intake bigger will always help collect more objects.',
+      'The change should target balls instead of cubes since balls are worth more discussion in the lesson.',
+      'There is no specific hypothesis connecting the data (misses occurred at the left edge) to the proposed change (bigger intake) — a hypothesis-driven iteration would target the left-edge alignment specifically.',
+      'The team should run Trial 2 before deciding on any change at all.'
+    ],
+    correct: 2,
+    reinforcement: 'Correct! The Trial 1 data points to a specific pattern: misses at the left edge. "Make the intake bigger" is a general change that doesn\'t target that specific pattern — it might help by accident, but the team won\'t know why. A hypothesis-driven iteration would say something like: "the intake is misaligned to the left by ~1cm, causing left-edge misses; we will adjust the mount angle by 5° toward the left." This way, Trial 2 either confirms or denies a specific, testable claim.',
+    review: 'Review the I Do modeling in Part 3. The lesson explicitly contrasts a "bad iteration (no hypothesis)" with a "good iteration (hypothesis-driven)" — the good one connects specific Trial 1 data to a specific predicted mechanism, not a general improvement.'
+  },
+  {
+    // Section 3 → 4. Correct: index 1 (B). Iteration success despite lower score.
+    question: 'A team\'s Trial 2 score (2 objects) is lower than their Trial 1 score (3 objects) after making a hypothesis-driven change. Which statement best reflects what the lesson teaches about this outcome?',
+    options: [
+      'The iteration was a failure and the team should revert to their Trial 1 configuration immediately without further analysis.',
+      'The iteration can still be valuable: the team now has data that denies their hypothesis, which is useful information that narrows down the real cause of the original problem — as long as they document what they learned.',
+      'The team should not have iterated at all, since their Trial 1 design was already working better.',
+      'A lower score always means the team made an error in measurement, not in their hypothesis.'
+    ],
+    correct: 1,
+    reinforcement: 'Correct! Denying a hypothesis is still useful data — it tells the team the cause they suspected was probably wrong, narrowing down where to look next. The lesson explicitly asks students to explain why a lower score can still represent iteration success: the value is in the documented learning, not just the raw score.',
+    review: 'Review Part 4, Question 5: "If your score went down or stayed flat, explain why this iteration can still be a success." A denied hypothesis is real engineering data. Reverting without analysis throws away the chance to learn what actually caused the original problem.'
+  },
+  {
+    // Section 4 → 5. Correct: index 0 (A). Status update specificity question.
+    question: 'A team\'s Documenter writes this status update: "Things are going pretty well. We built it and tested it. There might be a small issue but we\'ll figure it out." According to the lesson\'s model of good vs. bad status updates, what is the single biggest problem with this entry?',
+    options: [
+      'It contains no specific, actionable information — no scores, no class numbers, no description of the "small issue," and no named owner — forcing anyone reading it to stop and ask follow-up questions.',
+      'It is too short — status updates should be at least one full paragraph regardless of content.',
+      'It doesn\'t mention the Project Manager by name.',
+      'It doesn\'t use enough technical vocabulary from Unit 2.'
+    ],
+    correct: 0,
+    reinforcement: 'Correct! This is exactly the "bad status update" pattern modeled in the lesson: vague language ("pretty well," "small issue," "figure it out") with zero specifics. A good status update names the actual scores, identifies the actual problem, states what mitigation was taken, and assigns an owner — so the reader needs no follow-up questions.',
+    review: 'Review the I Do modeling in Part 5. The bad example given in the lesson — "We are working on the chassis, it\'s going okay, we might be a bit behind" — fails for the same reason as this one: it gives a reader nothing they can act on. Specificity (scores, times, names, owners) is the entire point of a status update.'
+  }
+];
+
+var _selectedOption = null;
+
+function checkAndAdvance() {
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  if (qIdx >= QUIZ_DATA.length) { lessonNav(1); return; }
+  _selectedOption = null;
+  showPopup(qIdx);
+}
+
+function showPopup(idx) {
+  var data = QUIZ_DATA[idx];
+  document.getElementById('popup-question').innerHTML = data.question;
+  var optDiv = document.getElementById('popup-options');
+  optDiv.innerHTML = '';
+  data.options.forEach(function(opt, i) {
+    var btn = document.createElement('button');
+    btn.innerHTML = '<span style="display:inline-block;width:22px;height:22px;border:2px solid #d0d0cc;border-radius:50%;margin-right:10px;vertical-align:middle;flex-shrink:0;transition:all .12s;"></span>' + opt;
+    btn.style.cssText = 'display:flex;align-items:flex-start;text-align:left;background:#f7f6f3;border:1.5px solid #d0d0cc;border-radius:7px;padding:10px 14px;font-size:10.5pt;color:#222;cursor:pointer;font-family:inherit;line-height:1.5;transition:all .12s;width:100%;';
+    btn.onclick = function() { selectOption(i, btn); };
+    optDiv.appendChild(btn);
+  });
+  document.getElementById('popup-feedback').style.display = 'none';
+  document.getElementById('popup-submit').style.display = 'inline-block';
+  document.getElementById('popup-continue').style.display = 'none';
+  document.getElementById('popup-review').style.display = 'none';
+  document.getElementById('popup-header').style.background = '#8c3a00';
+  document.getElementById('popup-header').querySelectorAll('span')[0].textContent = '🎯';
+  document.getElementById('popup-header').querySelectorAll('span')[1].textContent = 'Quick Check — Before You Continue';
+  var overlay = document.getElementById('check-overlay');
+  overlay.style.display = 'flex';
+  var modal = document.getElementById('check-modal');
+  modal.style.transform = 'scale(0.93)'; modal.style.opacity = '0';
+  modal.style.transition = 'transform .18s, opacity .18s';
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      modal.style.transform = 'scale(1)'; modal.style.opacity = '1';
+    });
+  });
+}
+
+function selectOption(i, btn) {
+  _selectedOption = i;
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b) {
+    b.style.background = '#f7f6f3'; b.style.borderColor = '#d0d0cc'; b.style.color = '#222';
+    var c = b.querySelector('span'); if (c) { c.style.background = ''; c.style.borderColor = '#d0d0cc'; }
+  });
+  btn.style.background = '#fef0e7'; btn.style.borderColor = '#8c3a00'; btn.style.color = '#8c3a00';
+  var c = btn.querySelector('span');
+  if (c) { c.style.background = '#8c3a00'; c.style.borderColor = '#8c3a00'; }
+}
+
+function submitAnswer() {
+  if (_selectedOption === null) {
+    var sb = document.getElementById('popup-submit');
+    sb.style.transform = 'translateX(-4px)';
+    setTimeout(function() { sb.style.transform = 'translateX(4px)'; }, 80);
+    setTimeout(function() { sb.style.transform = ''; }, 160);
+    return;
+  }
+  var qIdx = (typeof window.lessonCurrent === 'function') ? window.lessonCurrent() : 0;
+  var data = QUIZ_DATA[qIdx];
+  var correct = _selectedOption === data.correct;
+  var feedback = document.getElementById('popup-feedback');
+  document.getElementById('popup-options').querySelectorAll('button').forEach(function(b, i) {
+    b.style.pointerEvents = 'none';
+    if (i === data.correct) {
+      b.style.background = '#e8f4ee'; b.style.borderColor = '#2d6a4f'; b.style.color = '#2d6a4f';
+      var c = b.querySelector('span'); if (c) { c.style.background = '#2d6a4f'; c.style.borderColor = '#2d6a4f'; }
+    } else if (i === _selectedOption && !correct) {
+      b.style.background = '#fdf2f2'; b.style.borderColor = '#8b1a1a'; b.style.color = '#8b1a1a';
+      var c = b.querySelector('span'); if (c) { c.style.background = '#8b1a1a'; c.style.borderColor = '#8b1a1a'; }
+    }
+  });
+  document.getElementById('popup-submit').style.display = 'none';
+  var ph = document.getElementById('popup-header');
+  if (correct) {
+    feedback.style.cssText = 'display:block;background:#e8f4ee;border:1.5px solid #2d6a4f;color:#1a3a1a;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#2d6a4f;">✓ Correct!</strong> ' + data.reinforcement;
+    document.getElementById('popup-continue').style.display = 'inline-block';
+    ph.style.background = '#2d6a4f';
+    ph.querySelectorAll('span')[0].textContent = '✓';
+    ph.querySelectorAll('span')[1].textContent = 'Correct — keep going!';
+  } else {
+    feedback.style.cssText = 'display:block;background:#fdf3e3;border:1.5px solid #c8860a;color:#3a2a00;border-radius:7px;padding:12px 16px;margin-bottom:14px;font-size:10.5pt;line-height:1.6;';
+    feedback.innerHTML = '<strong style="color:#7d4e00;">Not quite.</strong> ' + data.review;
+    document.getElementById('popup-review').style.display = 'inline-block';
+    ph.style.background = '#7d4e00';
+    ph.querySelectorAll('span')[0].textContent = '↩';
+    ph.querySelectorAll('span')[1].textContent = 'Review before continuing';
+  }
+  feedback.style.display = 'block';
+}
+
+function closePopupAndAdvance() {
+  document.getElementById('check-overlay').style.display = 'none';
+  lessonNav(1);
+}
+
+function closePopup() {
+  document.getElementById('check-overlay').style.display = 'none';
+}
+
+document.getElementById('check-overlay').addEventListener('click', function(e) { if (e.target === this) closePopup(); });
+</script>
 </body>
 </html>
