@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!--
+  ¡Bienvenidos, estudiantes de diseño web!
+
+  Esta página usa SOLO HTML — sin CSS y sin JavaScript.
+  Eso significa que todo lo que ves se muestra con el estilo
+  predeterminado del navegador. No es elegante, ¡pero esa es la idea!
+
+  Mientras exploras este archivo, fíjate en que cada etiqueta HTML
+  tiene UN solo trabajo: estructurar y etiquetar una parte del
+  contenido. Intenta cambiar o borrar una etiqueta y recargar la
+  página para ver qué pasa.
+-->
+<html lang="es">
+<head>
+  <!-- El <head> contiene información SOBRE la página. Nada de esto
+       se muestra directamente en la página. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Una página HTML sencilla que explora la serie Los Nenúfares de Claude Monet, creada para los estudiantes de Introducción al Diseño Web.">
+  <!-- El <title> SÍ es visible — ¡mira la pestaña de tu navegador! -->
+  <title>Claude Monet: Los Nenúfares</title>
+</head>
+<body>
+  <!-- Todo lo que está dentro de <body> SÍ se muestra en la página. -->
+
+  <!-- ============ ENCABEZADO ============
+       El <header> normalmente contiene el título de la página y una introducción. -->
+  <header>
+    <h1>Claude Monet: Los Nenúfares</h1>
+    <p>Una introducción a una de las series de pinturas más famosas de la historia del arte</p>
+  </header>
+
+  <!-- ============ NAVEGACIÓN ============
+       El <nav> agrupa los enlaces que se usan para moverse por la página.
+       Cada enlace de abajo salta a una <section> con el id correspondiente. -->
+  <nav>
+    <p><strong>Ir a una sección:</strong></p>
+    <ul>
+      <li><a href="#about">Sobre el Artista</a></li>
+      <li><a href="#series">La Serie de los Nenúfares</a></li>
+      <li><a href="#locations">Dónde Verlos</a></li>
+      <li><a href="#facts">Datos Curiosos</a></li>
+      <li><a href="#learn-more">Aprende Más</a></li>
+    </ul>
+  </nav>
+
+  <hr>
+
+  <!-- ============ CONTENIDO PRINCIPAL ============
+       El <main> envuelve el contenido principal de la página.
+       Una página solo debe tener UN elemento <main>. -->
+  <main>
+
+    <!-- Una <section> agrupa contenido relacionado bajo un encabezado. -->
+    <section id="about">
+      <h2>Sobre el Artista</h2>
+
+      <!-- La etiqueta <img> inserta una imagen. Siempre necesita:
+             src = qué archivo de imagen mostrar
+             alt = una descripción en texto (que leen los lectores de
+                   pantalla, y que se muestra si la imagen no carga) -->
+      <img src="water-lily.svg" alt="Una ilustración sencilla de nenúfares rosados, blancos y amarillos flotando en un estanque azul verdoso" width="400">
+
+      <p>
+        <strong>Claude Monet</strong> (1840&ndash;1926) fue un pintor
+        francés y uno de los fundadores del <em>Impresionismo</em>, un
+        movimiento artístico conocido por capturar la luz, el color y
+        los momentos fugaces en lugar del detalle preciso.
+      </p>
+      <p>
+        En 1883, Monet se mudó al pueblo de Giverny, Francia, donde pasó
+        décadas diseñando y cuidando un elaborado jardín de flores con un
+        gran estanque. Ese estanque &mdash; y los nenúfares que flotaban
+        en él &mdash; se convirtieron en la obsesión del resto de su vida.
+      </p>
+    </section>
+
+    <section id="series">
+      <h2>La Serie de los Nenúfares</h2>
+      <p>
+        A partir de finales de la década de 1890, Monet comenzó a pintar
+        su estanque de nenúfares una y otra vez, con luz y estaciones
+        diferentes. Para cuando murió en 1926, había creado alrededor de
+        <strong>250 pinturas de nenúfares</strong>, lo que la convierte
+        en una de las series de pinturas más grandes creadas por un solo
+        artista en la historia.
+      </p>
+      <p>
+        Muchas de estas pinturas se hicieron mientras Monet perdía la
+        vista debido a cataratas &mdash; algo que, según algunos
+        historiadores del arte, influyó en los colores intensos y
+        difusos de sus últimas obras.
+      </p>
+    </section>
+
+    <section id="locations">
+      <h2>Dónde Verlos</h2>
+      <p>Las pinturas de nenúfares de Monet ahora están repartidas en importantes museos de todo el mundo. Aquí hay algunos:</p>
+
+      <!-- Una <table> organiza datos en filas y columnas.
+             <thead> = fila(s) de encabezado de la tabla
+             <tbody> = las filas de datos reales
+             <tr>    = fila de la tabla
+             <th>    = celda de encabezado
+             <td>    = celda de datos normal -->
+      <table border="1" cellpadding="6">
+        <thead>
+          <tr>
+            <th>Museo</th>
+            <th>Ciudad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Museo de la Orangerie</td>
+            <td>París, Francia</td>
+          </tr>
+          <tr>
+            <td>Museo Marmottan Monet</td>
+            <td>París, Francia</td>
+          </tr>
+          <tr>
+            <td>Museo de Arte Moderno (MoMA)</td>
+            <td>Nueva York, EE. UU.</td>
+          </tr>
+          <tr>
+            <td>Museo Metropolitano de Arte</td>
+            <td>Nueva York, EE. UU.</td>
+          </tr>
+          <tr>
+            <td>Instituto de Arte de Chicago</td>
+            <td>Chicago, EE. UU.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="facts">
+      <h2>Datos Curiosos</h2>
+
+      <!-- Una lista desordenada (con viñetas): <ul> con elementos <li>. -->
+      <ul>
+        <li>Monet diseñó y plantó su propio jardín acuático en Giverny &mdash; era tan apasionado por la jardinería como por la pintura.</li>
+        <li>Pintó aproximadamente <strong>250</strong> cuadros de nenúfares durante los últimos 30 años de su vida.</li>
+        <li>Monet exhibió por primera vez un grupo de 48 pinturas de nenúfares en 1909, y la exposición fue un gran éxito.</li>
+        <li>El Museo de la Orangerie construyó dos salas ovaladas específicamente para exhibir los murales de nenúfares más grandes de Monet, organizados como él quería.</li>
+        <li>Monet siguió pintando nenúfares incluso cuando las cataratas afectaban su vista al final de su vida.</li>
+      </ul>
+    </section>
+
+    <section id="learn-more">
+      <h2>Aprende Más</h2>
+      <p>¿Quieres explorar más? Consulta estos recursos:</p>
+      <ul>
+        <li><a href="https://es.wikipedia.org/wiki/Nen%C3%BAfares_(Monet)" target="_blank">Nenúfares (Monet) &mdash; Wikipedia</a></li>
+        <li><a href="https://www.moma.org/collection/works/80215" target="_blank">Nenúfares en el MoMA</a></li>
+        <li><a href="https://www.musee-orangerie.fr/es" target="_blank">Museo de la Orangerie</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <hr>
+
+  <!-- ============ PIE DE PÁGINA ============
+       El <footer> normalmente contiene información de cierre: créditos, contacto, etc. -->
+  <footer>
+    <p>
+      Creado para Introducción al Diseño Web &middot; Sr. Lavigne<br>
+      <em>¿Tienes curiosidad de cómo funciona esta página? Haz clic
+      derecho en cualquier parte y elige "Ver código fuente de la
+      página" (o presiona Ctrl+U / Cmd+Option+U) para ver el HTML.</em>
+    </p>
+  </footer>
+
+</body>
+</html>

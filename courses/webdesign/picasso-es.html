@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--
+  ¡Bienvenidos, estudiantes de diseño web!
+
+  Esta página usa SOLO HTML — sin CSS y sin JavaScript.
+  Eso significa que todo lo que ves se muestra con el estilo
+  predeterminado del navegador. No es elegante, ¡pero esa es la idea!
+
+  Mientras exploras este archivo, fíjate en que cada etiqueta HTML
+  tiene UN solo trabajo: estructurar y etiquetar una parte del
+  contenido. Intenta cambiar o borrar una etiqueta y recargar la
+  página para ver qué pasa.
+-->
+<html lang="es">
+<head>
+  <!-- El <head> contiene información SOBRE la página. Nada de esto
+       se muestra directamente en la página. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Una página HTML sencilla que explora a Pablo Picasso y el Cubismo, creada para los estudiantes de Introducción al Diseño Web.">
+  <!-- El <title> SÍ es visible — ¡mira la pestaña de tu navegador! -->
+  <title>Pablo Picasso: Pionero del Cubismo</title>
+</head>
+<body>
+  <!-- Todo lo que está dentro de <body> SÍ se muestra en la página. -->
+
+  <!-- ============ ENCABEZADO ============
+       El <header> normalmente contiene el título de la página y una introducción. -->
+  <header>
+    <h1>Pablo Picasso: Pionero del Cubismo</h1>
+    <p>Una introducción a uno de los artistas más influyentes del siglo XX</p>
+  </header>
+
+  <!-- ============ NAVEGACIÓN ============
+       El <nav> agrupa los enlaces que se usan para moverse por la página.
+       Cada enlace de abajo salta a una <section> con el id correspondiente. -->
+  <nav>
+    <p><strong>Ir a una sección:</strong></p>
+    <ul>
+      <li><a href="#about">Sobre el Artista</a></li>
+      <li><a href="#cubism">El Cubismo y sus Obras Clave</a></li>
+      <li><a href="#locations">Dónde Verlas</a></li>
+      <li><a href="#facts">Datos Curiosos</a></li>
+      <li><a href="#learn-more">Aprende Más</a></li>
+    </ul>
+  </nav>
+
+  <hr>
+
+  <!-- ============ CONTENIDO PRINCIPAL ============
+       El <main> envuelve el contenido principal de la página.
+       Una página solo debe tener UN elemento <main>. -->
+  <main>
+
+    <!-- Una <section> agrupa contenido relacionado bajo un encabezado. -->
+    <section id="about">
+      <h2>Sobre el Artista</h2>
+
+      <!-- La etiqueta <img> inserta una imagen. Siempre necesita:
+             src = qué archivo de imagen mostrar
+             alt = una descripción en texto (que leen los lectores de
+                   pantalla, y que se muestra si la imagen no carga) -->
+      <img src="cubist-art.svg" alt="Una ilustración abstracta original hecha de formas geométricas, inspirada en el estilo fragmentado y multiangular del Cubismo" width="400">
+
+      <p>
+        <strong>Pablo Picasso</strong> (1881&ndash;1973) fue un pintor,
+        escultor, grabador y ceramista español que pasó la mayor parte de
+        su vida adulta en Francia. Se le considera uno de los artistas
+        más influyentes del siglo XX.
+      </p>
+      <p>
+        Nacido en Málaga, España, Picasso fue un niño prodigio &mdash;
+        los historiadores del arte cuentan que su padre, también pintor,
+        le regaló sus propios pinceles y paleta al ver lo talentoso que
+        ya era su hijo.
+      </p>
+    </section>
+
+    <section id="cubism">
+      <h2>El Cubismo y sus Obras Clave</h2>
+      <p>
+        Picasso pasó por varios estilos distintos a lo largo de su
+        carrera, incluyendo su <strong>Época Azul</strong>
+        (1901&ndash;1904) y su <strong>Época Rosa</strong>
+        (1904&ndash;1906). Alrededor de 1907, junto con el también
+        artista Georges Braque, fundó el <strong>Cubismo</strong>, un
+        estilo revolucionario que mostraba múltiples ángulos de un
+        mismo tema a la vez sobre un lienzo plano.
+      </p>
+      <p>
+        Su obra más famosa, <strong>el Guernica</strong> (1937), es una
+        pintura enorme en blanco, negro y gris, creada en respuesta al
+        bombardeo del pueblo de Guernica durante la Guerra Civil
+        española. Sigue siendo una de las pinturas antibélicas más
+        poderosas de la historia.
+      </p>
+    </section>
+
+    <section id="locations">
+      <h2>Dónde Verlas</h2>
+      <p>Las obras de Picasso se encuentran en importantes museos de España, Francia y Estados Unidos. Aquí hay algunos:</p>
+
+      <!-- Una <table> organiza datos en filas y columnas.
+             <thead> = fila(s) de encabezado de la tabla
+             <tbody> = las filas de datos reales
+             <tr>    = fila de la tabla
+             <th>    = celda de encabezado
+             <td>    = celda de datos normal -->
+      <table border="1" cellpadding="6">
+        <thead>
+          <tr>
+            <th>Museo</th>
+            <th>Ciudad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Museo Reina Sofía</td>
+            <td>Madrid, España</td>
+          </tr>
+          <tr>
+            <td>Museu Picasso</td>
+            <td>Barcelona, España</td>
+          </tr>
+          <tr>
+            <td>Museo Picasso Málaga</td>
+            <td>Málaga, España</td>
+          </tr>
+          <tr>
+            <td>Musée National Picasso-Paris</td>
+            <td>París, Francia</td>
+          </tr>
+          <tr>
+            <td>Museo de Arte Moderno (MoMA)</td>
+            <td>Nueva York, EE. UU.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="facts">
+      <h2>Datos Curiosos</h2>
+
+      <!-- Una lista desordenada (con viñetas): <ul> con elementos <li>. -->
+      <ul>
+        <li>Se estima que Picasso creó alrededor de <strong>50,000</strong> obras a lo largo de su vida, entre pinturas, esculturas, cerámicas y grabados.</li>
+        <li>Fundó el Cubismo junto a su amigo y también pintor Georges Braque alrededor de 1907.</li>
+        <li>A Picasso y Braque también se les atribuye ser pioneros del <em>collage</em> como técnica artística.</li>
+        <li>Su pintura <strong>el Guernica</strong> mide más de 7,7 metros de ancho y, según se cuenta, la terminó en aproximadamente un mes.</li>
+        <li>Picasso siguió pintando, esculpiendo y creando hasta su muerte a los 91 años, en 1973.</li>
+      </ul>
+    </section>
+
+    <section id="learn-more">
+      <h2>Aprende Más</h2>
+      <p>¿Quieres explorar más? Consulta estos recursos:</p>
+      <ul>
+        <li><a href="https://es.wikipedia.org/wiki/Pablo_Picasso" target="_blank">Pablo Picasso &mdash; Wikipedia</a></li>
+        <li><a href="https://es.wikipedia.org/wiki/Guernica_(cuadro)" target="_blank">Guernica (cuadro) &mdash; Wikipedia</a></li>
+        <li><a href="https://www.museoreinasofia.es/en" target="_blank">Museo Reina Sofía</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <hr>
+
+  <!-- ============ PIE DE PÁGINA ============
+       El <footer> normalmente contiene información de cierre: créditos, contacto, etc. -->
+  <footer>
+    <p>
+      Creado para Introducción al Diseño Web &middot; Sr. Lavigne<br>
+      <em>¿Tienes curiosidad de cómo funciona esta página? Haz clic
+      derecho en cualquier parte y elige "Ver código fuente de la
+      página" (o presiona Ctrl+U / Cmd+Option+U) para ver el HTML.</em>
+    </p>
+  </footer>
+
+</body>
+</html>
