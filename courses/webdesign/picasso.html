@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!--
+  Welcome, web design students!
+
+  This page uses ONLY HTML — no CSS and no JavaScript.
+  That means everything you see is styled using the browser's
+  own default look. It's not fancy, but that's the point!
+
+  As you explore this file, notice how each HTML tag has ONE job:
+  structuring and labeling a piece of content. Try changing or
+  deleting a tag and reloading the page to see what happens.
+-->
+<html lang="en">
+<head>
+  <!-- The <head> holds information ABOUT the page. Nothing in
+       here is displayed directly on the page itself. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple HTML page exploring Pablo Picasso and Cubism, built for Introduction to Web Design students.">
+  <!-- The <title> IS visible — check your browser tab! -->
+  <title>Pablo Picasso: Pioneer of Cubism</title>
+</head>
+<body>
+  <!-- Everything in <body> IS displayed on the page. -->
+
+  <!-- ============ HEADER ============
+       The <header> usually holds the page's title and intro. -->
+  <header>
+    <h1>Pablo Picasso: Pioneer of Cubism</h1>
+    <p>An introduction to one of the 20th century's most influential artists</p>
+  </header>
+
+  <!-- ============ NAVIGATION ============
+       The <nav> element groups links used to get around the page.
+       Each link below jumps to a <section> with a matching id. -->
+  <nav>
+    <p><strong>Jump to a section:</strong></p>
+    <ul>
+      <li><a href="#about">About the Artist</a></li>
+      <li><a href="#cubism">Cubism &amp; Key Works</a></li>
+      <li><a href="#locations">Where to See Them</a></li>
+      <li><a href="#facts">Fun Facts</a></li>
+      <li><a href="#learn-more">Learn More</a></li>
+    </ul>
+  </nav>
+
+  <hr>
+
+  <!-- ============ MAIN CONTENT ============
+       The <main> element wraps the primary content of the page.
+       A page should only have ONE <main> element. -->
+  <main>
+
+    <!-- A <section> groups related content under one heading. -->
+    <section id="about">
+      <h2>About the Artist</h2>
+
+      <!-- The <img> tag embeds an image. It always needs:
+             src = which image file to show
+             alt = a text description (read aloud by screen readers,
+                   and shown if the image fails to load) -->
+      <img src="cubist-art.svg" alt="An original abstract illustration made of geometric shapes, inspired by the fragmented, multi-angle style of Cubism" width="400">
+
+      <p>
+        <strong>Pablo Picasso</strong> (1881&ndash;1973) was a Spanish painter,
+        sculptor, printmaker, and ceramicist who spent most of his adult life
+        in France. He is considered one of the most influential artists of
+        the 20th century.
+      </p>
+      <p>
+        Born in M&aacute;laga, Spain, Picasso was a child prodigy &mdash; art
+        historians say his father, also a painter, gave Picasso his own
+        brushes and palette after seeing how talented his son already was.
+      </p>
+    </section>
+
+    <section id="cubism">
+      <h2>Cubism &amp; Key Works</h2>
+      <p>
+        Picasso moved through several distinct styles over his career,
+        including his <strong>Blue Period</strong> (1901&ndash;1904) and
+        <strong>Rose Period</strong> (1904&ndash;1906). Around 1907, he and
+        fellow artist Georges Braque co-founded <strong>Cubism</strong>, a
+        revolutionary style that showed multiple angles of a subject at
+        once on a single flat canvas.
+      </p>
+      <p>
+        His most famous work, <strong>Guernica</strong> (1937), is a
+        massive black, white, and gray painting created in response to the
+        bombing of the town of Guernica during the Spanish Civil War. It
+        remains one of the most powerful anti-war paintings in history.
+      </p>
+    </section>
+
+    <section id="locations">
+      <h2>Where to See Them</h2>
+      <p>Picasso's work is held in major museums across Spain, France, and the United States. Here are a few:</p>
+
+      <!-- A <table> organizes data into rows and columns.
+             <thead> = table header row(s)
+             <tbody> = the actual data rows
+             <tr>    = table row
+             <th>    = header cell
+             <td>    = regular data cell -->
+      <table border="1" cellpadding="6">
+        <thead>
+          <tr>
+            <th>Museum</th>
+            <th>City</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Museo Reina Sof&iacute;a</td>
+            <td>Madrid, Spain</td>
+          </tr>
+          <tr>
+            <td>Museu Picasso</td>
+            <td>Barcelona, Spain</td>
+          </tr>
+          <tr>
+            <td>Museo Picasso M&aacute;laga</td>
+            <td>M&aacute;laga, Spain</td>
+          </tr>
+          <tr>
+            <td>Mus&eacute;e National Picasso-Paris</td>
+            <td>Paris, France</td>
+          </tr>
+          <tr>
+            <td>Museum of Modern Art (MoMA)</td>
+            <td>New York, USA</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="facts">
+      <h2>Fun Facts</h2>
+
+      <!-- An unordered (bulleted) list: <ul> with <li> items. -->
+      <ul>
+        <li>Picasso is estimated to have created around <strong>50,000</strong> artworks over his lifetime, including paintings, sculptures, ceramics, and prints.</li>
+        <li>He co-founded Cubism with his friend and fellow painter Georges Braque around 1907.</li>
+        <li>Picasso and Braque are also credited with pioneering <em>collage</em> as an artistic technique.</li>
+        <li>His painting <strong>Guernica</strong> is over 25 feet wide and was reportedly completed in about a month.</li>
+        <li>Picasso kept painting, sculpting, and creating right up until his death at age 91 in 1973.</li>
+      </ul>
+    </section>
+
+    <section id="learn-more">
+      <h2>Learn More</h2>
+      <p>Want to explore further? Check out these resources:</p>
+      <ul>
+        <li><a href="https://en.wikipedia.org/wiki/Pablo_Picasso" target="_blank">Pablo Picasso &mdash; Wikipedia</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Guernica_(Picasso)" target="_blank">Guernica (Picasso) &mdash; Wikipedia</a></li>
+        <li><a href="https://www.museoreinasofia.es/en" target="_blank">Museo Reina Sof&iacute;a</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <hr>
+
+  <!-- ============ FOOTER ============
+       The <footer> usually holds closing info: credits, contact, etc. -->
+  <footer>
+    <p>
+      Built for Introduction to Web Design &middot; Mr. Lavigne<br>
+      <em>Curious how this page works? Right-click anywhere and choose
+      "View Page Source" (or press Ctrl+U / Cmd+Option+U) to see the HTML!</em>
+    </p>
+  </footer>
+
+</body>
+</html>

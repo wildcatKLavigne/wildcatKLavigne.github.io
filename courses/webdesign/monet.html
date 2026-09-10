@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+  Welcome, web design students!
+
+  This page uses ONLY HTML — no CSS and no JavaScript.
+  That means everything you see is styled using the browser's
+  own default look. It's not fancy, but that's the point!
+
+  As you explore this file, notice how each HTML tag has ONE job:
+  structuring and labeling a piece of content. Try changing or
+  deleting a tag and reloading the page to see what happens.
+-->
+<html lang="en">
+<head>
+  <!-- The <head> holds information ABOUT the page. Nothing in
+       here is displayed directly on the page itself. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple HTML page exploring Claude Monet's Water Lilies series, built for Introduction to Web Design students.">
+  <!-- The <title> IS visible — check your browser tab! -->
+  <title>Claude Monet: The Water Lilies</title>
+</head>
+<body>
+  <!-- Everything in <body> IS displayed on the page. -->
+
+  <!-- ============ HEADER ============
+       The <header> usually holds the page's title and intro. -->
+  <header>
+    <h1>Claude Monet: The Water Lilies</h1>
+    <p>An introduction to one of art history's most famous painting series</p>
+  </header>
+
+  <!-- ============ NAVIGATION ============
+       The <nav> element groups links used to get around the page.
+       Each link below jumps to a <section> with a matching id. -->
+  <nav>
+    <p><strong>Jump to a section:</strong></p>
+    <ul>
+      <li><a href="#about">About the Artist</a></li>
+      <li><a href="#series">The Water Lilies Series</a></li>
+      <li><a href="#locations">Where to See Them</a></li>
+      <li><a href="#facts">Fun Facts</a></li>
+      <li><a href="#learn-more">Learn More</a></li>
+    </ul>
+  </nav>
+
+  <hr>
+
+  <!-- ============ MAIN CONTENT ============
+       The <main> element wraps the primary content of the page.
+       A page should only have ONE <main> element. -->
+  <main>
+
+    <!-- A <section> groups related content under one heading. -->
+    <section id="about">
+      <h2>About the Artist</h2>
+
+      <!-- The <img> tag embeds an image. It always needs:
+             src = which image file to show
+             alt = a text description (read aloud by screen readers,
+                   and shown if the image fails to load) -->
+      <img src="water-lily.svg" alt="A simple illustration of pink, white, and yellow water lilies floating on a blue-green pond" width="400">
+
+      <p>
+        <strong>Claude Monet</strong> (1840&ndash;1926) was a French painter
+        and one of the founders of <em>Impressionism</em>, an art movement
+        known for capturing light, color, and fleeting moments rather than
+        precise detail.
+      </p>
+      <p>
+        In 1883, Monet moved to the village of Giverny, France, where he
+        spent decades designing and tending an elaborate flower garden with
+        a large pond. That pond &mdash; and the water lilies floating on it
+        &mdash; became the obsession of the rest of his life.
+      </p>
+    </section>
+
+    <section id="series">
+      <h2>The Water Lilies Series</h2>
+      <p>
+        Starting in the late 1890s, Monet began painting his water lily
+        pond over and over again, in different light and different seasons.
+        By the time he died in 1926, he had created around
+        <strong>250 water lily paintings</strong>, making it one of the
+        largest painting series by a single artist in history.
+      </p>
+      <p>
+        Many of these paintings were made while Monet was losing his
+        eyesight to cataracts &mdash; which some art historians believe
+        influenced the bold, hazy colors of his later work.
+      </p>
+    </section>
+
+    <section id="locations">
+      <h2>Where to See Them</h2>
+      <p>Monet's water lily paintings are now scattered across major museums around the world. Here are a few:</p>
+
+      <!-- A <table> organizes data into rows and columns.
+             <thead> = table header row(s)
+             <tbody> = the actual data rows
+             <tr>    = table row
+             <th>    = header cell
+             <td>    = regular data cell -->
+      <table border="1" cellpadding="6">
+        <thead>
+          <tr>
+            <th>Museum</th>
+            <th>City</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mus&eacute;e de l'Orangerie</td>
+            <td>Paris, France</td>
+          </tr>
+          <tr>
+            <td>Mus&eacute;e Marmottan Monet</td>
+            <td>Paris, France</td>
+          </tr>
+          <tr>
+            <td>Museum of Modern Art (MoMA)</td>
+            <td>New York, USA</td>
+          </tr>
+          <tr>
+            <td>Metropolitan Museum of Art</td>
+            <td>New York, USA</td>
+          </tr>
+          <tr>
+            <td>Art Institute of Chicago</td>
+            <td>Chicago, USA</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="facts">
+      <h2>Fun Facts</h2>
+
+      <!-- An unordered (bulleted) list: <ul> with <li> items. -->
+      <ul>
+        <li>Monet designed and planted his own water garden at Giverny &mdash; he was as passionate about gardening as he was about painting.</li>
+        <li>He painted roughly <strong>250</strong> water lily paintings over the last 30 years of his life.</li>
+        <li>Monet first exhibited a group of 48 water lily paintings in 1909, and the show was a huge success.</li>
+        <li>The Mus&eacute;e de l'Orangerie built two oval rooms specifically to display Monet's largest water lily murals, arranged the way he wanted them.</li>
+        <li>Monet continued painting water lilies even as cataracts affected his eyesight late in life.</li>
+      </ul>
+    </section>
+
+    <section id="learn-more">
+      <h2>Learn More</h2>
+      <p>Want to explore further? Check out these resources:</p>
+      <ul>
+        <li><a href="https://en.wikipedia.org/wiki/Water_Lilies_(Monet_series)" target="_blank">Water Lilies (Monet series) &mdash; Wikipedia</a></li>
+        <li><a href="https://www.moma.org/collection/works/80215" target="_blank">Water Lilies at MoMA</a></li>
+        <li><a href="https://www.musee-orangerie.fr/en" target="_blank">Mus&eacute;e de l'Orangerie</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <hr>
+
+  <!-- ============ FOOTER ============
+       The <footer> usually holds closing info: credits, contact, etc. -->
+  <footer>
+    <p>
+      Built for Introduction to Web Design &middot; Mr. Lavigne<br>
+      <em>Curious how this page works? Right-click anywhere and choose
+      "View Page Source" (or press Ctrl+U / Cmd+Option+U) to see the HTML!</em>
+    </p>
+  </footer>
+
+</body>
+</html>
